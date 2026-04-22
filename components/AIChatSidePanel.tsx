@@ -1090,7 +1090,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
             isStreaming={isStreaming}
             providerName={providerDisplayName}
             modelName={modelDisplayName}
-            agentName={currentAgentId === 'catty' ? 'Catty Agent' : externalAgents.find(a => a.id === currentAgentId)?.name}
+            agentName={currentAgentId === 'catty' ? 'Sensor Agent' : externalAgents.find(a => a.id === currentAgentId)?.name}
             modelPresets={agentModelPresets}
             selectedModelId={selectedAgentModel}
             onModelSelect={handleAgentModelSelect}

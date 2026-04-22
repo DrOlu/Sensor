@@ -19,7 +19,7 @@ try {
 } catch (e) {
   console.warn("[SFTP] Failed to load SFTPWrapper from ssh2, sudo mode will not work:", e.message);
 }
-const { NetcattyAgent } = require("./netcattyAgent.cjs");
+const { SensorAgent } = require("./netcattyAgent.cjs");
 const fileWatcherBridge = require("./fileWatcherBridge.cjs");
 const keyboardInteractiveHandler = require("./keyboardInteractiveHandler.cjs");
 const passphraseHandler = require("./passphraseHandler.cjs");
@@ -932,7 +932,7 @@ async function connectThroughChainForSftp(event, options, jumpHosts, targetHost,
 
       let authAgent = null;
       if (hasCertificate) {
-        authAgent = new NetcattyAgent({
+        authAgent = new SensorAgent({
           mode: "certificate",
           webContents: event.sender,
           meta: {
@@ -1433,7 +1433,7 @@ async function openSftp(event, options) {
 
   let authAgent = null;
   if (hasCertificate) {
-    authAgent = new NetcattyAgent({
+    authAgent = new SensorAgent({
       mode: "certificate",
       webContents: event.sender,
       meta: {

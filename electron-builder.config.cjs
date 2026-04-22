@@ -2,8 +2,8 @@
  * @type {import('electron-builder').Configuration}
  */
 module.exports = {
-    appId: 'com.netcatty.app',
-    productName: 'Netcatty',
+    appId: 'ng.hyperspace.sensor',
+    productName: 'Sensor',
     artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
     icon: 'public/icon.png',
     // npmRebuild must stay enabled for macOS and Windows builds — without it,
@@ -60,14 +60,15 @@ module.exports = {
             }
         ],
         category: 'public.app-category.developer-tools',
-        hardenedRuntime: true,
-        notarize: true,
+        hardenedRuntime: false,
+        identity: null,
+        notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',
         extendInfo: {
-            NSCameraUsageDescription: 'Netcatty may use the camera for video calls',
-            NSMicrophoneUsageDescription: 'Netcatty may use the microphone for audio',
-            NSLocalNetworkUsageDescription: 'Netcatty needs local network access for SSH connections'
+            NSCameraUsageDescription: 'Sensor may use the camera for video calls',
+            NSMicrophoneUsageDescription: 'Sensor may use the microphone for audio',
+            NSLocalNetworkUsageDescription: 'Sensor needs local network access for SSH connections'
         }
     },
     dmg: {
@@ -105,7 +106,7 @@ module.exports = {
         allowToChangeInstallationDirectory: true,
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-        shortcutName: 'Netcatty'
+        shortcutName: 'Sensor'
     },
     linux: {
         target: ['AppImage', 'deb', 'rpm'],
@@ -119,8 +120,8 @@ module.exports = {
     publish: [
         {
             provider: 'github',
-            owner: 'binaricat',
-            repo: 'Netcatty',
+            owner: 'DrOlu',
+            repo: 'Sensor',
             releaseType: 'release'
         }
     ]

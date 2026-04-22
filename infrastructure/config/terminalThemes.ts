@@ -23,7 +23,7 @@ const UI_MATCH_TERMINAL_THEME_IDS = new Set([
 export const TERMINAL_THEMES: TerminalTheme[] = [
   {
     id: 'netcatty-dark',
-    name: 'Netcatty Dark',
+    name: 'Sensor Dark',
     type: 'dark',
     colors: {
       background: '#0d1117',
@@ -50,7 +50,7 @@ export const TERMINAL_THEMES: TerminalTheme[] = [
   },
   {
     id: 'netcatty-light',
-    name: 'Netcatty Light',
+    name: 'Sensor Light',
     type: 'light',
     colors: {
       background: '#f6f8fa',

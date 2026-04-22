@@ -7,7 +7,7 @@ const { connectClient, createError } = require("./netcattyRpcClient.cjs");
 
 function printHelp() {
   process.stdout.write(
-    "Netcatty Tool CLI\n\n" +
+    "Sensor Tool CLI\n\n" +
     "Usage:\n" +
     "  netcatty-tool-cli status [--json]\n" +
     "  netcatty-tool-cli env --chat-session <id> [--json] [--scope-session <session-id> ...]\n" +
@@ -40,7 +40,7 @@ function printHelp() {
     "  netcatty-tool-cli sftp list --session sess_123 --remote-path /etc --chat-session ai_123 --json\n" +
     "  netcatty-tool-cli sftp download --session sess_123 --remote-path /etc/hosts --local-path ./hosts.txt --chat-session ai_123 --json\n\n" +
     "Notes:\n" +
-    "  - Start the Netcatty desktop app before using this CLI.\n" +
+    "  - Start the Sensor desktop app before using this CLI.\n" +
     "  - This CLI is intended as an internal Skills + CLI transport, not a general customer-facing shell tool.\n" +
     "  - `env` and `session` always require --chat-session <id>.\n" +
     "  - `exec` always requires both --session <id> and --chat-session <id>.\n" +
@@ -291,7 +291,7 @@ function formatSessionText(host) {
 
 function formatStatusText(status) {
   const lines = [
-    "Netcatty Tool Status",
+    "Sensor Tool Status",
     `Permission Mode: ${status.permissionMode || "unknown"}`,
     `Command Timeout (ms): ${status.commandTimeoutMs ?? "unknown"}`,
     `Max Iterations: ${status.maxIterations ?? "unknown"}`,

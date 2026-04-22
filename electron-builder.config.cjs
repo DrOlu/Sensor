@@ -60,8 +60,8 @@ module.exports = {
             }
         ],
         category: 'public.app-category.developer-tools',
-        hardenedRuntime: true,
-        notarize: true,
+        hardenedRuntime: false,
+        notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',
         extendInfo: {

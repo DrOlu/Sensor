@@ -59,7 +59,7 @@ interface ChatInputProps {
   onAddUserSkill?: (slug: string) => void;
   /** Callback to remove a selected user skill */
   onRemoveUserSkill?: (slug: string) => void;
-  /** Permission mode (only shown for Catty Agent) */
+  /** Permission mode (only shown for Sensor Agent) */
   permissionMode?: AIPermissionMode;
   /** Callback when user changes permission mode */
   onPermissionModeChange?: (mode: AIPermissionMode) => void;
@@ -737,7 +737,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
               </>,
               document.body,
             )}
-            {/* Permission mode chip — only for Catty Agent */}
+            {/* Permission mode chip — only for Sensor Agent */}
             {permissionMode && onPermissionModeChange && (
               <>
                 <button

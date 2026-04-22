@@ -2,7 +2,7 @@
  * AI Bridge - Handles AI provider API calls and agent tool execution
  *
  * Proxies LLM API calls through the main process (avoiding CORS),
- * and provides tool execution capabilities for the Catty Agent.
+ * and provides tool execution capabilities for the Sensor Agent.
  */
 
 const https = require("node:https");
@@ -110,21 +110,21 @@ function buildExternalAgentContextualPrompt({ mode, prompt, chatSessionId, defau
   if (mode === "skills") {
     const { commandPrefix: cliCommandPrefix, launcherPath, usesLauncher } = getSkillsCliInvocation();
     const skillHint = existsSync(NETCATTY_TOOL_SKILL_PATH)
-      ? `The local Netcatty skill file is "${NETCATTY_TOOL_SKILL_PATH}". You do not need to read it for routine read-only requests if the host instructions here are sufficient. Only open it when the task is unusual, multi-step, or you are unsure about the workflow. `
+      ? `The local Sensor skill file is "${NETCATTY_TOOL_SKILL_PATH}". You do not need to read it for routine read-only requests if the host instructions here are sufficient. Only open it when the task is unusual, multi-step, or you are unsure about the workflow. `
       : "";
     const cliHint = usesLauncher
       ? (
-        `For this chat session, the Netcatty CLI launcher is at \`${launcherPath}\`. ` +
-        `Invoke that launcher directly for every Netcatty CLI call, and do not prepend \`node\`. ` +
+        `For this chat session, the Sensor CLI launcher is at \`${launcherPath}\`. ` +
+        `Invoke that launcher directly for every Sensor CLI call, and do not prepend \`node\`. ` +
         (process.platform === "win32"
           ? `If your execution surface supports argv-style execution, use that launcher path as the executable and pass subcommands/flags as separate arguments. If you need a literal shell command line, invoke it as \`${cliCommandPrefix}\`. `
           : `The literal shell command prefix is \`${cliCommandPrefix}\`. `)
       )
       : existsSync(NETCATTY_TOOL_CLI_PATH)
-        ? `For this chat session, the exact Netcatty CLI command prefix is \`${cliCommandPrefix}\`.`
-        : "Use the exact Netcatty CLI command prefix provided by the host application for this chat session. ";
+        ? `For this chat session, the exact Sensor CLI command prefix is \`${cliCommandPrefix}\`.`
+        : "Use the exact Sensor CLI command prefix provided by the host application for this chat session. ";
     const scopeHint = chatSessionId
-      ? `Always include \`--chat-session ${chatSessionId}\` on every Netcatty CLI call so you stay inside the current scoped session set. `
+      ? `Always include \`--chat-session ${chatSessionId}\` on every Sensor CLI call so you stay inside the current scoped session set. `
       : "";
     const defaultTargetHint = defaultTargetSession
       ? (
@@ -145,37 +145,37 @@ function buildExternalAgentContextualPrompt({ mode, prompt, chatSessionId, defau
 
     return (
       `${userSkillsPreamble}` +
-      `[Context: You are inside Netcatty, a multi-session terminal manager. ` +
+      `[Context: You are inside Sensor, a multi-session terminal manager. ` +
       `${skillHint}` +
       `${cliHint}` +
       `${scopeHint}` +
       `${defaultTargetHint}` +
-      `Use Skills + CLI instead of the "netcatty-remote-hosts" MCP server for Netcatty session access. ` +
+      `Use Skills + CLI instead of the "netcatty-remote-hosts" MCP server for Sensor session access. ` +
       `First classify the task: remote command execution tasks go through \`exec\`, while remote file or directory tasks go through \`sftp\`. If the user explicitly says to avoid shell or \`exec\`, do not use \`exec\`. Treat \`exec\` as the short-command path only: use it only for commands expected to finish within about 60 seconds. For builds, scans, watch mode, tail-following, ping, or anything likely to exceed that budget or stream output for an extended period, do not use plain \`exec\`; use the long-running job commands instead. ` +
       `${discoveryHint}` +
       `After choosing a target session ID, call \`${cliCommandPrefix} session --session <id> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\` before executing anything. Do not infer protocol, shell type, device type, or connection readiness from the \`env\` result alone when you are about to run a command. ` +
-      `For remote file operations, use the Netcatty SFTP CLI surface instead of trying to reconstruct SSH credentials or open your own SSH/SFTP connection, but only when the chosen session is SSH-backed and connected. After the required \`session --session <id>\` confirmation step, inspect the reported protocol, shell type, device type, and connected state before picking a file-operation path. For SSH-backed sessions, prefer one-off commands such as \`${cliCommandPrefix} sftp list --session <id> --remote-path <remote-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, \`${cliCommandPrefix} sftp read --session <id> --remote-path <remote-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, \`${cliCommandPrefix} sftp write --session <id> --remote-path <remote-path> --content <text> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, \`${cliCommandPrefix} sftp download --session <id> --remote-path <remote-path> --local-path <local-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, or \`${cliCommandPrefix} sftp upload --session <id> --local-path <local-path> --remote-path <remote-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`. For local sessions, use normal local filesystem tools instead of Netcatty SFTP. For Mosh, Telnet, serial/raw, or network-device sessions, do not call SFTP; use a real SSH session, vendor CLI commands, or tell the user that the requested file transfer is unsupported on that transport. ` +
-      `Keep local and remote path semantics strict: \`--remote-path\` always refers to the remote host, while \`--local-path\` always refers to the local machine running Netcatty. If the user asks to download a file to a local destination such as \`/tmp\`, \`~/Downloads\`, or a desktop path, use \`sftp download\`, not \`sftp read\` or \`sftp write\`. If the user asks to create or modify a file on the remote host, use \`sftp write\` or another remote SFTP operation, not \`sftp download\`. ` +
+      `For remote file operations, use the Sensor SFTP CLI surface instead of trying to reconstruct SSH credentials or open your own SSH/SFTP connection, but only when the chosen session is SSH-backed and connected. After the required \`session --session <id>\` confirmation step, inspect the reported protocol, shell type, device type, and connected state before picking a file-operation path. For SSH-backed sessions, prefer one-off commands such as \`${cliCommandPrefix} sftp list --session <id> --remote-path <remote-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, \`${cliCommandPrefix} sftp read --session <id> --remote-path <remote-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, \`${cliCommandPrefix} sftp write --session <id> --remote-path <remote-path> --content <text> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, \`${cliCommandPrefix} sftp download --session <id> --remote-path <remote-path> --local-path <local-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`, or \`${cliCommandPrefix} sftp upload --session <id> --local-path <local-path> --remote-path <remote-path> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\`. For local sessions, use normal local filesystem tools instead of Sensor SFTP. For Mosh, Telnet, serial/raw, or network-device sessions, do not call SFTP; use a real SSH session, vendor CLI commands, or tell the user that the requested file transfer is unsupported on that transport. ` +
+      `Keep local and remote path semantics strict: \`--remote-path\` always refers to the remote host, while \`--local-path\` always refers to the local machine running Sensor. If the user asks to download a file to a local destination such as \`/tmp\`, \`~/Downloads\`, or a desktop path, use \`sftp download\`, not \`sftp read\` or \`sftp write\`. If the user asks to create or modify a file on the remote host, use \`sftp write\` or another remote SFTP operation, not \`sftp download\`. ` +
       `If you need to create or update a small text file with known content on the remote host, prefer \`${cliCommandPrefix} sftp write ...\` directly. Use \`sftp upload\` only when a real local file already exists and must be transferred to the remote host. Do not create temporary local files just to upload text that could be sent with \`sftp write\`. ` +
       `Keep SFTP usage one-off and explicit: every \`sftp\` command should include both \`--session <id>\` and \`--chat-session ${chatSessionId || "<chat-session-id>"}\`. Do not open reusable SFTP handles or use \`--sftp <id>\`. ` +
-      `Run Netcatty CLI calls strictly one at a time. Do not issue concurrent or background Netcatty CLI commands for the same chat session, and always wait for each call to finish before starting the next one. ` +
+      `Run Sensor CLI calls strictly one at a time. Do not issue concurrent or background Sensor CLI commands for the same chat session, and always wait for each call to finish before starting the next one. ` +
       `For simple read-only requests such as hostname, IP address, CPU info, memory info, disk usage, pwd, whoami, uname, or process checks, use the shortest possible path: one \`env\`, one \`session\`, then one \`exec\`. Prefer a single straightforward command over creating helper scripts or multi-step shell orchestration. ` +
       `For long-running command tasks, start them with \`${cliCommandPrefix} job-start --session <id> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""} -- <command>\`, then use \`${cliCommandPrefix} job-poll --job <job-id> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\` to fetch incremental output, and \`${cliCommandPrefix} job-stop --job <job-id> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""}\` if the user asks to stop them. Do not poll aggressively; wait roughly 30 seconds between polls unless the output clearly justifies checking sooner. ` +
       `For those simple read-only requests, do not spend time reading extra files, designing scripts, or narrating a plan unless the first direct command fails or the session metadata shows a special device type. ` +
       `Do not create temporary scripts, JSON post-processing scripts, or extra wrapper commands unless the task genuinely requires logic that cannot fit cleanly in one direct command. ` +
-      `Avoid shell command substitution such as \`$()\` and backticks, because Netcatty safety policy may block them. Prefer straightforward command chains such as \`hostname && hostname -I && lscpu\`. ` +
+      `Avoid shell command substitution such as \`$()\` and backticks, because Sensor safety policy may block them. Prefer straightforward command chains such as \`hostname && hostname -I && lscpu\`. ` +
       `Avoid wrapping simple commands in \`sh -c\`, \`bash -c\`, or similar shell launcher patterns unless the task genuinely requires shell parsing that cannot be expressed as a direct command. ` +
       `Do not spend time narrating intent before every CLI call for routine read-only checks. Execute the minimal command sequence and then report the result. ` +
       `Only after that confirmation step should you call \`${cliCommandPrefix} exec --session <id> --json${chatSessionId ? ` --chat-session ${chatSessionId}` : ""} -- <command>\` for command execution. ` +
-      `If the user stops the run or asks to abort outstanding Netcatty work, use \`${cliCommandPrefix} cancel --chat-session ${chatSessionId || "<chat-session-id>"} --json\`, and use \`resume\` to re-enable execs for that scope if needed. ` +
+      `If the user stops the run or asks to abort outstanding Sensor work, use \`${cliCommandPrefix} cancel --chat-session ${chatSessionId || "<chat-session-id>"} --json\`, and use \`resume\` to re-enable execs for that scope if needed. ` +
       `For serial/raw sessions and network device sessions (deviceType: network), commands are sent as-is without shell wrapping and exit codes are unavailable. Use vendor CLI commands directly.]\n\n${prompt}`
     );
   }
 
   return (
     `${userSkillsPreamble}` +
-    `[Context: You are inside Netcatty, a multi-session terminal manager. ` +
-    `Use the "netcatty-remote-hosts" MCP tools to operate only on the terminal sessions exposed by Netcatty. ` +
+    `[Context: You are inside Sensor, a multi-session terminal manager. ` +
+    `Use the "netcatty-remote-hosts" MCP tools to operate only on the terminal sessions exposed by Sensor. ` +
     `Those sessions may be remote hosts, a local terminal, or Mosh-backed shells. ` +
     `Call get_environment first to discover available sessions and their IDs. ` +
     `Use terminal_execute only for commands likely to finish within about 60 seconds. ` +
@@ -1230,7 +1230,7 @@ function registerHandlers(ipcMain) {
     return doFetch(resolvedUrl, MAX_REDIRECTS);
   });
 
-  // Execute a command on a terminal session (for Catty Agent)
+  // Execute a command on a terminal session (for Sensor Agent)
   ipcMain.handle("netcatty:ai:exec", async (event, { sessionId, command, chatSessionId }) => {
     // Validate IPC sender (Issue #17)
     if (!validateSender(event)) {
@@ -1332,7 +1332,7 @@ function registerHandlers(ipcMain) {
               syntheticEcho: true,
             });
           },
-          // Catty Agent has no terminal_start fallback for long-running
+          // Sensor Agent has no terminal_start fallback for long-running
           // commands, so do NOT enforce a hard wall-clock timeout here.
           // The inactivity timeout still applies, so genuinely hung
           // processes are still terminated.
@@ -1377,7 +1377,7 @@ function registerHandlers(ipcMain) {
     }
   });
 
-  // Cancel in-flight Catty Agent command executions for a chat session
+  // Cancel in-flight Sensor Agent command executions for a chat session
   ipcMain.handle("netcatty:ai:catty:cancel", async (event, { chatSessionId }) => {
     if (!validateSender(event)) {
       return { ok: false, error: "Unauthorized IPC sender" };
@@ -2446,21 +2446,21 @@ function registerHandlers(ipcMain) {
           const message = err?.message || String(err);
           safeSend(event.sender, "netcatty:ai:acp:error", {
             requestId,
-            error: `Failed to initialize Netcatty Skills + CLI bridge.\n\nDetails: ${message}`,
+            error: `Failed to initialize Sensor Skills + CLI bridge.\n\nDetails: ${message}`,
           });
           return { ok: false, error: message };
         }
       }
 
-      // Inject Netcatty MCP server for scoped terminal-session access only when
-      // the user selected MCP mode. Skills mode uses the Netcatty CLI instead.
+      // Inject Sensor MCP server for scoped terminal-session access only when
+      // the user selected MCP mode. Skills mode uses the Sensor CLI instead.
       if (effectiveToolIntegrationMode === "mcp") {
         try {
           const mcpPort = await mcpServerBridge.getOrCreateHost();
           const scopedIds = mcpServerBridge.getScopedSessionIds(chatSessionId);
           const netcattyMcpConfig = mcpServerBridge.buildMcpServerConfig(mcpPort, scopedIds, chatSessionId);
           mcpSnapshot.mcpServers.push(netcattyMcpConfig);
-          debugMcpLog("Injected Netcatty MCP server", {
+          debugMcpLog("Injected Sensor MCP server", {
             requestId,
             chatSessionId,
             mcpPort,
@@ -2468,14 +2468,14 @@ function registerHandlers(ipcMain) {
             mcpServerNames: mcpSnapshot.mcpServers.map(server => server.name),
           });
           if (isCopilotAgent) {
-            logAcpDebug(agentLabel, "Injected Netcatty MCP server into session", {
+            logAcpDebug(agentLabel, "Injected Sensor MCP server into session", {
               chatSessionId,
               scopedIds,
               injectedServer: summarizeMcpServersForDebug([netcattyMcpConfig])[0],
             });
           }
         } catch (err) {
-          console.error("[ACP] Failed to inject Netcatty MCP server:", err?.message || err);
+          console.error("[ACP] Failed to inject Sensor MCP server:", err?.message || err);
         }
       }
       if (shouldAbortStartup()) return { ok: true };
@@ -2720,7 +2720,7 @@ function registerHandlers(ipcMain) {
         });
       }
 
-      // Prepend context hint so the agent uses the configured Netcatty access mode.
+      // Prepend context hint so the agent uses the configured Sensor access mode.
       const contextualPrompt = buildExternalAgentContextualPrompt({
         mode: effectiveToolIntegrationMode,
         prompt,

@@ -249,7 +249,7 @@ function resolveClaudeAcpBinaryPath(shellEnv, electronModule) {
 
     // On Windows, .js files cannot be spawned directly (no shebang support) —
     // invoke via Node.  In packaged Electron builds process.execPath is the
-    // app binary (e.g. Netcatty.exe), not a Node runtime, so we must resolve
+    // app binary (e.g. Sensor.exe), not a Node runtime, so we must resolve
     // the real `node` from PATH.  If Node is not installed, fall back to the
     // bare command name and let the system find the npm-generated .cmd wrapper.
     if (process.platform === "win32") {

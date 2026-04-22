@@ -15,7 +15,7 @@ export const useSftpHostCredentials = ({
   identities,
 }: UseSftpHostCredentialsParams) =>
   useCallback(
-    (host: Host): NetcattySSHOptions => {
+    (host: Host): SensorSSHOptions => {
       const resolved = resolveHostAuth({ host, keys, identities });
       const key = resolved.key || null;
 
@@ -28,7 +28,7 @@ export const useSftpHostCredentials = ({
           password: sanitizeCredentialValue(host.proxyConfig.password),
         }
         : undefined;
-      let jumpHosts: NetcattyJumpHost[] | undefined;
+      let jumpHosts: SensorJumpHost[] | undefined;
       if (host.hostChain?.hostIds && host.hostChain.hostIds.length > 0) {
         jumpHosts = host.hostChain.hostIds
           .map((hostId) => hosts.find((h) => h.id === hostId))

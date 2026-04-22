@@ -465,9 +465,9 @@ export const useSftpExternalOperations = (
         }
       },
       writeSftpBinary: bridge?.writeSftpBinary,
-      // Wrap writeSftpBinaryWithProgress to adapt UploadBridge interface to NetcattyBridge interface
+      // Wrap writeSftpBinaryWithProgress to adapt UploadBridge interface to SensorBridge interface
       // UploadBridge: (sftpId, path, data, taskId, onProgress, onComplete, onError)
-      // NetcattyBridge: (sftpId, path, content, transferId, encoding, onProgress, onComplete, onError)
+      // SensorBridge: (sftpId, path, content, transferId, encoding, onProgress, onComplete, onError)
       writeSftpBinaryWithProgress: bridge?.writeSftpBinaryWithProgress
         ? async (sftpId, path, data, taskId, onProgress, onComplete, onError) => {
             const b = netcattyBridge.get();

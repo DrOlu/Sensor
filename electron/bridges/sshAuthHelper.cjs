@@ -250,7 +250,7 @@ async function getAvailableAgentSocket() {
  * @param {string} [options.privateKey] - Explicitly configured private key
  * @param {string} [options.password] - Password for authentication
 * @param {string} [options.passphrase] - Passphrase for encrypted private key
- * @param {Object} [options.agent] - SSH agent (NetcattyAgent or socket path)
+ * @param {Object} [options.agent] - SSH agent (SensorAgent or socket path)
  * @param {string} options.username - SSH username
  * @param {string} [options.logPrefix] - Log prefix for debugging
  * @returns {{ authHandler: Function|Array, privateKey: string|null, agent: string|Object|null, usedDefaultKeys: boolean }}

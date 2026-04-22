@@ -35,7 +35,7 @@ interface AgentSelectorProps {
 const BUILTIN_AGENTS: AgentInfo[] = [
   {
     id: 'catty',
-    name: 'Catty Agent',
+    name: 'Sensor Agent',
     type: 'builtin',
     description: 'Built-in terminal assistant',
     available: true,

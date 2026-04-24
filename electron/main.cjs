@@ -1,5 +1,5 @@
 /**
- * Netcatty Electron Main Process
+ * Sensor Electron Main Process
  * 
  * This is the main entry point for the Electron application.
  * All major functionality has been extracted into separate bridge modules:
@@ -847,7 +847,7 @@ const registerBridges = (win) => {
     console.log(`[Main]   File name: ${fileName}`);
     
     const client = require("./bridges/sftpBridge.cjs");
-    // Use tempDirBridge for dedicated Netcatty temp directory
+    // Use tempDirBridge for dedicated Sensor temp directory
     const localPath = await getTempDirBridge().getTempFilePath(fileName);
     
     console.log(`[Main]   Local temp path: ${localPath}`);
@@ -927,11 +927,11 @@ const registerBridges = (win) => {
   // Delete a temp file (for cleanup when editors close)
   ipcMain.handle("netcatty:deleteTempFile", async (_event, { filePath }) => {
     try {
-      // Only allow deleting files in Netcatty temp directory for security
+      // Only allow deleting files in Sensor temp directory for security
       const netcattyTempDir = path.resolve(getTempDirBridge().getTempDir());
       const resolvedPath = path.resolve(String(filePath || ""));
       if (!isPathInside(netcattyTempDir, resolvedPath)) {
-        console.warn(`[Main] Refused to delete file outside Netcatty temp dir: ${filePath}`);
+        console.warn(`[Main] Refused to delete file outside Sensor temp dir: ${filePath}`);
         return { success: false };
       }
       
@@ -1040,12 +1040,12 @@ function hasUsableWindow() {
 }
 
 function showStartupError(err) {
-  const title = "Netcatty";
+  const title = "Sensor";
   const code = err && typeof err === "object" ? err.code : null;
   const message =
     code === "ENOENT"
-      ? "Renderer files are missing. Please reinstall or rebuild Netcatty."
-      : "Failed to load the UI. Please relaunch Netcatty.";
+      ? "Renderer files are missing. Please reinstall or rebuild Sensor."
+      : "Failed to load the UI. Please relaunch Sensor.";
 
   try {
     electronModule.dialog?.showErrorBox?.(title, message);

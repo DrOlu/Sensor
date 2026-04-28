@@ -11,7 +11,7 @@ const os = require("node:os");
 const crypto = require("node:crypto");
 const { exec } = require("node:child_process");
 const { Client: SSHClient, utils: sshUtils } = require("ssh2");
-const { NetcattyAgent } = require("./netcattyAgent.cjs");
+const { SensorAgent } = require("./netcattyAgent.cjs");
 const keyboardInteractiveHandler = require("./keyboardInteractiveHandler.cjs");
 const passphraseHandler = require("./passphraseHandler.cjs");
 const { createProxySocket } = require("./proxyUtils.cjs");
@@ -466,7 +466,7 @@ async function connectThroughChain(event, options, jumpHosts, targetHost, target
 
       let authAgent = null;
       if (hasCertificate) {
-        authAgent = new NetcattyAgent({
+        authAgent = new SensorAgent({
           mode: "certificate",
           webContents: event.sender,
           meta: {
@@ -750,7 +750,7 @@ async function startSSHSession(event, options) {
 
     let authAgent = null;
     if (hasCertificate) {
-      authAgent = new NetcattyAgent({
+      authAgent = new SensorAgent({
         mode: "certificate",
         webContents: event.sender,
         meta: {
@@ -1042,7 +1042,7 @@ async function startSSHSession(event, options) {
                     password: connectOpts.password,
                   });
                 } else if (matchingMethod.type === "agent") {
-                  const agentType = typeof connectOpts.agent === "string" ? "path" : "NetcattyAgent";
+                  const agentType = typeof connectOpts.agent === "string" ? "path" : "SensorAgent";
                   log("Trying agent auth (partial success)", { id: matchingMethod.id, agentType });
                   return callback("agent");
                 } else if (matchingMethod.type === "publickey") {
@@ -1087,7 +1087,7 @@ async function startSSHSession(event, options) {
 
             if (method.type === "agent") {
               // Only log safe identifier, not the full agent object which may contain private keys
-              const agentType = typeof connectOpts.agent === "string" ? "path" : "NetcattyAgent";
+              const agentType = typeof connectOpts.agent === "string" ? "path" : "SensorAgent";
               log("Trying agent auth", { id: method.id, agentType });
               sendProgress(totalHops, totalHops, options.hostname, 'auth-attempt', 'SSH agent');
               // Return "agent" string to use SSH agent for authentication
@@ -1707,7 +1707,7 @@ async function execCommand(event, payload) {
 
     let authAgent = null;
     if (hasCertificate) {
-      authAgent = new NetcattyAgent({
+      authAgent = new SensorAgent({
         mode: "certificate",
         webContents: event.sender,
         meta: {

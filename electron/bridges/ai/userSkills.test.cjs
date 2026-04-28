@@ -101,7 +101,7 @@ test("keeps every explicitly selected skill in the built context", async () => {
 
 test("uses longer skill descriptions for routing matches without injecting the full index text", async () => {
   const longDescription = [
-    "Use when the user needs a detailed workflow for operating Netcatty through ACP skills and CLI.",
+    "Use when the user needs a detailed workflow for operating Sensor through ACP skills and CLI.",
     "Includes platform launcher guidance, scoped command execution, recovery behavior, and constraints.",
     "This intentionally exceeds the older short description budget so routing has enough signal.",
     "It also names edge cases such as unavailable optional shells, strict chat-session scoping, and fallback-only history replay so the agent can choose the skill without reading the whole body first.",

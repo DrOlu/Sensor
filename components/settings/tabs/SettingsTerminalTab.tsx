@@ -417,7 +417,7 @@ export default function SettingsTerminalTab(props: {
 
   // Fetch default shell on mount
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     if (bridge?.getDefaultShell) {
       bridge.getDefaultShell().then((shell) => {
         setDefaultShell(shell);
@@ -429,7 +429,7 @@ export default function SettingsTerminalTab(props: {
 
   // Validate shell path when it changes (only for custom paths, not discovered shell ids)
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     const shellPath = terminalSettings.localShell;
 
     if (!shellPath) {
@@ -467,7 +467,7 @@ export default function SettingsTerminalTab(props: {
 
   // Validate mosh client path when it changes (debounced)
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     const moshPath = terminalSettings.moshClientPath;
     if (!moshPath) {
       setMoshValidation(null);
@@ -515,7 +515,7 @@ export default function SettingsTerminalTab(props: {
   }, [terminalSettings.moshClientPath, t]);
 
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     if (!bridge?.detectMoshClient) return;
     let canceled = false;
     bridge.detectMoshClient()
@@ -533,7 +533,7 @@ export default function SettingsTerminalTab(props: {
   }, []);
 
   const handleDetectMosh = useCallback(async () => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     if (!bridge?.detectMoshClient) return;
     setMoshDetectStatus({ kind: "running" });
     try {
@@ -555,7 +555,7 @@ export default function SettingsTerminalTab(props: {
   }, [terminalSettings.moshClientPath, updateTerminalSetting]);
 
   const handleBrowseMosh = useCallback(async () => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     if (!bridge?.pickMoshClient) return;
     try {
       const result = await bridge.pickMoshClient();
@@ -570,7 +570,7 @@ export default function SettingsTerminalTab(props: {
 
   // Validate directory path when it changes
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     const dirPath = terminalSettings.localStartDir;
 
     if (!dirPath) {

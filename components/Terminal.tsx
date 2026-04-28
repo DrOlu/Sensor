@@ -1310,7 +1310,7 @@ const TerminalComponent: React.FC<TerminalProps> = ({
 
   // Track whether the terminal application has enabled mouse tracking
   // (e.g. tmux with `set -g mouse on`, vim with `set mouse=a`).
-  // When mouse tracking is active, disable Netcatty's context menu to avoid
+  // When mouse tracking is active, disable Sensor's context menu to avoid
   // conflicting with the application's own mouse handling.
   useEffect(() => {
     const term = termRef.current;

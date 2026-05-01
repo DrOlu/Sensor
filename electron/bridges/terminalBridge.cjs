@@ -1128,12 +1128,12 @@ async function startMoshSession(event, options) {
     // against the app's cwd and silently fail.
     if (!path.isAbsolute(expanded)) {
       throw new Error(
-        `Mosh client path must be absolute: "${explicitClient}". Leave the override empty to use Netcatty's bundled client, or provide an absolute path.`,
+        `Mosh client path must be absolute: "${explicitClient}". Leave the override empty to use Sensor's bundled client, or provide an absolute path.`,
       );
     }
     if (!isExecutableFile(expanded)) {
       throw new Error(
-        `Configured Mosh client not usable: ${explicitClient}. Leave the override empty to use Netcatty's bundled client, or provide another executable.`,
+        `Configured Mosh client not usable: ${explicitClient}. Leave the override empty to use Sensor's bundled client, or provide another executable.`,
       );
     }
     moshCmd = path.resolve(expanded);

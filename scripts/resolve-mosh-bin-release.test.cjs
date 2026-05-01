@@ -25,8 +25,8 @@ test("validateReleaseTag accepts only mosh binary release tags", () => {
   assert.throws(() => validateReleaseTag("mosh-bin-../bad"), /invalid mosh binary release tag/);
 });
 
-test("parseRepository falls back to Netcatty release repository", () => {
-  assert.deepEqual(parseRepository({}), { owner: "binaricat", repo: "Netcatty" });
+test("parseRepository falls back to Sensor release repository", () => {
+  assert.deepEqual(parseRepository({}), { owner: "binaricat", repo: "Sensor" });
   assert.deepEqual(parseRepository({ GITHUB_REPOSITORY: "owner/project" }), { owner: "owner", repo: "project" });
   assert.deepEqual(
     parseRepository({ GITHUB_REPOSITORY: "owner/project", MOSH_BIN_OWNER: "bin", MOSH_BIN_REPO: "binaries" }),

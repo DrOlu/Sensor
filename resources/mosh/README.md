@@ -1,7 +1,7 @@
 # Bundled `mosh-client`
 
 This directory holds the network-protocol-only `mosh-client` binary
-bundled with the Netcatty installer. Netcatty drives the `ssh` +
+bundled with the Sensor installer. Sensor drives the `ssh` +
 `mosh-server` bootstrap itself and then launches this bundled client
 directly (see `electron/bridges/moshHandshake.cjs` and
 `electron/bridges/terminalBridge.cjs`).
@@ -48,7 +48,7 @@ The directory is otherwise empty (binaries are gitignored).
 
 - Mosh itself is licensed under **GPL-3.0**
   (https://github.com/mobile-shell/mosh).
-- Netcatty is **GPL-3.0**, so redistribution as part of the installer
+- Sensor is **GPL-3.0**, so redistribution as part of the installer
   is permitted.
 - The Windows binary is built in CI from upstream
   https://github.com/mobile-shell/mosh @ tag `MOSH_REF` (default

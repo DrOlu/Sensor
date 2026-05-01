@@ -16,7 +16,7 @@
 //                       Skip the whole step if unset (printed as a notice
 //                       so the build doesn't silently miss the bundling).
 //   MOSH_BIN_OWNER    — default 'binaricat'
-//   MOSH_BIN_REPO     — default 'Netcatty' (binaries attached to a
+//   MOSH_BIN_REPO     — default 'Sensor' (binaries attached to a
 //                       dedicated tag in the netcatty repo to keep
 //                       provenance auditable).
 //   MOSH_BIN_BASE_URL — full override (e.g. for staging / local mirror).
@@ -243,7 +243,7 @@ async function main(argv = process.argv.slice(2), env = process.env) {
   }
 
   const owner = env.MOSH_BIN_OWNER || "binaricat";
-  const repo = env.MOSH_BIN_REPO || "Netcatty";
+  const repo = env.MOSH_BIN_REPO || "Sensor";
   const baseUrl = env.MOSH_BIN_BASE_URL ||
     `https://github.com/${owner}/${repo}/releases/download/${encodeURIComponent(release)}`;
   const resDir = path.resolve(env.MOSH_BIN_RES_DIR || DEFAULT_RES_DIR);

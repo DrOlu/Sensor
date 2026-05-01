@@ -675,7 +675,7 @@ export const useSftpPaneActions = ({
       }
       const bridge = netcattyBridge.get();
       if (!bridge) {
-        throw new Error("Netcatty bridge not available");
+        throw new Error("Sensor bridge not available");
       }
 
       try {

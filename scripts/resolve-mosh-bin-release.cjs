@@ -31,7 +31,7 @@ function validateReleaseTag(tag) {
 
 function parseRepository(env) {
   const owner = env.MOSH_BIN_OWNER || (env.GITHUB_REPOSITORY || "").split("/")[0] || "binaricat";
-  const repo = env.MOSH_BIN_REPO || (env.GITHUB_REPOSITORY || "").split("/")[1] || "Netcatty";
+  const repo = env.MOSH_BIN_REPO || (env.GITHUB_REPOSITORY || "").split("/")[1] || "Sensor";
   return { owner, repo };
 }
 

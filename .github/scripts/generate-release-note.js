@@ -52,24 +52,24 @@ const baseUrl = `https://github.com/${repo}/releases/download/${tag}`;
 // - rpm: x64 -> x86_64, arm64 -> aarch64
 const files = {
   mac: {
-    arm64: `Netcatty-${version}-mac-arm64.dmg`,
-    x64: `Netcatty-${version}-mac-x64.dmg`
+    arm64: `Sensor-${version}-mac-arm64.dmg`,
+    x64: `Sensor-${version}-mac-x64.dmg`
   },
   win: {
-    x64: `Netcatty-${version}-win-x64.exe`
+    x64: `Sensor-${version}-win-x64.exe`
   },
   linux: {
     appimage: {
-      x64: `Netcatty-${version}-linux-x86_64.AppImage`,
-      arm64: `Netcatty-${version}-linux-arm64.AppImage`
+      x64: `Sensor-${version}-linux-x86_64.AppImage`,
+      arm64: `Sensor-${version}-linux-arm64.AppImage`
     },
     deb: {
-      x64: `Netcatty-${version}-linux-amd64.deb`,
-      arm64: `Netcatty-${version}-linux-arm64.deb`
+      x64: `Sensor-${version}-linux-amd64.deb`,
+      arm64: `Sensor-${version}-linux-arm64.deb`
     },
     rpm: {
-      x64: `Netcatty-${version}-linux-x86_64.rpm`,
-      arm64: `Netcatty-${version}-linux-aarch64.rpm`
+      x64: `Sensor-${version}-linux-x86_64.rpm`,
+      arm64: `Sensor-${version}-linux-aarch64.rpm`
     }
   }
 };

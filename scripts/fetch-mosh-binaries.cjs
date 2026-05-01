@@ -17,7 +17,7 @@
 //                       Skip the whole step if unset (printed as a notice
 //                       so the build doesn't silently miss the bundling).
 //   MOSH_BIN_OWNER    — defaults to the GITHUB_REPOSITORY owner, or 'binaricat'
-//   MOSH_BIN_REPO     — default 'Netcatty-mosh-bin' (a dedicated binary
+//   MOSH_BIN_REPO     — default 'Sensor-mosh-bin' (a dedicated binary
 //                       repository so the client repo stays source-only).
 //   MOSH_BIN_BASE_URL — full override (e.g. for staging / local mirror).
 //   MOSH_BIN_RES_DIR  — override output dir for tests.
@@ -149,7 +149,7 @@ function parseMoshBinRepository(env) {
   const githubOwner = (env.GITHUB_REPOSITORY || "").split("/")[0];
   return {
     owner: env.MOSH_BIN_OWNER || githubOwner || "binaricat",
-    repo: env.MOSH_BIN_REPO || "Netcatty-mosh-bin",
+    repo: env.MOSH_BIN_REPO || "Sensor-mosh-bin",
   };
 }
 

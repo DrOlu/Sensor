@@ -212,7 +212,7 @@ const TrayPanelContent: React.FC = () => {
       <div className="px-3 py-2 border-b border-border/60 flex items-center justify-between app-no-drag">
         <div className="flex items-center gap-2">
           <AppLogo className="w-5 h-5" />
-          <span className="text-sm font-medium">Netcatty</span>
+          <span className="text-sm font-medium">Sensor</span>
         </div>
         <div className="flex items-center gap-1">
           <button

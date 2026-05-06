@@ -14,7 +14,7 @@ export const buildSftpHostCredentials = ({
   hosts,
   keys,
   identities,
-}: UseSftpHostCredentialsParams & { host: Host }): NetcattySSHOptions => {
+}: UseSftpHostCredentialsParams & { host: Host }): SensorSSHOptions => {
   if (host.proxyProfileId && !host.proxyConfig) {
     throw new Error(`Saved proxy for host "${host.label || host.hostname}" is missing. Open host settings and select a valid proxy.`);
   }
@@ -31,7 +31,7 @@ export const buildSftpHostCredentials = ({
       password: sanitizeCredentialValue(host.proxyConfig.password),
     }
     : undefined;
-  let jumpHosts: NetcattyJumpHost[] | undefined;
+  let jumpHosts: SensorJumpHost[] | undefined;
   if (host.hostChain?.hostIds && host.hostChain.hostIds.length > 0) {
     jumpHosts = host.hostChain.hostIds.map((hostId) => {
       const jumpHost = hosts.find((candidate) => candidate.id === hostId);
@@ -114,6 +114,6 @@ export const useSftpHostCredentials = ({
   identities,
 }: UseSftpHostCredentialsParams) =>
   useCallback(
-    (host: Host): NetcattySSHOptions => buildSftpHostCredentials({ host, hosts, keys, identities }),
+    (host: Host): SensorSSHOptions => buildSftpHostCredentials({ host, hosts, keys, identities }),
     [hosts, identities, keys],
   );

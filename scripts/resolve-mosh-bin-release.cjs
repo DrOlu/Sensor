@@ -7,7 +7,7 @@
 //   1. MOSH_BIN_RELEASE from workflow input / repository variable.
 //   2. Latest non-draft, non-prerelease GitHub Release whose tag is
 //      mosh-bin-* in MOSH_BIN_OWNER/MOSH_BIN_REPO. By default this is a
-//      dedicated sibling binary repository named Netcatty-mosh-bin.
+//      dedicated sibling binary repository named Sensor-mosh-bin.
 //
 // In GitHub Actions, the resolved tag is written back to $GITHUB_ENV so
 // later steps can run scripts/fetch-mosh-binaries.cjs without duplicating
@@ -32,7 +32,7 @@ function validateReleaseTag(tag) {
 
 function parseRepository(env) {
   const owner = env.MOSH_BIN_OWNER || (env.GITHUB_REPOSITORY || "").split("/")[0] || "binaricat";
-  const repo = env.MOSH_BIN_REPO || "Netcatty-mosh-bin";
+  const repo = env.MOSH_BIN_REPO || "Sensor-mosh-bin";
   return { owner, repo };
 }
 

@@ -507,7 +507,7 @@ export interface TerminalSettings {
 
   // Mosh Connection
   // Legacy override retained for old settings payloads and internal callers.
-  // The normal UI path uses Netcatty's bundled mosh-client.
+  // The normal UI path uses Sensor's bundled mosh-client.
   moshClientPath: string;
 
   // Server Stats Display (Linux only)

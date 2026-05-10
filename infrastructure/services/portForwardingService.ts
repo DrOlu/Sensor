@@ -393,7 +393,7 @@ export const startPortForward = async (
         password: sanitizeCredentialValue(host.proxyConfig.password),
       }
       : undefined;
-    let jumpHosts: NetcattyJumpHost[] | undefined;
+    let jumpHosts: SensorJumpHost[] | undefined;
     if (host.hostChain?.hostIds?.length) {
       const resolvedJumpHosts = host.hostChain.hostIds.map((hostId) =>
         hosts.find((candidate) => candidate.id === hostId),

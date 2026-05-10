@@ -5,7 +5,7 @@
 
 const net = require("node:net");
 const { Client: SSHClient } = require("ssh2");
-const { NetcattyAgent } = require("./netcattyAgent.cjs");
+const { SensorAgent } = require("./netcattyAgent.cjs");
 const keyboardInteractiveHandler = require("./keyboardInteractiveHandler.cjs");
 const { connectThroughChain, buildAlgorithms } = require("./sshBridge.cjs");
 const { createProxySocket } = require("./proxyUtils.cjs");
@@ -161,7 +161,7 @@ async function startPortForward(event, payload) {
     }
 
     if (hasCertificate) {
-      connectOpts.agent = new NetcattyAgent({
+      connectOpts.agent = new SensorAgent({
         mode: "certificate",
         webContents: sender,
         meta: {

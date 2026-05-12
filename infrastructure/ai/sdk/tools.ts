@@ -1,6 +1,6 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import type { NetcattyBridge } from '../cattyAgent/executor';
+import type { SensorBridge } from '../cattyAgent/executor';
 import type { AIPermissionMode } from '../types';
 import type { WebSearchConfig } from '../types';
 import { isWebSearchReady } from '../types';
@@ -30,7 +30,7 @@ function unwrap<T>(r: ToolExecResult<T>): T | { error: string } {
  * @param permissionMode - Permission mode for tool execution gating
  */
 export function createCattyTools(
-  bridge: NetcattyBridge,
+  bridge: SensorBridge,
   context: ToolDeps['context'],
   commandBlocklist?: string[],
   permissionMode: AIPermissionMode = 'confirm',

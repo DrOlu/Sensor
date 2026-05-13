@@ -4,8 +4,8 @@ const { moshExtraResources } = require('./scripts/mosh-extra-resources.cjs');
  * @type {import('electron-builder').Configuration}
  */
 module.exports = {
-    appId: 'com.netcatty.app',
-    productName: 'Netcatty',
+    appId: 'ng.hyperspace.sensor',
+    productName: 'Sensor',
     artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
     // Platform-split icons (#813):
     //   - public/icon.png keeps Apple's HIG grid margin so the rendered
@@ -73,14 +73,15 @@ module.exports = {
             }
         ],
         category: 'public.app-category.developer-tools',
-        hardenedRuntime: true,
-        notarize: true,
+        hardenedRuntime: false,
+        identity: null,
+        notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',
         extendInfo: {
-            NSCameraUsageDescription: 'Netcatty may use the camera for video calls',
-            NSMicrophoneUsageDescription: 'Netcatty may use the microphone for audio',
-            NSLocalNetworkUsageDescription: 'Netcatty needs local network access for SSH connections'
+            NSCameraUsageDescription: 'Sensor may use the camera for video calls',
+            NSMicrophoneUsageDescription: 'Sensor may use the microphone for audio',
+            NSLocalNetworkUsageDescription: 'Sensor needs local network access for SSH connections'
         },
         extraResources: moshExtraResources('darwin')
     },
@@ -121,7 +122,7 @@ module.exports = {
         allowToChangeInstallationDirectory: true,
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-        shortcutName: 'Netcatty'
+        shortcutName: 'Sensor'
     },
     linux: {
         // Linux desktop icons render full-bleed like Windows — use the
@@ -140,8 +141,8 @@ module.exports = {
     publish: [
         {
             provider: 'github',
-            owner: 'binaricat',
-            repo: 'Netcatty',
+            owner: 'DrOlu',
+            repo: 'Sensor',
             releaseType: 'release'
         }
     ]

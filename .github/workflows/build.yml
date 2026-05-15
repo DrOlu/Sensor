@@ -438,12 +438,25 @@ jobs:
 
       - name: Install build dependencies
         run: |
-          apt-get update
-          apt-get install -y curl build-essential python3 git libfuse2 file rpm \
-            libglib2.0-0 libgtk-3-0 libnss3 libxss1 libxtst6 libasound2 \
-            libatk-bridge2.0-0 libdrm2 libgbm1 libx11-xcb1 libxcb-dri3-0
+          # Retry apt-get operations to handle transient network failures
+          for attempt in 1 2 3; do
+            apt-get update && break
+            echo "apt-get update failed (attempt $attempt/3), retrying in 5s..."
+            sleep 5
+          done
+          for attempt in 1 2 3; do
+            apt-get install -y curl build-essential python3 git libfuse2 file rpm \
+              libglib2.0-0 libgtk-3-0 libnss3 libxss1 libxtst6 libasound2 \
+              libatk-bridge2.0-0 libdrm2 libgbm1 libx11-xcb1 libxcb-dri3-0 && break
+            echo "apt-get install failed (attempt $attempt/3), retrying in 10s..."
+            sleep 10
+          done
           curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
-          apt-get install -y nodejs
+          for attempt in 1 2 3; do
+            apt-get install -y nodejs && break
+            echo "nodejs install failed (attempt $attempt/3), retrying in 5s..."
+            sleep 5
+          done
 
       - name: Checkout
         uses: actions/checkout@v4

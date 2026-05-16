@@ -27,7 +27,7 @@ import { isWebSearchReady } from '../../../infrastructure/ai/types';
 import { buildSystemPrompt } from '../../../infrastructure/ai/cattyAgent/systemPrompt';
 import { createModelFromConfig } from '../../../infrastructure/ai/sdk/providers';
 import { createCattyTools } from '../../../infrastructure/ai/sdk/tools';
-import type { NetcattyBridge, ExecutorContext } from '../../../infrastructure/ai/cattyAgent/executor';
+import type { SensorBridge, ExecutorContext } from '../../../infrastructure/ai/cattyAgent/executor';
 import { runExternalAgentTurn } from '../../../infrastructure/ai/externalAgentAdapter';
 import { runAcpAgentTurn } from '../../../infrastructure/ai/acpAgentAdapter';
 import { classifyError } from '../../../infrastructure/ai/errorClassifier';
@@ -132,7 +132,7 @@ type StreamChunk =
   | { type: 'reasoning-end' | 'text-start' | 'text-end' | 'start' | 'finish' | 'start-step' | 'finish-step' | 'tool-approval-request' };
 
 /** Shape of the netcatty bridge exposed on `window` (panel-specific subset). */
-export interface PanelBridge extends NetcattyBridge {
+export interface PanelBridge extends SensorBridge {
   credentialsDecrypt?: (value: string) => Promise<string>;
   aiSyncProviders?: (providers: Array<{ id: string; providerId: string; apiKey?: string; baseURL?: string; enabled: boolean }>) => Promise<{ ok: boolean }>;
   aiSyncWebSearch?: (apiHost: string | null, apiKey: string | null) => Promise<{ ok: boolean }>;
@@ -195,7 +195,7 @@ function toAssistantModelContent(parts: AssistantContentPart[]): string | Assist
 }
 
 /** Typed accessor for the netcatty bridge on the window object. */
-export function getNetcattyBridge(): PanelBridge | undefined {
+export function getSensorBridge(): PanelBridge | undefined {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (window as any).netcatty as PanelBridge | undefined;
 }
@@ -217,7 +217,7 @@ interface UserSkillsContextResult {
 
 function buildExplicitUserSkillsFallback(selectedUserSkillSlugs?: string[]): string {
   if (!selectedUserSkillSlugs?.length) return '';
-  return `The user explicitly selected these Netcatty user skills for this request: ${selectedUserSkillSlugs.map((slug) => `/${slug}`).join(', ')}. Honor those selections even if their expanded skill content is unavailable.`;
+  return `The user explicitly selected these Sensor user skills for this request: ${selectedUserSkillSlugs.map((slug) => `/${slug}`).join(', ')}. Honor those selections even if their expanded skill content is unavailable.`;
 }
 
 async function resolveUserSkillsContext(
@@ -690,7 +690,7 @@ export function useAIChatStreaming({
     attachedImages: Array<{ base64Data: string; mediaType: string; filename?: string }>,
     context: SendToExternalContext,
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     const userSkillsContext = await resolveUserSkillsContext(
       bridge,
       trimmed,
@@ -835,7 +835,7 @@ export function useAIChatStreaming({
     context: SendToCattyContext,
     attachments?: ChatMessageAttachment[],
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     const userSkillsContext = await resolveUserSkillsContext(
       bridge,
       trimmed,

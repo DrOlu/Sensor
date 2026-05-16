@@ -1639,7 +1639,7 @@ const VaultViewInner: React.FC<VaultViewProps> = ({
                   <AppLogo className="h-8 w-8 flex-shrink-0" />
                   {!sidebarCollapsed && (
                     <p className="text-xl font-black italic tracking-tight text-foreground leading-none">
-                      Netcatty
+                      Sensor
                     </p>
                   )}
                 </button>

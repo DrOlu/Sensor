@@ -64,7 +64,7 @@ import { selectDraftForAgentSwitch } from '../application/state/aiDraftState';
 import type { CodexIntegrationStatus } from './settings/tabs/ai/types';
 import {
   useAIChatStreaming,
-  getNetcattyBridge,
+  getSensorBridge,
   type DefaultTargetSessionHint,
 } from './ai/hooks/useAIChatStreaming';
 import { buildAcpHistoryMessagesForBridge } from './ai/acpHistory';
@@ -351,7 +351,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
 
   // Proactively sync terminal session metadata to main process whenever scope or sessions change
   useEffect(() => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (bridge?.aiMcpUpdateSessions) {
       void bridge.aiMcpUpdateSessions(terminalSessions, activeSessionId ?? undefined);
     }
@@ -475,7 +475,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
       }));
     };
 
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (!bridge?.aiUserSkillsGetStatus) {
       applyUserSkillsStatus(null);
       return;
@@ -499,7 +499,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
   // Sync provider configs to main process so it can decrypt API keys server-side.
   // Keys stay encrypted in transit; main process decrypts only when making HTTP requests.
   useEffect(() => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (bridge?.aiSyncProviders && providers.length > 0) {
       void bridge.aiSyncProviders(providers);
     }
@@ -509,7 +509,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
   // Note: This is fire-and-forget; if the first search fires before sync completes, it will fail
   // with a clear error and succeed on retry. Making this blocking would require async tool creation.
   useEffect(() => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (bridge?.aiSyncWebSearch) {
       void bridge.aiSyncWebSearch(webSearchConfig?.apiHost || null, webSearchConfig?.apiKey || null);
     }
@@ -595,7 +595,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
       setCodexConfigModel(null);
       return;
     }
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (!bridge?.aiCodexGetIntegration) return;
     let cancelled = false;
     void Promise.resolve(
@@ -627,7 +627,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
     // which keeps the picker aligned with the user's installed CLI version.
     if (!isCopilotExternalAgent && !isClaudeManagedAgent && !isCodexManagedAgent) return;
 
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (!bridge?.aiAcpListModels) return;
 
     let cancelled = false;
@@ -973,7 +973,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
     // Clear pending approvals for this session (so tool execute functions don't hang)
     clearAllPendingApprovals(activeSessionId);
     // Cancel in-flight command executions (Catty Agent + ACP Agent)
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     bridge?.aiCattyCancelExec?.(activeSessionId);
     bridge?.aiAcpCancel?.('', activeSessionId);
   }, [activeSessionId, setStreamingForScope, updateLastMessage, abortControllersRef]);
@@ -1122,7 +1122,7 @@ const AIChatSidePanelInner: React.FC<AIChatSidePanelProps> = ({
             disabled={!canSendCurrentAgent}
             providerName={providerDisplayName}
             modelName={modelDisplayName}
-            agentName={currentAgentId === 'catty' ? 'Catty Agent' : externalAgents.find(a => a.id === currentAgentId)?.name}
+            agentName={currentAgentId === 'catty' ? 'Sensor Agent' : externalAgents.find(a => a.id === currentAgentId)?.name}
             modelPresets={agentModelPresets}
             selectedModelId={selectedAgentModel}
             onModelSelect={handleAgentModelSelect}

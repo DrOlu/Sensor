@@ -15,7 +15,7 @@ type AppInfo = {
   platform?: string;
 };
 
-const REPO_URL = "https://github.com/binaricat/Netcatty";
+const REPO_URL = "https://github.com/DrOlu/Sensor";
 
 const buildIssueUrl = (appInfo: AppInfo) => {
   const title = "Bug: ";
@@ -75,7 +75,7 @@ interface SettingsApplicationTabProps {
 export default function SettingsApplicationTab({ updateState, checkNow, openReleasePage, installUpdate, startDownload, isUpdateDemoMode }: SettingsApplicationTabProps) {
   const { t } = useI18n();
   const { openExternal, getApplicationInfo } = useApplicationBackend();
-  const [appInfo, setAppInfo] = useState<AppInfo>({ name: "Netcatty", version: "" });
+  const [appInfo, setAppInfo] = useState<AppInfo>({ name: "Sensor", version: "" });
   const [lastCheckResult, setLastCheckResult] = useState<'none' | 'available' | 'upToDate'>('none');
 
   useEffect(() => {
@@ -152,13 +152,13 @@ export default function SettingsApplicationTab({ updateState, checkNow, openRele
           <div className="flex items-center gap-4">
             <AppLogo className="w-16 h-16" />
             <div>
-              {/* Match the Vault sidebar wordmark so the Netcatty brand
+              {/* Match the Vault sidebar wordmark so the Sensor brand
                   reads consistently across surfaces — same italic heavy
                   cut, just scaled up for the Settings hero area and
-                  using the branded mixed-case "Netcatty" instead of
+                  using the branded mixed-case "Sensor" instead of
                   the lowercase electron app name. */}
               <div className="text-3xl font-black italic tracking-tight leading-none text-foreground">
-                Netcatty
+                Sensor
               </div>
               <div className="flex items-center gap-2 mt-1">
                 <span className="text-sm text-muted-foreground">

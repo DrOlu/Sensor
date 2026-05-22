@@ -764,7 +764,7 @@ async function startTelnetSession(event, options) {
 }
 
 /**
- * Resolve Netcatty's bundled bare `mosh-client` binary.
+ * Resolve Sensor's bundled bare `mosh-client` binary.
  *
  * Returns the absolute path or null.
  */
@@ -1034,7 +1034,7 @@ function cleanupMoshAuthTempFiles(files) {
     try {
       fs.unlinkSync(file);
     } catch {
-      // Best effort cleanup; Settings > System can clear Netcatty temp files.
+      // Best effort cleanup; Settings > System can clear Sensor temp files.
     }
   }
 }
@@ -1364,7 +1364,7 @@ function resolveLangFromCharsetForMosh(charset) {
 /**
  * Start a Mosh session.
  *
- * Netcatty only uses its bundled `mosh-client` binary here. System
+ * Sensor only uses its bundled `mosh-client` binary here. System
  * `mosh` / `mosh-client` installs are intentionally ignored so dev,
  * CI, and release builds exercise the same binary.
  */
@@ -1393,7 +1393,7 @@ async function startMoshSession(event, options, opts = {}) {
     fileExists: (p) => isExecutableFile(p) || fs.existsSync(p),
   });
   if (!sshExe) {
-    throw new Error("OpenSSH client not found. Netcatty needs ssh to start the remote mosh-server handshake.");
+    throw new Error("OpenSSH client not found. Sensor needs ssh to start the remote mosh-server handshake.");
   }
 
   return startMoshSessionViaHandshake(event, options, { bareClient, sshExe });
@@ -1802,7 +1802,7 @@ function validatePath(event, payload) {
  * root so the helper is testable without packaging the app.
  *
  * Note this returns the network-protocol `mosh-client`, not the `mosh`
- * wrapper script. Netcatty drives the SSH bootstrap itself and then
+ * wrapper script. Sensor drives the SSH bootstrap itself and then
  * launches this bundled client directly.
  */
 function bundledMoshClient(opts = {}) {

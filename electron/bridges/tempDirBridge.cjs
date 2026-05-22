@@ -1,22 +1,22 @@
 /**
- * Temp Directory Bridge - Manages Netcatty's dedicated temp directory
+ * Temp Directory Bridge - Manages Sensor's dedicated temp directory
  * 
  * All temporary files (SFTP downloads, etc.) are stored in a dedicated
- * Netcatty folder within the system temp directory for easier cleanup.
+ * Sensor folder within the system temp directory for easier cleanup.
  */
 
 const fs = require("node:fs");
 const path = require("node:path");
 const os = require("node:os");
 
-// Netcatty temp directory name
-const NETCATTY_TEMP_DIR_NAME = "Netcatty";
+// Sensor temp directory name
+const NETCATTY_TEMP_DIR_NAME = "Sensor";
 
 // Cached temp directory path
 let cachedTempDir = null;
 
 /**
- * Get the Netcatty temp directory path
+ * Get the Sensor temp directory path
  * Creates the directory if it doesn't exist
  */
 function getTempDir() {
@@ -37,7 +37,7 @@ function getTempDir() {
   try {
     if (!fs.existsSync(netcattyTempDir)) {
       fs.mkdirSync(netcattyTempDir, { recursive: true });
-      console.log(`[TempDir] Created Netcatty temp directory: ${netcattyTempDir}`);
+      console.log(`[TempDir] Created Sensor temp directory: ${netcattyTempDir}`);
     }
     cachedTempDir = netcattyTempDir;
     return netcattyTempDir;
@@ -53,7 +53,7 @@ function getTempDir() {
  */
 function ensureTempDir() {
   const tempDir = getTempDir();
-  console.log(`[TempDir] Netcatty temp directory: ${tempDir}`);
+  console.log(`[TempDir] Sensor temp directory: ${tempDir}`);
   return tempDir;
 }
 

@@ -19,6 +19,7 @@
 const fs = require("node:fs");
 const path = require("node:path");
 const crypto = require("node:crypto");
+const { execFileSync } = require("node:child_process");
 
 const LC_UUID = 0x1b;
 const MH_MAGIC_64 = 0xfeedfacf; // thin 64-bit, little-endian on disk
@@ -137,6 +138,70 @@ async function afterPack(context) {
       `${oldUuids.map((h) => formatUuid(Buffer.from(h, "hex"))).join(", ")} -> ${formatUuid(uuid)} ` +
       `(${patched} slice(s), appId=${appId})`,
   );
+
+  // --- Ad-hoc code signing (macOS Code Signing Monitor fix) ---
+  //
+  // When no Developer ID certificate is configured (CSC_LINK is empty),
+  // electron-builder skips signing entirely (identity:null in config),
+  // producing an unsigned .app.  macOS Code Signing Monitor (present since
+  // macOS 11, stricter in macOS 26/Tahoe) immediately kills unsigned
+  // processes with SIGKILL / Code Signature Invalid, making the app
+  // completely unusable.
+  //
+  // We fix this by ad-hoc signing the .app bundle right here in afterPack —
+  // before electron-builder's own code-sign step.  If a proper Developer ID
+  // cert IS available, electron-builder will overwrite this ad-hoc signature
+  // with a real one in its subsequent signing pass, so this is a harmless
+  // no-op in that case.  When no cert is available, the ad-hoc signature
+  // survives into the final DMG/zip and prevents the crash.
+  //
+  // Ad-hoc signing uses --sign -, which creates a locally-valid signature
+  // without requiring any Apple Developer certificate.  Users will still see
+  // a Gatekeeper warning on first launch, but the app will actually run
+  // (right-click → Open to bypass Gatekeeper).
+  //
+  const appPath = path.join(context.appOutDir, `${productFilename}.app`);
+  const entitlementsPath = path.resolve(
+    __dirname,
+    "../electron/entitlements.mac.plist",
+  );
+
+  // Only ad-hoc sign when no Developer ID cert is available — if one is
+  // present, electron-builder's own signing step will handle it.
+  if (!process.env.CSC_LINK) {
+    try {
+      const codesignArgs = [
+        "--force",
+        "--deep",
+        "--sign",
+        "-",
+        "--options",
+        "runtime",
+        "--entitlements",
+        entitlementsPath,
+        appPath,
+      ];
+      console.log(
+        `[afterPack] No Developer ID cert (CSC_LINK empty) — ad-hoc signing: codesign ${codesignArgs.join(" ")}`,
+      );
+      execFileSync("codesign", codesignArgs, { stdio: "inherit" });
+      console.log("[afterPack] macOS app ad-hoc signed successfully");
+    } catch (e) {
+      // Non-fatal: the app may still work on older macOS versions without
+      // signing.  On macOS 26+ (Tahoe), Code Signing Monitor kills unsigned
+      // apps on launch, so this warning is important.
+      console.warn(
+        `[afterPack] WARNING: macOS ad-hoc signing failed: ${e.message}`,
+      );
+      console.warn(
+        "[afterPack] The app may crash on macOS 26+ due to invalid code signature.",
+      );
+    }
+  } else {
+    console.log(
+      "[afterPack] Developer ID cert present — skipping ad-hoc signing (electron-builder will sign properly)",
+    );
+  }
 }
 
 module.exports = afterPack;

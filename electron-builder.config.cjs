@@ -79,8 +79,13 @@ module.exports = {
             }
         ],
         category: 'public.app-category.developer-tools',
-        hardenedRuntime: false,
-        identity: null,
+        // When a Developer ID cert is available (CSC_LINK set), sign properly
+        // with hardened runtime. When no cert is available, fall back to ad-hoc
+        // signing in the afterPack hook (below) — this prevents macOS Code
+        // Signing Monitor from killing the app on launch (SIGKILL / Code
+        // Signature Invalid). See the afterPack hook for details.
+        hardenedRuntime: !!process.env.CSC_LINK,
+        identity: process.env.CSC_LINK ? undefined : null,
         notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',

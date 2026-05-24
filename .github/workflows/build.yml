@@ -627,7 +627,6 @@ jobs:
       startsWith(github.ref, 'refs/tags/v')
       && !contains(github.ref_name, '-')
       && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish_release))
-      && secrets.HOMEBREW_TAP_TOKEN != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -637,6 +636,16 @@ jobs:
         with:
           name: sensor-macos
           path: artifacts/
+
+      - name: Check HOMEBREW_TAP_TOKEN
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          if [[ -z "$HOMEBREW_TAP_TOKEN" ]]; then
+            echo "::warning::HOMEBREW_TAP_TOKEN is not configured — skipping homebrew tap bump."
+            echo "The cask can be bumped manually or by adding the secret to the repo."
+            exit 0
+          fi
 
       - name: Bump Cask in binaricat/homebrew-netcatty
         env:

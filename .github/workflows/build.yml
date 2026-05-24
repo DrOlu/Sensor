@@ -611,10 +611,13 @@ jobs:
     needs: release
     # Only stable release tags update the Cask. Prerelease tags
     # (e.g. v1.2.0-rc.1) are skipped so brew users stay on stable.
+    # Also skips when HOMEBREW_TAP_TOKEN is not configured — the cask
+    # can be bumped manually or via a separate process.
     if: |
       startsWith(github.ref, 'refs/tags/v')
       && !contains(github.ref_name, '-')
       && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish_release))
+      && secrets.HOMEBREW_TAP_TOKEN != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -85,7 +85,7 @@ function setMainWindowGetter(fn) {
  */
 // External ACP agents (for example Codex) may give up on MCP tool calls after
 // about 120 seconds; see openai/codex#6127 ("timed out awaiting tools/call
-// after 120s"). Keep the Netcatty-side approval window below that with a small
+// after 120s"). Keep the Sensor-side approval window below that with a small
 // buffer so a stale approval cannot still be accepted after the agent has
 // already timed out and abandoned the call.
 const APPROVAL_TIMEOUT_MS = 110 * 1000; // 110 seconds
@@ -1070,9 +1070,9 @@ function handleGetContext(params) {
 
   return {
     environment: "netcatty-terminal",
-    description: "You are operating inside Netcatty, a multi-session terminal manager. " +
+    description: "You are operating inside Sensor, a multi-session terminal manager. " +
       "The available sessions may be remote hosts, local terminals, Mosh-backed shells, or serial port connections (network devices, embedded systems). " +
-      "Use the provided tools to execute commands through the sessions exposed by Netcatty. " +
+      "Use the provided tools to execute commands through the sessions exposed by Sensor. " +
       "Serial sessions (protocol: serial, shellType: raw) do not run a standard shell — commands are sent as-is. " +
       "Network device sessions (deviceType: network) use vendor CLIs (Huawei VRP, Cisco IOS, etc.) — commands are sent as-is without shell wrapping, and exit codes are unavailable. " +
       "Always prefer these tools over suggesting the user to do things manually.",
@@ -1455,7 +1455,7 @@ function handleExec(params) {
     return {
       ok: false,
       code: "COMMAND_ALREADY_RUNNING",
-      error: `Another Netcatty command is already running for chat session "${chatSessionId}". Wait for it to finish before starting a new exec.`,
+      error: `Another Sensor command is already running for chat session "${chatSessionId}". Wait for it to finish before starting a new exec.`,
       activeCommand: executionLock.active.command,
       activeSessionId: executionLock.active.sessionId,
     };

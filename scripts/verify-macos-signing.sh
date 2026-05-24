@@ -58,7 +58,7 @@ else
 fi
 
 # Check 5: build.yml has HOMEBREW_TAP_TOKEN guard (warn only)
-if ! grep -q "secrets.HOMEBREW_TAP_TOKEN" "$SENSOR_ROOT/.github/workflows/build.yml"; then
+if ! grep -q "Check HOMEBREW_TAP_TOKEN" "$SENSOR_ROOT/.github/workflows/build.yml"; then
   echo "::warning::build.yml is missing HOMEBREW_TAP_TOKEN guard."
   echo "  Without this, the bump homebrew tap job fails when the secret is not configured."
   echo "  Fix: Run node scripts/patches/workflow-homebrew-guard.cjs"

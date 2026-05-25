@@ -611,8 +611,13 @@ jobs:
     needs: release
     # Only stable release tags update the Cask. Prerelease tags
     # (e.g. v1.2.0-rc.1) are skipped so brew users stay on stable.
+    # Also skip on forks: the binaricat/homebrew-netcatty tap is owned
+    # by the upstream Netcatty project and is only writable from there.
+    # Forks (e.g. DrOlu/Sensor) don't have HOMEBREW_TAP_TOKEN configured
+    # and shouldn't push to the upstream tap anyway.
     if: |
-      startsWith(github.ref, 'refs/tags/v')
+      github.repository == 'binaricat/netcatty'
+      && startsWith(github.ref, 'refs/tags/v')
       && !contains(github.ref_name, '-')
       && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish_release))
     steps:

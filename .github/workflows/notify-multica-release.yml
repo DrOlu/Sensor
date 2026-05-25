@@ -1,0 +1,30 @@
+name: Notify Multica on Release
+on:
+  release:
+    types: [published]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Multica autopilot
+        env:
+          WEBHOOK_URL: https://api.multica.ai/api/webhooks/autopilots/awt_p2wscHSzTFsGnYUe6tRGIN1EYhbf6RGbhtB7RFH4SgY
+        run: |
+          python3 -c "
+          import json, urllib.request, os
+          payload = json.dumps({
+            'action': 'published',
+            'release': {
+              'tag_name': os.environ.get('GITHUB_REF_NAME', ''),
+              'draft': False,
+              'prerelease': False
+            },
+            'repository': {
+              'full_name': os.environ.get('GITHUB_REPOSITORY', ''),
+              'name': os.environ.get('GITHUB_REPOSITORY', '').split('/', 1)[-1] if '/' in os.environ.get('GITHUB_REPOSITORY', '') else ''
+            }
+          }).encode()
+          req = urllib.request.Request(os.environ['WEBHOOK_URL'], data=payload, headers={'Content-Type': 'application/json'})
+          urllib.request.urlopen(req)
+          "

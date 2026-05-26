@@ -612,7 +612,8 @@ jobs:
     # Only stable release tags update the Cask. Prerelease tags
     # (e.g. v1.2.0-rc.1) are skipped so brew users stay on stable.
     if: |
-      startsWith(github.ref, 'refs/tags/v')
+      github.repository == 'binaricat/netcatty'
+      && startsWith(github.ref, 'refs/tags/v')
       && !contains(github.ref_name, '-')
       && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish_release))
     steps:

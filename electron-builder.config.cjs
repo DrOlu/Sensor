@@ -81,6 +81,7 @@ module.exports = {
         category: 'public.app-category.developer-tools',
         hardenedRuntime: false,
         identity: null,
+        sign: './scripts/signMacAdHoc.cjs',
         notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',

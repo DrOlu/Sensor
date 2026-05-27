@@ -14,7 +14,7 @@ declare module 'react' {
 
 declare global {
   // Proxy configuration for SSH connections
-  interface NetcattyProxyConfig {
+  interface SensorProxyConfig {
     type: 'http' | 'socks5';
     host: string;
     port: number;
@@ -33,7 +33,7 @@ declare global {
   }
 
   // Jump host configuration for SSH tunneling
-  interface NetcattyJumpHost {
+  interface SensorJumpHost {
     hostname: string;
     port: number;
     username: string;
@@ -45,7 +45,7 @@ declare global {
     keyId?: string;
     keySource?: 'generated' | 'imported' | 'reference';
     label?: string; // Display label for UI
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     identityFilePaths?: string[];
     // Resolved keepalive for THIS hop (caller has already applied host
     // override / global fallback). interval in seconds, 0 = disabled.
@@ -62,7 +62,7 @@ declare global {
 
   // Host key information for verification
   // Reserved for future host key verification UI feature
-  interface _NetcattyHostKeyInfo {
+  interface _SensorHostKeyInfo {
     hostname: string;
     port: number;
     keyType: string;
@@ -70,7 +70,7 @@ declare global {
     publicKey?: string;
   }
 
-  interface NetcattySSHOptions {
+  interface SensorSSHOptions {
     sessionId?: string;
     hostLabel?: string;
     hostname: string;
@@ -96,9 +96,9 @@ declare global {
     // Environment variables to set in the remote shell
     env?: Record<string, string>;
     // Proxy configuration
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     // Jump hosts (bastion chain)
-    jumpHosts?: NetcattyJumpHost[];
+    jumpHosts?: SensorJumpHost[];
     // SSH-level keepalive interval in seconds (0 = disabled)
     keepaliveInterval?: number;
     // Unanswered keepalives before ssh2 declares the connection dead
@@ -152,8 +152,8 @@ declare global {
     certificate?: string;
     keyId?: string;
     passphrase?: string;
-    proxy?: NetcattyProxyConfig;
-    jumpHosts?: NetcattyJumpHost[];
+    proxy?: SensorProxyConfig;
+    jumpHosts?: SensorJumpHost[];
     identityFilePaths?: string[];
     legacyAlgorithms?: boolean;
     skipEcdsaHostKey?: boolean;
@@ -178,16 +178,16 @@ declare global {
     error?: string;
   }
 
-  interface NetcattyWindowsPtyInfo {
+  interface SensorWindowsPtyInfo {
     backend: 'conpty' | 'winpty';
     buildNumber?: number;
   }
 
   type PortForwardStatusCallback = (status: 'inactive' | 'connecting' | 'active' | 'error', error?: string) => void;
 
-  interface NetcattyBridge {
-    getWindowsPtyInfo?(): NetcattyWindowsPtyInfo | null;
-    startSSHSession(options: NetcattySSHOptions): Promise<string>;
+  interface SensorBridge {
+    getWindowsPtyInfo?(): SensorWindowsPtyInfo | null;
+    startSSHSession(options: SensorSSHOptions): Promise<string>;
     startTelnetSession?(options: {
       sessionId?: string;
       hostname: string;
@@ -449,7 +449,7 @@ declare global {
     ): () => void;
 
     // SFTP operations
-    openSftp(options: NetcattySSHOptions): Promise<string>;
+    openSftp(options: SensorSSHOptions): Promise<string>;
     listSftp(sftpId: string, path: string, encoding?: SftpFilenameEncoding): Promise<RemoteFile[]>;
     readSftp(sftpId: string, path: string, encoding?: SftpFilenameEncoding): Promise<string>;
     readSftpBinary?(sftpId: string, path: string, encoding?: SftpFilenameEncoding): Promise<ArrayBuffer>;
@@ -1123,7 +1123,7 @@ declare global {
   }
 
   interface Window {
-    netcatty?: NetcattyBridge;
+    netcatty?: SensorBridge;
   }
 
 }

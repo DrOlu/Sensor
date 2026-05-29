@@ -129,7 +129,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
       return;
     }
     const globalKeepalive = ctx.terminalSettings ?? { keepaliveInterval: 30, keepaliveCountMax: 10 };
-    const jumpHosts = ctx.resolvedChainHosts.map<NetcattyJumpHost>((jumpHost, index) => {
+    const jumpHosts = ctx.resolvedChainHosts.map<SensorJumpHost>((jumpHost, index) => {
       const jumpAuth = resolveHostAuth({
         host: jumpHost,
         keys: ctx.keys,

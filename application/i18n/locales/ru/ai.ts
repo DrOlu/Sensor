@@ -104,12 +104,12 @@ export const ruAiMessages: Messages = {
   'ai.defaultAgent.description': 'Агент, который будет использоваться при запуске новой AI-сессии',
   'ai.defaultAgent.catty': 'Catty (встроенный)',
   'ai.toolAccess.title': 'Доступ к инструментам',
-  'ai.toolAccess.mode': 'Режим доступа Netcatty',
-  'ai.toolAccess.description': 'Выберите, как внешние ACP-агенты получают доступ к сессиям Netcatty. MCP предоставляет встроенный сервер, а Skills + CLI указывает агентам на локальный skill Netcatty и команды CLI.',
+  'ai.toolAccess.mode': 'Режим доступа Sensor',
+  'ai.toolAccess.description': 'Выберите, как внешние ACP-агенты получают доступ к сессиям Sensor. MCP предоставляет встроенный сервер, а Skills + CLI указывает агентам на локальный skill Sensor и команды CLI.',
   'ai.toolAccess.mode.mcp': 'MCP',
   'ai.toolAccess.mode.skills': 'Skills + CLI',
   'ai.userSkills.title': 'Пользовательские skills',
-  'ai.userSkills.description': 'Откройте папку skills Netcatty, чтобы добавить свои каталоги skills. Netcatty автоматически сканирует их и добавляет только лёгкие индексы, если skill явно не соответствует текущему запросу.',
+  'ai.userSkills.description': 'Откройте папку skills Sensor, чтобы добавить свои каталоги skills. Sensor автоматически сканирует их и добавляет только лёгкие индексы, если skill явно не соответствует текущему запросу.',
   'ai.userSkills.openFolder': 'Открыть папку skills',
   'ai.userSkills.reload': 'Перезагрузить skills',
   'ai.userSkills.location': 'Расположение',
@@ -178,7 +178,7 @@ export const ruAiMessages: Messages = {
   'ai.chat.menuUserSkills': 'Пользовательские skills',
 
   // AI Error
-  'ai.codex.bridgeError': 'Обработчики главного процесса Codex ещё не загружены. Полностью перезапустите Netcatty или dev-процесс Electron и попробуйте снова.',
+  'ai.codex.bridgeError': 'Обработчики главного процесса Codex ещё не загружены. Полностью перезапустите Sensor или dev-процесс Electron и попробуйте снова.',
 
   // AI Web Search
   'ai.webSearch.title': 'Веб-поиск',
@@ -198,7 +198,7 @@ export const ruAiMessages: Messages = {
   // AI Safety Settings
   'ai.safety.title': 'Безопасность',
   'ai.safety.permissionMode': 'Режим разрешений',
-  'ai.safety.permissionMode.description': 'Управляет тем, как AI взаимодействует с вашими терминалами. Режим наблюдателя блокирует все операции записи через Netcatty и применяется как к встроенным, так и к ACP-агентам. Режим подтверждения носит рекомендательный характер для ACP-агентов (они управляют собственным потоком одобрения инструментов).',
+  'ai.safety.permissionMode.description': 'Управляет тем, как AI взаимодействует с вашими терминалами. Режим наблюдателя блокирует все операции записи через Sensor и применяется как к встроенным, так и к ACP-агентам. Режим подтверждения носит рекомендательный характер для ACP-агентов (они управляют собственным потоком одобрения инструментов).',
   'ai.safety.permissionMode.observer': 'Наблюдатель — только чтение, без действий',
   'ai.safety.permissionMode.confirm': 'Подтверждение — спрашивать перед действиями',
   'ai.safety.permissionMode.autonomous': 'Автономный — выполнять свободно',
@@ -208,7 +208,7 @@ export const ruAiMessages: Messages = {
   'ai.safety.maxIterations': 'Макс. число итераций',
   'ai.safety.maxIterations.description': 'Максимальное число циклов использования инструментов AI, чтобы предотвратить бесконтрольное выполнение. У ACP-агентов могут быть собственные внутренние лимиты итераций, имеющие приоритет.',
   'ai.safety.blocklist': 'Чёрный список команд',
-  'ai.safety.blocklist.description': 'Regex-шаблоны для блокировки опасных команд. Применяется как к встроенным, так и к ACP-агентам через механизм выполнения Netcatty.',
+  'ai.safety.blocklist.description': 'Regex-шаблоны для блокировки опасных команд. Применяется как к встроенным, так и к ACP-агентам через механизм выполнения Sensor.',
   'ai.safety.blocklist.placeholder': 'Regex-шаблон...',
   'ai.safety.blocklist.reset': 'Сбросить по умолчанию',
   'ai.safety.blocklist.add': 'Добавить шаблон',

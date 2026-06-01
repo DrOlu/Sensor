@@ -272,21 +272,21 @@ function registerAcpHandlers(ctx) {
           const message = err?.message || String(err);
           safeSend(event.sender, "netcatty:ai:acp:error", {
             requestId,
-            error: `Failed to initialize Netcatty Skills + CLI bridge.\n\nDetails: ${message}`,
+            error: `Failed to initialize Sensor Skills + CLI bridge.\n\nDetails: ${message}`,
           });
           return { ok: false, error: message };
         }
       }
 
-      // Inject Netcatty MCP server for scoped terminal-session access only when
-      // the user selected MCP mode. Skills mode uses the Netcatty CLI instead.
+      // Inject Sensor MCP server for scoped terminal-session access only when
+      // the user selected MCP mode. Skills mode uses the Sensor CLI instead.
       if (effectiveToolIntegrationMode === "mcp") {
         try {
           const mcpPort = await mcpServerBridge.getOrCreateHost();
           const scopedIds = mcpServerBridge.getScopedSessionIds(chatSessionId);
           const netcattyMcpConfig = mcpServerBridge.buildMcpServerConfig(mcpPort, scopedIds, chatSessionId);
           mcpSnapshot.mcpServers.push(netcattyMcpConfig);
-          debugMcpLog("Injected Netcatty MCP server", {
+          debugMcpLog("Injected Sensor MCP server", {
             requestId,
             chatSessionId,
             mcpPort,
@@ -294,14 +294,14 @@ function registerAcpHandlers(ctx) {
             mcpServerNames: mcpSnapshot.mcpServers.map(server => server.name),
           });
           if (isCopilotAgent) {
-            logAcpDebug(agentLabel, "Injected Netcatty MCP server into session", {
+            logAcpDebug(agentLabel, "Injected Sensor MCP server into session", {
               chatSessionId,
               scopedIds,
               injectedServer: summarizeMcpServersForDebug([netcattyMcpConfig])[0],
             });
           }
         } catch (err) {
-          console.error("[ACP] Failed to inject Netcatty MCP server:", err?.message || err);
+          console.error("[ACP] Failed to inject Sensor MCP server:", err?.message || err);
         }
       }
       if (shouldAbortStartup()) return { ok: true };
@@ -560,7 +560,7 @@ function registerAcpHandlers(ctx) {
         });
       }
 
-      // Prepend context hint so the agent uses the configured Netcatty access mode.
+      // Prepend context hint so the agent uses the configured Sensor access mode.
       const contextualPrompt = buildExternalAgentContextualPrompt({
         mode: effectiveToolIntegrationMode,
         prompt,

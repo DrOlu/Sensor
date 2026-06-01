@@ -68,7 +68,7 @@ export const enVaultMessages: Messages = {
   'pf.type.menu.dynamic': 'Dynamic Forwarding',
   'pf.type.local.desc': "Local forwarding lets you access a remote server's listening port as though it were local.",
   'pf.type.remote.desc': 'Remote forwarding opens a port on the remote machine and forwards connections to the local (current) host.',
-  'pf.type.dynamic.desc': 'Dynamic port forwarding turns Netcatty into a SOCKS proxy server.',
+  'pf.type.dynamic.desc': 'Dynamic port forwarding turns Sensor into a SOCKS proxy server.',
   'pf.wizard.type.title': 'Select the port forwarding type:',
   'pf.wizard.localConfig.title': 'Set the local port and binding address:',
   'pf.wizard.localConfig.desc': 'This port will be open on the local (current) device, and it will receive the traffic.',

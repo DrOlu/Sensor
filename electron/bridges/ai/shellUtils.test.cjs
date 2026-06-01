@@ -297,11 +297,11 @@ function withExecPath(fakePath, fn) {
 
 test("resolveClaudeAcpBinaryPath sets ELECTRON_RUN_AS_NODE when packaged execPath is not node", (t) => {
   // Simulate the packaged Electron case where process.execPath is the app
-  // binary (e.g. Netcatty.exe).  We copy the real node binary to a fake path
+  // binary (e.g. Sensor.exe).  We copy the real node binary to a fake path
   // so existsSync() succeeds while basename != "node".
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "netcatty-acp-runtime-"));
   t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
-  const fakeRuntime = path.join(tempDir, process.platform === "win32" ? "Netcatty.exe" : "Netcatty");
+  const fakeRuntime = path.join(tempDir, process.platform === "win32" ? "Sensor.exe" : "Sensor");
   fs.copyFileSync(process.execPath, fakeRuntime);
 
   const result = withExecPath(fakeRuntime, () =>

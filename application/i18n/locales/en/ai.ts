@@ -104,12 +104,12 @@ export const enAiMessages: Messages = {
   'ai.defaultAgent.description': 'Agent to use when starting a new AI session',
   'ai.defaultAgent.catty': 'Catty (Built-in)',
   'ai.toolAccess.title': 'Tool Access',
-  'ai.toolAccess.mode': 'Netcatty Access Mode',
-  'ai.toolAccess.description': 'Choose how external ACP agents access Netcatty sessions. MCP exposes the built-in server, while Skills + CLI points agents to the local Netcatty skill and CLI commands.',
+  'ai.toolAccess.mode': 'Sensor Access Mode',
+  'ai.toolAccess.description': 'Choose how external ACP agents access Sensor sessions. MCP exposes the built-in server, while Skills + CLI points agents to the local Sensor skill and CLI commands.',
   'ai.toolAccess.mode.mcp': 'MCP',
   'ai.toolAccess.mode.skills': 'Skills + CLI',
   'ai.userSkills.title': 'User Skills',
-  'ai.userSkills.description': 'Open the Netcatty skills folder to add your own skill directories. Netcatty scans these skills automatically and injects only lightweight indexes unless a skill clearly matches the current request.',
+  'ai.userSkills.description': 'Open the Sensor skills folder to add your own skill directories. Sensor scans these skills automatically and injects only lightweight indexes unless a skill clearly matches the current request.',
   'ai.userSkills.openFolder': 'Open Skills Folder',
   'ai.userSkills.reload': 'Reload Skills',
   'ai.userSkills.location': 'Location',
@@ -178,7 +178,7 @@ export const enAiMessages: Messages = {
   'ai.chat.menuUserSkills': 'User Skills',
 
   // AI Error
-  'ai.codex.bridgeError': 'Codex main-process handlers are not loaded yet. Fully restart Netcatty, or restart the Electron dev process, then try again.',
+  'ai.codex.bridgeError': 'Codex main-process handlers are not loaded yet. Fully restart Sensor, or restart the Electron dev process, then try again.',
 
   // AI Web Search
   'ai.webSearch.title': 'Web Search',
@@ -198,7 +198,7 @@ export const enAiMessages: Messages = {
   // AI Safety Settings
   'ai.safety.title': 'Safety',
   'ai.safety.permissionMode': 'Permission Mode',
-  'ai.safety.permissionMode.description': 'Controls how the AI interacts with your terminals. Observer mode blocks all write operations through Netcatty, enforced for both built-in and ACP agents. Confirm mode is advisory for ACP agents (they control their own tool approval flow).',
+  'ai.safety.permissionMode.description': 'Controls how the AI interacts with your terminals. Observer mode blocks all write operations through Sensor, enforced for both built-in and ACP agents. Confirm mode is advisory for ACP agents (they control their own tool approval flow).',
   'ai.safety.permissionMode.observer': 'Observer - Read only, no actions',
   'ai.safety.permissionMode.confirm': 'Confirm - Ask before actions',
   'ai.safety.permissionMode.autonomous': 'Autonomous - Execute freely',
@@ -208,7 +208,7 @@ export const enAiMessages: Messages = {
   'ai.safety.maxIterations': 'Max Iterations',
   'ai.safety.maxIterations.description': 'Maximum number of AI tool-use loops to prevent runaway execution. ACP agents may have their own internal iteration limits that take precedence.',
   'ai.safety.blocklist': 'Command Blocklist',
-  'ai.safety.blocklist.description': 'Regex patterns to block dangerous commands. Applies to both built-in and ACP agents through Netcatty execution.',
+  'ai.safety.blocklist.description': 'Regex patterns to block dangerous commands. Applies to both built-in and ACP agents through Sensor execution.',
   'ai.safety.blocklist.placeholder': 'Regex pattern...',
   'ai.safety.blocklist.reset': 'Reset to defaults',
   'ai.safety.blocklist.add': 'Add pattern',

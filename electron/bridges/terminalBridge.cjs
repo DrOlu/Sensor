@@ -483,7 +483,7 @@ const telnetSessionApi = createTelnetSessionApi({
 const { startTelnetSession } = telnetSessionApi;
 
 /**
- * Resolve Netcatty's bundled bare `mosh-client` binary.
+ * Resolve Sensor's bundled bare `mosh-client` binary.
  *
  * Returns the absolute path or null.
  */
@@ -868,7 +868,7 @@ const { getDefaultShell, validatePath } = pathValidationApi;
  * root so the helper is testable without packaging the app.
  *
  * Note this returns the network-protocol `mosh-client`, not the `mosh`
- * wrapper script. Netcatty drives the SSH bootstrap itself and then
+ * wrapper script. Sensor drives the SSH bootstrap itself and then
  * launches this bundled client directly.
  */
 function bundledMoshClient(opts = {}) {

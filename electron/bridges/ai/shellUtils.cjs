@@ -399,7 +399,7 @@ function resolveClaudeAcpBinaryPath(shellEnv, electronModule) {
   }
 
   // Packaged build (or dev fallback): run the npm-bundled JS via process.execPath.
-  // In packaged Electron `process.execPath` is the app binary (e.g. Netcatty.exe);
+  // In packaged Electron `process.execPath` is the app binary (e.g. Sensor.exe);
   // setting `ELECTRON_RUN_AS_NODE=1` makes it behave as the embedded Node so we
   // don't depend on the user having `node` installed.  When `process.execPath`
   // is already a real `node` (e.g. during tests), no env var is needed.

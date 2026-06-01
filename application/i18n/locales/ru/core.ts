@@ -135,7 +135,7 @@ export const ruCoreMessages: Messages = {
   'settings.update.downloadError': 'Не удалось загрузить обновление.',
   'settings.update.manualDownload': 'Скачать с GitHub',
   'settings.update.manualDownloadHint': 'Автообновление недоступно на этой платформе. Скачайте последнюю версию с GitHub.',
-  'settings.update.hint': 'Netcatty проверяет обновления через GitHub Releases.',
+  'settings.update.hint': 'Sensor проверяет обновления через GitHub Releases.',
   'settings.update.lastCheckedJustNow': 'только что',
   'settings.update.lastCheckedMinutesAgo': '{n} мин назад',
   'settings.update.lastCheckedHoursAgo': '{n} ч назад',
@@ -186,7 +186,7 @@ export const ruCoreMessages: Messages = {
   'tray.recentHosts': 'Недавние хосты',
   'tray.empty.title': 'Пока здесь ничего нет',
   'tray.empty.subtitle': 'Подключитесь к серверу, они по вам скучают 🚀',
-  'tray.quit': 'Выйти из Netcatty',
+  'tray.quit': 'Выйти из Sensor',
 
   // Vault Sidebar
   'vault.sidebar.collapse': 'Свернуть боковую панель',

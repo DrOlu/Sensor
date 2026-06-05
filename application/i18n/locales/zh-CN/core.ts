@@ -119,7 +119,7 @@ export const zhCNCoreMessages: Messages = {
   'settings.update.downloadError': '下载失败。',
   'settings.update.manualDownload': '前往 GitHub 下载',
   'settings.update.manualDownloadHint': '当前平台不支持自动更新，请前往 GitHub 下载最新版本。',
-  'settings.update.hint': 'Netcatty 从 GitHub Releases 检查更新。',
+  'settings.update.hint': 'Sensor 从 GitHub Releases 检查更新。',
   'settings.update.lastCheckedJustNow': '刚刚',
   'settings.update.lastCheckedMinutesAgo': '{n} 分钟前',
   'settings.update.lastCheckedHoursAgo': '{n} 小时前',
@@ -181,7 +181,7 @@ export const zhCNCoreMessages: Messages = {
   'tray.recentHosts': '最近连接的主机',
   'tray.empty.title': '一切都很安静',
   'tray.empty.subtitle': '去连接个服务器吧，它们想念你了 🚀',
-  'tray.quit': '退出 Netcatty',
+  'tray.quit': '退出 Sensor',
 
   // Vault Sidebar
   'vault.sidebar.collapse': '收起侧边栏',
@@ -504,7 +504,7 @@ export const zhCNCoreMessages: Messages = {
   'pf.type.menu.dynamic': '动态转发',
   'pf.type.local.desc': '本地转发让你像访问本地一样访问远程服务端口。',
   'pf.type.remote.desc': '远程转发在远端开启端口，并将连接转发到本地（当前）主机。',
-  'pf.type.dynamic.desc': '动态转发将 Netcatty 作为 SOCKS 代理使用。',
+  'pf.type.dynamic.desc': '动态转发将 Sensor 作为 SOCKS 代理使用。',
   'pf.wizard.type.title': '选择端口转发类型：',
   'pf.wizard.localConfig.title': '设置本地端口与绑定地址：',
   'pf.wizard.localConfig.desc': '该端口会在本地（当前设备）打开，并接收流量。',

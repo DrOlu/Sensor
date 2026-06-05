@@ -62,13 +62,13 @@ function buildCopilotSessionOptions({ model, injectedMcpServers }) {
   return options;
 }
 
-function approveNetcattyMcpOnly(request) {
+function approveSensorMcpOnly(request) {
   if (request?.kind === "mcp" && request?.toolName) {
     return { kind: "approve-once" };
   }
   return {
     kind: "reject",
-    feedback: "Only Netcatty MCP tools are allowed from this integration.",
+    feedback: "Only Sensor MCP tools are allowed from this integration.",
   };
 }
 
@@ -203,7 +203,7 @@ async function runCopilotTurn({ prompt, attachments, clientOptions, sessionOptio
       ...sessionOptions,
       streaming: true,
       // Allow only MCP calls; netcatty MCP performs scope/approval/blocklist checks.
-      onPermissionRequest: approveNetcattyMcpOnly,
+      onPermissionRequest: approveSensorMcpOnly,
     };
     // Resume the prior conversation so context carries ACROSS turns (incl. after
     // a Stop). Always (re)apply sessionConfig so the FRESH netcatty MCP server
@@ -335,7 +335,7 @@ module.exports = {
   buildCopilotClientOptions,
   buildCopilotSessionOptions,
   buildCopilotMessageOptions,
-  approveNetcattyMcpOnly,
+  approveSensorMcpOnly,
   toCopilotMcpServers,
   extractCopilotContent,
   extractCopilotResultText,

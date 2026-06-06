@@ -217,6 +217,8 @@ jobs:
         id: resolve
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          ET_BIN_OWNER: ${{ vars.ET_BIN_OWNER || 'binaricat' }}
+          ET_BIN_REPO: ${{ vars.ET_BIN_REPO || 'netcatty-et-bin' }}
         run: |
           node scripts/resolve-et-bin-release.cjs
           release="$(grep '^ET_BIN_RELEASE=' "$GITHUB_ENV" | tail -n 1 | cut -d= -f2-)"
@@ -302,6 +304,9 @@ jobs:
       - name: Fetch bundled et-client
         if: env.BUNDLE_ET == 'true'
         shell: bash
+        env:
+          ET_BIN_OWNER: ${{ vars.ET_BIN_OWNER || 'binaricat' }}
+          ET_BIN_REPO: ${{ vars.ET_BIN_REPO || 'netcatty-et-bin' }}
         run: |
           if [[ "${{ matrix.name }}" == "macos" ]]; then
             npm run fetch:et -- --platform=darwin --arch=universal
@@ -435,6 +440,9 @@ jobs:
 
       - name: Fetch bundled et-client
         if: env.BUNDLE_ET == 'true'
+        env:
+          ET_BIN_OWNER: ${{ vars.ET_BIN_OWNER || 'binaricat' }}
+          ET_BIN_REPO: ${{ vars.ET_BIN_REPO || 'netcatty-et-bin' }}
         run: npm run fetch:et -- --platform=linux --arch=x64
 
       - name: Build package
@@ -546,6 +554,9 @@ jobs:
 
       - name: Fetch bundled et-client
         if: env.BUNDLE_ET == 'true'
+        env:
+          ET_BIN_OWNER: ${{ vars.ET_BIN_OWNER || 'binaricat' }}
+          ET_BIN_REPO: ${{ vars.ET_BIN_REPO || 'netcatty-et-bin' }}
         run: npm run fetch:et -- --platform=linux --arch=arm64
 
       - name: Build package

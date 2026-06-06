@@ -1,0 +1,206 @@
+name: Sync from Upstream
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force sync even if no upstream changes'
+        required: false
+        default: false
+        type: boolean
+      create_tag:
+        description: 'Override tag to create (e.g. v1.2.0). Leave blank to auto-bump patch.'
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  id-token: write
+  contents: write
+
+env:
+  UPSTREAM_REPO: binaricat/netcatty
+  UPSTREAM_BRANCH: main
+
+jobs:
+  sync-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sensor
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/${{ env.UPSTREAM_REPO }}.git || true
+          git fetch upstream ${{ env.UPSTREAM_BRANCH }}
+
+      - name: Check for upstream changes
+        id: check_changes
+        run: |
+          LAST_SYNCED=""
+          if [ -f .upstream-commit ]; then
+            LAST_SYNCED=$(cat .upstream-commit)
+          fi
+
+          UPSTREAM_HEAD=$(git rev-parse upstream/${{ env.UPSTREAM_BRANCH }})
+
+          echo "Last synced: $LAST_SYNCED"
+          echo "Upstream HEAD: $UPSTREAM_HEAD"
+
+          if [ "$LAST_SYNCED" = "$UPSTREAM_HEAD" ] && [ "${{ inputs.force }}" != "true" ]; then
+            echo "No upstream changes detected"
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Upstream changes detected or force requested"
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "upstream_commit=$UPSTREAM_HEAD" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Backup workflow files
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          mkdir -p /tmp/workflow-backup
+          cp -r .github/workflows/* /tmp/workflow-backup/ 2>/dev/null || true
+
+      - name: Merge upstream changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git merge upstream/${{ env.UPSTREAM_BRANCH }} \
+            -X theirs \
+            --no-edit \
+            --allow-unrelated-histories || true
+
+          # Resolve any remaining conflicts by taking upstream
+          if git status | grep -q "Unmerged paths"; then
+            echo "Resolving remaining merge conflicts..."
+            git checkout --theirs . 2>/dev/null || true
+            git add -A
+          fi
+
+      - name: Restore workflow files
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          cp -r /tmp/workflow-backup/* .github/workflows/ 2>/dev/null || true
+          git add .github/workflows/
+
+      - name: Apply Sensor branding
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          echo "Applying Sensor branding..."
+
+          # package.json
+          if [ -f package.json ]; then
+            node -e "
+              const fs = require('fs');
+              const pkg = require('./package.json');
+              pkg.name = 'sensor';
+              pkg.description = 'Sensor is a modern SSH manager and terminal app with host grouping, SFTP, keychain, port forwarding, and a rich UI.';
+              pkg.author = 'Hyperspace Technologies <agent@hyperspace.ng>';
+              pkg.homepage = 'https://hyperspace.ng';
+              pkg.repository = { type: 'git', url: 'https://github.com/DrOlu/Sensor.git' };
+              fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+            "
+          fi
+
+          # electron-builder.config.cjs
+          if [ -f electron-builder.config.cjs ]; then
+            sed -i 's/com\.binaricat\.netcatty/ng.hyperspace.sensor/g' electron-builder.config.cjs
+            sed -i 's/productName: .Netcatty./productName: Sensor/g' electron-builder.config.cjs
+            sed -i 's/executableName: .netcatty./executableName: sensor/g' electron-builder.config.cjs
+          fi
+
+          # Source files — visible strings only
+          find src application components domain infrastructure electron -type f \( -name "*.ts" -o -name "*.tsx" \) \
+            -exec sed -i \
+              -e 's/Netcatty/Sensor/g' \
+              -e 's/netcatty/sensor/g' \
+              -e 's/binaricat/DrOlu/g' {} \; 2>/dev/null || true
+
+          # README files
+          for f in README.md README.ja-JP.md README.zh-CN.md; do
+            if [ -f "$f" ]; then
+              sed -i \
+                -e 's/Netcatty/Sensor/g' \
+                -e 's/netcatty/sensor/g' \
+                -e 's/binaricat\/netcatty/DrOlu\/Sensor/g' "$f"
+            fi
+          done
+
+          # AGENTS.md
+          if [ -f AGENTS.md ]; then
+            sed -i -e 's/Netcatty/Sensor/g' -e 's/netcatty/sensor/g' AGENTS.md
+          fi
+
+      - name: Update upstream commit marker
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          echo "${{ steps.check_changes.outputs.upstream_commit }}" > .upstream-commit
+
+      - name: Commit and push to main
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git add -A
+
+          UPSTREAM_COMMIT="${{ steps.check_changes.outputs.upstream_commit }}"
+          SHORT_COMMIT="${UPSTREAM_COMMIT:0:8}"
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "sync: upstream Netcatty @ ${SHORT_COMMIT} (rebranded)
+
+          - Merged latest changes from ${{ env.UPSTREAM_REPO }}
+          - Applied Sensor branding
+          - Updated .upstream-commit marker
+
+          Upstream commit: ${UPSTREAM_COMMIT}"
+            git push origin main
+          fi
+
+      - name: Determine next version tag
+        if: steps.check_changes.outputs.has_changes == 'true'
+        id: version
+        run: |
+          if [ -n "${{ inputs.create_tag }}" ]; then
+            NEW_TAG="${{ inputs.create_tag }}"
+            echo "Using provided tag: $NEW_TAG"
+          else
+            # Find latest vX.Y.Z tag and bump PATCH
+            LATEST_TAG=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' | sort -V | tail -1)
+            if [ -z "$LATEST_TAG" ]; then
+              LATEST_TAG="v0.0.0"
+            fi
+            echo "Latest tag: $LATEST_TAG"
+
+            # Parse major.minor.patch
+            VERSION="${LATEST_TAG#v}"
+            MAJOR=$(echo "$VERSION" | cut -d. -f1)
+            MINOR=$(echo "$VERSION" | cut -d. -f2)
+            PATCH=$(echo "$VERSION" | cut -d. -f3 | cut -d- -f1)
+            NEW_PATCH=$((PATCH + 1))
+            NEW_TAG="v${MAJOR}.${MINOR}.${NEW_PATCH}"
+            echo "Auto-bumped tag: $NEW_TAG"
+          fi
+
+          echo "new_tag=$NEW_TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Create and push release tag
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          NEW_TAG="${{ steps.version.outputs.new_tag }}"
+          MAIN_SHA=$(git rev-parse HEAD)
+
+          echo "Creating tag $NEW_TAG at $MAIN_SHA"
+          git tag "$NEW_TAG" "$MAIN_SHA"
+          git push origin "$NEW_TAG"
+          echo "Tag $NEW_TAG pushed — build.yml release pipeline will trigger automatically"

@@ -324,7 +324,7 @@ test("prepareEtSshEnvironment uses a persistent user known_hosts file", (t) => {
   assert.equal(fs.existsSync(path.join(base, "et-ssh-home-sess1", ".ssh", "known_hosts")), false);
 });
 
-test("cleanupStaleEtTempDirs only removes Netcatty ET temp directories by prefix", (t) => {
+test("cleanupStaleEtTempDirs only removes Sensor ET temp directories by prefix", (t) => {
   const { api, base } = makeApi(t);
   const staleEtDir = path.join(base, "et-ssh-home-old-session");
   const unrelatedDir = path.join(base, "cache-et-ssh-home-keep");

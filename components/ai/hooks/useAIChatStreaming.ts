@@ -58,7 +58,7 @@ import {
 } from '../../../infrastructure/ai/providerContinuation';
 
 import {
-  getNetcattyBridge,
+  getSensorBridge,
   generateId,
   isToolResultError,
   resolveUserSkillsContext,
@@ -76,7 +76,7 @@ import {
   type ToolResultChunk,
 } from './aiChatStreamingSupport';
 
-export { getNetcattyBridge } from './aiChatStreamingSupport';
+export { getSensorBridge } from './aiChatStreamingSupport';
 export type { DefaultTargetSessionHint } from './aiChatStreamingSupport';
 
 const sharedStreamingSessionIds = new Set<string>();
@@ -585,7 +585,7 @@ export function useAIChatStreaming({
     attachedImages: Array<{ base64Data: string; mediaType: string; filename?: string; filePath?: string }>,
     context: SendToExternalContext,
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     const userSkillsContext = await resolveUserSkillsContext(
       bridge,
       trimmed,
@@ -721,7 +721,7 @@ export function useAIChatStreaming({
     context: SendToCattyContext,
     attachments?: ChatMessageAttachment[],
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     const userSkillsContext = await resolveUserSkillsContext(
       bridge,
       trimmed,

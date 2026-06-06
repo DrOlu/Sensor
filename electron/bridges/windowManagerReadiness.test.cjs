@@ -185,7 +185,7 @@ test("buildAppMenu closes a non-app window directly when Cmd+W is invoked", () =
     },
   };
 
-  buildAppMenu(Menu, { name: "Netcatty" }, true);
+  buildAppMenu(Menu, { name: "Sensor" }, true);
 
   const windowMenu = capturedTemplate.find((item) => item.label === "Window");
   assert.ok(windowMenu);
@@ -244,7 +244,7 @@ test("buildAppMenu sends Cmd+W to any registered main window renderer", () => {
   registerMainWindow(firstMainWindow);
   registerMainWindow(secondMainWindow);
   try {
-    buildAppMenu(Menu, { name: "Netcatty" }, true);
+    buildAppMenu(Menu, { name: "Sensor" }, true);
     const windowMenu = capturedTemplate.find((item) => item.label === "Window");
     const closeItem = windowMenu.submenu.find((item) => item.accelerator === "CommandOrControl+W");
 

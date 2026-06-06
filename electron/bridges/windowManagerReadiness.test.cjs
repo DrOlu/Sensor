@@ -182,7 +182,7 @@ test("buildAppMenu closes a non-app window directly when Cmd+W is invoked", () =
     },
   };
 
-  buildAppMenu(Menu, { name: "Netcatty" }, true);
+  buildAppMenu(Menu, { name: "Sensor" }, true);
 
   const windowMenu = capturedTemplate.find((item) => item.label === "Window");
   assert.ok(windowMenu);

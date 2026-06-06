@@ -545,7 +545,7 @@ function createStartSessionApi(ctx) {
         const effectiveIdentityPassphrase = inlineKey?.passphrase || identityFile?.passphrase;
 
         if (hasCertificate) {
-          authAgent = new NetcattyAgent({
+          authAgent = new SensorAgent({
             mode: "certificate",
             webContents: event.sender,
             meta: {
@@ -802,7 +802,7 @@ function createStartSessionApi(ctx) {
                         password: connectOpts.password,
                       });
                     } else if (matchingMethod.type === "agent") {
-                      const agentType = typeof connectOpts.agent === "string" ? "path" : "NetcattyAgent";
+                      const agentType = typeof connectOpts.agent === "string" ? "path" : "SensorAgent";
                       log("Trying agent auth (partial success)", { id: matchingMethod.id, agentType });
                       return callback("agent");
                     } else if (matchingMethod.type === "publickey") {
@@ -847,7 +847,7 @@ function createStartSessionApi(ctx) {
 
                 if (method.type === "agent") {
                   // Only log safe identifier, not the full agent object which may contain private keys
-                  const agentType = typeof connectOpts.agent === "string" ? "path" : "NetcattyAgent";
+                  const agentType = typeof connectOpts.agent === "string" ? "path" : "SensorAgent";
                   log("Trying agent auth", { id: method.id, agentType });
                   sendProgress(totalHops, totalHops, options.hostname, 'auth-attempt', 'SSH agent');
                   // Return "agent" string to use SSH agent for authentication

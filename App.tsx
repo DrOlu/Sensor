@@ -378,7 +378,7 @@ function App({ settings }: { settings: SettingsState }) {
       const isLocal = logView.log.protocol === 'local' || logView.log.hostname === 'localhost';
       return `${t('tabs.logPrefix')} ${isLocal ? t('tabs.logLocal') : logView.log.hostname}`;
     }
-    return 'Netcatty';
+    return 'Sensor';
   }, [activeTabId, editorTabFileNameCounts, editorTabs, logViews, sessionById, t, workspaceById]);
 
   useEffect(() => {

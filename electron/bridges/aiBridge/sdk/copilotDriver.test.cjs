@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { approveNetcattyMcpOnly, buildCopilotClientOptions, buildCopilotSessionOptions, buildCopilotMessageOptions, extractCopilotContent, mapCopilotModels, runCopilotTurn, translateCopilotEvent } = require("./copilotDriver.cjs");
+const { approveSensorMcpOnly, buildCopilotClientOptions, buildCopilotSessionOptions, buildCopilotMessageOptions, extractCopilotContent, mapCopilotModels, runCopilotTurn, translateCopilotEvent } = require("./copilotDriver.cjs");
 
 function collector() {
   const events = [];
@@ -57,18 +57,18 @@ test("buildCopilotSessionOptions maps injected MCP to local stdio servers", () =
   // not in buildCopilotSessionOptions.
 });
 
-test("approveNetcattyMcpOnly approves MCP permission requests and rejects local tools", () => {
+test("approveSensorMcpOnly approves MCP permission requests and rejects local tools", () => {
   assert.deepEqual(
-    approveNetcattyMcpOnly({ kind: "mcp", toolName: "terminal_execute" }),
+    approveSensorMcpOnly({ kind: "mcp", toolName: "terminal_execute" }),
     { kind: "approve-once" },
   );
   assert.deepEqual(
-    approveNetcattyMcpOnly({ kind: "shell", fullCommandText: "rm -rf /tmp/x" }),
-    { kind: "reject", feedback: "Only Netcatty MCP tools are allowed from this integration." },
+    approveSensorMcpOnly({ kind: "shell", fullCommandText: "rm -rf /tmp/x" }),
+    { kind: "reject", feedback: "Only Sensor MCP tools are allowed from this integration." },
   );
   assert.deepEqual(
-    approveNetcattyMcpOnly({ kind: "read", fileName: "/etc/passwd" }),
-    { kind: "reject", feedback: "Only Netcatty MCP tools are allowed from this integration." },
+    approveSensorMcpOnly({ kind: "read", fileName: "/etc/passwd" }),
+    { kind: "reject", feedback: "Only Sensor MCP tools are allowed from this integration." },
   );
 });
 

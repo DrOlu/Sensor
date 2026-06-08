@@ -1,5 +1,5 @@
 /**
- * Netcatty Electron Main Process
+ * Sensor Electron Main Process
  * 
  * This is the main entry point for the Electron application.
  * All major functionality has been extracted into separate bridge modules:
@@ -488,12 +488,12 @@ function hasUsableWindow() {
 }
 
 function showStartupError(err) {
-  const title = "Netcatty";
+  const title = "Sensor";
   const code = err && typeof err === "object" ? err.code : null;
   const message =
     code === "ENOENT"
-      ? "Renderer files are missing. Please reinstall or rebuild Netcatty."
-      : "Failed to load the UI. Please relaunch Netcatty.";
+      ? "Renderer files are missing. Please reinstall or rebuild Sensor."
+      : "Failed to load the UI. Please relaunch Sensor.";
 
   try {
     electronModule.dialog?.showErrorBox?.(title, message);

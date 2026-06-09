@@ -1,4 +1,4 @@
-import type { NetcattyBridge } from '../../../infrastructure/ai/cattyAgent/executor';
+import type { SensorBridge } from '../../../infrastructure/ai/cattyAgent/executor';
 import type {
   OpenAIChatAssistantFields,
   ProviderContinuationOptions,
@@ -89,7 +89,7 @@ export type StreamChunk =
   | { type: 'reasoning-end' | 'text-start' | 'text-end' | 'start' | 'finish' | 'start-step' | 'finish-step' | 'tool-approval-request' };
 
 /** Shape of the netcatty bridge exposed on `window` (panel-specific subset). */
-export interface PanelBridge extends NetcattyBridge {
+export interface PanelBridge extends SensorBridge {
   credentialsDecrypt?: (value: string) => Promise<string>;
   aiSyncProviders?: (providers: Array<{ id: string; providerId: string; apiKey?: string; baseURL?: string; enabled: boolean }>) => Promise<{ ok: boolean }>;
   aiSyncWebSearch?: (apiHost: string | null, apiKey: string | null) => Promise<{ ok: boolean }>;
@@ -153,7 +153,7 @@ export function toAssistantModelContent(parts: AssistantContentPart[]): string |
 }
 
 /** Typed accessor for the netcatty bridge on the window object. */
-export function getNetcattyBridge(): PanelBridge | undefined {
+export function getSensorBridge(): PanelBridge | undefined {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (window as any).netcatty as PanelBridge | undefined;
 }
@@ -175,7 +175,7 @@ interface UserSkillsContextResult {
 
 function buildExplicitUserSkillsFallback(selectedUserSkillSlugs?: string[]): string {
   if (!selectedUserSkillSlugs?.length) return '';
-  return `The user explicitly selected these Netcatty user skills for this request: ${selectedUserSkillSlugs.map((slug) => `/${slug}`).join(', ')}. Honor those selections even if their expanded skill content is unavailable.`;
+  return `The user explicitly selected these Sensor user skills for this request: ${selectedUserSkillSlugs.map((slug) => `/${slug}`).join(', ')}. Honor those selections even if their expanded skill content is unavailable.`;
 }
 
 export async function resolveUserSkillsContext(

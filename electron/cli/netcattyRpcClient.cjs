@@ -77,7 +77,7 @@ function loadDiscovery() {
   } catch (err) {
     throw createError(
       "APP_NOT_RUNNING",
-      `Netcatty is not running or discovery file is missing at ${discoveryPath}. Start Netcatty first.`,
+      `Sensor is not running or discovery file is missing at ${discoveryPath}. Start Sensor first.`,
     );
   }
 
@@ -87,14 +87,14 @@ function loadDiscovery() {
   } catch (err) {
     throw createError(
       "DISCOVERY_INVALID",
-      `Netcatty discovery file at ${discoveryPath} is invalid JSON.`,
+      `Sensor discovery file at ${discoveryPath} is invalid JSON.`,
     );
   }
 
   if (!parsed?.port || !parsed?.token) {
     throw createError(
       "DISCOVERY_INVALID",
-      `Netcatty discovery file at ${discoveryPath} is missing required port/token fields.`,
+      `Sensor discovery file at ${discoveryPath} is missing required port/token fields.`,
     );
   }
 
@@ -107,7 +107,7 @@ async function connectClient() {
     const sock = net.createConnection({ host: "127.0.0.1", port: discovery.port }, () => resolve(sock));
     sock.setEncoding("utf8");
     sock.once("error", (err) => {
-      reject(createError("CONNECT_FAILED", `Failed to connect to Netcatty TCP bridge: ${err?.message || err}`));
+      reject(createError("CONNECT_FAILED", `Failed to connect to Sensor TCP bridge: ${err?.message || err}`));
     });
   });
 
@@ -165,12 +165,12 @@ async function connectClient() {
 
   socket.on("error", (err) => {
     rejectAllPending(
-      createError("CONNECTION_ERROR", `Connection to Netcatty TCP bridge failed: ${err?.message || err}`),
+      createError("CONNECTION_ERROR", `Connection to Sensor TCP bridge failed: ${err?.message || err}`),
     );
   });
 
   socket.on("close", () => {
-    rejectAllPending(createError("CONNECTION_CLOSED", "Connection to Netcatty TCP bridge closed."));
+    rejectAllPending(createError("CONNECTION_CLOSED", "Connection to Sensor TCP bridge closed."));
   });
 
   let bridgeCommandTimeoutMs = null;
@@ -179,7 +179,7 @@ async function connectClient() {
 
   async function call(method, params) {
     if (socket.destroyed || !socket.writable) {
-      throw createError("CONNECTION_CLOSED", "Connection to Netcatty TCP bridge is closed.");
+      throw createError("CONNECTION_CLOSED", "Connection to Sensor TCP bridge is closed.");
     }
     const id = nextRpcId++;
     const timeoutMs = resolveRpcTimeoutMs(
@@ -192,7 +192,7 @@ async function connectClient() {
       const timeoutId = setTimeout(() => {
         rejectPending(
           id,
-          createError("RPC_TIMEOUT", `Timed out waiting for Netcatty RPC response to "${method}" after ${timeoutMs}ms.`),
+          createError("RPC_TIMEOUT", `Timed out waiting for Sensor RPC response to "${method}" after ${timeoutMs}ms.`),
         );
       }, timeoutMs);
 
@@ -205,7 +205,7 @@ async function connectClient() {
             if (err) {
               rejectPending(
                 id,
-                createError("WRITE_FAILED", `Failed to send Netcatty RPC "${method}": ${err?.message || err}`),
+                createError("WRITE_FAILED", `Failed to send Sensor RPC "${method}": ${err?.message || err}`),
               );
             }
           },
@@ -213,7 +213,7 @@ async function connectClient() {
       } catch (err) {
         rejectPending(
           id,
-          createError("WRITE_FAILED", `Failed to send Netcatty RPC "${method}": ${err?.message || err}`),
+          createError("WRITE_FAILED", `Failed to send Sensor RPC "${method}": ${err?.message || err}`),
         );
       }
     });
@@ -221,7 +221,7 @@ async function connectClient() {
 
   const authResult = await call("auth/verify", { token: discovery.token });
   if (!authResult?.ok) {
-    throw createError("AUTH_FAILED", "Failed to authenticate to Netcatty TCP bridge.");
+    throw createError("AUTH_FAILED", "Failed to authenticate to Sensor TCP bridge.");
   }
 
   try {

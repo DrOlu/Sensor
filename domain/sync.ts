@@ -576,7 +576,7 @@ export const SYNC_CONSTANTS = {
   
   // Sync
   SYNC_FILE_NAME: 'netcatty-vault.json',
-  GIST_DESCRIPTION: 'Netcatty Encrypted Vault (DO NOT EDIT MANUALLY)',
+  GIST_DESCRIPTION: 'Sensor Encrypted Vault (DO NOT EDIT MANUALLY)',
   
   // Auto-sync
   DEFAULT_AUTO_SYNC_INTERVAL: 5, // minutes
@@ -619,7 +619,7 @@ export const generateDeviceId = (): string => {
  */
 export const getDefaultDeviceName = (): string => {
   const platform = navigator.platform || 'Unknown';
-  const hostname = 'Netcatty';
+  const hostname = 'Sensor';
   return `${hostname} (${platform})`;
 };
 

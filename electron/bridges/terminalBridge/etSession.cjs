@@ -5,7 +5,7 @@
 // via `ctx`; `with (ctx)` exposes them as free identifiers.
 //
 // Unlike Mosh, the `et` client performs its own SSH bootstrap and ET protocol
-// handshake — Netcatty just spawns the bundled `et` binary as a PTY. Saved
+// handshake — Sensor just spawns the bundled `et` binary as a PTY. Saved
 // credentials (password / passphrase / jump host) are injected into et's
 // internal ssh via a private ~/.ssh home + SSH_ASKPASS helper, since et drives
 // ssh itself rather than exposing the prompts for us to type into.
@@ -78,7 +78,7 @@ main();
 `;
 
     /**
-     * Resolve Netcatty's bundled `et` client. System `et` installs are
+     * Resolve Sensor's bundled `et` client. System `et` installs are
      * intentionally ignored so dev, CI, and release builds exercise the same
      * binary (mirrors resolveBareMoshClient).
      */
@@ -225,7 +225,7 @@ main();
     function prepareEtSshEnvironment(sessionId, options) {
       const jumpHosts = Array.isArray(options.jumpHosts) ? options.jumpHosts : [];
       if (jumpHosts.length > 1) {
-        throw new Error("EternalTerminal currently supports at most one jump host in Netcatty.");
+        throw new Error("EternalTerminal currently supports at most one jump host in Sensor.");
       }
 
       const tempDir = tempDirBridge.getTempFilePath(`et-ssh-home-${sessionId}`);
@@ -482,7 +482,7 @@ main();
      */
     function cleanupStaleEtTempDirs() {
       try {
-        const tempDir = tempDirBridge.getTempDir?.() || path.join(os.tmpdir(), "Netcatty");
+        const tempDir = tempDirBridge.getTempDir?.() || path.join(os.tmpdir(), "Sensor");
         if (!fs.existsSync(tempDir)) return;
         const entries = fs.readdirSync(tempDir);
         for (const entry of entries) {
@@ -567,7 +567,7 @@ main();
     }
 
     /**
-     * Start an EternalTerminal session using Netcatty's bundled `et` client.
+     * Start an EternalTerminal session using Sensor's bundled `et` client.
      */
     async function startEtSession(event, options) {
       const sessionId =

@@ -1,10 +1,10 @@
 import { RemoteHistoryEntry, RemoteHistorySource } from './models';
 
-/** Marker prefix Netcatty AI uses when executing commands via the PTY bridge. */
+/** Marker prefix Sensor AI uses when executing commands via the PTY bridge. */
 export const NETCATTY_AI_HISTORY_MARKER = '__NCMCP_';
 
-/** True when a shell history line came from Netcatty AI PTY exec, not the user. */
-export function isNetcattyAiHistoryCommand(command: string): boolean {
+/** True when a shell history line came from Sensor AI PTY exec, not the user. */
+export function isSensorAiHistoryCommand(command: string): boolean {
   return command.includes(NETCATTY_AI_HISTORY_MARKER);
 }
 
@@ -214,7 +214,7 @@ export function mergeRemoteHistory(
   const seen = new Set<string>();
   const merged: RemoteHistoryEntry[] = [];
   for (const { entry } of indexed) {
-    if (isNetcattyAiHistoryCommand(entry.command)) continue;
+    if (isSensorAiHistoryCommand(entry.command)) continue;
     if (seen.has(entry.command)) continue;
     seen.add(entry.command);
     merged.push(entry);

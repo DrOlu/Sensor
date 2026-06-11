@@ -1,5 +1,5 @@
 import type { ShellHistoryEntry } from './models';
-import { isNetcattyAiHistoryCommand } from './remoteHistory';
+import { isSensorAiHistoryCommand } from './remoteHistory';
 
 const makeId = (): string => {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
@@ -12,7 +12,7 @@ const makeId = (): string => {
 export function shouldRecordGlobalHistoryCommand(command: string): boolean {
   const cmd = command.trim();
   if (!cmd) return false;
-  if (isNetcattyAiHistoryCommand(cmd)) return false;
+  if (isSensorAiHistoryCommand(cmd)) return false;
   return true;
 }
 

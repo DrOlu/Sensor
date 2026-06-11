@@ -8,9 +8,9 @@ type ClipboardImageFile = {
 };
 
 type RemoteClipboardImageBridge = Pick<
-  NetcattyBridge,
+  SensorBridge,
   "readClipboardImage" | "openSftpForSession" | "startStreamTransfer"
-> & Pick<Partial<NetcattyBridge>, "closeSftp" | "deleteTempFile">;
+> & Pick<Partial<SensorBridge>, "closeSftp" | "deleteTempFile">;
 
 type TerminalLike = {
   focus?: () => void;

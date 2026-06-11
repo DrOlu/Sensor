@@ -7,7 +7,7 @@ import {
   parseFishHistory,
   parseShellHistory,
   mergeRemoteHistory,
-  isNetcattyAiHistoryCommand,
+  isSensorAiHistoryCommand,
 } from './remoteHistory.ts';
 
 test('parseBashHistory: plain lines', () => {
@@ -180,20 +180,20 @@ test('mergeRemoteHistory: timestamped entries rank above untimestamped ones', ()
   );
 });
 
-test('isNetcattyAiHistoryCommand: detects AI PTY marker lines', () => {
+test('isSensorAiHistoryCommand: detects AI PTY marker lines', () => {
   assert.equal(
-    isNetcattyAiHistoryCommand('__NCMCP_abc123=0; ls -la'),
+    isSensorAiHistoryCommand('__NCMCP_abc123=0; ls -la'),
     true,
   );
   assert.equal(
-    isNetcattyAiHistoryCommand('/opt/frp/frps.toml__NCMCP_mp56jbh6_3e30833'),
+    isSensorAiHistoryCommand('/opt/frp/frps.toml__NCMCP_mp56jbh6_3e30833'),
     true,
   );
-  assert.equal(isNetcattyAiHistoryCommand('ls -la'), false);
-  assert.equal(isNetcattyAiHistoryCommand('grep NCMCP log.txt'), false);
+  assert.equal(isSensorAiHistoryCommand('ls -la'), false);
+  assert.equal(isSensorAiHistoryCommand('grep NCMCP log.txt'), false);
 });
 
-test('mergeRemoteHistory: drops Netcatty AI PTY history lines', () => {
+test('mergeRemoteHistory: drops Sensor AI PTY history lines', () => {
   const lists = [
     parseBashHistory(
       ['ls -la', '__NCMCP_abc=0; pwd', 'git status'].join('\n'),

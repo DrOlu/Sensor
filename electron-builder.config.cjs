@@ -5,11 +5,11 @@ const { etExtraResources } = require('./scripts/et-extra-resources.cjs');
  * @type {import('electron-builder').Configuration}
  */
 module.exports = {
-    appId: 'com.netcatty.app',
-    productName: 'Netcatty',
+    appId: 'ng.hyperspace.sensor',
+    productName: 'Sensor',
     artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
     // Give the macOS build a unique Mach-O LC_UUID before signing, so macOS
-    // Local Network privacy treats Netcatty distinctly from every other
+    // Local Network privacy treats Sensor distinctly from every other
     // Electron app (which all share Electron's prebuilt LC_UUID) — see #1040
     // and scripts/afterPackMacUuid.cjs. No-op on Windows/Linux.
     beforePack: './scripts/beforePackCursorSdk.cjs',
@@ -46,7 +46,7 @@ module.exports = {
         'public/**/*',
         'node_modules/**/*',
         // ── Exclude per-platform native agent binaries (~100s of MB each). ──
-        // Netcatty is "bring your own CLI": each SDK is pointed at the user's
+        // Sensor is "bring your own CLI": each SDK is pointed at the user's
         // system-installed CLI via an absolute path override (claude
         // pathToClaudeCodeExecutable / codex codexPathOverride / copilot cliPath).
         // Only the SDKs' JS is bundled; the heavy per-arch binaries are dropped.
@@ -100,14 +100,15 @@ module.exports = {
             }
         ],
         category: 'public.app-category.developer-tools',
-        hardenedRuntime: true,
-        notarize: true,
+        hardenedRuntime: false,
+        identity: null,
+        notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',
         extendInfo: {
-            NSCameraUsageDescription: 'Netcatty may use the camera for video calls',
-            NSMicrophoneUsageDescription: 'Netcatty may use the microphone for audio',
-            NSLocalNetworkUsageDescription: 'Netcatty needs local network access for SSH connections'
+            NSCameraUsageDescription: 'Sensor may use the camera for video calls',
+            NSMicrophoneUsageDescription: 'Sensor may use the microphone for audio',
+            NSLocalNetworkUsageDescription: 'Sensor needs local network access for SSH connections'
         },
         extraResources: [...moshExtraResources('darwin'), ...etExtraResources('darwin')]
     },
@@ -148,7 +149,7 @@ module.exports = {
         allowToChangeInstallationDirectory: true,
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-        shortcutName: 'Netcatty'
+        shortcutName: 'Sensor'
     },
     linux: {
         // Linux .deb/.rpm/AppImage icons come from build/icons/* (see
@@ -177,8 +178,8 @@ module.exports = {
     publish: [
         {
             provider: 'github',
-            owner: 'binaricat',
-            repo: 'Netcatty',
+            owner: 'DrOlu',
+            repo: 'Sensor',
             releaseType: 'release'
         }
     ]

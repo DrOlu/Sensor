@@ -3,8 +3,8 @@ import type { Messages } from '../types';
 export const zhCNTerminalMessages: Messages = {
   'terminal.sudoHint.pressEnter': '按 Enter 粘贴 sudo 密码',
   'terminal.connection.protocol.et': 'EternalTerminal',
-  'terminal.et.proxyUnsupported': 'EternalTerminal 目前不支持 Netcatty 的代理设置。请改用 SSH，或移除该主机的代理。',
-  'terminal.et.multiJumpUnsupported': 'EternalTerminal 目前在 Netcatty 中最多支持一个跳板机。',
+  'terminal.et.proxyUnsupported': 'EternalTerminal 目前不支持 Sensor 的代理设置。请改用 SSH，或移除该主机的代理。',
+  'terminal.et.multiJumpUnsupported': 'EternalTerminal 目前在 Sensor 中最多支持一个跳板机。',
   // Command history side panel
   'history.scope.label': '历史范围',
   'history.tab.host': '主机',

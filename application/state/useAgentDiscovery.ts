@@ -2,12 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 import type { DiscoveredAgent, ExternalAgentConfig } from '../../infrastructure/ai/types';
 import { getExternalAgentSdkBackend } from '../../infrastructure/ai/managedAgents';
 
-interface NetcattyBridge {
+interface SensorBridge {
   aiDiscoverAgents(options?: { refreshShellEnv?: boolean; apiKeyPresent?: boolean }): Promise<DiscoveredAgent[]>;
 }
 
-function getBridge(): NetcattyBridge | undefined {
-  return (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+function getBridge(): SensorBridge | undefined {
+  return (window as unknown as { netcatty?: SensorBridge }).netcatty;
 }
 
 export function useAgentDiscovery(

@@ -360,7 +360,7 @@ test("execOnEtSession requireTrustedHost uses strict host-key checking", async (
   assert.match(strictContent, /host\.example ssh-ed25519 vaultblob/);
 });
 
-test("cleanupStaleEtTempDirs only removes Netcatty ET temp directories by prefix", (t) => {
+test("cleanupStaleEtTempDirs only removes Sensor ET temp directories by prefix", (t) => {
   const { api, base } = makeApi(t);
   const staleEtDir = path.join(base, "et-ssh-home-old-session");
   const unrelatedDir = path.join(base, "cache-et-ssh-home-keep");

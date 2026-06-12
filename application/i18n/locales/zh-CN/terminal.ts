@@ -5,8 +5,8 @@ export const zhCNTerminalMessages: Messages = {
   'terminal.toolbar.timestampsEnable': '显示时间戳',
   'terminal.toolbar.timestampsDisable': '隐藏时间戳',
   'terminal.connection.protocol.et': 'EternalTerminal',
-  'terminal.et.proxyUnsupported': 'EternalTerminal 目前不支持 Netcatty 的代理设置。请改用 SSH，或移除该主机的代理。',
-  'terminal.et.multiJumpUnsupported': 'EternalTerminal 目前在 Netcatty 中最多支持一个跳板机。',
+  'terminal.et.proxyUnsupported': 'EternalTerminal 目前不支持 Sensor 的代理设置。请改用 SSH，或移除该主机的代理。',
+  'terminal.et.multiJumpUnsupported': 'EternalTerminal 目前在 Sensor 中最多支持一个跳板机。',
   // Command history side panel
   'history.scope.label': '历史范围',
   'history.tab.host': '主机',

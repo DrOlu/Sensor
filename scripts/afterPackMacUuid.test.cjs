@@ -120,7 +120,7 @@ test("patchMachOBuffer reports zero when there is no LC_UUID", () => {
 test("adHocSignAppBundle signs the full app bundle on macOS hosts", () => {
   const calls = [];
 
-  const didSign = adHocSignAppBundle("/tmp/Netcatty.app", {
+  const didSign = adHocSignAppBundle("/tmp/Sensor.app", {
     hostPlatform: "darwin",
     execFileSync: (bin, args, options) => {
       calls.push({ bin, args, options });
@@ -137,7 +137,7 @@ test("adHocSignAppBundle signs the full app bundle on macOS hosts", () => {
         "--sign",
         "-",
         "--timestamp=none",
-        "/tmp/Netcatty.app",
+        "/tmp/Sensor.app",
       ],
       options: { stdio: ["ignore", "pipe", "pipe"] },
     },
@@ -147,7 +147,7 @@ test("adHocSignAppBundle signs the full app bundle on macOS hosts", () => {
 test("adHocSignAppBundle skips non-macOS hosts", () => {
   let called = false;
 
-  const didSign = adHocSignAppBundle("/tmp/Netcatty.app", {
+  const didSign = adHocSignAppBundle("/tmp/Sensor.app", {
     hostPlatform: "linux",
     execFileSync: () => {
       called = true;

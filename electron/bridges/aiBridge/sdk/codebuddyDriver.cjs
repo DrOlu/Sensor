@@ -117,7 +117,7 @@ function buildCodebuddyQueryOptions({
     allowedTools: builtinTools,
     disallowedTools: [...UI_DISALLOWED_TOOLS],
     // Keep the SDK isolated from user/project settings so local hooks, plugins,
-    // or extra MCP servers cannot expand Netcatty's controlled tool boundary.
+    // or extra MCP servers cannot expand Sensor's controlled tool boundary.
     settingSources: [],
     env,
   };

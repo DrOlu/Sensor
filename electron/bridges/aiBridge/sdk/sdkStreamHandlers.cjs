@@ -249,8 +249,8 @@ function buildSdkTurnPrompt({
     if (hints.length > 0) {
       sections.push(
         [
-          "[Attached files: these paths are local to the machine running Netcatty, not remote hosts. Inspect them locally if needed.]",
-          "[If local filesystem tools are unavailable, use Netcatty's list_attachments and read_attachment MCP tools to inspect these user-supplied files.]",
+          "[Attached files: these paths are local to the machine running Sensor, not remote hosts. Inspect them locally if needed.]",
+          "[If local filesystem tools are unavailable, use Sensor's list_attachments and read_attachment MCP tools to inspect these user-supplied files.]",
           ...hints,
         ].join("\n"),
       );

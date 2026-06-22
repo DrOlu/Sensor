@@ -10,7 +10,7 @@ export const zhCNTerminalMessages: Messages = {
   'terminal.toolbar.detach': '移出到独立标签',
   'terminal.menu.detach': '从工作区移出',
   'terminal.osc7Setup.title': '配置目录追踪',
-  'terminal.osc7Setup.desc': 'Netcatty 会为当前远端用户添加 OSC 7 提示符配置。这样在 sudo 或 su 之后，SFTP 也能继续跟随终端目录。',
+  'terminal.osc7Setup.desc': 'Sensor 会为当前远端用户添加 OSC 7 提示符配置。这样在 sudo 或 su 之后，SFTP 也能继续跟随终端目录。',
   'terminal.osc7Setup.targets': '可能写入的文件',
   'terminal.osc7Setup.command': '将执行的命令',
   'terminal.osc7Setup.run': '执行配置',
@@ -18,8 +18,8 @@ export const zhCNTerminalMessages: Messages = {
   'terminal.toolbar.timestampsEnable': '显示时间戳',
   'terminal.toolbar.timestampsDisable': '隐藏时间戳',
   'terminal.connection.protocol.et': 'EternalTerminal',
-  'terminal.et.proxyUnsupported': 'EternalTerminal 目前不支持 Netcatty 的代理设置。请改用 SSH，或移除该主机的代理。',
-  'terminal.et.multiJumpUnsupported': 'EternalTerminal 目前在 Netcatty 中最多支持一个跳板机。',
+  'terminal.et.proxyUnsupported': 'EternalTerminal 目前不支持 Sensor 的代理设置。请改用 SSH，或移除该主机的代理。',
+  'terminal.et.multiJumpUnsupported': 'EternalTerminal 目前在 Sensor 中最多支持一个跳板机。',
   // Command history side panel
   'history.scope.label': '历史范围',
   'history.tab.host': '主机',
@@ -99,8 +99,8 @@ export const zhCNTerminalMessages: Messages = {
   'settings.sftp.doubleClickBehavior.openDesc': '使用默认应用程序打开文件',
   'settings.sftp.doubleClickBehavior.transferDesc': '将文件传输到另一窗格的活动主机',
   'settings.sshDeepLink.title': 'SSH 链接',
-  'settings.sshDeepLink.enable': '用 Netcatty 打开 ssh:// 链接',
-  'settings.sshDeepLink.enableDesc': '允许 Netcatty 接管来自浏览器和其他应用的 ssh:// 链接。',
+  'settings.sshDeepLink.enable': '用 Sensor 打开 ssh:// 链接',
+  'settings.sshDeepLink.enableDesc': '允许 Sensor 接管来自浏览器和其他应用的 ssh:// 链接。',
 
   // Settings > SFTP Auto Sync
   'settings.sftp.autoSync': '自动同步到远程',

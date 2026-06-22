@@ -23,7 +23,7 @@ test("isSshDeepLinkUrl accepts only ssh URLs", () => {
 test("collectSshDeepLinkUrls extracts ssh URLs from process arguments", () => {
   assert.deepEqual(
     collectSshDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "ssh://alice@example.com",
       "file:///tmp/example",

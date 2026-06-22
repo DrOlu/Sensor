@@ -1,8 +1,8 @@
 
 declare global {
-  interface NetcattyBridge {
-    getWindowsPtyInfo?(): NetcattyWindowsPtyInfo | null;
-    startSSHSession(options: NetcattySSHOptions): Promise<string>;
+  interface SensorBridge {
+    getWindowsPtyInfo?(): SensorWindowsPtyInfo | null;
+    startSSHSession(options: SensorSSHOptions): Promise<string>;
     startTelnetSession?(options: {
       sessionId?: string;
       hostname: string;
@@ -62,7 +62,7 @@ declare global {
       skipEcdsaHostKey?: boolean;
       algorithmOverrides?: import("../../domain/models").HostAlgorithmOverrides;
       knownHosts?: import("../../domain/models").KnownHost[];
-      jumpHosts?: NetcattyJumpHost[];
+      jumpHosts?: SensorJumpHost[];
       agentForwarding?: boolean;
       sudoAutofillPassword?: string;
       cols?: number;

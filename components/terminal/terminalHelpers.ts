@@ -302,7 +302,7 @@ function buildPosixSnippetRestoreCommand(encodedCommand: string): string {
     `__netcatty_cmd_b64='${encodedCommand}'`,
     "__netcatty_cmd=\"$(printf %s \"$__netcatty_cmd_b64\" | base64 -d 2>/dev/null || printf %s \"$__netcatty_cmd_b64\" | base64 -D 2>/dev/null)\"",
     "__netcatty_decode_status=$?",
-    "if [ \"$__netcatty_decode_status\" -eq 0 ]; then eval \"$__netcatty_cmd\"; __netcatty_status=$?; else printf '%s\\n' 'Netcatty: failed to decode protected snippet command' >&2; __netcatty_status=127; fi",
+    "if [ \"$__netcatty_decode_status\" -eq 0 ]; then eval \"$__netcatty_cmd\"; __netcatty_status=$?; else printf '%s\\n' 'Sensor: failed to decode protected snippet command' >&2; __netcatty_status=127; fi",
     "__netcatty_restore",
     "trap - INT TERM EXIT",
     "unset __netcatty_stty_state __netcatty_cmd_b64 __netcatty_cmd __netcatty_decode_status",
@@ -330,7 +330,7 @@ function buildPortableCurrentShellSnippetRestoreCommand(command: string): string
     "eval $__netcatty_cmd",
     "set __netcatty_status $status",
     "else",
-    "printf '%s\\n' 'Netcatty: failed to decode protected snippet command' >&2",
+    "printf '%s\\n' 'Sensor: failed to decode protected snippet command' >&2",
     "set __netcatty_status 127",
     "end",
     `${writeStatus} "$__netcatty_status"`,
@@ -340,14 +340,14 @@ function buildPortableCurrentShellSnippetRestoreCommand(command: string): string
   const posixRunner = [
     `__netcatty_cmd="$(printf %s '${encodedCommand}' | base64 -d 2>/dev/null || printf %s '${encodedCommand}' | base64 -D 2>/dev/null)"`,
     "__netcatty_decode_status=$?",
-    "if [ \"$__netcatty_decode_status\" -eq 0 ]; then eval \"$__netcatty_cmd\"; __netcatty_status=$?; else printf '%s\\n' 'Netcatty: failed to decode protected snippet command' >&2; __netcatty_status=127; fi",
+    "if [ \"$__netcatty_decode_status\" -eq 0 ]; then eval \"$__netcatty_cmd\"; __netcatty_status=$?; else printf '%s\\n' 'Sensor: failed to decode protected snippet command' >&2; __netcatty_status=127; fi",
     `${writeStatus} "$__netcatty_status"`,
     "unset __netcatty_cmd __netcatty_decode_status __netcatty_status",
     "true",
   ].join("; ");
   const tempDirGuard = `sh -c '${safeTempDirCheck}' sh ${tempDir}`;
   const runFailure = [
-    "printf '%s\\n' 'Netcatty: failed to create private temp directory' >&2",
+    "printf '%s\\n' 'Sensor: failed to create private temp directory' >&2",
     "false",
   ].join("; ");
   const runInCurrentShell = [

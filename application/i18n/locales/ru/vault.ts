@@ -131,7 +131,7 @@ export const ruVaultMessages: Messages = {
   'pf.type.menu.dynamic': 'Динамический проброс',
   'pf.type.local.desc': 'Локальный проброс позволяет обращаться к прослушиваемому порту удалённого сервера так, как будто он локальный.',
   'pf.type.remote.desc': 'Удалённый проброс открывает порт на удалённой машине и перенаправляет подключения на локальный (текущий) хост.',
-  'pf.type.dynamic.desc': 'Динамический проброс портов превращает Netcatty в SOCKS-прокси-сервер.',
+  'pf.type.dynamic.desc': 'Динамический проброс портов превращает Sensor в SOCKS-прокси-сервер.',
   'pf.wizard.type.title': 'Выберите тип проброса портов:',
   'pf.wizard.localConfig.title': 'Укажите локальный порт и адрес привязки:',
   'pf.wizard.localConfig.desc': 'Этот порт будет открыт на локальном (текущем) устройстве и будет принимать трафик.',
@@ -412,8 +412,8 @@ export const ruVaultMessages: Messages = {
   'settings.sftp.doubleClickBehavior.openDesc': 'Открыть файл в приложении по умолчанию',
   'settings.sftp.doubleClickBehavior.transferDesc': 'Передать файл на активный хост другой панели',
   'settings.sshDeepLink.title': 'SSH-ссылки',
-  'settings.sshDeepLink.enable': 'Открывать ssh:// ссылки в Netcatty',
-  'settings.sshDeepLink.enableDesc': 'Разрешить Netcatty обрабатывать ssh:// ссылки из браузеров и других приложений.',
+  'settings.sshDeepLink.enable': 'Открывать ssh:// ссылки в Sensor',
+  'settings.sshDeepLink.enableDesc': 'Разрешить Sensor обрабатывать ssh:// ссылки из браузеров и других приложений.',
 
   // Settings > SFTP Auto Sync
   'settings.sftp.autoSync': 'Автосинхронизация с удалённым сервером',

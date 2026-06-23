@@ -38,7 +38,7 @@ test("parseOpenCodeModel splits provider/model ids", () => {
   assert.equal(parseOpenCodeModel(""), undefined);
 });
 
-test("buildOpenCodeConfig isolates local tools and injects Netcatty MCP", () => {
+test("buildOpenCodeConfig isolates local tools and injects Sensor MCP", () => {
   const cfg = buildOpenCodeConfig({
     model: "openai/gpt-5.1",
     injectedMcpServers: [{
@@ -461,7 +461,7 @@ test("runOpenCodeTurn creates a session, streams event deltas, and returns sessi
   ]);
 });
 
-test("runOpenCodeTurn sends Netcatty context via body.system instead of user parts", async () => {
+test("runOpenCodeTurn sends Sensor context via body.system instead of user parts", async () => {
   const { events, emitter } = collector();
   const abortController = new AbortController();
   const stream = {
@@ -475,7 +475,7 @@ test("runOpenCodeTurn sends Netcatty context via body.system instead of user par
     session: {
       create: async () => ({ data: { id: "sess-1" } }),
       promptAsync: async (args) => {
-        assert.equal(args.body.system, "[Context: You are inside Netcatty.]");
+        assert.equal(args.body.system, "[Context: You are inside Sensor.]");
         assert.deepEqual(args.body.parts, [{ type: "text", text: "看看这个机器的配置" }]);
         return { data: true };
       },
@@ -484,7 +484,7 @@ test("runOpenCodeTurn sends Netcatty context via body.system instead of user par
 
   await runOpenCodeTurn({
     prompt: "看看这个机器的配置",
-    systemPrompt: "[Context: You are inside Netcatty.]",
+    systemPrompt: "[Context: You are inside Sensor.]",
     emitter,
     abortController,
     openCodeFactory: async () => ({ client, server: { close() {} } }),

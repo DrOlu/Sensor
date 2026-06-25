@@ -11,7 +11,7 @@ const os = require("node:os");
 const crypto = require("node:crypto");
 const { exec } = require("node:child_process");
 const { Client: SSHClient, utils: sshUtils } = require("ssh2");
-const { NetcattyAgent } = require("./netcattyAgent.cjs");
+const { SensorAgent } = require("./netcattyAgent.cjs");
 const keyboardInteractiveHandler = require("./keyboardInteractiveHandler.cjs");
 const passphraseHandler = require("./passphraseHandler.cjs");
 const hostKeyVerifier = require("./hostKeyVerifier.cjs");
@@ -606,7 +606,7 @@ async function connectThroughChain(event, options, jumpHosts, targetHost, target
 
       let authAgent = null;
       if (hasCertificate) {
-        authAgent = new NetcattyAgent({
+        authAgent = new SensorAgent({
           mode: "certificate",
           webContents: event.sender,
           meta: {
@@ -802,7 +802,7 @@ const { createStartSessionApi } = require("./sshBridge/startSession.cjs");
 const startSessionApi = createStartSessionApi({
   get sessions() { return sessions; },
   get electronModule() { return electronModule; },
-  SSHClient, sshUtils, NetcattyAgent, keyboardInteractiveHandler, passphraseHandler, hostKeyVerifier,
+  SSHClient, sshUtils, SensorAgent, keyboardInteractiveHandler, passphraseHandler, hostKeyVerifier,
   fs, path, os, net, crypto, Buffer, process, console, setTimeout, clearTimeout,
   createProxySocket, attachX11Forwarding, createPtyOutputBuffer, sessionLogStreamManager,
   trackSessionIdlePrompt, looksLikeIdleAutoLogout, createZmodemSentry, enableSshNoDelay, enableTcpNoDelay,
@@ -821,7 +821,7 @@ const startSessionApi = createStartSessionApi({
 const { startSSHSession } = startSessionApi;
 const { createExecCommandApi } = require("./sshBridge/execCommand.cjs");
 const execCommandApi = createExecCommandApi({
-  SSHClient, NetcattyAgent, randomUUID, console, setTimeout, clearTimeout, Error,
+  SSHClient, SensorAgent, randomUUID, console, setTimeout, clearTimeout, Error,
   findAllDefaultPrivateKeysFromHelper, preparePrivateKeyForAuth, loadIdentityFileForAuth,
   isPassphraseCancelledError, buildAlgorithms, buildAuthHandler, applyAuthToConnOpts,
   createKeyboardInteractiveHandler,
@@ -998,7 +998,7 @@ async function startSSHSessionWrapper(event, options) {
 const { createSystemKnownHostsApi } = require("./sshBridge/systemKnownHosts.cjs");
 // Lets the Mosh stats companion trust a host whose key is already recorded in
 // the user's system OpenSSH known_hosts (the trust source the Mosh handshake's
-// system `ssh` actually uses), in addition to Netcatty's in-app vault.
+// system `ssh` actually uses), in addition to Sensor's in-app vault.
 const { isHostKeyTrustedBySystem } = createSystemKnownHostsApi({
   fs, path, os, crypto, log,
 });
@@ -1006,7 +1006,7 @@ const { isHostKeyTrustedBySystem } = createSystemKnownHostsApi({
 const { createMoshStatsConnectionApi } = require("./sshBridge/moshStatsConnection.cjs");
 const { ensureMoshStatsConnection, ensureEtStatsConnection } = createMoshStatsConnectionApi({
   get sessions() { return sessions; },
-  SSHClient, sshUtils, NetcattyAgent, buildAlgorithms, getSshAgentSocket,
+  SSHClient, sshUtils, SensorAgent, buildAlgorithms, getSshAgentSocket,
   readFileNoFollow, expandIdentityFilePath, isAutoFillablePasswordChallenge,
   hostKeyVerifier, isHostKeyTrustedBySystem, log,
 });

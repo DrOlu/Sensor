@@ -66,7 +66,7 @@ test("downloadToTemp applies shared SFTP transfer limits to direct fastGet downl
     app: {
       getPath: () => tempDir,
       getVersion: () => "0.0.0",
-      getName: () => "Netcatty",
+      getName: () => "Sensor",
     },
     BrowserWindow: { getAllWindows: () => [] },
     shell: { openExternal() {}, openPath() {} },

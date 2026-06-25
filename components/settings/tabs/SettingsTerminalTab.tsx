@@ -248,7 +248,7 @@ function SettingsTerminalTab(props: {
 
   // Fetch default shell on mount
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     if (bridge?.getDefaultShell) {
       bridge.getDefaultShell().then((shell) => {
         setDefaultShell(shell);
@@ -260,7 +260,7 @@ function SettingsTerminalTab(props: {
 
   // Validate shell path when it changes (only for custom paths, not discovered shell ids)
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     const shellPath = terminalSettings.localShell;
 
     if (!shellPath) {
@@ -298,7 +298,7 @@ function SettingsTerminalTab(props: {
 
   // Validate directory path when it changes
   useEffect(() => {
-    const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+    const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
     const dirPath = terminalSettings.localStartDir;
 
     if (!dirPath) {

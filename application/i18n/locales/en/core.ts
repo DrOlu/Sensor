@@ -136,7 +136,7 @@ export const enCoreMessages: Messages = {
   'settings.update.downloadError': 'Download failed.',
   'settings.update.manualDownload': 'Download from GitHub',
   'settings.update.manualDownloadHint': 'Auto-update is not available on this platform. Download the latest version from GitHub.',
-  'settings.update.hint': 'Netcatty checks for updates from GitHub Releases.',
+  'settings.update.hint': 'Sensor checks for updates from GitHub Releases.',
   'settings.update.lastCheckedJustNow': 'just now',
   'settings.update.lastCheckedMinutesAgo': '{n} min ago',
   'settings.update.lastCheckedHoursAgo': '{n} hr ago',
@@ -211,7 +211,7 @@ export const enCoreMessages: Messages = {
   'tray.recentHosts': 'Recent Hosts',
   'tray.empty.title': 'Nothing here yet',
   'tray.empty.subtitle': 'Go connect to a server, they miss you 🚀',
-  'tray.quit': 'Quit Netcatty',
+  'tray.quit': 'Quit Sensor',
 
   // Vault Sidebar
   'vault.sidebar.collapse': 'Collapse sidebar',

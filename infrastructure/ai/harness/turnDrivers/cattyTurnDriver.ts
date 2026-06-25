@@ -16,7 +16,7 @@ import {
 import { clearChatSessionCancelled } from '../agentStop';
 import { prepareStepContext } from '../contextManager';
 import { isRequestTooLargeError } from '../../errorClassifier';
-import { getNetcattyBridge, generateId, resolveUserSkillsContext } from '../../../../components/ai/hooks/aiChatStreamingSupport';
+import { getSensorBridge, generateId, resolveUserSkillsContext } from '../../../../components/ai/hooks/aiChatStreamingSupport';
 import {
   buildCattySdkMessages,
   collectOpenAIChatAssistantFieldsForMessages,
@@ -55,7 +55,7 @@ async function runCattyTurn(input: CattyTurnInput, ctx: TurnDriverContext): Prom
     ui,
   } = input;
 
-  const netcattyBridge = bridge ?? getNetcattyBridge();
+  const netcattyBridge = bridge ?? getSensorBridge();
   await clearChatSessionCancelled(sessionId, netcattyBridge);
   if (netcattyBridge.aiMcpUpdateSessions) {
     await netcattyBridge.aiMcpUpdateSessions(context.terminalSessions, sessionId);

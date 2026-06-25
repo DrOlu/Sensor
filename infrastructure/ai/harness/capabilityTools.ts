@@ -1,6 +1,6 @@
 import { tool } from 'ai';
 import { z } from 'zod';
-import type { NetcattyBridge } from '../cattyAgent/executor';
+import type { SensorBridge } from '../cattyAgent/executor';
 import type { TerminalContextReadRange } from '../../../domain/terminalContextRead';
 import type { AIPermissionMode } from '../types';
 import type { WebSearchConfig } from '../types';
@@ -63,7 +63,7 @@ function unwrap<T>(r: ToolExecResult<T>): T | { error: string } {
 }
 
 async function invokeCapabilityRpc(
-  bridge: NetcattyBridge,
+  bridge: SensorBridge,
   rpcMethod: string,
   params: Record<string, unknown>,
   chatSessionId?: string,
@@ -79,7 +79,7 @@ async function invokeCapabilityRpc(
 }
 
 async function tryFetchHostEnvironment(
-  bridge: NetcattyBridge,
+  bridge: SensorBridge,
   chatSessionId?: string,
 ): Promise<Record<string, unknown> | null> {
   if (!bridge.aiCapability || !chatSessionId) return null;
@@ -452,7 +452,7 @@ function createCatalogTool(
 }
 
 export function createCattyToolsFromCatalog(
-  bridge: NetcattyBridge,
+  bridge: SensorBridge,
   context: ToolDeps['context'],
   commandBlocklist?: string[],
   permissionMode: AIPermissionMode = 'confirm',

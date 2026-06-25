@@ -22,12 +22,12 @@ import { classifyError } from '../../../infrastructure/ai/errorClassifier';
 import { latestAISessionsSnapshot } from '../../../application/state/aiStateSnapshots';
 import {
   generateId,
-  getNetcattyBridge,
+  getSensorBridge,
   type DefaultTargetSessionHint,
   type TerminalSessionInfo,
 } from './aiChatStreamingSupport';
 
-export { getNetcattyBridge } from './aiChatStreamingSupport';
+export { getSensorBridge } from './aiChatStreamingSupport';
 export type { DefaultTargetSessionHint } from './aiChatStreamingSupport';
 
 const sharedStreamingSessionIds = new Set<string>();
@@ -184,7 +184,7 @@ export function useAIChatStreaming({
     attachedImages: Array<{ base64Data: string; mediaType: string; filename?: string; filePath?: string }>,
     context: SendToExternalContext,
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     await getAgentRuntime().runTurn({
       backend: 'external-sdk',
       chatSessionId: sessionId,
@@ -208,7 +208,7 @@ export function useAIChatStreaming({
     context: SendToCattyContext,
     attachments?: ChatMessageAttachment[],
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     try {
       await getAgentRuntime().runTurn({
         backend: 'catty',

@@ -69,7 +69,7 @@ function applyTypedMessageCompression(messages: ModelMessage[]): {
 
 function buildReinjectionMessages(reinjection?: PostCompactReinjection): ModelMessage[] {
   if (!reinjection) return [];
-  const lines: string[] = ['[Netcatty session context — preserved after compaction]'];
+  const lines: string[] = ['[Sensor session context — preserved after compaction]'];
   if (reinjection.permissionMode) {
     lines.push(`Permission mode: ${reinjection.permissionMode}`);
   }

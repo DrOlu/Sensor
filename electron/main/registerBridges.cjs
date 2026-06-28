@@ -412,7 +412,7 @@ function createBridgeRegistrar(context) {
         }
         const title = typeof payload.title === "string" && payload.title.trim()
           ? payload.title.trim()
-          : "Netcatty";
+          : "Sensor";
         const win = await getWindowManager().createWindow(electronModule, {
           preload,
           devServerUrl: effectiveDevServerUrl,
@@ -797,7 +797,7 @@ function createBridgeRegistrar(context) {
       console.log(`[Main]   File name: ${fileName}`);
       
       const client = require("../bridges/sftpBridge.cjs");
-      // Use tempDirBridge for dedicated Netcatty temp directory
+      // Use tempDirBridge for dedicated Sensor temp directory
       const localPath = await getTempDirBridge().getTempFilePath(fileName);
       
       console.log(`[Main]   Local temp path: ${localPath}`);
@@ -903,11 +903,11 @@ function createBridgeRegistrar(context) {
     // Delete a temp file (for cleanup when editors close)
     ipcMain.handle("netcatty:deleteTempFile", async (_event, { filePath }) => {
       try {
-        // Only allow deleting files in Netcatty temp directory for security
+        // Only allow deleting files in Sensor temp directory for security
         const netcattyTempDir = path.resolve(getTempDirBridge().getTempDir());
         const resolvedPath = path.resolve(String(filePath || ""));
         if (!isPathInside(netcattyTempDir, resolvedPath)) {
-          console.warn(`[Main] Refused to delete file outside Netcatty temp dir: ${filePath}`);
+          console.warn(`[Main] Refused to delete file outside Sensor temp dir: ${filePath}`);
           return { success: false };
         }
         

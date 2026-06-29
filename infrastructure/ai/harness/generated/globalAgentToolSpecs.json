@@ -1338,7 +1338,7 @@
     "toolName": "scripts_reference",
     "rpcMethod": "vault/scripts/reference",
     "localExecution": false,
-    "description": "Return Netcatty automation script syntax: nct API, triggers, host targeting, and source wrapping rules. Returns full Netcatty automation script syntax reference (nct API, triggers, host targeting). Read before authoring scripts.",
+    "description": "Return Sensor automation script syntax: nct API, triggers, host targeting, and source wrapping rules. Returns full Sensor automation script syntax reference (nct API, triggers, host targeting). Read before authoring scripts.",
     "inputShape": {},
     "policy": {
       "write": false,

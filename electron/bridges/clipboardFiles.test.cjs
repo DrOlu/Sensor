@@ -157,7 +157,7 @@ test("creates stable clipboard image file names", () => {
   );
 });
 
-test("writes clipboard image to Netcatty temp directory", async () => {
+test("writes clipboard image to Sensor temp directory", async () => {
   const writes = [];
   const content = Buffer.from([1, 2, 3]);
   const result = await readClipboardImage({

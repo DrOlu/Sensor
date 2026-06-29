@@ -36,7 +36,7 @@ function dedupePatterns(patterns) {
   return [...new Set(patterns.filter(Boolean))];
 }
 
-function buildNetcattySkillsOpenCodePathAllowlist({
+function buildSensorSkillsOpenCodePathAllowlist({
   launcherPath,
   cliScriptPath,
   skillPath,
@@ -81,7 +81,7 @@ function buildOpenCodeSkillsPermissionRules(pathAllowlist = []) {
 }
 
 module.exports = {
-  buildNetcattySkillsOpenCodePathAllowlist,
+  buildSensorSkillsOpenCodePathAllowlist,
   buildOpenCodeSkillsPermissionRules,
   toOpenCodeDirectoryGlob,
   toOpenCodeFileParentGlob,

@@ -32,43 +32,43 @@ export const useTerminalBackend = () => {
     return !!bridge?.execCommand;
   }, []);
 
-  const startSSHSession = useCallback(async (options: NetcattySSHOptions) => {
+  const startSSHSession = useCallback(async (options: SensorSSHOptions) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.startSSHSession) throw new Error("startSSHSession unavailable");
     return bridge.startSSHSession(options);
   }, []);
 
-  const startTelnetSession = useCallback(async (options: Parameters<NonNullable<NetcattyBridge["startTelnetSession"]>>[0]) => {
+  const startTelnetSession = useCallback(async (options: Parameters<NonNullable<SensorBridge["startTelnetSession"]>>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.startTelnetSession) throw new Error("startTelnetSession unavailable");
     return bridge.startTelnetSession(options);
   }, []);
 
-  const startMoshSession = useCallback(async (options: Parameters<NonNullable<NetcattyBridge["startMoshSession"]>>[0]) => {
+  const startMoshSession = useCallback(async (options: Parameters<NonNullable<SensorBridge["startMoshSession"]>>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.startMoshSession) throw new Error("startMoshSession unavailable");
     return bridge.startMoshSession(options);
   }, []);
 
-  const startEtSession = useCallback(async (options: Parameters<NonNullable<NetcattyBridge["startEtSession"]>>[0]) => {
+  const startEtSession = useCallback(async (options: Parameters<NonNullable<SensorBridge["startEtSession"]>>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.startEtSession) throw new Error("startEtSession unavailable");
     return bridge.startEtSession(options);
   }, []);
 
-  const startLocalSession = useCallback(async (options: Parameters<NonNullable<NetcattyBridge["startLocalSession"]>>[0]) => {
+  const startLocalSession = useCallback(async (options: Parameters<NonNullable<SensorBridge["startLocalSession"]>>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.startLocalSession) throw new Error("startLocalSession unavailable");
     return bridge.startLocalSession(options);
   }, []);
 
-  const startSerialSession = useCallback(async (options: Parameters<NonNullable<NetcattyBridge["startSerialSession"]>>[0]) => {
+  const startSerialSession = useCallback(async (options: Parameters<NonNullable<SensorBridge["startSerialSession"]>>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.startSerialSession) throw new Error("startSerialSession unavailable");
     return bridge.startSerialSession(options);
   }, []);
 
-  const execCommand = useCallback(async (options: Parameters<NetcattyBridge["execCommand"]>[0]) => {
+  const execCommand = useCallback(async (options: Parameters<SensorBridge["execCommand"]>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.execCommand) throw new Error("execCommand unavailable");
     return bridge.execCommand(options);
@@ -82,12 +82,12 @@ export const useTerminalBackend = () => {
     return bridge.setupOsc7Tracking(sessionId, command);
   }, []);
 
-  const writeToSession = useCallback((sessionId: string, data: string, options?: Parameters<NonNullable<NetcattyBridge["writeToSession"]>>[2]) => {
+  const writeToSession = useCallback((sessionId: string, data: string, options?: Parameters<NonNullable<SensorBridge["writeToSession"]>>[2]) => {
     const bridge = netcattyBridge.get();
     bridge?.writeToSession?.(sessionId, data, options);
   }, []);
 
-  const interruptSession = useCallback((sessionId: string, trace?: NetcattyTerminalInterruptTrace) => {
+  const interruptSession = useCallback((sessionId: string, trace?: SensorTerminalInterruptTrace) => {
     const bridge = netcattyBridge.get();
     if (bridge?.interruptSession) {
       bridge.interruptSession(sessionId, trace);
@@ -125,7 +125,7 @@ export const useTerminalBackend = () => {
   const onSessionData = useCallback((
     sessionId: string,
     cb: (data: string) => void,
-    options?: Parameters<NetcattyBridge["onSessionData"]>[2],
+    options?: Parameters<SensorBridge["onSessionData"]>[2],
   ) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.onSessionData) throw new Error("onSessionData unavailable");
@@ -168,7 +168,7 @@ export const useTerminalBackend = () => {
     return bridge?.onWindowFullScreenChanged?.(cb);
   }, []);
 
-  const onHostKeyVerification = useCallback((cb: Parameters<NonNullable<NetcattyBridge["onHostKeyVerification"]>>[0]) => {
+  const onHostKeyVerification = useCallback((cb: Parameters<NonNullable<SensorBridge["onHostKeyVerification"]>>[0]) => {
     const bridge = netcattyBridge.get();
     return bridge?.onHostKeyVerification?.(cb);
   }, []);
@@ -278,7 +278,7 @@ export const useTerminalBackend = () => {
 
   const onZmodemEvent = useCallback((
     sessionId: string,
-    cb: Parameters<NonNullable<NetcattyBridge["onZmodemEvent"]>>[1],
+    cb: Parameters<NonNullable<SensorBridge["onZmodemEvent"]>>[1],
   ) => {
     const bridge = netcattyBridge.get();
     return bridge?.onZmodemEvent?.(sessionId, cb) ?? (() => {});

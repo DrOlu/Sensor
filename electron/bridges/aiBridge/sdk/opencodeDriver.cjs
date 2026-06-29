@@ -545,7 +545,7 @@ async function runOpenCodeTurn({
 
     if (!sessionId) {
       const created = await client.session.create({
-        body: { title: "Netcatty OpenCode" },
+        body: { title: "Sensor OpenCode" },
         query: directoryQuery,
       });
       sessionId = created?.data?.id || created?.id || null;

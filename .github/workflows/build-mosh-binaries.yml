@@ -6,7 +6,7 @@ name: build-mosh-binaries
 #    Artifacts upload as workflow artifacts only; *no* release.
 #  - Manual `workflow_dispatch` with `release_tag` publishes the
 #    binaries + SHA256SUMS to the dedicated binary repository
-#    (`binaricat/Netcatty-mosh-bin` by default).
+#    (`DrOlu/Sensor-mosh-bin` by default).
 #
 # `paths` keeps unrelated commits (UI, bridges, etc) from rebuilding
 # or refreshing mosh binaries on every push.
@@ -24,7 +24,7 @@ on:
       release_repo:
         description: "Repository that stores mosh-client binary releases."
         type: string
-        default: "binaricat/Netcatty-mosh-bin"
+        default: "DrOlu/Sensor-mosh-bin"
   push:
     branches:
       - "**"
@@ -131,7 +131,7 @@ jobs:
   # ------------------------------------------------------------------
   # Windows x64 pinned runtime bundle.
   # Do not compile this in CI: rebuilding the upstream Cygwin client here
-  # previously regressed Windows startup. Ship the SHA256-pinned Netcatty
+  # previously regressed Windows startup. Ship the SHA256-pinned Sensor
   # bundle with DLLs + terminfo, plus the FluentTerminal standalone fallback,
   # verified by fetch-windows.sh.
   # ------------------------------------------------------------------
@@ -213,7 +213,7 @@ jobs:
           {
             printf '%s\n' 'Pre-built `mosh-client` binaries consumed by `scripts/fetch-mosh-binaries.cjs` during `npm run pack`.'
             printf 'Linux/macOS artifacts are built from `mobile-shell/mosh` upstream ref `%s`.\n' "${MOSH_REF}"
-            printf '%s\n\n' 'Windows x64 is the SHA256-pinned Netcatty runtime bundle, with the FluentTerminal standalone `mosh-client.exe` kept as a fallback asset.'
+            printf '%s\n\n' 'Windows x64 is the SHA256-pinned Sensor runtime bundle, with the FluentTerminal standalone `mosh-client.exe` kept as a fallback asset.'
             printf 'Source workflow: %s/%s/actions/runs/%s\n' "${GITHUB_SERVER_URL}" "${GITHUB_REPOSITORY}" "${GITHUB_RUN_ID}"
             printf 'Source commit: `%s`\n\n' "${GITHUB_SHA}"
             printf '%s\n' 'All artifacts are GPL-3.0; see `resources/mosh/README.md` for source provenance.'

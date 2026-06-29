@@ -282,7 +282,7 @@ function createMoshSessionApi(ctx) {
         try {
           fs.unlinkSync(file);
         } catch {
-          // Best effort cleanup; Settings > System can clear Netcatty temp files.
+          // Best effort cleanup; Settings > System can clear Sensor temp files.
         }
       }
     }
@@ -575,7 +575,7 @@ function createMoshSessionApi(ctx) {
       // good. Stash them so sshBridge can lazily open a best-effort companion
       // SSH connection for host-info stats (CPU/mem/disk), which Mosh's UDP
       // channel cannot provide on its own (issue #1198). Only credentials
-      // Netcatty already holds are kept — a password typed interactively into
+      // Sensor already holds are kept — a password typed interactively into
       // the handshake PTY is not captured, so that case degrades gracefully.
       session.moshStatsAuth = {
         // Use the configured SSH host, NOT parsed.host: a `MOSH IP` line
@@ -677,7 +677,7 @@ function createMoshSessionApi(ctx) {
     /**
      * Start a Mosh session.
      *
-     * Netcatty only uses its bundled `mosh-client` binary here. System
+     * Sensor only uses its bundled `mosh-client` binary here. System
      * `mosh` / `mosh-client` installs are intentionally ignored so dev,
      * CI, and release builds exercise the same binary.
      */
@@ -706,7 +706,7 @@ function createMoshSessionApi(ctx) {
         fileExists: (p) => isExecutableFile(p) || fs.existsSync(p),
       });
       if (!sshExe) {
-        throw new Error("OpenSSH client not found. Netcatty needs ssh to start the remote mosh-server handshake.");
+        throw new Error("OpenSSH client not found. Sensor needs ssh to start the remote mosh-server handshake.");
       }
     
       return startMoshSessionViaHandshake(event, options, { bareClient, sshExe });

@@ -98,7 +98,7 @@ export const isEraseViewportSequence = (params: CsiParam[]): boolean =>
   params.length > 0 && params[0] === 2;
 
 /**
- * Netcatty preserves visible rows in scrollback before CSI 2 J so shell `clear`
+ * Sensor preserves visible rows in scrollback before CSI 2 J so shell `clear`
  * does not discard history. TUIs inside DEC 2026 sync blocks or the alternate
  * screen expect an in-place erase instead.
  */

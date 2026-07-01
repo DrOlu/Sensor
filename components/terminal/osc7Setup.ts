@@ -1,4 +1,4 @@
-export const OSC7_MARKER = "Netcatty OSC 7 cwd tracking";
+export const OSC7_MARKER = "Sensor OSC 7 cwd tracking";
 
 export const OSC7_SETUP_TARGETS = [
   "~/.bashrc",
@@ -94,7 +94,7 @@ const URL_PATH_AWK_SCRIPT_QUOTED = quoteForSingleQuotedShellString(URL_PATH_AWK_
 const BASH_DELETE_MARKED_HISTORY_COMMAND = String.raw`if test -n "${DOLLAR}{BASH_VERSION-}"; then __netcatty_osc7_history_cleanup_marker__=1; __netcatty_osc7_history_line=$(HISTTIMEFORMAT= builtin history 1 2>/dev/null) || __netcatty_osc7_history_line=""; case "$__netcatty_osc7_history_line" in *__netcatty_osc7_history_cleanup_marker__=1*) __netcatty_osc7_history_number=$(printf "%s\n" "$__netcatty_osc7_history_line" | sed "s/^ *\([0-9][0-9]*\).*/\1/"); case "$__netcatty_osc7_history_number" in ""|*[!0-9]*) ;; *) builtin history -d "$__netcatty_osc7_history_number" 2>/dev/null || true;; esac;; esac; unset __netcatty_osc7_history_cleanup_marker__ __netcatty_osc7_history_line __netcatty_osc7_history_number 2>/dev/null || true; fi`;
 
 const POSIX_SETUP_SCRIPT = String.raw`set -eu
-marker="# >>> Netcatty OSC 7 cwd tracking >>>"
+marker="# >>> Sensor OSC 7 cwd tracking >>>"
 SELF=$$
 expected_cwd="${DOLLAR}{NETCATTY_OSC7_EXPECTED_CWD:-}"
 
@@ -168,12 +168,12 @@ fi
 
 if [ -d /proc ] && [ -n "$expected_cwd" ]; then
   if [ -z "$active_shell_pid" ]; then
-    printf "Netcatty OSC 7 setup: could not identify the active terminal shell\n" >&2
+    printf "Sensor OSC 7 setup: could not identify the active terminal shell\n" >&2
     exit 4
   fi
   active_cwd=$(readlink "/proc/$active_shell_pid/cwd" 2>/dev/null || true)
   if [ "$active_cwd" != "$expected_cwd" ]; then
-    printf "Netcatty OSC 7 setup: active terminal shell did not match the current tab\n" >&2
+    printf "Sensor OSC 7 setup: active terminal shell did not match the current tab\n" >&2
     exit 4
   fi
 fi
@@ -192,7 +192,7 @@ if [ -n "$active_shell_pid" ]; then
     active_zdotdir=$(read_proc_env_value "$active_env_file" ZDOTDIR || true)
     active_xdg_config_home=$(read_proc_env_value "$active_env_file" XDG_CONFIG_HOME || true)
   elif [ "$active_shell_pid" != "$login_shell_pid" ]; then
-    printf "Netcatty OSC 7 setup: cannot silently configure an active shell owned by another user\n" >&2
+    printf "Sensor OSC 7 setup: cannot silently configure an active shell owned by another user\n" >&2
     exit 3
   fi
 fi
@@ -216,7 +216,7 @@ case "$shell_name" in
   zsh) config="$zdotdir/.zshrc" ;;
   fish) config="$xdg_config_home/fish/config.fish" ;;
   *)
-    printf "Netcatty OSC 7 setup: unsupported shell %s\n" "$shell_name" >&2
+    printf "Sensor OSC 7 setup: unsupported shell %s\n" "$shell_name" >&2
     printf "Supported shells: bash, zsh, fish\n" >&2
     exit 2
     ;;
@@ -235,7 +235,7 @@ else
     bash)
       cat >> "$config" <<'NETCATTY_OSC7_BASH'
 
-# >>> Netcatty OSC 7 cwd tracking >>>
+# >>> Sensor OSC 7 cwd tracking >>>
 __netcatty_osc7_url_path() {
   printf "%s" "$1" | LC_ALL=C awk '${URL_PATH_AWK_SCRIPT}'
 }
@@ -253,13 +253,13 @@ osc7_cwd"
     fi
     ;;
 esac
-# <<< Netcatty OSC 7 cwd tracking <<<
+# <<< Sensor OSC 7 cwd tracking <<<
 NETCATTY_OSC7_BASH
       ;;
     zsh)
       cat >> "$config" <<'NETCATTY_OSC7_ZSH'
 
-# >>> Netcatty OSC 7 cwd tracking >>>
+# >>> Sensor OSC 7 cwd tracking >>>
 __netcatty_osc7_url_path() {
   printf "%s" "$1" | LC_ALL=C awk '${URL_PATH_AWK_SCRIPT}'
 }
@@ -274,20 +274,20 @@ if (( ${DOLLAR}{+precmd_functions} )); then
 else
   precmd_functions=(osc7_cwd)
 fi
-# <<< Netcatty OSC 7 cwd tracking <<<
+# <<< Sensor OSC 7 cwd tracking <<<
 NETCATTY_OSC7_ZSH
       ;;
     fish)
       cat >> "$config" <<'NETCATTY_OSC7_FISH'
 
-# >>> Netcatty OSC 7 cwd tracking >>>
+# >>> Sensor OSC 7 cwd tracking >>>
 function __netcatty_osc7_url_path
     printf "%s" "$argv[1]" | LC_ALL=C awk '${URL_PATH_AWK_SCRIPT}'
 end
 function __netcatty_osc7_cwd --on-event fish_prompt
     printf '\033]7;file://%s%s\a' (hostname 2>/dev/null; or printf localhost) (__netcatty_osc7_url_path "$PWD")
 end
-# <<< Netcatty OSC 7 cwd tracking <<<
+# <<< Sensor OSC 7 cwd tracking <<<
 NETCATTY_OSC7_FISH
       ;;
   esac

@@ -42,7 +42,7 @@ export const zhTWAiMessages: Messages = {
   'ai.providers.defaultModel.placeholder': '例如 gpt-4o, claude-sonnet-4-20250514',
   'ai.providers.contextWindow': '上下文視窗',
   'ai.providers.contextWindow.placeholder': '例如 128000',
-  'ai.providers.contextWindow.help': '留空時優先使用模型列表傳回的值；如果沒有，Netcatty 會使用安全預設值。',
+  'ai.providers.contextWindow.help': '留空時優先使用模型列表傳回的值；如果沒有，Sensor 會使用安全預設值。',
   'ai.providers.contextWindow.error': '請輸入正整數，或留空。',
   'ai.providers.refreshModels': '重新整理模型列表',
   'ai.providers.searchModel': '搜尋或輸入模型 ID...',
@@ -181,12 +181,12 @@ export const zhTWAiMessages: Messages = {
   'ai.defaultAgent.description': '建立新 AI 工作階段時使用的 Agent',
   'ai.defaultAgent.catty': 'Catty（內建）',
   'ai.toolAccess.title': '工具介接',
-  'ai.toolAccess.mode': 'Netcatty 介接模式',
-  'ai.toolAccess.description': '選擇外部 Agent 存取 Netcatty 工作階段的方式。MCP 會公開內建伺服器，Skills + CLI 會引導 Agent 讀取本機 Skill 並呼叫 Netcatty CLI。',
+  'ai.toolAccess.mode': 'Sensor 介接模式',
+  'ai.toolAccess.description': '選擇外部 Agent 存取 Sensor 工作階段的方式。MCP 會公開內建伺服器，Skills + CLI 會引導 Agent 讀取本機 Skill 並呼叫 Sensor CLI。',
   'ai.toolAccess.mode.mcp': 'MCP',
   'ai.toolAccess.mode.skills': 'Skills + CLI',
   'ai.userSkills.title': '使用者 Skills',
-  'ai.userSkills.description': '開啟 Netcatty 的 Skills 資料夾以新增你自己的技能目錄。Netcatty 會自動掃描這些 skills，預設只注入輕量索引，只有在請求明顯命中某個 skill 時才展開正文。',
+  'ai.userSkills.description': '開啟 Sensor 的 Skills 資料夾以新增你自己的技能目錄。Sensor 會自動掃描這些 skills，預設只注入輕量索引，只有在請求明顯命中某個 skill 時才展開正文。',
   'ai.userSkills.openFolder': '開啟 Skills 資料夾',
   'ai.userSkills.reload': '重新載入 Skills',
   'ai.userSkills.location': '位置',
@@ -296,7 +296,7 @@ export const zhTWAiMessages: Messages = {
   'ai.chatShortcuts.selectionAction.description': '在終端裡選取文字後顯示 AI 快捷按鈕。',
 
   // AI Error
-  'ai.codex.bridgeError': 'Codex 主程序處理器尚未載入。請完全重啟 Netcatty 或重啟 Electron 開發程序，然後重試。',
+  'ai.codex.bridgeError': 'Codex 主程序處理器尚未載入。請完全重啟 Sensor 或重啟 Electron 開發程序，然後重試。',
 
   // AI Web Search
   'ai.webSearch.title': '網路搜尋',
@@ -316,17 +316,17 @@ export const zhTWAiMessages: Messages = {
   // AI Safety Settings
   'ai.safety.title': '安全',
   'ai.safety.permissionMode': '權限模式',
-  'ai.safety.permissionMode.description': '控制 AI 透過 Netcatty 存取終端工作階段的方式。觀察者模式會阻止經由 Netcatty 的寫操作；外部 Agent CLI 可能仍有自己的本機工具和審批流程。',
+  'ai.safety.permissionMode.description': '控制 AI 透過 Sensor 存取終端工作階段的方式。觀察者模式會阻止經由 Sensor 的寫操作；外部 Agent CLI 可能仍有自己的本機工具和審批流程。',
   'ai.safety.permissionMode.observer': '觀察者 - 只讀，禁止操作',
   'ai.safety.permissionMode.confirm': '確認 - 操作前詢問',
   'ai.safety.permissionMode.auto': '自動 - 自由執行',
   'ai.safety.commandTimeout': '指令超時',
-  'ai.safety.commandTimeout.description': '透過 Netcatty 執行指令時允許執行的最長秒數，超時將被終止。',
+  'ai.safety.commandTimeout.description': '透過 Sensor 執行指令時允許執行的最長秒數，超時將被終止。',
   'ai.safety.commandTimeout.unit': '秒',
   'ai.safety.maxIterations': '最大迭代次數',
   'ai.safety.maxIterations.description': '防止 AI 失控執行的最大工具呼叫迴圈次數。外部 Agent 可能有自己的內部迭代限制，以其為準。',
   'ai.safety.blocklist': '指令黑名單',
-  'ai.safety.blocklist.description': '用於攔截透過 Netcatty 執行的危險指令的正規表示式。',
+  'ai.safety.blocklist.description': '用於攔截透過 Sensor 執行的危險指令的正規表示式。',
   'ai.safety.blocklist.placeholder': '正規表示式...',
   'ai.safety.blocklist.reset': '恢復預設',
   'ai.safety.blocklist.add': '新增規則',
@@ -342,7 +342,7 @@ export const zhTWAiMessages: Messages = {
   'ai.safety.grants.remove': '刪除',
   'ai.safety.grants.export': '匯出 JSON',
   'ai.safety.grants.import': '匯入 JSON',
-  'ai.safety.note': '這些安全設定會約束經由 Netcatty 執行的操作。外部 Agent CLI 也可能提供本機工具，那部分由 Agent 自己的控制規則約束。',
+  'ai.safety.note': '這些安全設定會約束經由 Sensor 執行的操作。外部 Agent CLI 也可能提供本機工具，那部分由 Agent 自己的控制規則約束。',
 
   // 統一終端工作區和頂部標籤的 tooltip 文案 (issue #954)
   'terminal.layer.addTerminal': '新增終端',

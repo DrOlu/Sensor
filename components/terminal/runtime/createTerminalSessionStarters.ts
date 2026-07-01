@@ -256,7 +256,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
       ctx.updateStatus("disconnected");
       return;
     }
-    const jumpHosts = ctx.resolvedChainHosts.map<NetcattyJumpHost>((jumpHost, index) => {
+    const jumpHosts = ctx.resolvedChainHosts.map<SensorJumpHost>((jumpHost, index) => {
       const jumpAuth = resolveHostAuth({
         host: jumpHost,
         keys: ctx.keys,
@@ -933,7 +933,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
         agentForwarding: ctx.host.agentForwarding,
         // Forwarded for the host-info stats companion SSH connection (#1198):
         // Mosh's own handshake uses the system ssh (which reads ~/.ssh/config),
-        // but Netcatty's ssh2 companion needs these to match the host's
+        // but Sensor's ssh2 companion needs these to match the host's
         // negotiation on legacy / ECDSA-restricted servers.
         legacyAlgorithms: ctx.host.legacyAlgorithms,
         skipEcdsaHostKey: ctx.host.skipEcdsaHostKey,
@@ -999,7 +999,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
       if (hasUsableProxyConfig(ctx.host.proxyConfig)) {
         stopEt(tr(
           "terminal.et.proxyUnsupported",
-          "EternalTerminal does not currently support Netcatty proxy settings. Use SSH or remove the proxy for this host.",
+          "EternalTerminal does not currently support Sensor proxy settings. Use SSH or remove the proxy for this host.",
         ));
         return;
       }
@@ -1012,7 +1012,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
       if (configuredChainHostCount > 1 || ctx.resolvedChainHosts.length > 1) {
         stopEt(tr(
           "terminal.et.multiJumpUnsupported",
-          "EternalTerminal currently supports at most one jump host in Netcatty.",
+          "EternalTerminal currently supports at most one jump host in Sensor.",
         ));
         return;
       }
@@ -1109,7 +1109,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
 
       const jumpHostsWithUnavailableCredentials: string[] = [];
       const unsupportedJumpProxies: string[] = [];
-      const jumpHosts = ctx.resolvedChainHosts.map<NetcattyJumpHost>((jumpHost) => {
+      const jumpHosts = ctx.resolvedChainHosts.map<SensorJumpHost>((jumpHost) => {
         const jumpAuth = resolveHostAuth({
           host: jumpHost,
           keys: ctx.keys,
@@ -1173,7 +1173,7 @@ export const createTerminalSessionStarters = (ctx: TerminalSessionStartersContex
       if (unsupportedJumpProxies.length > 0) {
         stopEt(tr(
           "terminal.et.proxyUnsupported",
-          "EternalTerminal does not currently support Netcatty proxy settings. Use SSH or remove the proxy for this host.",
+          "EternalTerminal does not currently support Sensor proxy settings. Use SSH or remove the proxy for this host.",
         ));
         return;
       }

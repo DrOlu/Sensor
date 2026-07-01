@@ -72,7 +72,7 @@ export type ScriptRecordingStep =
   | { type: 'sleep'; value: number };
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     scriptRun(params: ScriptRunParams): Promise<{ runId: string; runIds: string[] }>;
     scriptStop(runId: string): Promise<{ ok: boolean }>;
     scriptPause(runId: string): Promise<{ ok: boolean }>;

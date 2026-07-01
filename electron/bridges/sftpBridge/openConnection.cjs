@@ -125,7 +125,7 @@ function createOpenConnectionApi(ctx) {
     
           let authAgent = null;
           if (hasCertificate) {
-            authAgent = new NetcattyAgent({
+            authAgent = new SensorAgent({
               mode: "certificate",
               webContents: event.sender,
               meta: {
@@ -706,7 +706,7 @@ function createOpenConnectionApi(ctx) {
     
       let authAgent = null;
       if (hasCertificate) {
-        authAgent = new NetcattyAgent({
+        authAgent = new SensorAgent({
           mode: "certificate",
           webContents: event.sender,
           meta: {

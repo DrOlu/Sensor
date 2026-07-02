@@ -25,11 +25,11 @@ export const SCRIPT_SMOKE_TEST = `// === Smoke test ===
 await nct.screen.waitForPrompt(30000);
 await nct.screen.sendLine('echo netcatty-smoke-ok');
 nct.log('Smoke test passed');
-await nct.dialog.alert('Netcatty script smoke test OK');
+await nct.dialog.alert('Sensor script smoke test OK');
 `;
 
 /** Full integration test for onConnect / manual run; dialog API enabled by default. */
-export const SCRIPT_INTEGRATION_TEST = `// Netcatty Integration Test — onConnect / manual full API exercise
+export const SCRIPT_INTEGRATION_TEST = `// Sensor Integration Test — onConnect / manual full API exercise
 // Trigger: onConnect or Run now | Permission: Auto or Confirm (dialogs need non-Observer)
 
 const CONFIG = {
@@ -44,7 +44,7 @@ const CONFIG = {
 
 async function main() {
   const tag = \`nc-it-\${Date.now().toString(36)}\`;
-  nct.log('=== Netcatty Integration Test START ===');
+  nct.log('=== Sensor Integration Test START ===');
   nct.log(\`tag=\${tag}  nct.version=\${nct.version}\`);
   nct.log(\`session: host=\${nct.session.hostname} user=\${nct.session.username} connected=\${nct.session.connected}\`);
 
@@ -146,13 +146,13 @@ async function main() {
 
   await nct.screen.sendLine(\`echo "=== \${tag} ALL_PASSED ==="\`);
   await nct.screen.waitForText(\`\${tag} ALL_PASSED\`, CONFIG.STEP_TIMEOUT_MS);
-  nct.log('=== Netcatty Integration Test PASSED ===');
+  nct.log('=== Sensor Integration Test PASSED ===');
 }
 
 await main();
 `;
 
-export const DEFAULT_SCRIPT_TEMPLATE = `// Netcatty automation script - async JS in the active terminal session
+export const DEFAULT_SCRIPT_TEMPLATE = `// Sensor automation script - async JS in the active terminal session
 //
 // nct.screen.waitForPrompt(ms?)          wait for shell prompt (# root / $ user)
 // nct.screen.waitForText(text, ms?)       wait for exact output text

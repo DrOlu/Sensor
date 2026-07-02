@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="public/icon.png" alt="Netcatty" width="128" height="128">
+  <img src="public/icon.png" alt="Sensor" width="128" height="128">
 </p>
 
-<h1 align="center">Netcatty</h1>
+<h1 align="center">Sensor</h1>
 
 <p align="center">
   <strong>🔥 AI-Powered SSH Client, SFTP Browser & Terminal Manager 🚀</strong><br/>
-  <a href="https://netcatty.app"><strong>netcatty.app</strong></a>
+  <a href="https://github.com/DrOlu/Sensor"><strong>Sensor</strong></a>
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=Release"></a>
+  <a href="https://github.com/DrOlu/Sensor/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=Release"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
@@ -23,8 +23,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest">
-    <img src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=Download%20Latest&color=success" alt="Download Latest Release">
+  <a href="https://github.com/DrOlu/Sensor/releases/latest">
+    <img src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=Download%20Latest&color=success" alt="Download Latest Release">
   </a>
 </p>
 
@@ -44,11 +44,11 @@
 
 ---
 
-<a name="catty-agent"></a>
-# 🔥 Catty Agent — Your IT Ops AI Partner
+<a name="sensor-agent"></a>
+# 🔥 Sensor Agent — Your IT Ops AI Partner
 
-> 🚀 **Boost your IT ops daily work with AI power.** Catty Agent is the built-in AI assistant that understands your servers, executes commands, and handles complex multi-host operations — all through natural conversation.
-### 🔥 What can Catty Agent do?
+> 🚀 **Boost your IT ops daily work with AI power.** Sensor Agent is the built-in AI assistant that understands your servers, executes commands, and handles complex multi-host operations — all through natural conversation.
+### 🔥 What can Sensor Agent do?
 
 - 🚀 **Natural language server management** — just tell it what you need, no more memorizing commands
 - 🔥 **Real-time server diagnostics** — check status, inspect logs, monitor resources through conversation
@@ -60,13 +60,13 @@
 
 #### 🔥 Single Host — Intelligent Server Diagnostics
 
-Ask Catty Agent to check a server's health, and it runs the right commands, analyzes the output, and gives you a clear summary — all in seconds.
+Ask Sensor Agent to check a server's health, and it runs the right commands, analyzes the output, and gives you a clear summary — all in seconds.
 
 <img width="1510" height="870" alt="ai-single" src="https://github.com/user-attachments/assets/d3f34e53-8476-4fab-8634-394b931d1ff1" />
 
 #### 🚀 Multi-Host — Docker Swarm Cluster Setup
 
-Watch Catty Agent orchestrate a Docker Swarm cluster across two servers in one conversation. It handles the init, token exchange, and node joining — you just tell it what you want.
+Watch Sensor Agent orchestrate a Docker Swarm cluster across two servers in one conversation. It handles the init, token exchange, and node joining — you just tell it what you want.
 
 <img width="1515" height="870" alt="ai-muti" src="https://github.com/user-attachments/assets/ca166fc5-65d9-4d7b-951a-962c2ef230d8" />
 
@@ -74,9 +74,9 @@ Watch Catty Agent orchestrate a Docker Swarm cluster across two servers in one c
 
 # Contents <!-- omit in toc -->
 
-- [🔥 Catty Agent — AI Partner](#catty-agent)
-- [What is Netcatty](#what-is-netcatty)
-- [Why Netcatty](#why-netcatty)
+- [🔥 Sensor Agent — AI Partner](#sensor-agent)
+- [What is Sensor](#what-is-sensor)
+- [Why Sensor](#why-sensor)
 - [Features](#features)
 - [Screenshots](#screenshots)
   - [Main Window](#main-window)
@@ -93,23 +93,23 @@ Watch Catty Agent orchestrate a Docker Swarm cluster across two servers in one c
 
 ---
 
-<a name="what-is-netcatty"></a>
-# What is Netcatty
+<a name="what-is-sensor"></a>
+# What is Sensor
 
-**Netcatty** is a modern SSH client and terminal manager for macOS, Windows, and Linux, designed for developers, sysadmins, and DevOps engineers who need to manage multiple remote servers efficiently.
+**Sensor** is a modern SSH client and terminal manager for macOS, Windows, and Linux, designed for developers, sysadmins, and DevOps engineers who need to manage multiple remote servers efficiently.
 
-- **Netcatty is** an alternative to PuTTY, Termius, SecureCRT, and macOS Terminal.app for SSH connections
-- **Netcatty is** a powerful SFTP client with dual-pane file browser
-- **Netcatty is** a terminal workspace with split panes, tabs, and session management
-- **Netcatty supports** SSH, local terminal, Telnet, Mosh, and Serial connections (when available)
-- **Netcatty is not** a shell replacement — it connects to shells via SSH/Telnet/Mosh or local/serial sessions
+- **Sensor is** an alternative to PuTTY, Termius, SecureCRT, and macOS Terminal.app for SSH connections
+- **Sensor is** a powerful SFTP client with dual-pane file browser
+- **Sensor is** a terminal workspace with split panes, tabs, and session management
+- **Sensor supports** SSH, local terminal, Telnet, Mosh, and Serial connections (when available)
+- **Sensor is not** a shell replacement — it connects to shells via SSH/Telnet/Mosh or local/serial sessions
 
 ---
 
-<a name="why-netcatty"></a>
-# Why Netcatty
+<a name="why-sensor"></a>
+# Why Sensor
 
-If you regularly work with a fleet of servers, Netcatty is built for speed and flow:
+If you regularly work with a fleet of servers, Sensor is built for speed and flow:
 
 - **Workspace-first** — split panes + tabs + session restore for “always-on” workflows
 - **Vault organization** — grid/list/tree views with fast search and drag-friendly workflows
@@ -173,7 +173,7 @@ Split panes help you monitor multiple servers/services at the same time (deploy 
 <a name="supported-distros"></a>
 # Supported Distros
 
-Netcatty automatically detects and displays OS icons for connected hosts:
+Sensor automatically detects and displays OS icons for connected hosts:
 
 <p align="center">
   <img src="public/distro/ubuntu.svg" width="48" alt="Ubuntu" title="Ubuntu">
@@ -196,7 +196,7 @@ Netcatty automatically detects and displays OS icons for connected hosts:
 
 ### Download
 
-Download the latest release for your platform from [GitHub Releases](https://github.com/binaricat/Netcatty/releases/latest).
+Download the latest release for your platform from [GitHub Releases](https://github.com/DrOlu/Sensor/releases/latest).
 
 | OS | Support |
 | :--- | :--- |
@@ -204,19 +204,19 @@ Download the latest release for your platform from [GitHub Releases](https://git
 | **Windows** | x64 / arm64 |
 | **Linux** | x64 / arm64 |
 
-Or browse all releases at [GitHub Releases](https://github.com/binaricat/Netcatty/releases).
+Or browse all releases at [GitHub Releases](https://github.com/DrOlu/Sensor/releases).
 
 > **macOS Users:** Current releases are expected to be code-signed and notarized. If Gatekeeper still warns, make sure you downloaded the latest official build from GitHub Releases.
 
 ### Nix / NixOS
 
-Netcatty provides a flake that wraps the official Linux AppImage release for Nix and NixOS users:
+Sensor provides a flake that wraps the official Linux AppImage release for Nix and NixOS users:
 
 ```bash
-nix run github:binaricat/Netcatty
+nix run github:DrOlu/Sensor
 ```
 
-For declarative installs, add the Netcatty flake as an input and use `inputs.netcatty.packages.${pkgs.system}.default` in your NixOS or Home Manager package list.
+For declarative installs, add the Sensor flake as an input and use `inputs.sensor.packages.${pkgs.system}.default` in your NixOS or Home Manager package list.
 
 ### Prerequisites
 - Node.js 18+ and npm
@@ -226,8 +226,8 @@ For declarative installs, add the Netcatty flake as an input and use `inputs.net
 
 ```bash
 # Clone the repository
-git clone https://github.com/binaricat/Netcatty.git
-cd Netcatty
+git clone https://github.com/DrOlu/Sensor.git
+cd Sensor
 
 # Install dependencies
 npm install
@@ -292,8 +292,8 @@ See [agents.md](agents.md) for architecture overview and coding conventions.
 
 Thanks to all the people who contribute!
 
-<a href="https://github.com/binaricat/Netcatty/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=binaricat/Netcatty" />
+<a href="https://github.com/DrOlu/Sensor/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DrOlu/Sensor" />
 </a>
 
 ---
@@ -308,11 +308,11 @@ This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICEN
 <a name="star-history"></a>
 # Star History
 
-<a href="https://star-history.com/#binaricat/Netcatty&Date">
+<a href="https://star-history.com/#DrOlu/Sensor&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=binaricat/Netcatty&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=binaricat/Netcatty&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=binaricat/Netcatty&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=DrOlu/Sensor&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=DrOlu/Sensor&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=DrOlu/Sensor&type=Date" />
  </picture>
 </a>
 

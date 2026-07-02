@@ -1,7 +1,7 @@
 # Bundled `mosh-client`
 
 This directory holds the network-protocol-only `mosh-client` binary
-bundled with the Netcatty installer. Netcatty drives the `ssh` +
+bundled with the Sensor installer. Sensor drives the `ssh` +
 `mosh-server` bootstrap itself and then launches this bundled client
 directly (see `electron/bridges/moshHandshake.cjs` and
 `electron/bridges/terminalBridge.cjs`).
@@ -19,15 +19,15 @@ directly (see `electron/bridges/moshHandshake.cjs` and
    | `linux-x64`       | upstream source, manylinux2014, static third-party deps + glibc |
    | `linux-arm64`     | upstream source, manylinux2014, static third-party deps + glibc |
    | `darwin-universal`| upstream source, lipo arm64 + x86_64, macOS system dylibs only  |
-   | `win32-x64`       | Netcatty-pinned runtime bundle + FluentTerminal fallback        |
+   | `win32-x64`       | Sensor-pinned runtime bundle + FluentTerminal fallback        |
    | `win32-arm64`     | (not built — Cygwin arm64 port not yet stable)                  |
 
    The upstream Cygwin Windows build is not rebuilt in this workflow by
    default. Windows releases use a SHA256-pinned bundle that was built
-   by Netcatty and verified for packaging.
+   by Sensor and verified for packaging.
 
 2. When manually dispatched with `release_tag`, that workflow publishes
-   the binaries to the dedicated `binaricat/Netcatty-mosh-bin`
+   the binaries to the dedicated `DrOlu/Sensor-mosh-bin`
    repository. The release gets a tag like `mosh-bin-1.4.0-1`, with
    `SHA256SUMS` attached.
 
@@ -44,7 +44,7 @@ directly (see `electron/bridges/moshHandshake.cjs` and
 
    Local dev uses the same binary path: `npm run dev` runs
    `npm run fetch:mosh:dev` first, which downloads the host platform's
-   bundled `mosh-client` into this gitignored directory. Netcatty does
+   bundled `mosh-client` into this gitignored directory. Sensor does
    not fall back to a system-installed `mosh` or `mosh-client`; if the
    bundled binary is missing, Mosh startup fails loudly instead of using
    whatever happens to be installed on the developer machine.
@@ -59,11 +59,11 @@ The directory is otherwise empty (binaries are gitignored).
 
 - Mosh itself is licensed under **GPL-3.0**
   (https://github.com/mobile-shell/mosh).
-- Netcatty is **GPL-3.0**, so redistribution as part of the installer
+- Sensor is **GPL-3.0**, so redistribution as part of the installer
   is permitted.
-- The default Windows x64 artifact is a SHA256-pinned Netcatty
+- The default Windows x64 artifact is a SHA256-pinned Sensor
   `mosh-client-win32-x64.tar.gz` bundle from
-  `binaricat/Netcatty-mosh-bin` release `mosh-bin-1.4.0-2`. It includes
+  `DrOlu/Sensor-mosh-bin` release `mosh-bin-1.4.0-2`. It includes
   `mosh-client.exe`, required Cygwin runtime DLLs, and the bundled
   `xterm-256color` terminfo entry. The FluentTerminal standalone
   `mosh-client.exe` from https://github.com/felixse/FluentTerminal @
@@ -96,10 +96,10 @@ For macOS the build needs an Xcode toolchain; see
   to a freshly-spawned `mosh-client` PTY when `MOSH CONNECT` is
   detected. Keystrokes that arrive after the swap go to mosh-client
   because `writeToSession` reads `session.proc` lazily.
-- Mosh startup requires Netcatty's bundled `mosh-client` and a usable
+- Mosh startup requires Sensor's bundled `mosh-client` and a usable
   `ssh` client for the remote bootstrap. System-installed `mosh` /
   `mosh-client` binaries are intentionally ignored.
-- Windows x64 currently ships the pinned Netcatty runtime bundle. The
+- Windows x64 currently ships the pinned Sensor runtime bundle. The
   old standalone client remains only as a release fallback.
 
 ## Roadmap

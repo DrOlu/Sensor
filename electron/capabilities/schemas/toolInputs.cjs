@@ -311,7 +311,7 @@ const MODEL_DESCRIPTION_HINTS = Object.freeze({
   "vault.scripts.create":
     "Create nct automation scripts. Call scripts_reference first to learn the nct API, triggers, and source wrapping rules.",
   "vault.scripts.reference":
-    "Returns full Netcatty automation script syntax reference (nct API, triggers, host targeting). Read before authoring scripts.",
+    "Returns full Sensor automation script syntax reference (nct API, triggers, host targeting). Read before authoring scripts.",
   "vault.host.connectScripts.set":
     "Sets per-host onConnect script queue order. Global targetsAllHosts scripts run first automatically.",
 });

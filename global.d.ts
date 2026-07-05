@@ -19,7 +19,7 @@ declare module 'react' {
 
 declare global {
   // Proxy configuration for SSH connections
-  interface NetcattyProxyConfig {
+  interface SensorProxyConfig {
     type: 'http' | 'socks5' | 'command';
     host: string;
     port: number;
@@ -39,7 +39,7 @@ declare global {
   }
 
   // Jump host configuration for SSH tunneling
-  interface NetcattyJumpHost {
+  interface SensorJumpHost {
     hostname: string;
     port: number;
     username: string;
@@ -51,7 +51,7 @@ declare global {
     keyId?: string;
     keySource?: 'generated' | 'imported' | 'reference';
     label?: string; // Display label for UI
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     identityFilePaths?: string[];
     // ET server port on this hop, used only when ET tunnels through it as a
     // jump host (--jport). Defaults to 2022 in the bridge when omitted.
@@ -72,7 +72,7 @@ declare global {
 
   // Host key information for verification
   // Reserved for future host key verification UI feature
-  interface _NetcattyHostKeyInfo {
+  interface _SensorHostKeyInfo {
     hostname: string;
     port: number;
     keyType: string;
@@ -80,7 +80,7 @@ declare global {
     publicKey?: string;
   }
 
-  interface NetcattySSHOptions {
+  interface SensorSSHOptions {
     sessionId?: string;
     hostLabel?: string;
     hostname: string;
@@ -107,9 +107,9 @@ declare global {
     // Environment variables to set in the remote shell
     env?: Record<string, string>;
     // Proxy configuration
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     // Jump hosts (bastion chain)
-    jumpHosts?: NetcattyJumpHost[];
+    jumpHosts?: SensorJumpHost[];
     // SSH-level keepalive interval in seconds (0 = disabled)
     keepaliveInterval?: number;
     // Unanswered keepalives before ssh2 declares the connection dead
@@ -174,8 +174,8 @@ declare global {
     passphrase?: string;
     knownHosts?: import("./domain/models").KnownHost[];
     verifyHostKeys?: boolean;
-    proxy?: NetcattyProxyConfig;
-    jumpHosts?: NetcattyJumpHost[];
+    proxy?: SensorProxyConfig;
+    jumpHosts?: SensorJumpHost[];
     identityFilePaths?: string[];
     legacyAlgorithms?: boolean;
     skipEcdsaHostKey?: boolean;
@@ -200,17 +200,17 @@ declare global {
     error?: string;
   }
 
-  interface NetcattyWindowsPtyInfo {
+  interface SensorWindowsPtyInfo {
     backend: 'conpty' | 'winpty';
     buildNumber?: number;
   }
 
   type PortForwardStatusCallback = (status: 'inactive' | 'connecting' | 'active' | 'error', error?: string) => void;
 
-  interface NetcattyBridge {}
+  interface SensorBridge {}
 
   interface Window {
-    netcatty?: NetcattyBridge;
+    netcatty?: SensorBridge;
   }
 
 }

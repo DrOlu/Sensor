@@ -34,7 +34,7 @@ jobs:
 
       - name: Add upstream remote
         run: |
-          git remote add upstream https://github.com/binaricat/netcatty.git
+          git remote add upstream https://github.com/DrOlu/Sensor.git
           git fetch upstream main --depth=1000
 
       - name: Check for upstream changes
@@ -70,7 +70,7 @@ jobs:
 
           # Check if upstream has cut a new release since we last synced.
           # Only auto-bump our tag when upstream releases — not on every commit.
-          LAST_UPSTREAM_RELEASE=$(gh release list --repo binaricat/netcatty --limit 1 \
+          LAST_UPSTREAM_RELEASE=$(gh release list --repo DrOlu/Sensor --limit 1 \
             --json tagName --jq ".[0].tagName" 2>/dev/null || echo "")
           LAST_SYNCED_RELEASE=""
           if [ -f .upstream-release ]; then
@@ -123,8 +123,8 @@ jobs:
             ! -path "./.git/*" \
             ! -path "./node_modules/*" \
             -exec sed -i \
-              -e 's|binaricat/netcatty|DrOlu/Sensor|g' \
-              -e 's|binaricat/Sensor|DrOlu/Sensor|g' \
+              -e 's|DrOlu/Sensor|DrOlu/Sensor|g' \
+              -e 's|DrOlu/Sensor|DrOlu/Sensor|g' \
               {} +
 
           # ── Sensor-specific file patches ───────────────────────────────────
@@ -141,7 +141,7 @@ jobs:
 
           # Patch 2: generate-release-note release script — owner in repo path
           if [ -f ".github/scripts/generate-release-note.js" ]; then
-            sed -i "s|binaricat/netcatty|DrOlu/Sensor|g; s|binaricat/Sensor|DrOlu/Sensor|g" \
+            sed -i "s|DrOlu/Sensor|DrOlu/Sensor|g; s|DrOlu/Sensor|DrOlu/Sensor|g" \
               .github/scripts/generate-release-note.js
           fi
 
@@ -230,7 +230,7 @@ jobs:
           echo "" >> "$GITHUB_STEP_SUMMARY"
           if [ "${{ steps.check.outputs.has_changes }}" = "true" ]; then
             UPSTREAM_SHA=$(git rev-parse --short upstream/main 2>/dev/null || echo "N/A")
-            echo "✅ Merged upstream changes (binaricat/netcatty@${UPSTREAM_SHA}) and applied Sensor rebrand." >> "$GITHUB_STEP_SUMMARY"
+            echo "✅ Merged upstream changes (DrOlu/Sensor@${UPSTREAM_SHA}) and applied Sensor rebrand." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "⏭️ No new upstream commits found." >> "$GITHUB_STEP_SUMMARY"
           fi

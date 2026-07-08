@@ -301,7 +301,7 @@ jobs:
             echo "[patch] Created $SHIM"
           fi
           # Patch 2: generate-release-note.test.cjs — fix owner in pacman URL assertions
-          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+          sed -i.bak 's|DrOlu/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
           if ! diff -q scripts/generate-release-note.test.cjs scripts/generate-release-note.test.cjs.bak > /dev/null 2>&1; then
             rm scripts/generate-release-note.test.cjs.bak
             echo "[patch] Fixed binaricat -> DrOlu in generate-release-note.test.cjs"
@@ -444,7 +444,7 @@ jobs:
             echo "[patch] Created $SHIM"
           fi
           # Patch 2: generate-release-note.test.cjs — fix owner in pacman URL assertions
-          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+          sed -i.bak 's|DrOlu/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
           if ! diff -q scripts/generate-release-note.test.cjs scripts/generate-release-note.test.cjs.bak > /dev/null 2>&1; then
             rm scripts/generate-release-note.test.cjs.bak
             echo "[patch] Fixed binaricat -> DrOlu in generate-release-note.test.cjs"
@@ -584,7 +584,7 @@ jobs:
             echo "[patch] Created $SHIM"
           fi
           # Patch 2: generate-release-note.test.cjs — fix owner in pacman URL assertions
-          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+          sed -i.bak 's|DrOlu/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
           if ! diff -q scripts/generate-release-note.test.cjs scripts/generate-release-note.test.cjs.bak > /dev/null 2>&1; then
             rm scripts/generate-release-note.test.cjs.bak
             echo "[patch] Fixed binaricat -> DrOlu in generate-release-note.test.cjs"

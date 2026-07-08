@@ -289,6 +289,27 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          # Patch 1: useSensorMonacoTheme shim
+          # ScriptCodeEditor.tsx imports this path; upstream only ships useNetcattyMonacoTheme.ts
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            echo "// Re-export shim — ScriptCodeEditor.tsx imports from this path." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from './useNetcattyMonacoTheme';" >> "$SHIM"
+            echo "[patch] Created $SHIM"
+          fi
+          # Patch 2: generate-release-note.test.cjs — fix owner in pacman URL assertions
+          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+          if ! diff -q scripts/generate-release-note.test.cjs scripts/generate-release-note.test.cjs.bak > /dev/null 2>&1; then
+            rm scripts/generate-release-note.test.cjs.bak
+            echo "[patch] Fixed binaricat -> DrOlu in generate-release-note.test.cjs"
+          else
+            rm -f scripts/generate-release-note.test.cjs.bak
+          fi
+
+
       - name: Fetch bundled mosh-client
         if: env.BUNDLE_MOSH == 'true'
         shell: bash
@@ -411,6 +432,27 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          # Patch 1: useSensorMonacoTheme shim
+          # ScriptCodeEditor.tsx imports this path; upstream only ships useNetcattyMonacoTheme.ts
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            echo "// Re-export shim — ScriptCodeEditor.tsx imports from this path." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from './useNetcattyMonacoTheme';" >> "$SHIM"
+            echo "[patch] Created $SHIM"
+          fi
+          # Patch 2: generate-release-note.test.cjs — fix owner in pacman URL assertions
+          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+          if ! diff -q scripts/generate-release-note.test.cjs scripts/generate-release-note.test.cjs.bak > /dev/null 2>&1; then
+            rm scripts/generate-release-note.test.cjs.bak
+            echo "[patch] Fixed binaricat -> DrOlu in generate-release-note.test.cjs"
+          else
+            rm -f scripts/generate-release-note.test.cjs.bak
+          fi
+
+
       - name: Install Linux packaging dependencies
         run: sudo apt-get update && sudo apt-get install -y libarchive-tools rpm
 
@@ -529,6 +571,27 @@ jobs:
 
       - name: Install deps
         run: npm ci
+
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          # Patch 1: useSensorMonacoTheme shim
+          # ScriptCodeEditor.tsx imports this path; upstream only ships useNetcattyMonacoTheme.ts
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            echo "// Re-export shim — ScriptCodeEditor.tsx imports from this path." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from './useNetcattyMonacoTheme';" >> "$SHIM"
+            echo "[patch] Created $SHIM"
+          fi
+          # Patch 2: generate-release-note.test.cjs — fix owner in pacman URL assertions
+          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+          if ! diff -q scripts/generate-release-note.test.cjs scripts/generate-release-note.test.cjs.bak > /dev/null 2>&1; then
+            rm scripts/generate-release-note.test.cjs.bak
+            echo "[patch] Fixed binaricat -> DrOlu in generate-release-note.test.cjs"
+          else
+            rm -f scripts/generate-release-note.test.cjs.bak
+          fi
+
 
       - name: Set version
         shell: bash

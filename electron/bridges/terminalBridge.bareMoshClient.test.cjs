@@ -192,12 +192,12 @@ test("Darwin mosh-client uses macOS-aware terminfo search paths", () => {
 
 test("toCygwinPath converts Windows drive paths for Cygwin ncurses", () => {
   assert.equal(
-    toCygwinPath("C:\\Program Files\\Netcatty\\resources\\mosh\\terminfo"),
-    "/cygdrive/c/Program Files/Netcatty/resources/mosh/terminfo",
+    toCygwinPath("C:\\Program Files\\Sensor\\resources\\mosh\\terminfo"),
+    "/cygdrive/c/Program Files/Sensor/resources/mosh/terminfo",
   );
   assert.equal(
-    toCygwinPath("D:/Netcatty/resources/mosh/terminfo"),
-    "/cygdrive/d/Netcatty/resources/mosh/terminfo",
+    toCygwinPath("D:/Sensor/resources/mosh/terminfo"),
+    "/cygdrive/d/Sensor/resources/mosh/terminfo",
   );
   assert.equal(toCygwinPath("/already/posix"), "/already/posix");
 });

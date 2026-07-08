@@ -35,7 +35,7 @@
 | `scripts/fetch-mosh-binaries.cjs` | `scripts/fetch-et-binaries.cjs` |
 | `scripts/resolve-mosh-bin-release.cjs` | `scripts/resolve-et-bin-release.cjs` |
 | `scripts/mosh-extra-resources.cjs` | `scripts/et-extra-resources.cjs` |
-| env `MOSH_BIN_RELEASE` / 仓库 `Netcatty-mosh-bin` / tag `mosh-bin-*` | env `ET_BIN_RELEASE` / 仓库 `Netcatty-et-bin` / tag `et-bin-*` |
+| env `MOSH_BIN_RELEASE` / 仓库 `Sensor-mosh-bin` / tag `mosh-bin-*` | env `ET_BIN_RELEASE` / 仓库 `Sensor-et-bin` / tag `et-bin-*` |
 | `npm run fetch:mosh[:dev]` | `npm run fetch:et[:dev]` |
 | `bundledMoshClient()` / `resolveBareMoshClient()` | `bundledEtClient()` / `resolveBareEtClient()` |
 | `.github/workflows/build-mosh-binaries.yml` | `.github/workflows/build-et-binaries.yml` |
@@ -45,7 +45,7 @@
 ## Phase 1 — 打包基础设施（构建/下载/捆绑）
 
 - [x] **1.1** `resources/et/README.md` —— 镜像 `resources/mosh/README.md`：说明
-      二进制来源、`Netcatty-et-bin` 发布仓库、`et-bin-*` tag、许可证（ET 为
+      二进制来源、`Sensor-et-bin` 发布仓库、`et-bin-*` tag、许可证（ET 为
       Apache-2.0，与 GPL-3.0 兼容）、可复现构建命令。
 - [x] **1.2** `.gitignore` —— 追加 ET 段（镜像 mosh 段）：
       `/resources/et/*/et`、`/resources/et/*/et.exe`、`/resources/et/*/*.dll`、
@@ -62,7 +62,7 @@
       按平台/arch 仅当 `resources/et/<plat-arch>/et[.exe]` 存在时才产出 extraResources
       指令（`to: "et/"`）；Windows 额外处理可选 DLL 目录。**去掉 terminfo 分支**。
 - [x] **1.7** `scripts/resolve-et-bin-release.cjs` —— 镜像 `resolve-mosh-bin-release.cjs`：
-      `TAG_RE=/^et-bin-.../`，默认仓库 `Netcatty-et-bin`，env `ET_BIN_RELEASE` 优先。
+      `TAG_RE=/^et-bin-.../`，默认仓库 `Sensor-et-bin`，env `ET_BIN_RELEASE` 优先。
 - [x] **1.8** `scripts/fetch-et-binaries.cjs` —— 镜像 `fetch-mosh-binaries.cjs`：
       `TARGETS` 四项（linux-x64/arm64、darwin-universal、win32-x64），全部 tar.gz；
       SHA256SUMS 校验；解包到 `resources/et/<plat-arch>/`。**Windows 用自建产物**
@@ -79,7 +79,7 @@
       linux 三处把 `etExtraResources(plat)` 合并进 `extraResources`（与 mosh 数组拼接）。
 - [x] **1.12** `.github/workflows/build-et-binaries.yml` —— 镜像
       `build-mosh-binaries.yml`：四个构建 job + 一个 `release` job（dispatch 且
-      `release_tag` 非空时发布到 `Netcatty-et-bin`，附 `SHA256SUMS`）。`paths` 过滤
+      `release_tag` 非空时发布到 `Sensor-et-bin`，附 `SHA256SUMS`）。`paths` 过滤
       指向 `scripts/build-et/**`、`scripts/fetch-et-binaries.cjs`、`scripts/et-extra-resources.cjs`。
       env 用 `ET_REF`（默认 ET release tag，如 `et-v6.2.x`）。
       > 注：实际二进制由用户手动 `workflow_dispatch` 触发产出；本地/CI 未设
@@ -120,7 +120,7 @@
       `TerminalSession.etEnabled?`；`ConnectionLog.protocol` 加 `'et'`。
       （照搬 `git show 794eecdf -- domain/models.ts`）
 - [x] **4.2** `domain/groupConfig.ts`：加 `etEnabled` 默认项（照搬旧 diff）。
-- [x] **4.3** `global.d.ts`：`NetcattyBridge` 加 `startEtSession?(options): Promise<...>`
+- [x] **4.3** `global.d.ts`：`SensorBridge` 加 `startEtSession?(options): Promise<...>`
       及相关 options 类型（照搬 `git show 794eecdf -- global.d.ts`，并补齐后续 ET 提交
       新增的 etPort/terminalPath/jumpHosts/legacyAlgorithms 字段）。
 - [x] **4.4** `electron/preload/api.cjs`：加 `startEtSession`（镜像第 26 行的
@@ -187,7 +187,7 @@
   `netcatty:et:start`/init 清理/close/quit 清理/导出），+2 测试（13 通过）。
   **et 指向捆绑二进制**（resolveBareEtClient→bundledEtClient），找不到则报错。
 - **Phase 4**：domain `connection.ts`/`history.ts`/`terminal.ts`、`groupConfig.ts`、
-  `types/global/netcatty-bridge-session.d.ts`（startEtSession + NetcattyJumpHost[]）、
+  `types/global/netcatty-bridge-session.d.ts`（startEtSession + SensorJumpHost[]）、
   `electron/preload/api.cjs`、`domain/vaultImport.ts`（排除 'et' 导入协议）。
 - **Phase 5**：
   - 启动派发：`useTerminalEffects.ts`、`Terminal.tsx`(×3) → `startEt`
@@ -207,7 +207,7 @@
 - [ ] **QuickConnectWizard.tsx**：把 ET 加为“快速连接”协议按钮（type/端口/建主机映射 +
       UI 按钮）。当前快速连接未列 ET；保存主机后开启 ET 再连即可，故仅为便利项。
 - [ ] **产出二进制**：手动 `workflow_dispatch` 跑 `build-et-binaries.yml`（带
-      `release_tag=et-bin-<ver>-1`）发布到 `Netcatty-et-bin`，并配 `ET_BIN_RELEASE_TOKEN`
+      `release_tag=et-bin-<ver>-1`）发布到 `Sensor-et-bin`，并配 `ET_BIN_RELEASE_TOKEN`
       secret。之后 `ET_BIN_RELEASE=... npm run fetch:et` 即可本地/打包捆绑 `et`。
       build-et 脚本本机无法编译 C++，需在 CI 验证。
 - [ ] **端到端冒烟**：有二进制后 `npm run dev`，对装有 etserver 的主机建 ET 会话验证。

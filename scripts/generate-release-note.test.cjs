@@ -16,7 +16,7 @@ test("release notes include Arch pacman downloads for x64 and arm64", (t) => {
       ...process.env,
       VERSION: "1.2.3",
       GITHUB_REF_NAME: "v1.2.3",
-      GITHUB_REPOSITORY: "binaricat/Netcatty",
+      GITHUB_REPOSITORY: "DrOlu/Sensor",
       GITHUB_SHA: "0123456789abcdef",
     },
     stdio: "pipe",
@@ -27,10 +27,10 @@ test("release notes include Arch pacman downloads for x64 and arm64", (t) => {
   assert.match(notes, /ArchPackage arm64/);
   assert.match(
     notes,
-    /https:\/\/github\.com\/binaricat\/Netcatty\/releases\/download\/v1\.2\.3\/Netcatty-1\.2\.3-linux-x64\.pacman/,
+    /https:\/\/github\.com\/binaricat\/Sensor\/releases\/download\/v1\.2\.3\/Sensor-1\.2\.3-linux-x64\.pacman/,
   );
   assert.match(
     notes,
-    /https:\/\/github\.com\/binaricat\/Netcatty\/releases\/download\/v1\.2\.3\/Netcatty-1\.2\.3-linux-aarch64\.pacman/,
+    /https:\/\/github\.com\/binaricat\/Sensor\/releases\/download\/v1\.2\.3\/Sensor-1\.2\.3-linux-aarch64\.pacman/,
   );
 });

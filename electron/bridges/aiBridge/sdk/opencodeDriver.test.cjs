@@ -38,7 +38,7 @@ test("parseOpenCodeModel splits provider/model ids", () => {
   assert.equal(parseOpenCodeModel(""), undefined);
 });
 
-test("buildOpenCodeConfig isolates local tools and injects Netcatty MCP", () => {
+test("buildOpenCodeConfig isolates local tools and injects Sensor MCP", () => {
   const cfg = buildOpenCodeConfig({
     model: "openai/gpt-5.1",
     injectedMcpServers: [{
@@ -67,11 +67,11 @@ test("buildOpenCodeConfig isolates local tools and injects Netcatty MCP", () => 
   });
 });
 
-test("buildOpenCodeConfig allowlists Netcatty CLI paths in skills mode", () => {
+test("buildOpenCodeConfig allowlists Sensor CLI paths in skills mode", () => {
   const cfg = buildOpenCodeConfig({
     toolIntegrationMode: "skills",
     skillsPathAllowlist: [
-      "/Applications/Netcatty.app/Contents/MacOS/**",
+      "/Applications/Sensor.app/Contents/MacOS/**",
       "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**",
     ],
   });
@@ -80,7 +80,7 @@ test("buildOpenCodeConfig allowlists Netcatty CLI paths in skills mode", () => {
   assert.equal(cfg.permission.skill, "allow");
   assert.equal(cfg.permission.list, "deny");
   assert.equal(cfg.permission.external_directory["*"], "deny");
-  assert.equal(cfg.permission.external_directory["/Applications/Netcatty.app/Contents/MacOS/**"], "allow");
+  assert.equal(cfg.permission.external_directory["/Applications/Sensor.app/Contents/MacOS/**"], "allow");
   assert.equal(
     cfg.permission.external_directory["/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**"],
     "allow",
@@ -487,7 +487,7 @@ test("runOpenCodeTurn creates a session, streams event deltas, and returns sessi
   ]);
 });
 
-test("runOpenCodeTurn sends Netcatty context via body.system instead of user parts", async () => {
+test("runOpenCodeTurn sends Sensor context via body.system instead of user parts", async () => {
   const { events, emitter } = collector();
   const abortController = new AbortController();
   const stream = {
@@ -501,7 +501,7 @@ test("runOpenCodeTurn sends Netcatty context via body.system instead of user par
     session: {
       create: async () => ({ data: { id: "sess-1" } }),
       promptAsync: async (args) => {
-        assert.equal(args.body.system, "[Context: You are inside Netcatty.]");
+        assert.equal(args.body.system, "[Context: You are inside Sensor.]");
         assert.deepEqual(args.body.parts, [{ type: "text", text: "看看这个机器的配置" }]);
         return { data: true };
       },
@@ -510,7 +510,7 @@ test("runOpenCodeTurn sends Netcatty context via body.system instead of user par
 
   await runOpenCodeTurn({
     prompt: "看看这个机器的配置",
-    systemPrompt: "[Context: You are inside Netcatty.]",
+    systemPrompt: "[Context: You are inside Sensor.]",
     emitter,
     abortController,
     openCodeFactory: async () => ({ client, server: { close() {} } }),

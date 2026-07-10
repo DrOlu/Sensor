@@ -1,6 +1,6 @@
 
 declare global {
-  interface NetcattyTerminalInterruptTrace {
+  interface SensorTerminalInterruptTrace {
     debug?: boolean;
     traceId?: string;
     source?: string;
@@ -20,7 +20,7 @@ declare global {
     };
   }
 
-  interface NetcattyTerminalOutputPerfMeta {
+  interface SensorTerminalOutputPerfMeta {
     id: string;
     emittedAt: number;
     sessionId?: string;
@@ -28,9 +28,9 @@ declare global {
     lineFeeds: number;
   }
 
-  interface NetcattyBridge {
-    getWindowsPtyInfo?(): NetcattyWindowsPtyInfo | null;
-    startSSHSession(options: NetcattySSHOptions): Promise<string>;
+  interface SensorBridge {
+    getWindowsPtyInfo?(): SensorWindowsPtyInfo | null;
+    startSSHSession(options: SensorSSHOptions): Promise<string>;
     startTelnetSession?(options: {
       sessionId?: string;
       hostname: string;
@@ -92,7 +92,7 @@ declare global {
       algorithmOverrides?: import("../../domain/models").HostAlgorithmOverrides;
       knownHosts?: import("../../domain/models").KnownHost[];
       verifyHostKeys?: boolean;
-      jumpHosts?: NetcattyJumpHost[];
+      jumpHosts?: SensorJumpHost[];
       agentForwarding?: boolean;
       sudoAutofillPassword?: string;
       cols?: number;
@@ -271,7 +271,7 @@ declare global {
         logRewrite?: { sentCommand: string; displayCommand: string };
       },
     ): void;
-    interruptSession?(sessionId: string, trace?: NetcattyTerminalInterruptTrace): void;
+    interruptSession?(sessionId: string, trace?: SensorTerminalInterruptTrace): void;
     resizeSession(sessionId: string, cols: number, rows: number): void;
     setSessionFlowPaused(sessionId: string, paused: boolean): void;
     ackSessionFlow(sessionId: string, bytes: number): void;
@@ -319,7 +319,7 @@ declare global {
         meta?: {
           droppedOutputMayAffectTerminalState?: boolean;
           droppedOutputAlternateScreenAction?: "enter" | "leave";
-          terminalPerf?: NetcattyTerminalOutputPerfMeta;
+          terminalPerf?: SensorTerminalOutputPerfMeta;
         },
       ) => void,
       options?: { replayBacklog?: boolean },

@@ -15,7 +15,7 @@ const https = require("node:https");
 
 // MoshCatty pure-Rust releases only.
 // Minimum 0.1.4: includes the Windows ConPTY shortcut-input fix. Linux builds
-// have matched Netcatty's GLIBC floors since 0.1.2.
+// have matched Sensor's GLIBC floors since 0.1.2.
 // Allow semver prerelease (-rc1) and build metadata (+meta); no path separators.
 const TAG_RE = /^moshcatty-[A-Za-z0-9._+-]+$/;
 const MIN_VERSION = { major: 0, minor: 1, patch: 4 };

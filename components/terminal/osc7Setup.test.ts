@@ -146,9 +146,9 @@ test("runOsc7SetupAction stages the script and types a short runner for user-swi
         return {
           success: false,
           stdout: `${OSC7_SETUP_OTHER_USER_MARKER}bash\n`,
-          stderr: "Netcatty OSC 7 setup: the active terminal shell belongs to another user\n",
+          stderr: "Sensor OSC 7 setup: the active terminal shell belongs to another user\n",
           code: 5,
-          error: "Netcatty OSC 7 setup: the active terminal shell belongs to another user",
+          error: "Sensor OSC 7 setup: the active terminal shell belongs to another user",
         };
       }
       return {

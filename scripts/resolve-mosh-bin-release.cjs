@@ -14,7 +14,7 @@ const fs = require("node:fs");
 const https = require("node:https");
 
 // MoshCatty pure-Rust releases only.
-// Minimum 0.1.2: earlier Linux builds linked GLIBC 2.34 (above Netcatty floors).
+// Minimum 0.1.2: earlier Linux builds linked GLIBC 2.34 (above Sensor floors).
 // Allow semver prerelease (-rc1) and build metadata (+meta); no path separators.
 const TAG_RE = /^moshcatty-[A-Za-z0-9._+-]+$/;
 const MIN_VERSION = { major: 0, minor: 1, patch: 2 };

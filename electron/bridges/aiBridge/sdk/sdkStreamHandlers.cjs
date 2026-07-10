@@ -4,7 +4,7 @@ const { getDriver, listBackends } = require("./index.cjs");
 const { buildSdkAgentEnv } = require("./env.cjs");
 const { buildInjectedMcpServers } = require("./injectMcp.cjs");
 const { createStreamEmitter } = require("./emit.cjs");
-const { buildNetcattySkillsOpenCodePathAllowlist } = require("./netcattySkillsOpenCodePermissions.cjs");
+const { buildSensorSkillsOpenCodePathAllowlist } = require("./netcattySkillsOpenCodePermissions.cjs");
 const { getToolCliStateDir } = require("../../../cli/discoveryPath.cjs");
 const tempDirBridge = require("../../tempDirBridge.cjs");
 const { realpathSync } = require("node:fs");
@@ -256,8 +256,8 @@ function buildSdkTurnPrompt({
     if (hints.length > 0) {
       sections.push(
         [
-          "[Attached files: these paths are local to the machine running Netcatty, not remote hosts. Inspect them locally if needed.]",
-          "[If local filesystem tools are unavailable, use Netcatty's list_attachments and read_attachment MCP tools to inspect these user-supplied files.]",
+          "[Attached files: these paths are local to the machine running Sensor, not remote hosts. Inspect them locally if needed.]",
+          "[If local filesystem tools are unavailable, use Sensor's list_attachments and read_attachment MCP tools to inspect these user-supplied files.]",
           ...hints,
         ].join("\n"),
       );
@@ -396,7 +396,7 @@ function registerSdkStreamHandlers(ctx) {
             },
           };
           const skillsPathAllowlist = effectiveMode === "skills" && backendKey === "opencode"
-            ? buildNetcattySkillsOpenCodePathAllowlist({
+            ? buildSensorSkillsOpenCodePathAllowlist({
               launcherPath: NETCATTY_TOOL_LAUNCHER_PATH,
               cliScriptPath: NETCATTY_TOOL_CLI_PATH,
               skillPath: NETCATTY_TOOL_SKILL_PATH,
@@ -477,7 +477,7 @@ function registerSdkStreamHandlers(ctx) {
         // claude/copilot enumerate models via the SDK; codex has no catalog (its
         // driver returns []), so the renderer falls back to curated presets.
         // OpenCode model catalogs are user-config driven and can change outside
-        // Netcatty, so do not cache them behind the generic SDK cache.
+        // Sensor, so do not cache them behind the generic SDK cache.
         const cacheKey = buildSdkModelCacheKey(backendKey, binPath);
         const shouldCacheModels = shouldCacheSdkRuntimeModels(backendKey);
         const cached = shouldCacheModels ? sdkModelCache.get(cacheKey) : null;

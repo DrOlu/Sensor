@@ -26,7 +26,7 @@ const DEBUG_KEYS = [
   "NETCATTY_TERMINAL_PERF_DEBUG",
   "NETCATTY_TERMINAL_DEBUG",
 ];
-const PERF_LOG_PREFIX = "[Netcatty Terminal Perf]";
+const PERF_LOG_PREFIX = "[Sensor Terminal Perf]";
 const LOCAL_STORAGE_DEBUG_CACHE_TTL_MS = 1000;
 
 let localStorageDebugCache = false;

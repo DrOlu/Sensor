@@ -110,7 +110,7 @@ export const enVaultMessages: Messages = {
   'pf.type.menu.dynamic': 'Dynamic Forwarding',
   'pf.type.local.desc': "Local forwarding lets you access a remote server's listening port as though it were local.",
   'pf.type.remote.desc': 'Remote forwarding opens a port on the remote machine and forwards connections to the local (current) host.',
-  'pf.type.dynamic.desc': 'Dynamic port forwarding turns Netcatty into a SOCKS proxy server.',
+  'pf.type.dynamic.desc': 'Dynamic port forwarding turns Sensor into a SOCKS proxy server.',
   'pf.wizard.type.title': 'Select the port forwarding type:',
   'pf.wizard.localConfig.title': 'Set the local port and binding address:',
   'pf.wizard.localConfig.desc': 'This port will be open on the local (current) device, and it will receive the traffic.',
@@ -396,11 +396,11 @@ export const enVaultMessages: Messages = {
   'settings.sftp.doubleClickBehavior.openDesc': 'Open the file in the default application',
   'settings.sftp.doubleClickBehavior.transferDesc': 'Transfer the file to the other pane\'s active host',
   'settings.sshDeepLink.title': 'SSH and Telnet links',
-  'settings.sshDeepLink.enable': 'Open ssh:// and telnet:// links with Netcatty',
-  'settings.sshDeepLink.enableDesc': 'Allow Netcatty to handle ssh:// and telnet:// links from browsers and other apps.',
+  'settings.sshDeepLink.enable': 'Open ssh:// and telnet:// links with Sensor',
+  'settings.sshDeepLink.enableDesc': 'Allow Sensor to handle ssh:// and telnet:// links from browsers and other apps.',
   'settings.jmsDeepLink.title': 'JumpServer Links',
   'settings.jmsDeepLink.enable': 'Handle jms:// links',
-  'settings.jmsDeepLink.enableDesc': 'Register Netcatty as the handler for JumpServer jms:// client links. May conflict with the official JumpServer client.',
+  'settings.jmsDeepLink.enableDesc': 'Register Sensor as the handler for JumpServer jms:// client links. May conflict with the official JumpServer client.',
 
   // Settings > SFTP Auto Sync
   'settings.sftp.autoSync': 'Auto-sync to remote',

@@ -2,9 +2,9 @@
  * Seed autocomplete command history from the local machine's shell histfiles.
  *
  * Local Terminal sessions previously used a per-session hostId (`local-${sessionId}`),
- * so Netcatty's autocomplete history never accumulated across opens. Even with a
+ * so Sensor's autocomplete history never accumulated across opens. Even with a
  * stable hostId, a fresh install / new machine has an empty store until the user
- * types commands inside Netcatty — while Ghostty (and similar terminals) surface
+ * types commands inside Sensor — while Ghostty (and similar terminals) surface
  * suggestions from ~/.zsh_history / ~/.bash_history immediately.
  *
  * This module imports those histfiles once per hostId into commandHistoryStore
@@ -12,8 +12,8 @@
  */
 
 import {
-  isNetcattyAiHistoryCommand,
-  isNetcattyManagedStartupHistoryCommand,
+  isSensorAiHistoryCommand,
+  isSensorManagedStartupHistoryCommand,
   mergeRemoteHistory,
   parseBashHistory,
   parseFishHistory,
@@ -125,8 +125,8 @@ async function seedLocalShellHistoryFromHistfilesOnce(
   for (const entry of [...merged].reverse()) {
     const command = entry.command.trim();
     if (!command) continue;
-    if (isNetcattyAiHistoryCommand(command)) continue;
-    if (isNetcattyManagedStartupHistoryCommand(command)) continue;
+    if (isSensorAiHistoryCommand(command)) continue;
+    if (isSensorManagedStartupHistoryCommand(command)) continue;
     recordCommand(command, hostId, os);
     recorded += 1;
   }

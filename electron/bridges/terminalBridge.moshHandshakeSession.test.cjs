@@ -424,7 +424,7 @@ test("startMoshSession handshake path sends the existing exit event after mosh-c
   assert.equal(exit.payload.reason, "exited");
 });
 
-test("startMoshSession keeps MoshCatty on Netcatty's primary terminal screen", async (t) => {
+test("startMoshSession keeps MoshCatty on Sensor's primary terminal screen", async (t) => {
   const h = makeHarness(t);
   await h.bridge.startMoshSession(h.event, h.options, { moshClientLookup: h.lookupOpts });
 

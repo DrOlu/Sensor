@@ -138,7 +138,7 @@ function createOpenConnectionApi(ctx) {
             connOpts.agent = systemAuthAgent;
           }
           if (hasCertificate) {
-            authAgent = new NetcattyAgent({
+            authAgent = new SensorAgent({
               mode: "certificate",
               webContents: event.sender,
               meta: {
@@ -806,7 +806,7 @@ function createOpenConnectionApi(ctx) {
         connectOpts.agent = systemAuthAgent;
       }
       if (hasCertificate) {
-        authAgent = new NetcattyAgent({
+        authAgent = new SensorAgent({
           mode: "certificate",
           webContents: event.sender,
           meta: {

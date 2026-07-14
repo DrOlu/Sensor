@@ -17,7 +17,7 @@
  * - Skills mode: only builtin bash is exposed (CLI instructions are injected via
  *   the host prompt; the skill builtin is omitted because its read/custom-tool
  *   permission kinds are not shell-safe to auto-approve). Shell permission
- *   requests are approved only for Netcatty CLI invocations; discovery env is
+ *   requests are approved only for Sensor CLI invocations; discovery env is
  *   passed to the Copilot runtime so `netcatty-tool-cli` can reach the host.
  *
  * 🔬 SMOKE-CALIBRATE [copilot-stream]: sendAndWait returns only the final
@@ -75,7 +75,7 @@ function buildCopilotSessionOptions({ model, injectedMcpServers, toolIntegration
   return options;
 }
 
-// Shell chaining/redirection in the local Netcatty CLI prefix (not after exec `--`).
+// Shell chaining/redirection in the local Sensor CLI prefix (not after exec `--`).
 const LOCAL_SHELL_METACHAR_PATTERN = /(?:[;&|`]|&&|\|\||\$\(|\$\{|<<?|>{1,2}|\r?\n)/;
 const LOCAL_SHELL_WRAPPER_PATTERN = /^(?:\/[^\s]+\/)?(?:ba|z|fi)?sh(?:\.exe)?\s+-c\b/i;
 const NETCATTY_CLI_TOKEN = String.raw`netcatty-tool-cli(?:\.(?:cjs|cmd))?`;
@@ -154,7 +154,7 @@ function containsUnsafeShellMetachar(text) {
 }
 
 /** Split before the final exec/job-start remote payload (` -- cmd`), not flag values. */
-function getLocalNetcattyCliPrefix(fullCommandText) {
+function getLocalSensorCliPrefix(fullCommandText) {
   const command = String(fullCommandText || "").trim();
   const splitAt = findExecPayloadSeparatorIndex(command);
   if (splitAt >= 0) {
@@ -163,7 +163,7 @@ function getLocalNetcattyCliPrefix(fullCommandText) {
   return command;
 }
 
-function isNetcattyCliInvocationPrefix(localPart) {
+function isSensorCliInvocationPrefix(localPart) {
   const text = String(localPart || "").trim();
   if (!text) return false;
   const pathPrefix = String.raw`(?:\.\./|\./|/|[A-Za-z]:[\\/])[\w. \\-]*[\\/]`;
@@ -185,7 +185,7 @@ function hasExecPayloadSubcommand(localPart) {
   return /\b(?:exec|job-start)\b/i.test(String(localPart || ""));
 }
 
-function isLikelyNetcattyCliShellCommand(fullCommandText) {
+function isLikelySensorCliShellCommand(fullCommandText) {
   const command = String(fullCommandText || "").trim();
   if (!command) return false;
 
@@ -194,7 +194,7 @@ function isLikelyNetcattyCliShellCommand(fullCommandText) {
   const remotePayload = splitAt >= 0 ? command.slice(splitAt + 4).trim() : "";
 
   if (!localPart || LOCAL_SHELL_WRAPPER_PATTERN.test(localPart)) return false;
-  if (!isNetcattyCliInvocationPrefix(localPart)) return false;
+  if (!isSensorCliInvocationPrefix(localPart)) return false;
 
   if (remotePayload) {
     if (!hasExecPayloadSubcommand(localPart)) return false;
@@ -208,36 +208,36 @@ function isLikelyNetcattyCliShellCommand(fullCommandText) {
   return !containsUnsafeShellMetachar(command);
 }
 
-function approveNetcattyMcpOnly(request) {
+function approveSensorMcpOnly(request) {
   if (request?.kind === "mcp" && request?.toolName) {
     return { kind: "approve-once" };
   }
   return {
     kind: "reject",
-    feedback: "Only Netcatty MCP tools are allowed from this integration.",
+    feedback: "Only Sensor MCP tools are allowed from this integration.",
   };
 }
 
-function approveNetcattyCliShellOnly(request) {
+function approveSensorCliShellOnly(request) {
   if (request?.kind === "shell") {
     const fullCommandText = request.fullCommandText || "";
-    if (isLikelyNetcattyCliShellCommand(fullCommandText)) {
+    if (isLikelySensorCliShellCommand(fullCommandText)) {
       return { kind: "approve-once" };
     }
     return {
       kind: "reject",
       feedback:
-        "Only Netcatty CLI shell commands are allowed. Invoke the netcatty-tool-cli launcher or script prefix provided in the host context, and include --chat-session on every call.",
+        "Only Sensor CLI shell commands are allowed. Invoke the netcatty-tool-cli launcher or script prefix provided in the host context, and include --chat-session on every call.",
     };
   }
   return {
     kind: "reject",
-    feedback: "Only Netcatty CLI shell commands are allowed from this integration.",
+    feedback: "Only Sensor CLI shell commands are allowed from this integration.",
   };
 }
 
 function buildCopilotPermissionHandler(toolIntegrationMode) {
-  return toolIntegrationMode === "skills" ? approveNetcattyCliShellOnly : approveNetcattyMcpOnly;
+  return toolIntegrationMode === "skills" ? approveSensorCliShellOnly : approveSensorMcpOnly;
 }
 
 function extractCopilotContent(response) {
@@ -384,7 +384,7 @@ async function runCopilotTurn({
     const sessionConfig = {
       ...sessionOptions,
       streaming: true,
-      // MCP mode: only netcatty MCP. Skills mode: only Netcatty CLI shell commands.
+      // MCP mode: only netcatty MCP. Skills mode: only Sensor CLI shell commands.
       onPermissionRequest: buildCopilotPermissionHandler(toolIntegrationMode),
     };
     // Resume the prior conversation so context carries ACROSS turns (incl. after
@@ -518,10 +518,10 @@ module.exports = {
   buildCopilotSessionOptions,
   buildCopilotMessageOptions,
   buildCopilotPermissionHandler,
-  approveNetcattyMcpOnly,
-  approveNetcattyCliShellOnly,
-  isLikelyNetcattyCliShellCommand,
-  getLocalNetcattyCliPrefix,
+  approveSensorMcpOnly,
+  approveSensorCliShellOnly,
+  isLikelySensorCliShellCommand,
+  getLocalSensorCliPrefix,
   findExecPayloadSeparatorIndex,
   containsUnsafeShellMetachar,
   matchesShellMetacharAt,

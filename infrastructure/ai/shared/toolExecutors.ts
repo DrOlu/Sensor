@@ -7,7 +7,7 @@
  * adapt the return value to their own response shape.
  */
 
-import type { NetcattyBridge, ExecutorContext } from '../cattyAgent/executor';
+import type { SensorBridge, ExecutorContext } from '../cattyAgent/executor';
 import type { AIPermissionMode, WebSearchConfig } from '../types';
 import { checkCommandSafety } from '../cattyAgent/safety';
 import { executeWebSearchProvider } from './webSearchProviders';
@@ -26,7 +26,7 @@ export type ToolExecResult<T = unknown> =
 // ---------------------------------------------------------------------------
 
 export interface ToolDeps {
-  bridge: NetcattyBridge;
+  bridge: SensorBridge;
   context: ExecutorContext | (() => ExecutorContext);
   commandBlocklist?: string[];
   permissionMode: AIPermissionMode;
@@ -218,7 +218,7 @@ export async function executeUrlFetch(
   try {
     // skipHostCheck=true, followRedirects=true: url_fetch targets user-provided URLs
     const resp = await aiFetch(url, 'GET', {
-      'User-Agent': 'Netcatty-AI/1.0',
+      'User-Agent': 'Sensor-AI/1.0',
       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.7',
     }, undefined, undefined, true, true) as BridgeFetchResponse;
 

@@ -561,7 +561,7 @@
     "toolName": "host_open",
     "rpcMethod": "vault/hosts/open",
     "localExecution": false,
-    "description": "Open a vault host by creating a new terminal tab and starting the connection. Returns the new sessionId so you can run terminal/SFTP tools against it. Use vault_hosts_list first when you only know the label or hostname. Opens a terminal tab for a saved vault host (same as clicking the host in Netcatty). Connection may still be establishing when the tool returns — use get_environment or wait briefly before terminal_execute if needed. Auth prompts (passphrase / keyboard-interactive) still require the user in the Netcatty UI.",
+    "description": "Open a vault host by creating a new terminal tab and starting the connection. Returns the new sessionId so you can run terminal/SFTP tools against it. Use vault_hosts_list first when you only know the label or hostname. Opens a terminal tab for a saved vault host (same as clicking the host in Sensor). Connection may still be establishing when the tool returns — use get_environment or wait briefly before terminal_execute if needed. Auth prompts (passphrase / keyboard-interactive) still require the user in the Sensor UI.",
     "inputShape": {
       "hostId": {
         "type": "string",
@@ -1372,7 +1372,7 @@
     "toolName": "scripts_reference",
     "rpcMethod": "vault/scripts/reference",
     "localExecution": false,
-    "description": "Return Netcatty automation script syntax: nct API, triggers, host targeting, and source wrapping rules. Returns full Netcatty automation script syntax reference (nct API, triggers, host targeting). Read before authoring scripts.",
+    "description": "Return Sensor automation script syntax: nct API, triggers, host targeting, and source wrapping rules. Returns full Sensor automation script syntax reference (nct API, triggers, host targeting). Read before authoring scripts.",
     "inputShape": {},
     "policy": {
       "write": false,

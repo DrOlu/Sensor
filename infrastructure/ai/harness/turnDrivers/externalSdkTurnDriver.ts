@@ -1,6 +1,6 @@
 import { getExternalAgentSdkBackend } from '../../managedAgents';
 import { runSdkAgentTurn, type SdkAgentCallbacks } from '../../sdkAgentAdapter';
-import { getNetcattyBridge, generateId, resolveUserSkillsContext, isToolResultError } from '../../../../components/ai/hooks/aiChatStreamingSupport';
+import { getSensorBridge, generateId, resolveUserSkillsContext, isToolResultError } from '../../../../components/ai/hooks/aiChatStreamingSupport';
 import type { AgentActivity, AgentUsage } from '../../types';
 import type { ExternalTurnInput, TurnDriver, TurnDriverContext } from './types';
 import { resolveEstimatedUsageFallback, upsertAgentActivity } from './externalSdkEventState';
@@ -33,7 +33,7 @@ async function runExternalTurn(input: ExternalTurnInput, ctx: TurnDriverContext)
     ui,
   } = input;
 
-  const netcattyBridge = bridge ?? getNetcattyBridge();
+  const netcattyBridge = bridge ?? getSensorBridge();
   const sdkBackend = getExternalAgentSdkBackend(agentConfig);
 
   if (!sdkBackend || !netcattyBridge) {

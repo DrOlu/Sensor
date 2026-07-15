@@ -6,7 +6,7 @@
 const net = require("node:net");
 require("./boringSslDhCompat.cjs").installBoringSslDhCompat();
 const { Client: SSHClient } = require("ssh2");
-const { NetcattyAgent } = require("./netcattyAgent.cjs");
+const { SensorAgent } = require("./netcattyAgent.cjs");
 const keyboardInteractiveHandler = require("./keyboardInteractiveHandler.cjs");
 const { connectThroughChain, buildAlgorithms } = require("./sshBridge.cjs");
 const { resolveSshConnectionTimeouts } = require("./sshBridge/startSession.cjs");
@@ -259,7 +259,7 @@ async function startPortForward(event, payload) {
       connectOpts.agent = systemAuthAgent;
     }
     if (hasCertificate) {
-      connectOpts.agent = new NetcattyAgent({
+      connectOpts.agent = new SensorAgent({
         mode: "certificate",
         webContents: sender,
         meta: {

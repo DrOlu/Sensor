@@ -115,7 +115,7 @@ class CodexAppServerConnection {
       await this.request("initialize", {
         clientInfo: {
           name: "netcatty",
-          title: "Netcatty",
+          title: "Sensor",
           version: this.appVersion,
         },
         capabilities: {

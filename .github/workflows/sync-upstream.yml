@@ -88,6 +88,7 @@ jobs:
           cp .github/workflows/sync-upstream.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
           cp .github/workflows/build.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
           cp .github/workflows/notify-multica-release.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
+          cp public/icon.png /tmp/sensor-snap/ 2>/dev/null || true
           echo "Snapshotted $(find /tmp/sensor-snap -type f | wc -l) Sensor-owned workflow files."
 
       - name: Merge upstream
@@ -110,6 +111,7 @@ jobs:
           cp /tmp/sensor-snap/.github/workflows/sync-upstream.yml .github/workflows/ 2>/dev/null || true
           cp /tmp/sensor-snap/.github/workflows/build.yml .github/workflows/ 2>/dev/null || true
           cp /tmp/sensor-snap/.github/workflows/notify-multica-release.yml .github/workflows/ 2>/dev/null || true
+          cp /tmp/sensor-snap/icon.png public/ 2>/dev/null || true
           echo "Restored Sensor-owned files."
 
       - name: Apply Sensor rebrand

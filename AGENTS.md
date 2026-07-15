@@ -51,7 +51,7 @@ native approvals, `request_user_input`, model discovery, and process cleanup.
 - Observer maps to `read-only + never`, Confirm to `read-only + on-request`, and
   Auto to `danger-full-access + never`.
 - App Server native “allow for session” decisions are session-scoped Codex
-  grants and must not become persistent Netcatty permission grants.
+  grants and must not become persistent Sensor permission grants.
 - `turn/completed` is the terminal lifecycle event. Retryable `error`
   notifications are warnings; process exit is fatal.
 - Regenerate the committed protocol contract with
@@ -115,7 +115,7 @@ Placement rules (`resolveAgentKinds` in `toolSurfaces.cjs`):
 ## Data & Storage
 - Persisted keys: see `storageKeys.ts`. Use `localStorageAdapter` for all reads/writes.
 - Seed data: `config/defaultData.ts`; terminal themes: `config/terminalThemes.ts`.
-- **Temporary files**: All temporary files (e.g., SFTP downloaded files for external editing) must be written to Netcatty's dedicated temp directory via `tempDirBridge.getTempFilePath(fileName)`. Do not write directly to `os.tmpdir()`. This ensures proper cleanup and user visibility in Settings > System.
+- **Temporary files**: All temporary files (e.g., SFTP downloaded files for external editing) must be written to Sensor's dedicated temp directory via `tempDirBridge.getTempFilePath(fileName)`. Do not write directly to `os.tmpdir()`. This ensures proper cleanup and user visibility in Settings > System.
 
 ## Testing & Safety
 - Favor unit tests for domain helpers (e.g., `workspace.ts`, `host.ts`) and hook-level tests for application state.
@@ -129,9 +129,9 @@ Placement rules (`resolveAgentKinds` in `toolSurfaces.cjs`):
 - Maintain ASCII-only unless required by existing file content.
 
 ## Review Boundaries
-- Treat `electron/cli/*`, `netcatty-tool-cli`, the CLI discovery file, and the local TCP bridge as internal Netcatty integration surfaces unless a task explicitly says otherwise.
-- Do not review those surfaces as public APIs by default, and do not assume they must support third-party callers, manual launches, or non-Netcatty agents.
-- On supported first-party paths, assume Netcatty's own launcher provides required integration environment such as `NETCATTY_TOOL_CLI_DISCOVERY_FILE`.
+- Treat `electron/cli/*`, `netcatty-tool-cli`, the CLI discovery file, and the local TCP bridge as internal Sensor integration surfaces unless a task explicitly says otherwise.
+- Do not review those surfaces as public APIs by default, and do not assume they must support third-party callers, manual launches, or non-Sensor agents.
+- On supported first-party paths, assume Sensor's own launcher provides required integration environment such as `NETCATTY_TOOL_CLI_DISCOVERY_FILE`.
 - If a review concern depends on external exposure, third-party compatibility, or public API stability, call it out as out of scope unless the task explicitly includes that contract.
 
 ---

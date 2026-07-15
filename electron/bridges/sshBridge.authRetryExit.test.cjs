@@ -342,7 +342,7 @@ function loadBridgeWithAuthRetryMocks(t, options = {}) {
       };
     }
     if (request === "./netcattyAgent.cjs" || request.endsWith("/netcattyAgent.cjs")) {
-      return { NetcattyAgent: class MockNetcattyAgent {} };
+      return { SensorAgent: class MockSensorAgent {} };
     }
     if (request === "./sshAuthHelper.cjs" || request.endsWith("/sshAuthHelper.cjs")) {
       return {

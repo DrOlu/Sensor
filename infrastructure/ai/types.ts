@@ -463,7 +463,7 @@ export interface AgentModelPreset {
   defaultThinkingLevel?: string;
   /**
    * Minimum agent CLI version that advertises this model (semver core).
-   * Netcatty is BYO-CLI: the packaged SDK does not replace the user's binary.
+   * Sensor is BYO-CLI: the packaged SDK does not replace the user's binary.
    */
   minCliVersion?: string;
 }

@@ -17,7 +17,7 @@ const https = require("node:https");
 // Minimum 0.1.7: reconstruct numbered remote states before display, preventing
 // duplicate characters when parallel updates share a base on high-RTT links.
 // 0.1.6 added prediction hardening; 0.1.5 introduced the Diff path.
-// 0.1.4 ConPTY shortcut; 0.1.2+ Linux glibc floors match Netcatty.
+// 0.1.4 ConPTY shortcut; 0.1.2+ Linux glibc floors match Sensor.
 // Allow semver prerelease (-rc1) and build metadata (+meta); no path separators.
 const TAG_RE = /^moshcatty-[A-Za-z0-9._+-]+$/;
 const MIN_VERSION = { major: 0, minor: 1, patch: 7 };

@@ -29,3 +29,18 @@ if (!fs.existsSync(shimPath)) {
 } else {
   console.log('[sensor-patches] useSensorMonacoTheme.ts shim already present');
 }
+
+// ── Patch 2: verify app icon is Sensor brand (not upstream netcatty) ────────
+// The Sensor icon (superagent_logo.svg rendered at 1024x1024) is ~27KB.
+// The upstream netcatty icon is ~11KB (512x512). If the icon is small,
+// log a warning — the sync-upstream.yml snapshot/restore should prevent
+// this but this gives a visible signal in CI logs if it ever slips through.
+const iconPath = path.join(root, 'public', 'icon.png');
+if (fs.existsSync(iconPath)) {
+  const iconSize = fs.statSync(iconPath).size;
+  if (iconSize < 20000) {
+    console.warn('[sensor-patches] WARNING: public/icon.png is ' + iconSize + ' bytes — may be the upstream 512px icon, not the Sensor 1024px icon.');
+  } else {
+    console.log('[sensor-patches] public/icon.png looks correct (' + iconSize + ' bytes)');
+  }
+}

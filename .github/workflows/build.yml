@@ -289,6 +289,19 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            mkdir -p infrastructure/monaco
+            echo "// Re-export shim — ScriptCodeEditor.tsx imports from this path." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from './useNetcattyMonacoTheme';" >> "$SHIM"
+            echo "[patch] Created $SHIM"
+          fi
+          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs 2>/dev/null || true
+          rm -f scripts/generate-release-note.test.cjs.bak
+
       - name: Fetch bundled mosh-client
         if: env.BUNDLE_MOSH == 'true'
         shell: bash
@@ -563,6 +576,19 @@ jobs:
           g++ --version
           npm ci
 
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            mkdir -p infrastructure/monaco
+            echo "// Re-export shim — ScriptCodeEditor.tsx imports from this path." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from './useNetcattyMonacoTheme';" >> "$SHIM"
+            echo "[patch] Created $SHIM"
+          fi
+          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs 2>/dev/null || true
+          rm -f scripts/generate-release-note.test.cjs.bak
+
       - name: Set version
         shell: bash
         run: |
@@ -694,6 +720,19 @@ jobs:
 
       - name: Install deps
         run: npm ci
+
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            mkdir -p infrastructure/monaco
+            echo "// Re-export shim — ScriptCodeEditor.tsx imports from this path." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from './useNetcattyMonacoTheme';" >> "$SHIM"
+            echo "[patch] Created $SHIM"
+          fi
+          sed -i.bak 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs 2>/dev/null || true
+          rm -f scripts/generate-release-note.test.cjs.bak
 
       - name: Set version
         shell: bash

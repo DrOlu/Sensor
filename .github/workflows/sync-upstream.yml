@@ -1,0 +1,198 @@
+name: Sync Upstream
+
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Force sync even if no new upstream commits"
+        type: boolean
+        default: false
+      create_tag:
+        description: "Tag to create after sync (e.g. v1.1.67) — leave blank for auto-bump"
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'DrOlu'
+
+    steps:
+      - name: Checkout Sensor
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/binaricat/netcatty.git
+          git fetch upstream main --depth=1000
+
+      - name: Check for upstream changes
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          set -e
+          FORCE="${{ github.event.inputs.force }}"
+          if [ "$FORCE" = "true" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "new_upstream_release=false" >> "$GITHUB_OUTPUT"
+            echo "Force sync requested."
+            exit 0
+          fi
+
+          LAST_SYNCED_SHA=$(git log origin/main --oneline --grep="^sync: upstream Netcatty @" -1 \
+            | grep -oE "[0-9a-f]{8,40}" | tail -1 || echo "")
+          UPSTREAM_HEAD=$(git rev-parse upstream/main)
+
+          echo "Last synced upstream SHA: ${LAST_SYNCED_SHA:-none}"
+          echo "Upstream HEAD:            ${UPSTREAM_HEAD}"
+
+          if [ -z "$LAST_SYNCED_SHA" ] || [ "$UPSTREAM_HEAD" != "$LAST_SYNCED_SHA" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            NEW_COUNT=$(git rev-list --count "${LAST_SYNCED_SHA:-$(git rev-parse origin/main)}..upstream/main" 2>/dev/null || echo "?")
+            echo "Found ${NEW_COUNT} new upstream commit(s) since last sync."
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "No new upstream commits since last sync."
+          fi
+
+          LAST_UPSTREAM_RELEASE=$(gh release list --repo binaricat/netcatty --limit 1 \
+            --json tagName --jq ".[0].tagName" 2>/dev/null || echo "")
+          LAST_SYNCED_RELEASE=""
+          if [ -f .upstream-release ]; then
+            LAST_SYNCED_RELEASE=$(cat .upstream-release)
+          fi
+
+          echo "Last upstream release:        ${LAST_UPSTREAM_RELEASE:-none}"
+          echo "Last synced upstream release: ${LAST_SYNCED_RELEASE:-none}"
+          echo "last_upstream_release=${LAST_UPSTREAM_RELEASE}" >> "$GITHUB_OUTPUT"
+
+          if [ -n "$LAST_UPSTREAM_RELEASE" ] && [ "$LAST_UPSTREAM_RELEASE" != "$LAST_SYNCED_RELEASE" ]; then
+            echo "new_upstream_release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "new_upstream_release=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Snapshot Sensor-owned files
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          mkdir -p /tmp/sensor-snap/.github/workflows
+          cp .github/workflows/sync-upstream.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
+          cp .github/workflows/build.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
+          cp .github/workflows/notify-multica-release.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
+          echo "Snapshotted $(find /tmp/sensor-snap -type f | wc -l) Sensor-owned workflow files."
+
+      - name: Merge upstream
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          set -e
+          git config user.name "Sensor Sync Bot"
+          git config user.email "sensor-bot@hyperspace.ng"
+          if ! git merge upstream/main --no-edit --no-ff 2>&1; then
+            CONFLICTS=$(git diff --name-only --diff-filter=U)
+            echo "Conflicts in: $CONFLICTS"
+            git checkout --theirs $CONFLICTS
+            git add $CONFLICTS
+            git commit --no-edit
+          fi
+
+      - name: Restore Sensor-owned files
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          cp /tmp/sensor-snap/.github/workflows/sync-upstream.yml .github/workflows/ 2>/dev/null || true
+          cp /tmp/sensor-snap/.github/workflows/build.yml .github/workflows/ 2>/dev/null || true
+          cp /tmp/sensor-snap/.github/workflows/notify-multica-release.yml .github/workflows/ 2>/dev/null || true
+          echo "Restored Sensor-owned files."
+
+      - name: Apply Sensor rebrand
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          set -e
+          find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.cjs" \
+            -o -name "*.mjs" -o -name "*.json" -o -name "*.md" \) \
+            ! -path "./.git/*" ! -path "./node_modules/*" \
+            -exec sed -i \
+              -e 's|binaricat/netcatty|DrOlu/Sensor|g' \
+              -e 's|binaricat/Sensor|DrOlu/Sensor|g' \
+              {} +
+          echo "Rebrand applied."
+
+      - name: Commit and push
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          set -e
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            UPSTREAM_SHA=$(git rev-parse --short upstream/main)
+            UPSTREAM_RELEASE="${{ steps.check.outputs.last_upstream_release }}"
+            if [ -n "$UPSTREAM_RELEASE" ]; then
+              echo "$UPSTREAM_RELEASE" > .upstream-release
+              git add .upstream-release
+            fi
+            git commit -m "sync: upstream Netcatty @ ${UPSTREAM_SHA} (rebranded)"
+            git push origin main
+            echo "Pushed sync commit."
+          fi
+
+      - name: Create or auto-bump release tag
+        if: >
+          github.event.inputs.create_tag != '' ||
+          steps.check.outputs.new_upstream_release == 'true'
+        run: |
+          set -e
+          if [ -n "${{ github.event.inputs.create_tag }}" ]; then
+            TAG="${{ github.event.inputs.create_tag }}"
+          else
+            LATEST=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+            if [ -z "$LATEST" ]; then LATEST="v1.1.0"; fi
+            MAJOR=$(echo "$LATEST" | cut -d. -f1 | tr -d 'v')
+            MINOR=$(echo "$LATEST" | cut -d. -f2)
+            PATCH=$(echo "$LATEST" | cut -d. -f3)
+            PATCH=$((PATCH + 1))
+            TAG="v${MAJOR}.${MINOR}.${PATCH}"
+            echo "Auto-bumped: $LATEST → $TAG"
+          fi
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "::warning::Tag $TAG already exists — skipping."; exit 0
+          fi
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null 2>&1; then
+            echo "::warning::Tag $TAG already exists on origin — skipping."; exit 0
+          fi
+          git tag "$TAG"
+          git push origin "$TAG"
+          echo "✅ Tag $TAG pushed."
+          UPSTREAM_RELEASE="${{ steps.check.outputs.last_upstream_release }}"
+          if [ -n "$UPSTREAM_RELEASE" ]; then
+            git config user.name "Sensor Sync Bot"
+            git config user.email "sensor-bot@hyperspace.ng"
+            echo "$UPSTREAM_RELEASE" > .upstream-release
+            git add .upstream-release
+            if ! git diff --cached --quiet; then
+              git commit -m "chore: record upstream release $UPSTREAM_RELEASE in .upstream-release"
+              git push origin main
+            fi
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "## Sync Upstream Summary" >> "$GITHUB_STEP_SUMMARY"
+          if [ "${{ steps.check.outputs.has_changes }}" = "true" ]; then
+            UPSTREAM_SHA=$(git rev-parse --short upstream/main 2>/dev/null || echo "N/A")
+            echo "✅ Merged binaricat/netcatty@${UPSTREAM_SHA} and applied Sensor rebrand." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "⏭️ No new upstream commits found." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ "${{ steps.check.outputs.new_upstream_release }}" = "true" ]; then
+            echo "🚀 New upstream release — auto-bump tag pushed." >> "$GITHUB_STEP_SUMMARY"
+          fi

@@ -21,7 +21,7 @@ try {
 } catch (e) {
   console.warn("[SFTP] Failed to load SFTPWrapper from ssh2, sudo mode will not work:", e.message);
 }
-const { NetcattyAgent } = require("./netcattyAgent.cjs");
+const { SensorAgent } = require("./netcattyAgent.cjs");
 const fileWatcherBridge = require("./fileWatcherBridge.cjs");
 const keyboardInteractiveHandler = require("./keyboardInteractiveHandler.cjs");
 const passphraseHandler = require("./passphraseHandler.cjs");
@@ -1098,7 +1098,7 @@ const openConnectionApi = createOpenConnectionApi({
   get sftpClients() { return sftpClients; },
   get sessions() { return sessions; },
   get electronModule() { return electronModule; },
-  jumpConnectionsMap, SftpClient, SSHClient, NetcattyAgent, keyboardInteractiveHandler, passphraseHandler,
+  jumpConnectionsMap, SftpClient, SSHClient, SensorAgent, keyboardInteractiveHandler, passphraseHandler,
   hostKeyVerifier,
   fs, path, net, Buffer, process, console, setTimeout, clearTimeout,
   SFTPWrapper, createProxySocket, buildSftpAlgorithms, getAvailableAgentSocket,

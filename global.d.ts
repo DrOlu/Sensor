@@ -19,7 +19,7 @@ declare module 'react' {
 
 declare global {
   // Proxy configuration for SSH connections
-  interface NetcattyProxyConfig {
+  interface SensorProxyConfig {
     type: 'http' | 'socks5' | 'command';
     host: string;
     port: number;
@@ -39,7 +39,7 @@ declare global {
   }
 
   // Jump host configuration for SSH tunneling
-  interface NetcattyJumpHost {
+  interface SensorJumpHost {
     hostname: string;
     hostId?: string;
     port: number;
@@ -54,7 +54,7 @@ declare global {
     keyId?: string;
     keySource?: 'generated' | 'imported' | 'reference';
     label?: string; // Display label for UI
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     identityFilePaths?: string[];
     useSshAgent?: boolean;
     agentPublicKeys?: string[];
@@ -84,7 +84,7 @@ declare global {
 
   // Host key information for verification
   // Reserved for future host key verification UI feature
-  interface _NetcattyHostKeyInfo {
+  interface _SensorHostKeyInfo {
     hostname: string;
     port: number;
     keyType: string;
@@ -92,7 +92,7 @@ declare global {
     publicKey?: string;
   }
 
-  interface NetcattySSHOptions {
+  interface SensorSSHOptions {
     sessionId?: string;
     hostId?: string;
     hostLabel?: string;
@@ -122,9 +122,9 @@ declare global {
     // Environment variables to set in the remote shell
     env?: Record<string, string>;
     // Proxy configuration
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     // Jump hosts (bastion chain)
-    jumpHosts?: NetcattyJumpHost[];
+    jumpHosts?: SensorJumpHost[];
     // SSH-level keepalive interval in seconds (0 = disabled)
     keepaliveInterval?: number;
     // Unanswered keepalives before ssh2 declares the connection dead
@@ -210,8 +210,8 @@ declare global {
     passphrase?: string;
     knownHosts?: import("./domain/models").KnownHost[];
     verifyHostKeys?: boolean;
-    proxy?: NetcattyProxyConfig;
-    jumpHosts?: NetcattyJumpHost[];
+    proxy?: SensorProxyConfig;
+    jumpHosts?: SensorJumpHost[];
     identityFilePaths?: string[];
     useSshAgent?: boolean;
     agentPublicKeys?: string[];
@@ -247,19 +247,19 @@ declare global {
     error?: string;
   }
 
-  interface NetcattyWindowsPtyInfo {
+  interface SensorWindowsPtyInfo {
     backend: 'conpty' | 'winpty';
     buildNumber?: number;
   }
 
   type PortForwardStatusCallback = (status: 'inactive' | 'connecting' | 'active' | 'error', error?: string) => void;
 
-  interface NetcattyPluginRuntimeStatus {
+  interface SensorPluginRuntimeStatus {
     available: boolean;
     experimental: true;
   }
 
-  interface NetcattyInstalledPlugin {
+  interface SensorInstalledPlugin {
     id: string;
     enabled: boolean;
     activeVersion: string | null;
@@ -272,17 +272,17 @@ declare global {
     };
   }
 
-  interface NetcattyBridge {
-    getPluginRuntimeStatus?(): Promise<NetcattyPluginRuntimeStatus>;
-    listPlugins?(): Promise<NetcattyInstalledPlugin[]>;
-    installPluginPackage?(archivePath: string, options?: { enable?: boolean }): Promise<NetcattyInstalledPlugin>;
-    setPluginEnabled?(pluginId: string, enabled: boolean): Promise<NetcattyInstalledPlugin>;
-    restartPlugin?(pluginId: string): Promise<NetcattyInstalledPlugin>;
+  interface SensorBridge {
+    getPluginRuntimeStatus?(): Promise<SensorPluginRuntimeStatus>;
+    listPlugins?(): Promise<SensorInstalledPlugin[]>;
+    installPluginPackage?(archivePath: string, options?: { enable?: boolean }): Promise<SensorInstalledPlugin>;
+    setPluginEnabled?(pluginId: string, enabled: boolean): Promise<SensorInstalledPlugin>;
+    restartPlugin?(pluginId: string): Promise<SensorInstalledPlugin>;
     uninstallPlugin?(pluginId: string): Promise<boolean>;
   }
 
   interface Window {
-    netcatty?: NetcattyBridge;
+    netcatty?: SensorBridge;
   }
 
 }

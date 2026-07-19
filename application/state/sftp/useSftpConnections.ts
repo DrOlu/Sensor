@@ -471,7 +471,7 @@ export const useSftpConnections = ({
             );
           };
 
-          let credentials: NetcattySSHOptions | null = null;
+          let credentials: SensorSSHOptions | null = null;
           let sftpId: string | undefined;
 
           // Live Connected rows: try reuse with endpoint-only options first so

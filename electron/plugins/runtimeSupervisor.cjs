@@ -367,7 +367,7 @@ class RuntimeSupervisor {
   #restoreContainmentBlock(pluginId) {
     const error = new PluginRpcError(
       RPC_ERRORS.unavailable,
-      `Plugin runtime containment failed; restart Netcatty before starting it again: ${pluginId}`,
+      `Plugin runtime containment failed; restart Sensor before starting it again: ${pluginId}`,
     );
     const active = this.database.getActivePlugin(pluginId);
     if (active?.activeVersion) {

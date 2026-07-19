@@ -761,7 +761,7 @@ async function getNativeOpenSshAgentSocket(identityAgent, injected = {}) {
   const platform = injected.platform || process.platform;
   if (platform === "win32" && socketPath && !isWindowsNamedPipe(socketPath)) {
     const error = new Error(
-      "This SSH agent is available only to Netcatty's built-in SSH client. Mosh and EternalTerminal require a Windows named-pipe agent.",
+      "This SSH agent is available only to Sensor's built-in SSH client. Mosh and EternalTerminal require a Windows named-pipe agent.",
     );
     error.code = "ERR_SSH_AGENT_NATIVE_UNSUPPORTED";
     throw error;
@@ -828,7 +828,7 @@ function isPasswordProvided(password) {
  * @param {string} [options.privateKey] - Explicitly configured private key
  * @param {string} [options.password] - Password for authentication
 * @param {string} [options.passphrase] - Passphrase for encrypted private key
- * @param {Object} [options.agent] - SSH agent (NetcattyAgent or socket path)
+ * @param {Object} [options.agent] - SSH agent (SensorAgent or socket path)
  * @param {string} options.username - SSH username
  * @param {string} [options.logPrefix] - Log prefix for debugging
  * @returns {{ authHandler: Function|Array, privateKey: string|null, agent: string|Object|null, usedDefaultKeys: boolean }}

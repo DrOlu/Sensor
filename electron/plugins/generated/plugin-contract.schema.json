@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://netcatty.com/schemas/plugins/0.1.0-internal/plugin-contract.schema.json",
-  "title": "Netcatty Plugin Contract",
-  "description": "Canonical public contract for Netcatty plugin manifests and host RPC messages.",
+  "title": "Sensor Plugin Contract",
+  "description": "Canonical public contract for Sensor plugin manifests and host RPC messages.",
   "$ref": "#/$defs/PluginManifest",
   "$defs": {
     "JsonPrimitive": {
@@ -152,7 +152,7 @@
       "additionalProperties": false
     },
     "CredentialRef": {
-      "description": "An opaque host-issued reference to a Netcatty-owned credential. The host validates ownership and provider-operation scope before issuing a plaintext lease.",
+      "description": "An opaque host-issued reference to a Sensor-owned credential. The host validates ownership and provider-operation scope before issuing a plaintext lease.",
       "type": "object",
       "required": [
         "kind",

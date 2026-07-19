@@ -76,7 +76,7 @@ capability-handler contract.
 
 A running activation uses a route snapshot. Registering a new host subsystem
 does not mutate a live plugin's authority invisibly; it applies on the next
-activation. This is important when a new Netcatty build adds a capability or a
+activation. This is important when a new Sensor build adds a capability or a
 grant changes the available surface.
 
 Capability middleware is not the transport quota boundary: reserved progress,
@@ -182,7 +182,7 @@ If the process ignores graceful termination, the host escalates to an OS-level
 forced termination after a bounded grace period and still waits for `exit`.
 Failure to reap after escalation disables and quarantines the plugin for the
 rest of the application process; no replacement activation is allowed until
-Netcatty restarts. This fail-closed state is deliberately in-memory as well as
+Sensor restarts. This fail-closed state is deliberately in-memory as well as
 persisted, so clearing a normal crash quarantine cannot overlap a still-live
 advanced process.
 

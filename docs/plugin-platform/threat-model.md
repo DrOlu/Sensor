@@ -18,10 +18,10 @@ secrets, companion containment and quotas; later phases add distribution trust.
 - terminal input while echo is disabled or authentication is in progress;
 - host addresses, usernames, notes, command history, and terminal output;
 - local files and filesystem metadata outside a plugin's data directory;
-- Netcatty renderer and main-process authority, Electron IPC, and Node APIs;
+- Sensor renderer and main-process authority, Electron IPC, and Node APIs;
 - other plugins' packages, storage, logs, settings, and runtime messages;
 - cloud synchronization keys and provider credentials;
-- the integrity and availability of terminal sessions and the Netcatty process.
+- the integrity and availability of terminal sessions and the Sensor process.
 
 ## Adversaries
 
@@ -36,7 +36,7 @@ The design assumes any of the following may be hostile:
 - an old package crafted to exploit a newer installer;
 - an update that requests broader permissions than the installed version.
 
-The operating system, Electron sandbox, Netcatty application package, and user
+The operating system, Electron sandbox, Sensor application package, and user
 account are trusted. A machine already controlled by malware is outside the
 platform's protection boundary.
 
@@ -73,7 +73,7 @@ byte digest and a canonical logical-content digest. The runtime gate rescans the
 installed directory immediately before placement and rejects changed, missing,
 or injected files before plugin code starts. This is an integrity and recovery
 boundary for corruption or unintended local modification; it is not a claim
-that Netcatty can defend against an already-compromised same-user operating
+that Sensor can defend against an already-compromised same-user operating
 system account.
 
 ### Symbolic links and executable smuggling
@@ -115,7 +115,7 @@ with non-proxied WebRTC disabled, so a fresh iframe global cannot restore
 network authority. Ordinary browser plugins access the network only through the
 checked phase-3 host broker. An advanced utility plugin is an explicit high-risk
 exception: `runtime.advanced` consents to ambient Node, filesystem and network
-authority in a contained process. It never runs in the Netcatty main process,
+authority in a contained process. It never runs in the Sensor main process,
 and phase 9 must additionally require verified publisher trust.
 
 ### Confused deputy
@@ -140,7 +140,7 @@ broker uses operation-bound, single-use leases. Terminal sensitive-input mode
 bypasses third-party hooks unconditionally. Logs, diagnostics, synchronization,
 and crash reports redact secret fields before persistence.
 The SDK secret store returns an opaque `SecretRef`, never stored plaintext.
-Netcatty-owned Vault material uses a distinct opaque `CredentialRef`; its
+Sensor-owned Vault material uses a distinct opaque `CredentialRef`; its
 main-process resolver validates availability without materializing plaintext,
 then resolves only while consuming an operation-bound lease. Neither reference
 is treated as a bearer capability: every privileged use must revalidate the
@@ -201,7 +201,7 @@ The platform is not ready for public enablement unless all of these hold:
 8. Secrets never enter manifests, package defaults, logs, diagnostics, or cloud
    synchronization sidecars.
 9. Unknown newer protocol versions fail closed at privileged boundaries.
-10. Disabling every plugin restores the unextended Netcatty behavior and does
+10. Disabling every plugin restores the unextended Sensor behavior and does
     not impose more than the agreed terminal throughput budget.
 
 ## Phase 1 baseline

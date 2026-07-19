@@ -4,7 +4,7 @@ Status: internal preview (`0.1.0-internal`)
 
 This document describes the isolated runtime introduced in phase 2 and secured
 by phase 3 of the plugin platform tracked by
-[#2269](https://github.com/binaricat/Netcatty/issues/2269). The runtime remains
+[#2269](https://github.com/DrOlu/Sensor/issues/2269). The runtime remains
 hidden behind `NETCATTY_PLUGIN_DEV=1`; there is no public settings entry or
 renderer permission UI yet. The first-party development bootstrap uses a native
 Electron confirmation dialog. A host without an injected decision provider
@@ -144,7 +144,7 @@ stale document cannot reopen package resources.
 The preload has one job: transfer one host-created MessagePort into the plugin
 document. A three-stage handshake waits for preload readiness, port receipt and
 installation of the plugin-side RPC listener, avoiding load-order message loss.
-It does not expose Electron, Node, Netcatty's application preload, or an
+It does not expose Electron, Node, Sensor's application preload, or an
 arbitrary IPC channel.
 
 Before importing package code, the bootstrap removes direct fetch, XHR,
@@ -163,16 +163,16 @@ maps only the two public bare imports (`@netcatty/plugin-sdk` and
 `@netcatty/plugin-contract`) to packaged host resources.
 
 Stopping an advanced runtime is not complete when `utilityProcess.kill()`
-returns. Netcatty closes its RPC authority immediately, requests termination,
+returns. Sensor closes its RPC authority immediately, requests termination,
 and waits for the child `exit` event before a replacement activation may start.
 Fatal and protocol errors follow the same ordering: the old process is reaped
 before the supervisor publishes the crash. This prevents two privileged
 versions of one plugin from overlapping during restart, update, or quarantine.
-If the process ignores graceful termination, Netcatty escalates to an OS-level
+If the process ignores graceful termination, Sensor escalates to an OS-level
 forced termination after a bounded grace period and still waits for `exit`.
 Failure to reap after escalation disables and quarantines the plugin for the
 remainder of the application process; a replacement activation is blocked
-until Netcatty restarts.
+until Sensor restarts.
 
 The utility process is an isolation and failure-containment boundary, not the
 final permission boundary. Node plugins are still advanced code and must both
@@ -256,7 +256,7 @@ process and pending requests are never shared with another plugin.
 
 Plugin-host construction and recovery remain behind the development gate. A
 damaged plugin database or missing host resource closes and disables that
-subsystem while leaving the rest of Netcatty running. The management status
+subsystem while leaving the rest of Sensor running. The management status
 waits for initialization and reports the host unavailable after rejection; it
 does not expose a permanently rejected manager as usable.
 
@@ -267,12 +267,12 @@ SDK retain only opaque references. Privileged host consumers receive one-use,
 operation/runtime/plugin-bound `SecretLease` objects rather than plaintext RPC
 results. See [security-and-permissions.md](security-and-permissions.md).
 
-Application quit is coordinated with plugin shutdown after Netcatty's dirty
+Application quit is coordinated with plugin shutdown after Sensor's dirty
 editor guard succeeds. Runtimes receive the two-second deactivation deadline;
 the coordinator then fails open after a short outer deadline so a broken plugin
 cannot make the application impossible to quit. The original `before-quit`
 event remains cancelled until that asynchronous deadline finishes. On Windows
-and Linux, closing the last tracked Netcatty content window initiates the same
+and Linux, closing the last tracked Sensor content window initiates the same
 quit path directly; hidden plugin host windows are deliberately excluded from
 that count, so they cannot leave a headless application running. Terminal
 popups participate in this last-window lifecycle but are not dirty-editor
@@ -282,7 +282,7 @@ owners, so they are never sent a query their renderer cannot answer.
 
 The renderer management bridge exposes status, list, install, enable/disable,
 restart and uninstall operations. The main process checks both the explicit
-environment gate and the sender's trusted Netcatty origin for every operation.
+environment gate and the sender's trusted Sensor origin for every operation.
 With the gate off, the host service is not constructed and installed plugins do
 not activate. Phase 4 will add the hidden management UI on top of this bridge.
 

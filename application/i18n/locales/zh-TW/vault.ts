@@ -254,7 +254,7 @@ export const zhTWVaultMessages: Messages = {
   'hostDetails.skipEcdsaHostKey.desc': '某些老款華為 / 思科交換機的 ECDSA 主機金鑰簽名不規範，會導致連線報 "signature verification failed"。開啟後用戶端不再 advertise ecdsa-sha2-*，強制使用 RSA / Ed25519。',
   'hostDetails.algorithms.advanced': '高階演算法設定',
   'hostDetails.algorithms.advanced.desc': '針對單個 host 自訂各分類的演算法清單。不勾選 = 使用預設；勾選子集後將完全替換預設列表。設定錯誤可能導致無法連線。',
-  'hostDetails.algorithms.inheritedNotice': '目前組已設定以下分類的演算法 override：{categories}。本面板的"恢復預設"只會回到組的設定，而不是 NetCatty 預設列表。若要忽略組的限制，請到組的演算法設定裡取消。',
+  'hostDetails.algorithms.inheritedNotice': '目前組已設定以下分類的演算法 override：{categories}。本面板的"恢復預設"只會回到組的設定，而不是 Sensor 預設列表。若要忽略組的限制，請到組的演算法設定裡取消。',
   'hostDetails.algorithms.customized': '已自訂',
   'hostDetails.algorithms.reset': '恢復預設',
   'hostDetails.algorithms.category.kex': '金鑰交換 (KEX)',

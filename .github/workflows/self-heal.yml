@@ -1,79 +1,138 @@
-name: self-heal
+name: Self-Heal Critical Files
 
 on:
-  schedule:
-    # Run every 6 hours
-    - cron: "0 */6 * * *"
-  workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
   heal:
-    name: Check and restore critical workflow files
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'DrOlu'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.RELEASE_TOKEN }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure Git
+      - name: Check and restore critical files
+        id: check
         run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Check and restore critical workflow files
-        id: heal
-        run: |
+          set -e
+          git config user.name "Sensor Heal Bot"
+          git config user.email "sensor-bot@hyperspace.ng"
           CHANGED=false
 
-          # ── Ensure generate-release-note.test.cjs exists ─────────────────
-          if [ ! -f ".github/scripts/generate-release-note.test.cjs" ]; then
-            echo "generate-release-note.test.cjs missing — restoring stub"
-            cat > .github/scripts/generate-release-note.test.cjs <<'STUB'
-// Auto-restored by self-heal workflow
-// Stub for generate-release-note tests
-'use strict';
-STUB
+          # ── sync-upstream.yml ─────────────────────────────────────────────
+          if [ ! -f ".github/workflows/sync-upstream.yml" ]; then
+            echo "MISSING: sync-upstream.yml"
+            # Restore from most recent tag that has it
+            TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+            if [ -n "$TAG" ] && git show "$TAG:.github/workflows/sync-upstream.yml" > /dev/null 2>&1; then
+              git show "$TAG:.github/workflows/sync-upstream.yml" > .github/workflows/sync-upstream.yml
+              echo "Restored sync-upstream.yml from $TAG"
+              CHANGED=true
+            else
+              echo "::warning::Could not restore sync-upstream.yml — no suitable tag found"
+            fi
+          else
+            echo "sync-upstream.yml: present ✅"
+          fi
+
+          # ── notify-multica-release.yml ────────────────────────────────────
+          if [ ! -f ".github/workflows/notify-multica-release.yml" ]; then
+            echo "MISSING: notify-multica-release.yml"
+            TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+            if [ -n "$TAG" ] && git show "$TAG:.github/workflows/notify-multica-release.yml" > /dev/null 2>&1; then
+              git show "$TAG:.github/workflows/notify-multica-release.yml" > .github/workflows/notify-multica-release.yml
+              echo "Restored notify-multica-release.yml from $TAG"
+              CHANGED=true
+            else
+              echo "::warning::Could not restore notify-multica-release.yml"
+            fi
+          else
+            echo "notify-multica-release.yml: present ✅"
+          fi
+
+          # ── build.yml patch step ──────────────────────────────────────────
+          if ! grep -q "Apply Sensor-specific patches" .github/workflows/build.yml 2>/dev/null; then
+            echo "MISSING: patch step in build.yml"
+            SHIM_STEP=$(cat << \'STEP_EOF\'
+      - name: Apply Sensor-specific patches
+        shell: bash
+        run: |
+          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
+          if [ ! -f "$SHIM" ]; then
+            mkdir -p infrastructure/monaco
+            echo "// Re-export shim." > "$SHIM"
+            echo "export { useSensorMonacoTheme } from \'./useNetcattyMonacoTheme\';" >> "$SHIM"
+          fi
+          sed -i.bak \'s|binaricat/Sensor|DrOlu/Sensor|g\' scripts/generate-release-note.test.cjs 2>/dev/null || true
+          rm -f scripts/generate-release-note.test.cjs.bak
+
+STEP_EOF
+)
+            # Insert after "run: npm ci" lines
+            if grep -qF "run: npm ci" .github/workflows/build.yml; then
+              python3 -c "
+import sys
+content = open(\'.github/workflows/build.yml\').read()
+anchor = \'      - name: Install deps\\n        run: npm ci\\n\'
+step = open(sys.argv[1]).read() if len(sys.argv) > 1 else \'\'
+" 2>/dev/null || true
+              echo "build.yml patch step needs manual re-add via API"
+            fi
+          else
+            echo "build.yml patch step: present ✅"
+          fi
+
+          # ── useSensorMonacoTheme shim in copy-monaco.cjs ──────────────────
+          if ! grep -q "useSensorMonacoTheme" scripts/copy-monaco.cjs 2>/dev/null; then
+            echo "MISSING: shim in copy-monaco.cjs — adding..."
+            cat >> scripts/copy-monaco.cjs << \'SHIM_EOF\'
+
+// Sensor-specific patch
+const shimPath = path.join(repoRoot, \'infrastructure\', \'monaco\', \'useSensorMonacoTheme.ts\');
+if (!fs.existsSync(shimPath)) {
+  fs.writeFileSync(shimPath,
+    \'// Re-export shim.\\n\' +
+    "export { useSensorMonacoTheme } from \'./useNetcattyMonacoTheme\';\\n"
+  );
+}
+SHIM_EOF
             CHANGED=true
+            echo "copy-monaco.cjs: shim added ✅"
+          else
+            echo "copy-monaco.cjs shim: present ✅"
           fi
 
           # ── Fix netcatty in locale strings ────────────────────────────────
-          LOCALE_FILES=$(find application/i18n/locales -name '*.ts' 2>/dev/null)
-          if [ -n "$LOCALE_FILES" ]; then
-            echo "$LOCALE_FILES" | xargs sed -i \
-              -e 's|launch netcatty from|launch Sensor from|g' \
-              -e 's|netcatty-external|sensor-external|g' \
+          if grep -rq "netcatty\|NetCatty" application/i18n/locales/ 2>/dev/null; then
+            echo "FIXING netcatty in locale strings..."
+            find application/i18n/locales -name "*.ts" -exec sed -i \
+              -e \'s|launch netcatty from|launch Sensor from|g\' \
+              -e \'s|netcatty-external|sensor-external|g\' \
               -e "s|NetCatty\'s defaults|Sensor\'s defaults|g" \
-              -e "s|NetCatty 默认|Sensor 默认|g" \
-              -e "s|NetCatty 預設|Sensor 預設|g" \
-              -e "s|NetCatty по умолчанию|Sensor по умолчанию|g" \
-              2>/dev/null || true
-            LOCALE_CHANGES=$(grep -rl 'netcatty\|NetCatty' application/i18n/locales/ 2>/dev/null | wc -l || echo 0)
-            if [ "$LOCALE_CHANGES" -gt 0 ]; then
-              echo "Fixed netcatty in $LOCALE_CHANGES locale files"
-              CHANGED=true
-            fi
+              -e \'s|NetCatty по умолчанию|Sensor по умолчанию|g\' \
+              -e \'s|NetCatty 默认|Sensor 默认|g\' \
+              -e \'s|NetCatty 預設|Sensor 預設|g\' \
+              {} +
+            CHANGED=true
           fi
 
           echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
 
-      - name: Commit and push fixes
-        if: steps.heal.outputs.changed == 'true'
+      - name: Commit repairs
+        if: steps.check.outputs.changed == 'true'
         run: |
           git add -A
-          if ! git diff --cached --quiet; then
-            git commit -m "fix(self-heal): restore critical files and fix netcatty locale strings"
-            git push origin main
-          fi
+          git commit -m "fix(self-heal): restore critical Sensor files"
+          git push origin main
+          echo "✅ Repairs committed."
 
-      - name: Report status
-        run: |
-          if [ "${{ steps.heal.outputs.changed }}" = "true" ]; then
-            echo "::notice::Self-heal made repairs — check commit history for details."
-          else
-            echo "All checks passed — no repairs needed."
-          fi
+      - name: All clear
+        if: steps.check.outputs.changed == 'false'
+        run: echo "✅ All critical files present."

@@ -1,0 +1,60 @@
+name: sync-upstream
+
+on:
+  schedule:
+    # Run daily at 03:00 UTC
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Sync upstream & apply Sensor rebrand
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream https://github.com/railsware/Netcatty.git || true
+          git fetch upstream main --no-tags
+
+      - name: Merge upstream changes
+        id: merge
+        run: |
+          git merge upstream/main --no-edit --allow-unrelated-histories || true
+          CONFLICTS=$(git diff --name-only --diff-filter=U | wc -l | tr -d ' ')
+          echo "conflicts=$CONFLICTS" >> "$GITHUB_OUTPUT"
+
+      - name: Apply Sensor rebrand
+        run: |
+          find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" -o -name "*.json" -o -name "*.md" -o -name "*.yml" -o -name "*.yaml" -o -name "*.sh" \)             -not -path "./.git/*"             -exec sed -i               -e 's|Netcatty|Sensor|g'               -e 's|netcatty|sensor|g'               -e 's|NETCATTY|SENSOR|g'               -e 's|launch netcatty from|launch Sensor from|g'               -e 's|netcatty-external|sensor-external|g'               -e "s|NetCatty\'s defaults|Sensor\'s defaults|g"               -e "s|NetCatty 默认|Sensor 默认|g"               -e "s|NetCatty 預設|Sensor 預設|g"               -e "s|NetCatty по умолчанию|Sensor по умолчанию|g"             {} +
+
+      - name: Commit rebrand changes
+        run: |
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(sync): apply Sensor rebrand after upstream sync"
+          else
+            echo "No rebrand changes to commit"
+          fi
+
+      - name: Push changes
+        run: git push origin main
+
+      - name: Report conflicts
+        if: steps.merge.outputs.conflicts != '0'
+        run: |
+          echo "::warning::${{ steps.merge.outputs.conflicts }} merge conflict(s) detected — manual resolution may be needed."

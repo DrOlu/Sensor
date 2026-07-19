@@ -12,127 +12,61 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'DrOlu'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
           fetch-depth: 0
 
-      - name: Check and restore critical files
-        id: check
+      - name: Restore and patch critical files
         run: |
           set -e
           git config user.name "Sensor Heal Bot"
           git config user.email "sensor-bot@hyperspace.ng"
           CHANGED=false
+          LATEST_TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
 
-          # ── sync-upstream.yml ─────────────────────────────────────────────
-          if [ ! -f ".github/workflows/sync-upstream.yml" ]; then
-            echo "MISSING: sync-upstream.yml"
-            # Restore from most recent tag that has it
-            TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
-            if [ -n "$TAG" ] && git show "$TAG:.github/workflows/sync-upstream.yml" > /dev/null 2>&1; then
-              git show "$TAG:.github/workflows/sync-upstream.yml" > .github/workflows/sync-upstream.yml
-              echo "Restored sync-upstream.yml from $TAG"
+          restore_from_tag() {
+            local file="$1"
+            if git show "$LATEST_TAG:$file" > "$file" 2>/dev/null; then
+              echo "Restored $file from $LATEST_TAG"
               CHANGED=true
             else
-              echo "::warning::Could not restore sync-upstream.yml — no suitable tag found"
+              echo "::warning::Could not restore $file from $LATEST_TAG"
             fi
-          else
-            echo "sync-upstream.yml: present ✅"
-          fi
+          }
 
-          # ── notify-multica-release.yml ────────────────────────────────────
-          if [ ! -f ".github/workflows/notify-multica-release.yml" ]; then
-            echo "MISSING: notify-multica-release.yml"
-            TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
-            if [ -n "$TAG" ] && git show "$TAG:.github/workflows/notify-multica-release.yml" > /dev/null 2>&1; then
-              git show "$TAG:.github/workflows/notify-multica-release.yml" > .github/workflows/notify-multica-release.yml
-              echo "Restored notify-multica-release.yml from $TAG"
-              CHANGED=true
-            else
-              echo "::warning::Could not restore notify-multica-release.yml"
-            fi
-          else
-            echo "notify-multica-release.yml: present ✅"
-          fi
+          # Restore missing workflow files from latest tag
+          for wf in sync-upstream.yml notify-multica-release.yml; do
+            [ ! -f ".github/workflows/$wf" ] && restore_from_tag ".github/workflows/$wf"
+          done
 
-          # ── build.yml patch step ──────────────────────────────────────────
+          # Restore patch step in build.yml if missing
           if ! grep -q "Apply Sensor-specific patches" .github/workflows/build.yml 2>/dev/null; then
-            echo "MISSING: patch step in build.yml"
-            SHIM_STEP=$(cat << \'STEP_EOF\'
-      - name: Apply Sensor-specific patches
-        shell: bash
-        run: |
-          SHIM="infrastructure/monaco/useSensorMonacoTheme.ts"
-          if [ ! -f "$SHIM" ]; then
-            mkdir -p infrastructure/monaco
-            echo "// Re-export shim." > "$SHIM"
-            echo "export { useSensorMonacoTheme } from \'./useNetcattyMonacoTheme\';" >> "$SHIM"
-          fi
-          sed -i.bak \'s|binaricat/Sensor|DrOlu/Sensor|g\' scripts/generate-release-note.test.cjs 2>/dev/null || true
-          rm -f scripts/generate-release-note.test.cjs.bak
-
-STEP_EOF
-)
-            # Insert after "run: npm ci" lines
-            if grep -qF "run: npm ci" .github/workflows/build.yml; then
-              python3 -c "
-import sys
-content = open(\'.github/workflows/build.yml\').read()
-anchor = \'      - name: Install deps\\n        run: npm ci\\n\'
-step = open(sys.argv[1]).read() if len(sys.argv) > 1 else \'\'
-" 2>/dev/null || true
-              echo "build.yml patch step needs manual re-add via API"
-            fi
-          else
-            echo "build.yml patch step: present ✅"
+            restore_from_tag ".github/workflows/build.yml"
           fi
 
-          # ── useSensorMonacoTheme shim in copy-monaco.cjs ──────────────────
+          # Restore shim in copy-monaco.cjs if missing
           if ! grep -q "useSensorMonacoTheme" scripts/copy-monaco.cjs 2>/dev/null; then
-            echo "MISSING: shim in copy-monaco.cjs — adding..."
-            cat >> scripts/copy-monaco.cjs << \'SHIM_EOF\'
+            restore_from_tag "scripts/copy-monaco.cjs"
+          fi
 
-// Sensor-specific patch
-const shimPath = path.join(repoRoot, \'infrastructure\', \'monaco\', \'useSensorMonacoTheme.ts\');
-if (!fs.existsSync(shimPath)) {
-  fs.writeFileSync(shimPath,
-    \'// Re-export shim.\\n\' +
-    "export { useSensorMonacoTheme } from \'./useNetcattyMonacoTheme\';\\n"
-  );
-}
-SHIM_EOF
+          # Fix netcatty in locale strings
+          if grep -rql "netcatty" application/i18n/locales/ 2>/dev/null; then
+            find application/i18n/locales -name "*.ts" | xargs sed -i               -e 's/launch netcatty from/launch Sensor from/g'               -e 's/netcatty-external/sensor-external/g'               -e "s/NetCatty's defaults/Sensor's defaults/g"               -e 's/NetCatty по умолчанию/Sensor по умолчанию/g'               -e 's/NetCatty 默认/Sensor 默认/g'               -e 's/NetCatty 預設/Sensor 預設/g'
             CHANGED=true
-            echo "copy-monaco.cjs: shim added ✅"
+          fi
+
+          # Fix binaricat in test file
+          if grep -q "binaricat/Sensor" scripts/generate-release-note.test.cjs 2>/dev/null; then
+            sed -i 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+            CHANGED=true
+          fi
+
+          if [ "$CHANGED" = "true" ]; then
+            git add -A
+            git commit -m "fix(self-heal): restore critical Sensor files"
+            git push origin main
+            echo "Repairs committed and pushed."
           else
-            echo "copy-monaco.cjs shim: present ✅"
+            echo "All critical files present — no repairs needed."
           fi
-
-          # ── Fix netcatty in locale strings ────────────────────────────────
-          if grep -rq "netcatty\|NetCatty" application/i18n/locales/ 2>/dev/null; then
-            echo "FIXING netcatty in locale strings..."
-            find application/i18n/locales -name "*.ts" -exec sed -i \
-              -e \'s|launch netcatty from|launch Sensor from|g\' \
-              -e \'s|netcatty-external|sensor-external|g\' \
-              -e "s|NetCatty\'s defaults|Sensor\'s defaults|g" \
-              -e \'s|NetCatty по умолчанию|Sensor по умолчанию|g\' \
-              -e \'s|NetCatty 默认|Sensor 默认|g\' \
-              -e \'s|NetCatty 預設|Sensor 預設|g\' \
-              {} +
-            CHANGED=true
-          fi
-
-          echo "changed=$CHANGED" >> "$GITHUB_OUTPUT"
-
-      - name: Commit repairs
-        if: steps.check.outputs.changed == 'true'
-        run: |
-          git add -A
-          git commit -m "fix(self-heal): restore critical Sensor files"
-          git push origin main
-          echo "✅ Repairs committed."
-
-      - name: All clear
-        if: steps.check.outputs.changed == 'false'
-        run: echo "✅ All critical files present."

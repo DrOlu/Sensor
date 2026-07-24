@@ -156,7 +156,7 @@ test("credential leases are one-use and bound to plugin, runtime, operation, abo
   database.close();
 });
 
-test("Netcatty credentials resolve only when a one-use provider lease is consumed", async (context) => {
+test("Sensor credentials resolve only when a one-use provider lease is consumed", async (context) => {
   const database = createDatabase(context);
   const secretStore = new PluginSecretStore({ database, safeStorage: fakeSafeStorage() });
   const leaseStore = new SecretLeaseStore({ secretStore });
@@ -220,7 +220,7 @@ test("credential authorization descriptors do not probe opaque references before
     credentialResolver: {
       async assertReference() {
         credentialChecks += 1;
-        throw new Error("unknown Netcatty credential");
+        throw new Error("unknown Sensor credential");
       },
       async resolve() { throw new Error("credential must not resolve"); },
     },
@@ -249,7 +249,7 @@ test("credential authorization descriptors do not probe opaque references before
   await assert.rejects(broker.createLease({
     ...base,
     secret: { kind: "credential", id: "unknown-credential" },
-  }, runtime), /unknown Netcatty credential/);
+  }, runtime), /unknown Sensor credential/);
   assert.equal(credentialChecks, 1);
   await assert.rejects(broker.createLease({
     ...base,

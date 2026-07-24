@@ -174,7 +174,7 @@ test('active-tab context refresh cannot withdraw the plugin tab that triggered i
       title: 'Localized View',
       location: 'tab',
     }],
-  }] as unknown as NetcattyPluginContributionSnapshot['plugins'];
+  }] as unknown as SensorPluginContributionSnapshot['plugins'];
   assert.equal(reconcilePluginViewTabCatalog({
     loading: false,
     plugins,

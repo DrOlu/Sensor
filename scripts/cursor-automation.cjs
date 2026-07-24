@@ -628,7 +628,7 @@ function buildSlackPayload({
     sanitizeUntrustedText(issueTitle, 300),
   ).replace(/\|/g, '¦');
   const lines = [
-    `*Netcatty Cursor automation:* ${safeStatus}`,
+    `*Sensor Cursor automation:* ${safeStatus}`,
     issueUrl ? `<${issueUrl}|${safeTitle || issueUrl}>` : safeTitle,
   ];
   if (detail) {

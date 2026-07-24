@@ -110,12 +110,12 @@ test('isFixEligiblePr allows automation bot author with bot marker', () => {
     body: `${auto.BOT_PR_MARKER}\nFixes #1`,
     head: {
       ref: 'cursor/issue-1-99',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: ['automation:bot-pr'],
   };
-  assert.equal(auto.isFixEligiblePr(pr, { repository: 'binaricat/Netcatty' }), true);
+  assert.equal(auto.isFixEligiblePr(pr, { repository: 'DrOlu/Sensor' }), true);
 });
 
 test('isFixEligiblePr rejects contributor spoofing bot marker', () => {
@@ -124,12 +124,12 @@ test('isFixEligiblePr rejects contributor spoofing bot marker', () => {
     body: `${auto.BOT_PR_MARKER}\nFixes #1`,
     head: {
       ref: 'cursor/issue-1-99',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: ['automation:bot-pr'],
   };
-  assert.equal(auto.isFixEligiblePr(pr, { repository: 'binaricat/Netcatty' }), false);
+  assert.equal(auto.isFixEligiblePr(pr, { repository: 'DrOlu/Sensor' }), false);
 });
 
 test('isFixEligiblePr rejects forks', () => {
@@ -138,9 +138,9 @@ test('isFixEligiblePr rejects forks', () => {
     body: auto.BOT_PR_MARKER,
     head: {
       ref: 'cursor/issue-1-99',
-      repo: { full_name: 'someone/Netcatty' },
+      repo: { full_name: 'someone/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: ['automation:bot-pr'],
   };
   assert.equal(auto.isFixEligiblePr(pr), false);
@@ -152,9 +152,9 @@ test('isFixEligiblePr allows maintainer same-repo PRs', () => {
     body: 'manual pr',
     head: {
       ref: 'feature/foo',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: [],
   };
   assert.equal(auto.isFixEligiblePr(pr), true);
@@ -933,7 +933,7 @@ test('applyClassification comments then closes already_available as completed', 
 
   const classification = await auto.applyClassification({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core,
     issueNumber: 2428,
     classificationPath,
@@ -1001,7 +1001,7 @@ test('prepareIssueContext survives Octokit-normalized search pages (no .items)',
           return {
             data: {
               number: 2438,
-              html_url: 'https://github.com/binaricat/Netcatty/issues/2438',
+              html_url: 'https://github.com/DrOlu/Sensor/issues/2438',
               title: '[Feature] AI multi session',
               body: issueBody,
               pull_request: undefined,
@@ -1049,7 +1049,7 @@ test('prepareIssueContext survives Octokit-normalized search pages (no .items)',
 
   const result = await auto.prepareIssueContext({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core,
     issueNumber: 2438,
     outputPath,

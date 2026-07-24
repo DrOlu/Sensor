@@ -2,7 +2,7 @@
  * Live + mock matrix for SSH MFA models related to #2150 / #2217.
  *
  * Always runs:
- *   - Mock models A / B / C / password-only against Netcatty-style auth ordering
+ *   - Mock models A / B / C / password-only against Sensor-style auth ordering
  *     (credentials below are synthetic fixture strings, not real lab secrets)
  *
  * Optionally runs against a lab host when env is fully configured:
@@ -117,10 +117,10 @@ function isSecondaryLikePrompt(prompt) {
 }
 
 /**
- * Connect with Netcatty-like preference: password before keyboard-interactive.
+ * Connect with Sensor-like preference: password before keyboard-interactive.
  * Records offered methods and KI rounds for assertions.
  */
-function connectWithNetcattyOrder(opts) {
+function connectWithSensorOrder(opts) {
   // Lazy require so mock tests can patch first if needed
   const { Client } = require("ssh2");
   const {
@@ -188,7 +188,7 @@ function connectWithNetcattyOrder(opts) {
           ? methodsLeft
           : null;
 
-        // After partial success prefer KI (matches current Netcatty strategy)
+        // After partial success prefer KI (matches current Sensor strategy)
         if (
           hadPartial
           && (!available || available.includes("keyboard-interactive"))
@@ -505,7 +505,7 @@ const liveEdrmix = LIVE && hasLiveCreds(LAB.edrmix) ? test : test.skip;
 const liveEdrsec = LIVE && hasLiveCreds(LAB.edrsec) ? test : test.skip;
 
 liveEdrpw("live edrpw: password method only", async () => {
-  const result = await connectWithNetcattyOrder({
+  const result = await connectWithSensorOrder({
     host: LIVE_HOST,
     port: LIVE_PORT,
     username: LAB.edrpw.username,
@@ -518,7 +518,7 @@ liveEdrpw("live edrpw: password method only", async () => {
 });
 
 liveEdrtest("live edrtest: dual KI password + TOTP (model B)", async () => {
-  const result = await connectWithNetcattyOrder({
+  const result = await connectWithSensorOrder({
     host: LIVE_HOST,
     port: LIVE_PORT,
     username: LAB.edrtest.username,
@@ -534,7 +534,7 @@ liveEdrtest("live edrtest: dual KI password + TOTP (model B)", async () => {
 });
 
 liveEdrmix("live edrmix: dual KI password + TOTP alt secret (model B variant)", async () => {
-  const result = await connectWithNetcattyOrder({
+  const result = await connectWithSensorOrder({
     host: LIVE_HOST,
     port: LIVE_PORT,
     username: LAB.edrmix.username,
@@ -546,7 +546,7 @@ liveEdrmix("live edrmix: dual KI password + TOTP alt secret (model B variant)", 
 });
 
 liveEdrsec("live edrsec: dual KI with Secondary Authentication Password prompt", async () => {
-  const result = await connectWithNetcattyOrder({
+  const result = await connectWithSensorOrder({
     host: LIVE_HOST,
     port: LIVE_PORT,
     username: LAB.edrsec.username,

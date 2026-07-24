@@ -14,14 +14,14 @@ const { fanoutSessionExit } = require("../terminalAttachRestore.cjs");
 const execFileAsync = promisify(execFile);
 
 // MoshCatty normally emits this cleanup together with an alternate-screen
-// exit. Netcatty keeps the primary screen, so restore only terminal modes that
+// exit. Sensor keeps the primary screen, so restore only terminal modes that
 // can leak from a full-screen remote program and leave scrollback untouched.
 const MOSH_PRIMARY_SCREEN_RESET = "\x1b[?1l\x1b[0m\x1b[?25h"
   + "\x1b[?1003l\x1b[?1002l\x1b[?1001l\x1b[?1000l"
   + "\x1b[?1015l\x1b[?1006l\x1b[?1005l";
 
 // The interactive SSH bootstrap can paint password prompts, MOTD text, and
-// mosh-server diagnostics into Netcatty's primary screen. MoshCatty then
+// mosh-server diagnostics into Sensor's primary screen. MoshCatty then
 // reconstructs only the cells present in the remote Mosh state, so untouched
 // bootstrap cells would remain visible around the new shell. Clear the current
 // viewport at the successful handoff while preserving primary-screen scrollback.
@@ -230,7 +230,7 @@ function createMoshSessionApi(ctx) {
         try {
           fs.unlinkSync(file);
         } catch {
-          // Best effort cleanup; Settings > System can clear Netcatty temp files.
+          // Best effort cleanup; Settings > System can clear Sensor temp files.
         }
       }
     }
@@ -595,7 +595,7 @@ function createMoshSessionApi(ctx) {
         // Common on Windows when ConPTY mangled the magic line (#2025) or when
         // mosh-server never started. Surface an explicit hint so the banner +
         // "[mosh-server detached]" alone is not mistaken for a successful
-        // session that immediately closed (Netcatty #2121 residual connect).
+        // session that immediately closed (Sensor #2121 residual connect).
         const handshakeHint =
           "\r\n[Mosh handshake failed during SSH startup: did not receive a valid "
           + "MOSH CONNECT line from mosh-server. The UDP client was not started. "
@@ -655,7 +655,7 @@ function createMoshSessionApi(ctx) {
           ? options.hostname
           : undefined,
       });
-      // Netcatty owns the terminal buffer. Keeping MoshCatty on the primary
+      // Sensor owns the terminal buffer. Keeping MoshCatty on the primary
       // screen preserves scrollback and lets renderer features such as keyword
       // highlighting keep observing the active buffer.
       env.MOSH_NO_TERM_INIT = "1";
@@ -703,7 +703,7 @@ function createMoshSessionApi(ctx) {
       // good. Stash them so sshBridge can lazily open a best-effort companion
       // SSH connection for host-info stats (CPU/mem/disk), which Mosh's UDP
       // channel cannot provide on its own (issue #1198). Only credentials
-      // Netcatty already holds are kept — a password typed interactively into
+      // Sensor already holds are kept — a password typed interactively into
       // the handshake PTY is not captured, so that case degrades gracefully.
       session.moshStatsAuth = {
         // Use the configured SSH host, NOT parsed.host: a `MOSH IP` line
@@ -820,7 +820,7 @@ function createMoshSessionApi(ctx) {
     /**
      * Start a Mosh session.
      *
-     * Netcatty only uses its bundled `mosh-client` binary here. System
+     * Sensor only uses its bundled `mosh-client` binary here. System
      * `mosh` / `mosh-client` installs are intentionally ignored so dev,
      * CI, and release builds exercise the same binary.
      */
@@ -849,7 +849,7 @@ function createMoshSessionApi(ctx) {
         fileExists: (p) => isExecutableFile(p) || fs.existsSync(p),
       });
       if (!sshExe) {
-        throw new Error("OpenSSH client not found. Netcatty needs ssh to start the remote mosh-server handshake.");
+        throw new Error("OpenSSH client not found. Sensor needs ssh to start the remote mosh-server handshake.");
       }
     
       const preparedOptions = await prepareMoshSshAgentOptions(options);

@@ -356,7 +356,7 @@ export const GroupSshSettingsSection: React.FC<GroupSshSettingsSectionProps> = (
                         size="icon"
                         className="h-8 w-8 shrink-0"
                         onClick={async () => {
-                          const bridge = (window as unknown as { netcatty?: NetcattyBridge }).netcatty;
+                          const bridge = (window as unknown as { netcatty?: SensorBridge }).netcatty;
                           if (!bridge?.selectFile) return;
                           const filePath = await bridge.selectFile(
                             "Select SSH Private Key",

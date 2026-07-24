@@ -1,6 +1,6 @@
-# Classify one Netcatty issue (code-first)
+# Classify one Sensor issue (code-first)
 
-You are triaging a Netcatty GitHub issue. **You must inspect the live repository
+You are triaging a Sensor GitHub issue. **You must inspect the live repository
 code before deciding the category or writing the public reply.** Answering from
 the issue title/body alone is a hard failure.
 
@@ -87,7 +87,7 @@ Do **not** defer just because:
 
 ### Bugs
 
-- `bug_ready`: clear Netcatty bug after reading code; focused fix in one PR;
+- `bug_ready`: clear Sensor bug after reading code; focused fix in one PR;
   confidence ≥ 0.8.
 - `bug_needs_info`: still cannot reproduce / attribute after reading code, or
   missing evidence (logs, steps, versions).

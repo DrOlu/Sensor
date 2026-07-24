@@ -40,7 +40,7 @@ test('layout movement under a stationary pointer cannot take over keyboard navig
   assert.equal(shouldUseQuickSwitcherPointerNavigation(0, -1), true);
 });
 
-function pluginSnapshot(menuEnabled: boolean): NetcattyPluginContributionSnapshot['plugins'] {
+function pluginSnapshot(menuEnabled: boolean): SensorPluginContributionSnapshot['plugins'] {
   return [{
     id: 'com.example.palette',
     version: '1.0.0',

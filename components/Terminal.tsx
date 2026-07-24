@@ -1927,7 +1927,7 @@ const TerminalComponent: React.FC<TerminalProps> = ({
   });
   pluginTerminalLifecycleRef.current = pluginTerminalLifecycle;
   pluginTerminalSessionExitRef.current = pluginTerminalLifecycle.onSessionExited;
-  const getPluginTerminalSnapshotState = useCallback((): Partial<NetcattyTerminalSessionSnapshot> => {
+  const getPluginTerminalSnapshotState = useCallback((): Partial<SensorTerminalSessionSnapshot> => {
     const term = termRef.current;
     return {
       status: statusRef.current,

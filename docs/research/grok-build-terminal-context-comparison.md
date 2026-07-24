@@ -5,7 +5,7 @@
 - Grok Build 本地源码：`/Users/chenqi/.codex/external-sources/grok-build`
 - 仓库当前提交：`8adf9013a0929e5c7f1d4e849492d2387837a28d`
 - 仓库内 `SOURCE_REV`：`2ec0f0c8488842da03a71eeee3c61154957ca919`
-- Catty 源码：本报告所在 Netcatty 工作树
+- Catty 源码：本报告所在 Sensor 工作树
 - **已验证**：可直接由源码或本地只读实跑证明。
 - **推断**：由多处实现拼合出的行为判断，尚未做完整产品级端到端复现。
 
@@ -154,7 +154,7 @@ Catty 应保存的是结构化任务续读状态：`jobId + sessionId + command 
 
 1. SessionState 保存运行任务和最后已读 offset；compaction 后先核实真实状态，再恢复续读位置。
 2. ToolOutputStore 增加每 handle、每 chat、全局总字节数、条数、TTL、LRU；关闭终端和删除聊天时精确清理。
-3. 大输出从 JS heap 移到 Netcatty 专用临时目录；以不可猜 handle 访问，使用受限权限，支持字节范围读取和搜索。
+3. 大输出从 JS heap 移到 Sensor 专用临时目录；以不可猜 handle 访问，使用受限权限，支持字节范围读取和搜索。
 4. 统一 ANSI、CR 进度、超长单行、重复行、binary/base64/高熵文本处理；保留 `encoding` 与是否 lossy 的元数据。
 5. 为 follow/watch/log tail 增加 Grok monitor 式入口：200ms 合批、单行/单批预算、速率限制、抑制计数和明确的停流/停进程行为。
 

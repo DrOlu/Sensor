@@ -317,7 +317,7 @@ test("buildAppMenu closes a non-app window directly when Cmd+W is invoked", () =
     },
   };
 
-  buildAppMenu(Menu, { name: "Netcatty" }, true);
+  buildAppMenu(Menu, { name: "Sensor" }, true);
 
   const windowMenu = capturedTemplate.find((item) => item.label === "Window");
   assert.ok(windowMenu);
@@ -376,7 +376,7 @@ test("buildAppMenu sends Cmd+W to any registered main window renderer", () => {
   registerMainWindow(firstMainWindow);
   registerMainWindow(secondMainWindow);
   try {
-    buildAppMenu(Menu, { name: "Netcatty" }, true);
+    buildAppMenu(Menu, { name: "Sensor" }, true);
     const windowMenu = capturedTemplate.find((item) => item.label === "Window");
     const closeItem = windowMenu.submenu.find((item) => item.accelerator === "CommandOrControl+W");
 
@@ -398,7 +398,7 @@ test("buildAppMenu keeps app reload click-only so custom reload-like shortcuts r
     },
   };
 
-  buildAppMenu(Menu, { name: "Netcatty" }, false);
+  buildAppMenu(Menu, { name: "Sensor" }, false);
 
   const viewMenu = capturedTemplate.find((item) => item.label === "View");
   assert.ok(viewMenu);
@@ -450,7 +450,7 @@ test("buildAppMenu renders localized plugin commands with checked and disabled s
     },
   ]);
   try {
-    buildAppMenu(Menu, { name: "Netcatty" }, false, "zh-CN");
+    buildAppMenu(Menu, { name: "Sensor" }, false, "zh-CN");
     const pluginsMenu = capturedTemplate.find((item) => item.label === "插件");
     assert.ok(pluginsMenu);
     assert.deepEqual(pluginsMenu.submenu.map(({ id, label, enabled, checked, type }) => ({

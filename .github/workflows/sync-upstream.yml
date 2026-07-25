@@ -74,6 +74,7 @@ jobs:
           cp .github/workflows/notify-multica-release.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
           cp .github/workflows/self-heal.yml /tmp/sensor-snap/.github/workflows/ 2>/dev/null || true
           # Brand icons — copy entire variants directory to preserve all Sensor S icons
+          cp package.json /tmp/sensor-snap/ 2>/dev/null || true
           cp public/icon.png /tmp/sensor-snap/ 2>/dev/null || true
           cp public/icon.svg /tmp/sensor-snap/ 2>/dev/null || true
           cp -r public/icons/ /tmp/sensor-snap/icons/ 2>/dev/null || true
@@ -99,6 +100,7 @@ jobs:
           cp /tmp/sensor-snap/.github/workflows/build.yml .github/workflows/ 2>/dev/null || true
           cp /tmp/sensor-snap/.github/workflows/notify-multica-release.yml .github/workflows/ 2>/dev/null || true
           cp /tmp/sensor-snap/.github/workflows/self-heal.yml .github/workflows/ 2>/dev/null || true
+          cp /tmp/sensor-snap/package.json . 2>/dev/null || true
           cp /tmp/sensor-snap/icon.png public/ 2>/dev/null || true
           cp /tmp/sensor-snap/icon.svg public/ 2>/dev/null || true
           # Restore ALL icon variants (preserves Sensor S icons across all variants)

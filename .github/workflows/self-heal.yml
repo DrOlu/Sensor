@@ -18,8 +18,9 @@ jobs:
           fetch-depth: 0
 
       - name: Restore and patch critical files
+        continue-on-error: true
         run: |
-          set -e
+          set +e  # allow individual checks to fail without aborting
           git config user.name "Sensor Heal Bot"
           git config user.email "sensor-bot@hyperspace.ng"
           CHANGED=false

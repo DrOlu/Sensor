@@ -126,8 +126,8 @@ function resolveExistingExternalMcpDiscoveryFilePath(options = {}) {
 
 function getExternalMcpLauncherPath() {
   const fileName = process.platform === "win32"
-    ? "netcatty-external-mcp.cmd"
-    : "netcatty-external-mcp";
+    ? "sensor-external-mcp.cmd"
+    : "sensor-external-mcp";
   return toUnpackedAsarPath(path.join(__dirname, fileName));
 }
 

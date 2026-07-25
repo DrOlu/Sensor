@@ -135,6 +135,7 @@ jobs:
               git add .upstream-release
             fi
             git commit -m "sync: upstream Netcatty @ ${UPSTREAM_SHA} (rebranded)"
+            git pull --rebase origin main
             git push origin main
           fi
 
@@ -170,6 +171,7 @@ jobs:
             git add .upstream-release
             if ! git diff --cached --quiet; then
               git commit -m "chore: record upstream release $UPSTREAM_RELEASE in .upstream-release"
+              git pull --rebase origin main
               git push origin main
             fi
           fi

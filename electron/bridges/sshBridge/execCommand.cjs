@@ -165,7 +165,7 @@ function createExecCommandApi(ctx) {
         if (systemAuthAgent) {
           connectOpts.agent = systemAuthAgent;
         } else if (hasCertificate) {
-          authAgent = new NetcattyAgent({
+          authAgent = new SensorAgent({
             mode: "certificate",
             webContents: event.sender,
             meta: {

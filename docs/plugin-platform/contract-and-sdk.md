@@ -1,7 +1,7 @@
-# Netcatty plugin contract and SDK
+# Sensor plugin contract and SDK
 
 Status: internal preview (`0.1.0-internal`)
-Tracking issue: [#2269](https://github.com/binaricat/Netcatty/issues/2269)
+Tracking issue: [#2269](https://github.com/DrOlu/Sensor/issues/2269)
 
 Phases 2 and 3 consume this contract in the isolated host runtime and secure
 capability boundary. See
@@ -165,7 +165,7 @@ accept `0.2.0-alpha`.
 The optional manifest `features` object separates required and optional feature
 IDs. Required and optional sets cannot overlap. During runtime initialization,
 the host sends the `plugin.initialize` JSON-RPC method using
-`RuntimeInitializeRequest` and `RuntimeInitializeParams` with its exact Netcatty
+`RuntimeInitializeRequest` and `RuntimeInitializeParams` with its exact Sensor
 version, API version, and supported features. The plugin answers with
 `RuntimeInitializeSuccess` and `RuntimeInitializeResult`, including only the
 features enabled for that runtime.
@@ -344,7 +344,7 @@ lifecycle primitives:
 - `CancellationTokenSource` provides cooperative cancellation without exposing
   host abort controllers;
 - `PluginError` carries a stable machine-readable error code and JSON details;
-- `PluginContext` exposes the exact Netcatty/API versions, negotiated feature
+- `PluginContext` exposes the exact Sensor/API versions, negotiated feature
   set, storage, opaque secret references, credential leases, mediated network
   and filesystem access, companion handles, contribution settings, command
   registration/execution, Context Keys, view messaging/state, locale/theme/
@@ -383,7 +383,7 @@ immediately transfers a value already known to the plugin into host storage
 before returning the same kind of reference. Network,
 authentication, and companion brokers can consume a one-use lease for the
 reference while the main process revalidates plugin ownership and operation
-scope. PR 7 may also supply a host-issued `CredentialRef` for Netcatty-owned
+scope. PR 7 may also supply a host-issued `CredentialRef` for Sensor-owned
 Vault credentials through the same SDK method; its injected resolver does not
 materialize plaintext until lease consumption. Neither reference kind is a
 bearer capability, and neither may bypass permission, ownership, runtime, and
@@ -426,7 +426,7 @@ manifest declarations. Provider capability IDs use the same lowercase,
 namespaced feature-ID grammar as runtime negotiation.
 Provider `configurationSchema` values are declarative JSON data interpreted by
 the host's restricted schema validator; providers never receive a way to inject
-configuration UI code into Netcatty.
+configuration UI code into Sensor.
 
 Terminal Provider declarations are also tied to their least-privilege data
 capabilities. Completion requires `terminal.complete`; text-derived visual
@@ -458,7 +458,7 @@ arbitrary JavaScript without terminating the isolated runtime.
 
 - `init` creates a minimal TypeScript plugin;
 - `validate` checks a source directory or packaged archive;
-- `compatibility` checks Netcatty/API ranges and negotiates required and
+- `compatibility` checks Sensor/API ranges and negotiates required and
   optional features;
 - `build` validates the manifest and runs the plugin's npm build script without
   a shell;

@@ -2,8 +2,8 @@
 
 Status: internal preview (`0.1.0-internal`), development gate only
 
-Phase 4 of [#2269](https://github.com/binaricat/Netcatty/issues/2269)
-connects the manifest contribution contract to Netcatty's native UI and to a
+Phase 4 of [#2269](https://github.com/DrOlu/Sensor/issues/2269)
+connects the manifest contribution contract to Sensor's native UI and to a
 separate sandbox for fully custom views. It does not expose Electron IPC, React
 components, the main document, or a browser network stack to plugin code.
 
@@ -31,7 +31,7 @@ otherwise active plugin.
 
 ## Native settings
 
-Netcatty renders setting declarations with host-owned controls. The supported
+Sensor renders setting declarations with host-owned controls. The supported
 controls are switches, radio/select/multiselect, text and password fields,
 textarea, number and slider, color, font, file and directory paths, keybindings,
 lists, and tables. The main process validates every write against the declared
@@ -82,7 +82,7 @@ must be declared by the currently active manifest, pass package-integrity and
 realpath containment checks, and pass byte, format, and dimension preflight
 before any image decoder sees plugin bytes. Decoding and resizing run through a
 bounded queue of disposable sandboxed renderer workers; only the resulting
-small PNG data URL reaches a Netcatty renderer or native application menu.
+small PNG data URL reaches a Sensor renderer or native application menu.
 ViewBox-only SVGs receive their inspected viewport inside that isolated worker,
 so common declarative SVG icons remain usable without trusting intrinsic
 decoder dimensions.
@@ -93,7 +93,7 @@ JavaScript evaluation. Invalid, oversized, or over-complex expressions evaluate
 to false. Plugin runtimes may update only one-segment keys in their own exact
 namespace.
 
-Platform keybindings are resolved by Netcatty and ignored while the user is
+Platform keybindings are resolved by Sensor and ignored while the user is
 typing in an input, textarea, select, any contenteditable or textbox role, or a
 Monaco editor surface. Command enablement is rechecked in the main process, and
 renderer snapshots fail closed immediately when their host context changes, so
@@ -125,7 +125,7 @@ Each open custom view is a lazily created `WebContentsView` with:
   USB, serial, HID, payment, fullscreen, and clipboard capabilities.
 
 The protocol serves package files only. A view cannot load host runtime modules
-or another plugin's package. The view instance is bound to the Netcatty window
+or another plugin's package. The view instance is bound to the Sensor window
 that created it; another renderer window cannot resize, message, or close it.
 Owner closure, plugin disable, setup failure, and host shutdown all dispose the
 view and its protocol/session registrations.
@@ -142,7 +142,7 @@ owner-bound `WebContentsView` and are restored with fresh bounds when reopened.
 Retained views are still disposed on owner shutdown, plugin disable, runtime
 quarantine, or host shutdown; the flag never extends ownership or permissions.
 
-Views declaring `location: "tab"` participate in Netcatty's draggable native
+Views declaring `location: "tab"` participate in Sensor's draggable native
 top-tab model, including neighbor activation, middle-click and Cmd/Ctrl+W close,
 and close-others/right/all actions. They do not fall through to the overlay
 surface used by non-tab locations.
@@ -175,7 +175,7 @@ locale, light/dark/system theme identity,
 host-owned CSS color tokens, reduced-motion preference, forced/high-contrast
 preference, and subsequent environment changes. Theme-token mutations and
 accessibility media-query changes are observed while the host is open, rather
-than only at initial view creation. Netcatty retains the accessible
+than only at initial view creation. Sensor retains the accessible
 name and close control around every custom view; modal placements use dialog
 semantics, while aside, panel, tab, and settings placements use named regions.
 

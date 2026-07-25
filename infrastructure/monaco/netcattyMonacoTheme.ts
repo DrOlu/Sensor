@@ -1,6 +1,6 @@
 /** Shared Monaco theme colors derived from app CSS variables. */
 
-export interface NetcattyEditorColors {
+export interface SensorEditorColors {
   bg: string;
   fg: string;
   primary: string;
@@ -56,7 +56,7 @@ const getCssColor = (varName: string, fallback: string): string => {
   return value ? hslToHex(value) : fallback;
 };
 
-export const getNetcattyEditorColors = (isDark: boolean): NetcattyEditorColors => ({
+export const getSensorEditorColors = (isDark: boolean): SensorEditorColors => ({
   bg: getCssColor('--background', isDark ? '#1e1e1e' : '#ffffff'),
   fg: getCssColor('--foreground', isDark ? '#d4d4d4' : '#1e1e1e'),
   primary: getCssColor('--primary', isDark ? '#569cd6' : '#0078d4'),
@@ -65,7 +65,7 @@ export const getNetcattyEditorColors = (isDark: boolean): NetcattyEditorColors =
   border: getCssColor('--border', isDark ? '#3c3c3c' : '#d4d4d4'),
 });
 
-export const getNetcattyThemeSignal = (): string => {
+export const getSensorThemeSignal = (): string => {
   if (typeof document === 'undefined' || typeof getComputedStyle === 'undefined') {
     return '';
   }
@@ -77,12 +77,12 @@ export const getNetcattyThemeSignal = (): string => {
 export const NETCATTY_MONACO_THEME_DARK = 'netcatty-dark';
 export const NETCATTY_MONACO_THEME_LIGHT = 'netcatty-light';
 
-export const getNetcattyMonacoThemeName = (isDark: boolean): string => (
+export const getSensorMonacoThemeName = (isDark: boolean): string => (
   isDark ? NETCATTY_MONACO_THEME_DARK : NETCATTY_MONACO_THEME_LIGHT
 );
 
-export const buildNetcattyMonacoThemeColors = (
-  colors: NetcattyEditorColors,
+export const buildSensorMonacoThemeColors = (
+  colors: SensorEditorColors,
 ): Record<string, string> => ({
   'editor.background': colors.bg,
   'editor.foreground': colors.fg,

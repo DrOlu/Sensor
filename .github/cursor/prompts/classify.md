@@ -1,6 +1,6 @@
-# Classify one Netcatty issue (code-first)
+# Classify one Sensor issue (code-first)
 
-You are triaging a Netcatty GitHub issue. **You must inspect the live repository
+You are triaging a Sensor GitHub issue. **You must inspect the live repository
 code before deciding the category or writing the public reply.** Answering from
 the issue title/body alone is a hard failure.
 
@@ -31,7 +31,7 @@ From the title/body (and recent comments in `issue.json`), list concrete tokens:
 
 ### 2. Active research for unknown terms and URLs (required when present)
 
-If the report names a product/tool that is **not** an obvious Netcatty UI label,
+If the report names a product/tool that is **not** an obvious Sensor UI label,
 or includes an `http(s)://` link, you **must research before needs-info**:
 
 1. **URLs in the issue/comments:** open or fetch enough to learn what the
@@ -44,7 +44,7 @@ or includes an `http(s)://` link, you **must research before needs-info**:
 3. **Related history:** search this repository's issues/PRs for the same
    token (`gh issue list --search "…"` when available, or memory of paths/
    prior bugs). Mention prior issue numbers in `code_findings` when found.
-4. **Map to Netcatty surfaces:** after research, connect the external tool to
+4. **Map to Sensor surfaces:** after research, connect the external tool to
    local code (terminal mouse mode, scrollback, SFTP transfer, AI sidebar,
    etc.) and search those areas — not only for a page literally named after
    the external product.
@@ -121,7 +121,7 @@ Do **not** defer just because:
 
 ### Bugs
 
-- `bug_ready`: clear Netcatty bug after reading code; focused fix in one PR;
+- `bug_ready`: clear Sensor bug after reading code; focused fix in one PR;
   confidence ≥ 0.8.
 - `bug_needs_info`: still cannot reproduce / attribute after reading code, or
   missing evidence (logs, steps, versions).

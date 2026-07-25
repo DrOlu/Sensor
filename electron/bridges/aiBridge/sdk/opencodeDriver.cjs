@@ -565,7 +565,7 @@ async function runOpenCodeTurn({
 
     if (!sessionId) {
       const created = await client.session.create({
-        body: { title: "Netcatty OpenCode" },
+        body: { title: "Sensor OpenCode" },
         query: directoryQuery,
       });
       sessionId = created?.data?.id || created?.id || null;
@@ -764,7 +764,7 @@ function buildOpenCodeListServerKey(binPath, env) {
 }
 
 // Shared list-models servers: coalesce concurrent catalog loads for the same
-// binary, then tear down after a short idle so idle Netcatty does not keep
+// binary, then tear down after a short idle so idle Sensor does not keep
 // opencode processes around (issue #2184).
 const OPENCODE_LIST_SERVER_IDLE_MS = 1500;
 const openCodeListServers = new Map();

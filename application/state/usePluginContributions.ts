@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
-const EMPTY_SNAPSHOT: NetcattyPluginContributionSnapshot = Object.freeze({
+const EMPTY_SNAPSHOT: SensorPluginContributionSnapshot = Object.freeze({
   locale: 'en',
   plugins: Object.freeze([]),
 });
@@ -15,7 +15,7 @@ export function resolvePluginContributionLoadState({
 }: {
   currentQueryKey: string;
   loadedQueryKey: string;
-  snapshot: NetcattyPluginContributionSnapshot;
+  snapshot: SensorPluginContributionSnapshot;
   available: boolean;
   loading: boolean;
 }): Pick<UsePluginContributionsResult, 'available' | 'loading' | 'snapshot'> {
@@ -27,7 +27,7 @@ export function resolvePluginContributionLoadState({
 
 export function failClosedPluginContributionLoad(cause: unknown): {
   available: false;
-  snapshot: NetcattyPluginContributionSnapshot;
+  snapshot: SensorPluginContributionSnapshot;
   error: Error;
 } {
   return {
@@ -38,8 +38,8 @@ export function failClosedPluginContributionLoad(cause: unknown): {
 }
 
 export function comparePluginMenus(
-  left: NetcattyPluginContributionSnapshot['plugins'][number]['menus'][number],
-  right: NetcattyPluginContributionSnapshot['plugins'][number]['menus'][number],
+  left: SensorPluginContributionSnapshot['plugins'][number]['menus'][number],
+  right: SensorPluginContributionSnapshot['plugins'][number]['menus'][number],
 ): number {
   return (left.group ?? '').localeCompare(right.group ?? '')
     || (left.order ?? 0) - (right.order ?? 0)
@@ -47,7 +47,7 @@ export function comparePluginMenus(
 }
 
 export function collectOwnedPluginMenus(
-  plugins: NetcattyPluginContributionSnapshot['plugins'],
+  plugins: SensorPluginContributionSnapshot['plugins'],
 ) {
   return plugins.flatMap((plugin) => {
     const commandById = new Map(plugin.commands.map((command) => [command.id, command] as const));
@@ -76,22 +76,22 @@ export interface UsePluginContributionsResult {
   available: boolean;
   loading: boolean;
   error: Error | null;
-  snapshot: NetcattyPluginContributionSnapshot;
+  snapshot: SensorPluginContributionSnapshot;
   refresh(): Promise<void>;
   executeCommand(command: string, args?: unknown, context?: Record<string, unknown>): Promise<unknown>;
   updateSetting(pluginId: string, settingId: string, value: unknown, scopeId?: string): Promise<{ restartRequired: boolean }>;
   resetSetting(pluginId: string, settingId: string, scopeId?: string): Promise<{ restartRequired: boolean }>;
   selectSettingPath(kind: 'file' | 'directory', title: string, defaultPath?: string): Promise<string | null>;
-  openView(payload: NetcattyPluginViewOpenRequest): Promise<{ instanceId: string }>;
+  openView(payload: SensorPluginViewOpenRequest): Promise<{ instanceId: string }>;
   closeView(instanceId: string): Promise<void>;
   setViewBounds(instanceId: string, bounds: { x: number; y: number; width: number; height: number }): Promise<void>;
   setViewVisibility(instanceId: string, visible: boolean): Promise<void>;
-  setEnvironment(environment: NetcattyPluginEnvironment): Promise<void>;
-  onViewClosed(callback: (event: NetcattyPluginViewClosedEvent) => void): () => void;
+  setEnvironment(environment: SensorPluginEnvironment): Promise<void>;
+  onViewClosed(callback: (event: SensorPluginViewClosedEvent) => void): () => void;
 }
 
 export function usePluginContributions(
-  query: NetcattyPluginContributionQuery = {},
+  query: SensorPluginContributionQuery = {},
 ): UsePluginContributionsResult {
   const bridge = typeof window === 'undefined' ? undefined : netcattyBridge.get();
   const queryKey = useMemo(() => JSON.stringify(query), [query]);
@@ -177,7 +177,7 @@ export function usePluginContributions(
     return picker(title, defaultPath);
   }, [bridge]);
 
-  const openView = useCallback(async (payload: NetcattyPluginViewOpenRequest) => {
+  const openView = useCallback(async (payload: SensorPluginViewOpenRequest) => {
     if (!bridge?.openPluginView) throw new Error('Plugin views are unavailable');
     return bridge.openPluginView(payload);
   }, [bridge]);
@@ -200,12 +200,12 @@ export function usePluginContributions(
     await bridge.setPluginViewVisibility(instanceId, visible);
   }, [bridge]);
 
-  const setEnvironment = useCallback(async (environment: NetcattyPluginEnvironment) => {
+  const setEnvironment = useCallback(async (environment: SensorPluginEnvironment) => {
     if (!bridge?.setPluginEnvironment) return;
     await bridge.setPluginEnvironment(environment);
   }, [bridge]);
 
-  const onViewClosed = useCallback((callback: (event: NetcattyPluginViewClosedEvent) => void) => (
+  const onViewClosed = useCallback((callback: (event: SensorPluginViewClosedEvent) => void) => (
     bridge?.onPluginViewClosed?.(callback) ?? (() => {})
   ), [bridge]);
 

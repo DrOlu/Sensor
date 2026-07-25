@@ -5,7 +5,7 @@ import {
   type SdkAgentCallbacks,
 } from '../../sdkAgentAdapter';
 import {
-  getNetcattyBridge,
+  getSensorBridge,
   generateId,
   resolveUserSkillsContext,
   isToolResultError,
@@ -80,7 +80,7 @@ async function runExternalTurn(
     ui,
   } = input;
 
-  const netcattyBridge = bridge ?? getNetcattyBridge();
+  const netcattyBridge = bridge ?? getSensorBridge();
   const sdkBackend = getExternalAgentSdkBackend(agentConfig);
 
   if (!sdkBackend || !netcattyBridge) {

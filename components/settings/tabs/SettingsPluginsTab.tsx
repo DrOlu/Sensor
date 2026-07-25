@@ -27,7 +27,7 @@ export function PluginSettingField({
   availableFonts,
 }: {
   pluginId: string;
-  setting: NetcattyPluginSettingContribution;
+  setting: SensorPluginSettingContribution;
   updateSetting: ReturnType<typeof usePluginContributions>['updateSetting'];
   resetSetting: ReturnType<typeof usePluginContributions>['resetSetting'];
   selectSettingPath: ReturnType<typeof usePluginContributions>['selectSettingPath'];
@@ -281,18 +281,18 @@ export default function SettingsPluginsTab() {
   const { t } = useI18n();
   const availableFonts = useAvailableFonts();
   const scopeCatalog = usePluginSettingScopeCatalog();
-  const [scopeIds, setScopeIds] = useState<Partial<Record<NetcattyPluginSettingScopeKind, string>>>({});
+  const [scopeIds, setScopeIds] = useState<Partial<Record<SensorPluginSettingScopeKind, string>>>({});
   useEffect(() => {
     setScopeIds((current) => resolvePluginSettingScopeSelection(scopeCatalog, current));
   }, [scopeCatalog]);
-  const query = useMemo<NetcattyPluginContributionQuery>(() => ({
+  const query = useMemo<SensorPluginContributionQuery>(() => ({
     context: { 'netcatty.surface': 'settings' },
     scopeIds,
   }), [scopeIds]);
   const contributions = usePluginContributions(query);
   const contextualScopes = useMemo(() => new Set(contributions.snapshot.plugins
     .flatMap((plugin) => plugin.settings.map((setting) => setting.scope))
-    .filter((scope): scope is NetcattyPluginSettingScopeKind => scope !== 'application')),
+    .filter((scope): scope is SensorPluginSettingScopeKind => scope !== 'application')),
   [contributions.snapshot.plugins]);
   const hasVisibleContributions = contributions.snapshot.plugins.some((plugin) => (
     plugin.settings.some((setting) => setting.visible)

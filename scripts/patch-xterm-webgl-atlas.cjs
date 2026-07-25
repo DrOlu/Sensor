@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* global process, console */
 /**
- * Apply Netcatty's @xterm/addon-webgl glyph-atlas safety fixes.
+ * Apply Sensor's @xterm/addon-webgl glyph-atlas safety fixes.
  *
  * xterm's WebGL addon shares ONE TextureAtlas across terminal instances whose
  * config (font / size / theme / device-pixel-ratio) is equal — see
@@ -21,7 +21,7 @@
  * cell blocks when xterm generates mipmaps for the glyph atlas (#2158,
  * xtermjs/xterm.js#5986). Upstream fixed this in xtermjs/xterm.js#5987 by using
  * non-mipmapped linear filters. Apply that narrow fix to the currently pinned
- * beta so Netcatty does not need to absorb unrelated xterm beta changes.
+ * beta so Sensor does not need to absorb unrelated xterm beta changes.
  *
  * Heavy TUIs can also fill more atlas pages than GlyphRenderer allocated WebGL
  * textures for (xtermjs/xterm.js#6038). The next render then dereferences a

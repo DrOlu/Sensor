@@ -45,13 +45,13 @@ export interface SftpConnectOptions {
   sourceSessionId?: string;
 }
 
-type SftpOpenBridge = Pick<NetcattyBridge, "openSftp"> &
-  Partial<Pick<NetcattyBridge, "openSftpForSession">>;
+type SftpOpenBridge = Pick<SensorBridge, "openSftp"> &
+  Partial<Pick<SensorBridge, "openSftpForSession">>;
 
 interface OpenSftpWithSessionPreferenceParams {
   bridge: SftpOpenBridge | null | undefined;
   sourceSessionId?: string;
-  openOptions: NetcattySSHOptions;
+  openOptions: SensorSSHOptions;
 }
 
 /** Open SFTP through an already-authenticated terminal session before retrying normal auth. */
@@ -499,7 +499,7 @@ export const useSftpConnections = ({
             );
           };
 
-          let credentials: NetcattySSHOptions | null = null;
+          let credentials: SensorSSHOptions | null = null;
           let sftpId: string | undefined;
 
           // Live Connected rows: try reuse with endpoint-only options first so

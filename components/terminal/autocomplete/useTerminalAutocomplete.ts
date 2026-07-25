@@ -141,7 +141,7 @@ interface UseTerminalAutocompleteOptions {
   snippets?: Snippet[];
   /** Accept a snippet — clears typed input then runs it (host-canonical send) */
   onAcceptSnippet?: (snippet: Snippet) => void;
-  /** Host-owned completion Provider adapter; defaults to Netcatty's built-in Provider. */
+  /** Host-owned completion Provider adapter; defaults to Sensor's built-in Provider. */
   provideCompletions?: (
     input: string,
     options: HostCompletionProviderOptions,

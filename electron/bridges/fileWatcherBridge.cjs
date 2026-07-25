@@ -232,7 +232,7 @@ async function handleFileChange(watchId, webContents) {
     
     // Show system notification for successful sync
     showSystemNotification(
-      "Netcatty",
+      "Sensor",
       `File synced to remote: ${fileName}`
     );
     
@@ -251,7 +251,7 @@ async function handleFileChange(watchId, webContents) {
     
     // Show system notification for sync failure
     showSystemNotification(
-      "Netcatty",
+      "Sensor",
       `Failed to sync ${fileName}: ${err.message}`
     );
     

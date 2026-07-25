@@ -38,11 +38,11 @@ function resolveCodexPermissionConfig(permissionMode) {
 
 function buildThreadConfig(injectedMcpServers) {
   return {
-    // Netcatty already applies its Observer/Confirm/Auto policy inside the MCP
+    // Sensor already applies its Observer/Confirm/Auto policy inside the MCP
     // bridge. Tell Codex not to add a second MCP approval prompt: App Server
     // otherwise routes the stable MCP elicitation request back to this client,
     // and rejecting/omitting that duplicate prompt surfaces as
-    // "user rejected MCP tool call" before Netcatty's own gate can run.
+    // "user rejected MCP tool call" before Sensor's own gate can run.
     mcp_servers: toCodexMcpConfig(injectedMcpServers, {
       defaultToolsApprovalMode: "approve",
     }),

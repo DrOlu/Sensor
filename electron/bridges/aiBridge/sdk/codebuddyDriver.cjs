@@ -115,13 +115,13 @@ function buildCodebuddyQueryOptions({
     mcpServers: toSdkMcpServers(injectedMcpServers),
     tools: builtinTools,
     // `tools` is the built-in tool whitelist. In mcp mode it is [], so CodeBuddy
-    // built-ins stay disabled while injected Netcatty MCP tools remain visible.
+    // built-ins stay disabled while injected Sensor MCP tools remain visible.
     // Do not mirror that empty list into allowedTools: the SDK treats
     // allowedTools as an auto-approval list, and allowedTools: [] prevents MCP
     // tool calls from running under bypassPermissions.
     disallowedTools: [...UI_DISALLOWED_TOOLS],
     // Keep the SDK isolated from user/project settings so local hooks, plugins,
-    // or extra MCP servers cannot expand Netcatty's controlled tool boundary.
+    // or extra MCP servers cannot expand Sensor's controlled tool boundary.
     settingSources: [],
     env,
   };

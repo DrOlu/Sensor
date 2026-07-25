@@ -11,7 +11,7 @@ const openOptions = {
   hostname: "192.168.9.138",
   username: "zhlrs",
   port: 22,
-} as NetcattySSHOptions;
+} as SensorSSHOptions;
 
 test("openSftpWithSessionPreference opens session-backed SFTP before authing again", async () => {
   const calls: string[] = [];
@@ -42,7 +42,7 @@ test("openSftpWithSessionPreference falls back to normal SFTP when session reuse
         calls.push(`openForSession:${sessionId}`);
         throw new Error("channel unavailable");
       },
-      openSftp: async (options: NetcattySSHOptions) => {
+      openSftp: async (options: SensorSSHOptions) => {
         calls.push(`openSftp:${options.sessionId}`);
         return "fresh-sftp";
       },
@@ -63,7 +63,7 @@ test("openSftpWithSessionPreference opens normal SFTP without a source session",
         calls.push("openForSession");
         return "session-backed-sftp";
       },
-      openSftp: async (options: NetcattySSHOptions) => {
+      openSftp: async (options: SensorSSHOptions) => {
         calls.push(`openSftp:${options.sessionId}`);
         return "fresh-sftp";
       },

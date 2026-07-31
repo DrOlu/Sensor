@@ -1,7 +1,7 @@
 import type { S3Config, SyncedFile, WebDAVConfig } from "../../domain/sync";
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     setTheme?(theme: 'light' | 'dark' | 'system'): Promise<boolean>;
     setBackgroundColor?(color: string): Promise<boolean>;
     setWindowOpacity?(opacity: number): Promise<boolean>;

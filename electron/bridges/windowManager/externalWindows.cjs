@@ -273,7 +273,7 @@ function createExternalWindowApi(ctx) {
             icon: currentIcon,
             autoHideMenuBar: true,
             menuBarVisible: false,
-            title: "Netcatty Authorization",
+            title: "Sensor Authorization",
             webPreferences: {
               contextIsolation: true,
               nodeIntegration: false,

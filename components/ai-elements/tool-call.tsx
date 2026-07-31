@@ -11,7 +11,7 @@ import { useI18n } from '../../application/i18n/I18nProvider';
  * Pull the user-meaningful shell command out of the tool-call args.
  *
  * Different tool surfaces hand us different shapes:
- *   - Netcatty's own `terminal_execute` MCP tool → `{command: "<string>"}`
+ *   - Sensor's own `terminal_execute` MCP tool → `{command: "<string>"}`
  *   - Codex `local_shell`                      → `{command: ["zsh","-lc","<full>"]}`
  *   - Codex command_execution (SDK)             → `{command: "/bin/zsh -lc '<full>'"}`
  *   - Claude `Bash`                             → `{command: "<string>"}`
@@ -59,7 +59,7 @@ export function extractDisplayCommand(args: Record<string, unknown> | undefined)
   );
   if (strWrap) cmdString = strWrap[2];
 
-  // Netcatty CLI wrapper extraction.
+  // Sensor CLI wrapper extraction.
   const cliIdx = cmdString.indexOf('netcatty-tool-cli');
   if (cliIdx >= 0) {
     const afterCli = cmdString

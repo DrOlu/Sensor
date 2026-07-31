@@ -231,7 +231,7 @@ test("ChatMessageList renders external MCP vault tool results as artifact cards"
   assert.doesNotMatch(markup, /external-call-1/);
 });
 
-test("ChatMessageList renders Netcatty CLI vault results as artifact cards", () => {
+test("ChatMessageList renders Sensor CLI vault results as artifact cards", () => {
   const messages: ChatMessage[] = [
     {
       id: "assistant-1",
@@ -243,7 +243,7 @@ test("ChatMessageList renders Netcatty CLI vault results as artifact cards", () 
           id: "cli-call-1",
           name: "shell",
           arguments: {
-            command: `/bin/zsh -lc '"/Applications/Netcatty.app/netcatty-tool-cli" vault host get --host-id host_1 --json'`,
+            command: `/bin/zsh -lc '"/Applications/Sensor.app/netcatty-tool-cli" vault host get --host-id host_1 --json'`,
           },
         },
       ],

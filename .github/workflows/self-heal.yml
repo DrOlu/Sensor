@@ -1,0 +1,71 @@
+name: Self-Heal Critical Files
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'DrOlu'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          fetch-depth: 0
+
+      - name: Restore and patch critical files
+        continue-on-error: true
+        run: |
+          set +e
+          git config user.name "Sensor Heal Bot"
+          git config user.email "sensor-bot@hyperspace.ng"
+          CHANGED=false
+          LATEST_TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+
+          restore_from_tag() {
+            local file="$1"
+            if git show "$LATEST_TAG:$file" > "$file" 2>/dev/null; then
+              echo "Restored $file from $LATEST_TAG"
+              CHANGED=true
+            fi
+          }
+
+          for wf in sync-upstream.yml notify-multica-release.yml; do
+            [ ! -f ".github/workflows/$wf" ] && restore_from_tag ".github/workflows/$wf"
+          done
+
+          if ! grep -q "Apply Sensor-specific patches" .github/workflows/build.yml 2>/dev/null; then
+            restore_from_tag ".github/workflows/build.yml"
+          fi
+
+          if ! grep -q "useSensorMonacoTheme" package.json 2>/dev/null; then
+            restore_from_tag "package.json"
+          fi
+
+          if grep -rql "netcatty" application/i18n/locales/ 2>/dev/null; then
+            find application/i18n/locales -name "*.ts" | xargs sed -i \
+              -e 's/launch netcatty from/launch Sensor from/g' \
+              -e 's/netcatty-external/sensor-external/g' \
+              -e "s/NetCatty\'s defaults/Sensor\'s defaults/g" \
+              -e 's/NetCatty по умолчанию/Sensor по умолчанию/g' \
+              -e 's/NetCatty 默认/Sensor 默认/g' \
+              -e 's/NetCatty 預設/Sensor 預設/g'
+            CHANGED=true
+          fi
+
+          if grep -q "binaricat/Sensor" scripts/generate-release-note.test.cjs 2>/dev/null; then
+            sed -i 's|binaricat/Sensor|DrOlu/Sensor|g' scripts/generate-release-note.test.cjs
+            CHANGED=true
+          fi
+
+          if [ "$CHANGED" = "true" ]; then
+            git add -A
+            git commit -m "fix(self-heal): restore critical Sensor files"
+            git push origin main
+          else
+            echo "All critical files present."
+          fi

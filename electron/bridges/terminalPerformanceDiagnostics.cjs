@@ -120,7 +120,7 @@ function logTerminalOutputPerf(event, details = {}) {
     ...details,
   };
   try {
-    const message = `[Netcatty Terminal Perf] ${safeJson(payload)}`;
+    const message = `[Sensor Terminal Perf] ${safeJson(payload)}`;
     console.info(message);
     appendTerminalPerfLogLine(message);
   } catch {

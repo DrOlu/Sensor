@@ -150,7 +150,7 @@ export function useSystemManagerBackend() {
   }, []);
 
   const openTerminalPopup = useCallback(async (
-    payload: Parameters<NonNullable<NetcattyBridge['openTerminalPopup']>>[0],
+    payload: Parameters<NonNullable<SensorBridge['openTerminalPopup']>>[0],
   ) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.openTerminalPopup) {

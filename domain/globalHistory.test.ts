@@ -33,7 +33,7 @@ test('shouldRecordGlobalHistoryCommand: rejects empty and AI marker commands', (
   assert.equal(shouldRecordGlobalHistoryCommand('ls -la'), true);
 });
 
-test('shouldRecordGlobalHistoryCommand: rejects Netcatty managed Docker and tmux startup commands', () => {
+test('shouldRecordGlobalHistoryCommand: rejects Sensor managed Docker and tmux startup commands', () => {
   assert.equal(shouldRecordGlobalHistoryCommand(buildDockerExecShellCommand('587abcdef123')), false);
   assert.equal(shouldRecordGlobalHistoryCommand(buildDockerLogsCommand('587abcdef123')), false);
   assert.equal(shouldRecordGlobalHistoryCommand(buildTmuxAttachCommand('my-session')), false);
@@ -55,7 +55,7 @@ test('mergeGlobalHistoryOnAppend: trims and prepends a new command', () => {
   assert.equal(next[0].command, 'pwd');
 });
 
-test('sanitizeGlobalHistoryEntries: removes persisted Netcatty managed startup commands', () => {
+test('sanitizeGlobalHistoryEntries: removes persisted Sensor managed startup commands', () => {
   const entries = [
     baseEntry({ id: 'a', command: buildDockerLogsCommand('587abcdef123') }),
     baseEntry({ id: 'b', command: 'docker ps -a' }),

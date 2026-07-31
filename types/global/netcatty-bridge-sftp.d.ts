@@ -1,10 +1,10 @@
 import type { RemoteFile, SftpFilenameEncoding, TransferDirection } from "../../types";
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     // SFTP operations
-    openSftp(options: NetcattySSHOptions): Promise<string>;
-    openSftpForSession?(sessionId: string, expectedEndpoint?: NetcattySSHOptions): Promise<string>;
+    openSftp(options: SensorSSHOptions): Promise<string>;
+    openSftpForSession?(sessionId: string, expectedEndpoint?: SensorSSHOptions): Promise<string>;
     listSftp(sftpId: string, path: string, encoding?: SftpFilenameEncoding): Promise<RemoteFile[]>;
     realpathSftp?(sftpId: string, path: string, encoding?: SftpFilenameEncoding): Promise<string>;
     readSftp(sftpId: string, path: string, encoding?: SftpFilenameEncoding): Promise<string>;

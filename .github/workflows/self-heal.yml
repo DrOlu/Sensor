@@ -1,0 +1,71 @@
+name: Self-Heal Critical Files
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  heal:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'DrOlu'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RELEASE_TOKEN }}
+          fetch-depth: 0
+
+      - name: Install jq
+        run: which jq || (sudo apt-get update -qq && sudo apt-get install -y -qq jq)
+
+      - name: Restore critical files
+        continue-on-error: true
+        run: |
+          git config user.name "Sensor Heal Bot"
+          git config user.email "sensor-bot@hyperspace.ng"
+          CHANGED=false
+          SNAP="scripts/.sensor-workflow-snapshots.json"
+          LATEST_TAG=$(git tag --list 'v*.*.*' | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1)
+
+          # Restore workflow files from snapshot JSON (has priority over git tags)
+          for wf in sync-upstream.yml notify-multica-release.yml; do
+            if [ ! -f ".github/workflows/$wf" ]; then
+              echo "MISSING: $wf"
+              if [ -f "$SNAP" ] && jq -e --arg k "$wf" '.[$k]' "$SNAP" > /dev/null 2>&1; then
+                jq -r --arg k "$wf" '.[$k]' "$SNAP" | base64 -d > ".github/workflows/$wf"
+                echo "Restored $wf from embedded snapshot"
+              elif [ -n "$LATEST_TAG" ]; then
+                git show "$LATEST_TAG:.github/workflows/$wf" > ".github/workflows/$wf" 2>/dev/null
+                echo "Restored $wf from tag $LATEST_TAG"
+              fi
+              CHANGED=true
+            fi
+          done
+
+          # build.yml patch step
+          if ! grep -q "Apply Sensor-specific patches" .github/workflows/build.yml 2>/dev/null; then
+            [ -n "$LATEST_TAG" ] && git show "$LATEST_TAG:.github/workflows/build.yml" > .github/workflows/build.yml 2>/dev/null && CHANGED=true
+          fi
+
+          # package.json shim
+          if ! grep -q "useSensorMonacoTheme" package.json 2>/dev/null; then
+            [ -n "$LATEST_TAG" ] && git show "$LATEST_TAG:package.json" > package.json 2>/dev/null && CHANGED=true
+          fi
+
+          # Fix netcatty in locales
+          if grep -rql "netcatty" application/i18n/locales/ 2>/dev/null; then
+            find application/i18n/locales -name "*.ts" -exec sed -i \
+              -e 's/launch netcatty from/launch Sensor from/g' \
+              -e 's/netcatty-external/sensor-external/g' {} + 2>/dev/null || true
+            CHANGED=true
+          fi
+
+          if [ "$CHANGED" = "true" ]; then
+            git add -A
+            git diff --cached --quiet || git commit -m "fix(self-heal): restore critical Sensor files"
+            git push origin main || true
+          else
+            echo "All critical files present."
+          fi

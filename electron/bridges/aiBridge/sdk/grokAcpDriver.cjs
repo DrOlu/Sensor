@@ -7,7 +7,7 @@
  *   initialize → authenticate (when authMethods exist)
  *   → session/resume | session/load | session/new
  *   → session/prompt
- *   session/update notifications → canonical Netcatty emitter events
+ *   session/update notifications → canonical Sensor emitter events
  *
  * Prefer session/resume (no history replay) over session/load when the agent
  * advertises it; keep acceptUpdates=false until session/prompt so load replay
@@ -98,7 +98,7 @@ function buildGrokAcpSpawnArgs({
   args.push(...resolveGrokToolIntegrationFlags(toolIntegrationMode));
   args.push("agent");
   const mode = String(permissionMode || "confirm").toLowerCase();
-  // Non-interactive Netcatty turns cannot answer ACP permission prompts.
+  // Non-interactive Sensor turns cannot answer ACP permission prompts.
   if (mode !== "observer") {
     args.push("--always-approve");
   }
@@ -134,7 +134,7 @@ function toAcpMcpEnvPairs(env) {
 }
 
 /**
- * Convert Netcatty injectMcp configs into ACP session/new mcpServers entries.
+ * Convert Sensor injectMcp configs into ACP session/new mcpServers entries.
  * Grok agent stdio expects stdio servers with env as [{name,value}, ...].
  */
 function toAcpMcpServers(injectedMcpServers) {
@@ -179,7 +179,7 @@ function buildGrokAcpSessionNewParams({
   }
   if (toolMode !== "skills") {
     params._meta.rules = [
-      "Netcatty MCP mode is active. Do not use local shell, search_replace, or write tools for side effects.",
+      "Sensor MCP mode is active. Do not use local shell, search_replace, or write tools for side effects.",
       "Operate on remote terminal sessions only through the injected netcatty-remote-hosts MCP server.",
       `Disallowed local built-ins (policy): ${GROK_MCP_MODE_DISALLOWED_LOCAL_TOOLS.join(", ")}.`,
     ].join(" ");
@@ -553,7 +553,7 @@ function handleGrokAcpMessage(message, { emitter, state, pending, onPromptComple
 
   if (method === "session/update" || method === "x.ai/session/update") {
     // session/load may re-broadcast historical agent_message_chunk events for
-    // client UI rebuild. Those must not be written into the *current* Netcatty
+    // client UI rebuild. Those must not be written into the *current* Sensor
     // assistant bubble — only accept updates after session/prompt is in flight.
     if (state.acceptUpdates === false) {
       if (params.sessionId && !state.sessionId) {

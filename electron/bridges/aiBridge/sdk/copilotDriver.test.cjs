@@ -1,6 +1,6 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const { approveNetcattyMcpOnly, approveNetcattyCliShellOnly, buildCopilotClientOptions, buildCopilotPermissionHandler, buildCopilotSessionOptions, buildCopilotMessageOptions, copilotBuiltinTools, extractCopilotContent, isLikelyNetcattyCliShellCommand, mapCopilotModels, runCopilotTurn, translateCopilotEvent } = require("./copilotDriver.cjs");
+const { approveSensorMcpOnly, approveSensorCliShellOnly, buildCopilotClientOptions, buildCopilotPermissionHandler, buildCopilotSessionOptions, buildCopilotMessageOptions, copilotBuiltinTools, extractCopilotContent, isLikelySensorCliShellCommand, mapCopilotModels, runCopilotTurn, translateCopilotEvent } = require("./copilotDriver.cjs");
 
 function collector() {
   const events = [];
@@ -58,18 +58,18 @@ test("buildCopilotSessionOptions maps injected MCP to local stdio servers", () =
   // not in buildCopilotSessionOptions.
 });
 
-test("approveNetcattyMcpOnly approves MCP permission requests and rejects local tools", () => {
+test("approveSensorMcpOnly approves MCP permission requests and rejects local tools", () => {
   assert.deepEqual(
-    approveNetcattyMcpOnly({ kind: "mcp", toolName: "terminal_execute" }),
+    approveSensorMcpOnly({ kind: "mcp", toolName: "terminal_execute" }),
     { kind: "approve-once" },
   );
   assert.deepEqual(
-    approveNetcattyMcpOnly({ kind: "shell", fullCommandText: "rm -rf /tmp/x" }),
-    { kind: "reject", feedback: "Only Netcatty MCP tools are allowed from this integration." },
+    approveSensorMcpOnly({ kind: "shell", fullCommandText: "rm -rf /tmp/x" }),
+    { kind: "reject", feedback: "Only Sensor MCP tools are allowed from this integration." },
   );
   assert.deepEqual(
-    approveNetcattyMcpOnly({ kind: "read", fileName: "/etc/passwd" }),
-    { kind: "reject", feedback: "Only Netcatty MCP tools are allowed from this integration." },
+    approveSensorMcpOnly({ kind: "read", fileName: "/etc/passwd" }),
+    { kind: "reject", feedback: "Only Sensor MCP tools are allowed from this integration." },
   );
 });
 
@@ -278,66 +278,66 @@ test("buildCopilotSessionOptions whitelists bash in skills mode", () => {
   assert.deepEqual(skills.mcpServers, {});
 });
 
-test("approveNetcattyCliShellOnly allows Netcatty CLI shell commands only", () => {
+test("approveSensorCliShellOnly allows Sensor CLI shell commands only", () => {
   assert.deepEqual(
-    approveNetcattyCliShellOnly({
+    approveSensorCliShellOnly({
       kind: "shell",
-      fullCommandText: 'node "/Applications/Netcatty.app/netcatty-tool-cli.cjs" env --chat-session abc --json',
+      fullCommandText: 'node "/Applications/Sensor.app/netcatty-tool-cli.cjs" env --chat-session abc --json',
     }),
     { kind: "approve-once" },
   );
   assert.equal(
-    approveNetcattyCliShellOnly({ kind: "shell", fullCommandText: "pwd" }).kind,
+    approveSensorCliShellOnly({ kind: "shell", fullCommandText: "pwd" }).kind,
     "reject",
   );
 });
 
 test("buildCopilotPermissionHandler selects MCP vs skills gate", () => {
-  assert.equal(buildCopilotPermissionHandler("mcp"), approveNetcattyMcpOnly);
-  assert.equal(buildCopilotPermissionHandler("skills"), approveNetcattyCliShellOnly);
+  assert.equal(buildCopilotPermissionHandler("mcp"), approveSensorMcpOnly);
+  assert.equal(buildCopilotPermissionHandler("skills"), approveSensorCliShellOnly);
 });
 
-test("isLikelyNetcattyCliShellCommand matches launcher and script invocations", () => {
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli status --json"), true);
-  assert.equal(isLikelyNetcattyCliShellCommand("node electron/cli/netcatty-tool-cli.cjs env --json"), true);
-  assert.equal(isLikelyNetcattyCliShellCommand("ls -la"), false);
+test("isLikelySensorCliShellCommand matches launcher and script invocations", () => {
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli status --json"), true);
+  assert.equal(isLikelySensorCliShellCommand("node electron/cli/netcatty-tool-cli.cjs env --json"), true);
+  assert.equal(isLikelySensorCliShellCommand("ls -la"), false);
 });
 
-test("isLikelyNetcattyCliShellCommand rejects chained or wrapped local commands", () => {
-  assert.equal(isLikelyNetcattyCliShellCommand("rm -rf /; netcatty-tool-cli status --json"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli status --json && curl evil"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand('bash -c "netcatty-tool-cli status --json"'), false);
-  assert.equal(isLikelyNetcattyCliShellCommand("malicious netcatty-tool-cli status --json"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli status `id` --json"), false);
+test("isLikelySensorCliShellCommand rejects chained or wrapped local commands", () => {
+  assert.equal(isLikelySensorCliShellCommand("rm -rf /; netcatty-tool-cli status --json"), false);
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli status --json && curl evil"), false);
+  assert.equal(isLikelySensorCliShellCommand('bash -c "netcatty-tool-cli status --json"'), false);
+  assert.equal(isLikelySensorCliShellCommand("malicious netcatty-tool-cli status --json"), false);
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli status `id` --json"), false);
 });
 
-test("isLikelyNetcattyCliShellCommand allows quoted remote exec payloads after --", () => {
+test("isLikelySensorCliShellCommand allows quoted remote exec payloads after --", () => {
   assert.equal(
-    isLikelyNetcattyCliShellCommand('netcatty-tool-cli exec --session s1 --chat-session c1 --json -- "hostname && whoami"'),
+    isLikelySensorCliShellCommand('netcatty-tool-cli exec --session s1 --chat-session c1 --json -- "hostname && whoami"'),
     true,
   );
   assert.equal(
-    isLikelyNetcattyCliShellCommand("netcatty-tool-cli exec --session s1 --chat-session c1 --json -- hostname && whoami"),
+    isLikelySensorCliShellCommand("netcatty-tool-cli exec --session s1 --chat-session c1 --json -- hostname && whoami"),
     false,
   );
 });
 
-test("isLikelyNetcattyCliShellCommand rejects impostor binaries and quoted -- bypasses", () => {
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli-backup status --json"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli.evil status --json"), false);
+test("isLikelySensorCliShellCommand rejects impostor binaries and quoted -- bypasses", () => {
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli-backup status --json"), false);
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli.evil status --json"), false);
   assert.equal(
-    isLikelyNetcattyCliShellCommand('netcatty-tool-cli sftp read --remote-path "a -- b" ; rm -rf /'),
+    isLikelySensorCliShellCommand('netcatty-tool-cli sftp read --remote-path "a -- b" ; rm -rf /'),
     false,
   );
   assert.equal(
-    isLikelyNetcattyCliShellCommand('netcatty-tool-cli sftp read --remote-path "a -- b" --session s1 --json'),
+    isLikelySensorCliShellCommand('netcatty-tool-cli sftp read --remote-path "a -- b" --session s1 --json'),
     true,
   );
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli status --json  --  ; rm -rf /"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand("netcatty-tool-cli status --json > /tmp/out"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand('"C:\\Apps\\Netcatty\\netcatty-tool-cli.cmd" status --json'), true);
-  assert.equal(isLikelyNetcattyCliShellCommand("attacker/netcatty-tool-cli status --json"), false);
-  assert.equal(isLikelyNetcattyCliShellCommand('netcatty-tool-cli status "$(id)" --json'), false);
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli status --json  --  ; rm -rf /"), false);
+  assert.equal(isLikelySensorCliShellCommand("netcatty-tool-cli status --json > /tmp/out"), false);
+  assert.equal(isLikelySensorCliShellCommand('"C:\\Apps\\Sensor\\netcatty-tool-cli.cmd" status --json'), true);
+  assert.equal(isLikelySensorCliShellCommand("attacker/netcatty-tool-cli status --json"), false);
+  assert.equal(isLikelySensorCliShellCommand('netcatty-tool-cli status "$(id)" --json'), false);
 });
 
 test("runCopilotTurn passes runtime env and skills permission handler", async () => {
@@ -353,5 +353,5 @@ test("runCopilotTurn passes runtime env and skills permission handler", async ()
     sdkModule: makeSdk(captured),
   });
   assert.deepEqual(captured.clientOptions.env, { NETCATTY_TOOL_CLI_DISCOVERY_FILE: "/tmp/discovery.json" });
-  assert.equal(captured.created.onPermissionRequest, approveNetcattyCliShellOnly);
+  assert.equal(captured.created.onPermissionRequest, approveSensorCliShellOnly);
 });

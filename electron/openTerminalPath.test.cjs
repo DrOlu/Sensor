@@ -12,7 +12,7 @@ const {
 test("collectOpenTerminalPathArgs extracts explicit open terminal paths", () => {
   assert.deepEqual(
     collectOpenTerminalPathArgs([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--open-terminal-path",
       "/Users/alice/project",
       "--open-terminal-path=/tmp/demo",
@@ -25,7 +25,7 @@ test("collectOpenTerminalPathArgs extracts explicit open terminal paths", () => 
 test("collectOpenTerminalPathArgs accepts Electron-safe -- and equals forms", () => {
   assert.deepEqual(
     collectOpenTerminalPathArgs([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "--",
       String.raw`--open-terminal-path=C:\Users\alice\project.`,
     ]),
@@ -89,7 +89,7 @@ test("resolveOpenTerminalPathsFromArgs resolves second-instance relative paths a
 
   assert.deepEqual(
     resolveOpenTerminalPathsFromArgs([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--open-terminal-path",
       ".",
     ], {

@@ -53,7 +53,7 @@ export function PluginContributionIcon({
   className,
 }: {
   pluginId?: string;
-  icon?: NetcattyPluginIconReference;
+  icon?: SensorPluginIconReference;
   size?: number;
   className?: string;
 }) {

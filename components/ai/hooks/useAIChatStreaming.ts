@@ -2,7 +2,7 @@
 export {
   useAIChatStreaming,
   isAIChatSessionStreaming,
-  getNetcattyBridge,
+  getSensorBridge,
   type ActiveCompactionUi,
   type DefaultTargetSessionHint,
 } from "../../../application/state/useAIChatStreaming";

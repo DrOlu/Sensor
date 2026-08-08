@@ -7,7 +7,7 @@
  * Proves:
  * 1) mergeWorkspaceMcpJson fails when cwd is "/" (typical Dock/Finder launch)
  * 2) mergeWorkspaceMcpJson succeeds in a writable directory (dev / terminal launch)
- * 3) Packaged Netcatty process cwd differs: launch from "/" vs writable dir
+ * 3) Packaged Sensor process cwd differs: launch from "/" vs writable dir
  * 4) Packaged MCP server script path exists under app.asar.unpacked
  *
  * Usage:
@@ -26,8 +26,8 @@ const {
 } = require("../electron/bridges/aiBridge/sdk/cursorCliDriver.cjs");
 
 const SKIP_APP = process.argv.includes("--skip-app-launch");
-const APP_BIN = "/Applications/Netcatty.app/Contents/MacOS/Netcatty";
-const APP_MCP = "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/electron/mcp/netcatty-mcp-server.cjs";
+const APP_BIN = "/Applications/Sensor.app/Contents/MacOS/Sensor";
+const APP_MCP = "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/electron/mcp/netcatty-mcp-server.cjs";
 const TEST_DIR = path.join(os.homedir(), "netcatty-cli-cwd-test");
 const FAKE_MCP = [{
   name: "netcatty-remote-hosts",
@@ -200,7 +200,7 @@ function testMergeFailureIsLoud() {
       throw new Error("forced merge failure");
     },
   }).then(() => {
-    if (calls.length === 1 && /Failed to prepare Netcatty MCP for Cursor CLI/i.test(calls[0])) {
+    if (calls.length === 1 && /Failed to prepare Sensor MCP for Cursor CLI/i.test(calls[0])) {
       pass("merge failure is user-visible", calls[0]);
     } else {
       fail("merge failure is user-visible", JSON.stringify(calls));
@@ -251,7 +251,7 @@ async function testAppLaunchCwds() {
   }
 
   // Ensure no leftover instance steals single-instance lock from a previous Dock launch.
-  spawnSync("pkill", ["-x", "Netcatty"], { encoding: "utf8" });
+  spawnSync("pkill", ["-x", "Sensor"], { encoding: "utf8" });
   await sleep(800);
 
   const fromRoot = await launchAndReadCwd("/", "from /");
@@ -264,7 +264,7 @@ async function testAppLaunchCwds() {
     fail("packaged cwd when launched from /", `expected / , got ${fromRoot}`);
   }
 
-  spawnSync("pkill", ["-x", "Netcatty"], { encoding: "utf8" });
+  spawnSync("pkill", ["-x", "Sensor"], { encoding: "utf8" });
   await sleep(800);
 
   fs.mkdirSync(TEST_DIR, { recursive: true });
@@ -280,7 +280,7 @@ async function testAppLaunchCwds() {
     );
   }
 
-  spawnSync("pkill", ["-x", "Netcatty"], { encoding: "utf8" });
+  spawnSync("pkill", ["-x", "Sensor"], { encoding: "utf8" });
 }
 
 function testResolveUsesTempOverRoot() {
@@ -333,7 +333,7 @@ async function main() {
 
   console.log("\nConclusion:");
   console.log("- Finder/Dock cwd=/ cannot host .cursor/mcp.json.");
-  console.log("- Fix: Cursor CLI turns use Netcatty temp cursor-cli-mcp/<chatId> workspace.");
+  console.log("- Fix: Cursor CLI turns use Sensor temp cursor-cli-mcp/<chatId> workspace.");
   console.log("- Merge failures now error out instead of silently dropping MCP.");
 }
 

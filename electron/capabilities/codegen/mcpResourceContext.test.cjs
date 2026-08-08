@@ -18,7 +18,7 @@ function envPairsToObject(envPairs) {
   return env;
 }
 
-test("MCP environment resource serializes terminal tool hints from Netcatty context", async (t) => {
+test("MCP environment resource serializes terminal tool hints from Sensor context", async (t) => {
   const { Client } = await import("@modelcontextprotocol/sdk/client/index.js");
   const { StdioClientTransport } = await import("@modelcontextprotocol/sdk/client/stdio.js");
 

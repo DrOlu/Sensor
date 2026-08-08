@@ -1,6 +1,6 @@
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     probeSystemCapabilities?(sessionId: string): Promise<{
       success: boolean;
       pending?: boolean;

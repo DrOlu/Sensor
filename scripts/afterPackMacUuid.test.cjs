@@ -145,7 +145,7 @@ test("patchMachOBuffer reports zero when there is no LC_UUID", () => {
 test("adHocSignAppBundle signs the full app bundle on macOS hosts", () => {
   const calls = [];
 
-  const didSign = adHocSignAppBundle("/tmp/Netcatty.app", {
+  const didSign = adHocSignAppBundle("/tmp/Sensor.app", {
     hostPlatform: "darwin",
     execFileSync: (bin, args, options) => {
       calls.push({ bin, args, options });
@@ -162,7 +162,7 @@ test("adHocSignAppBundle signs the full app bundle on macOS hosts", () => {
         "--sign",
         "-",
         "--timestamp=none",
-        "/tmp/Netcatty.app",
+        "/tmp/Sensor.app",
       ],
       options: { stdio: ["ignore", "pipe", "pipe"] },
     },
@@ -172,7 +172,7 @@ test("adHocSignAppBundle signs the full app bundle on macOS hosts", () => {
 test("adHocSignAppBundle skips non-macOS hosts", () => {
   let called = false;
 
-  const didSign = adHocSignAppBundle("/tmp/Netcatty.app", {
+  const didSign = adHocSignAppBundle("/tmp/Sensor.app", {
     hostPlatform: "linux",
     execFileSync: () => {
       called = true;
@@ -239,7 +239,7 @@ test("pruneCursorSdkPlatformPackages keeps only the target macOS arch package", 
   t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
   const cursorRoot = path.join(
     tempDir,
-    "Netcatty.app",
+    "Sensor.app",
     "Contents",
     "Resources",
     "app.asar.unpacked",
@@ -248,7 +248,7 @@ test("pruneCursorSdkPlatformPackages keeps only the target macOS arch package", 
   );
   fs.mkdirSync(path.join(cursorRoot, "sdk-darwin-arm64"), { recursive: true });
   fs.mkdirSync(path.join(cursorRoot, "sdk-darwin-x64"), { recursive: true });
-  writeFakeAsar(path.join(tempDir, "Netcatty.app", "Contents", "Resources", "app.asar"), {
+  writeFakeAsar(path.join(tempDir, "Sensor.app", "Contents", "Resources", "app.asar"), {
     files: {
       node_modules: {
         files: {
@@ -267,7 +267,7 @@ test("pruneCursorSdkPlatformPackages keeps only the target macOS arch package", 
     electronPlatformName: "darwin",
     arch: 3,
     appOutDir: tempDir,
-    packager: { appInfo: { productFilename: "Netcatty" } },
+    packager: { appInfo: { productFilename: "Sensor" } },
   });
 
   assert.deepEqual(removed, ["sdk-darwin-x64"]);
@@ -275,7 +275,7 @@ test("pruneCursorSdkPlatformPackages keeps only the target macOS arch package", 
   assert.ok(!fs.existsSync(path.join(cursorRoot, "sdk-darwin-x64")));
 
   const { header } = readAsarHeader(
-    path.join(tempDir, "Netcatty.app", "Contents", "Resources", "app.asar"),
+    path.join(tempDir, "Sensor.app", "Contents", "Resources", "app.asar"),
   );
   assert.ok(header.files.node_modules.files["@cursor"].files["sdk-darwin-arm64"]);
   assert.equal(header.files.node_modules.files["@cursor"].files["sdk-darwin-x64"], undefined);
@@ -289,7 +289,7 @@ test("pruneCursorSdkPlatformPackages keeps both macOS packages for universal bui
   t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }));
   const cursorRoot = path.join(
     tempDir,
-    "Netcatty.app",
+    "Sensor.app",
     "Contents",
     "Resources",
     "app.asar.unpacked",
@@ -303,7 +303,7 @@ test("pruneCursorSdkPlatformPackages keeps both macOS packages for universal bui
     electronPlatformName: "darwin",
     arch: 4,
     appOutDir: tempDir,
-    packager: { appInfo: { productFilename: "Netcatty" } },
+    packager: { appInfo: { productFilename: "Sensor" } },
   });
 
   assert.deepEqual(removed, []);

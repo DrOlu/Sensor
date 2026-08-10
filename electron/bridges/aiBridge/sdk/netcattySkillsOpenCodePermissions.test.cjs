@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const path = require("node:path");
 
 const {
-  buildNetcattySkillsOpenCodePathAllowlist,
+  buildSensorSkillsOpenCodePathAllowlist,
   buildOpenCodeNativeSkillEnvDenyPatterns,
   buildOpenCodeNativeSkillPermissionPatterns,
   buildOpenCodeNativeSkillsPermissionRules,
@@ -43,8 +43,8 @@ function evaluateOpenCodeRuleMap(input, ruleMap) {
 
 test("toOpenCodeFileParentGlob maps files to parent directory globs", () => {
   assert.equal(
-    toOpenCodeFileParentGlob("/Applications/Netcatty.app/Contents/MacOS/netcatty-tool-cli"),
-    "/Applications/Netcatty.app/Contents/MacOS/**",
+    toOpenCodeFileParentGlob("/Applications/Sensor.app/Contents/MacOS/netcatty-tool-cli"),
+    "/Applications/Sensor.app/Contents/MacOS/**",
   );
   assert.equal(
     toOpenCodeFileParentGlob("/tmp/netcatty/skills/netcatty-tool-cli/SKILL.md"),
@@ -73,22 +73,22 @@ test("toOpenCodeDirectoryPermissionPatterns includes exact and wildcard forms", 
 test("toOpenCodeFileParentPermissionPatterns normalizes Windows paths", () => {
   assert.deepEqual(
     toOpenCodeFileParentPermissionPatterns(
-      "C:\\Users\\me\\AppData\\Local\\Programs\\Netcatty\\resources\\app.asar.unpacked\\electron\\cli\\netcatty-tool-cli.cmd",
+      "C:\\Users\\me\\AppData\\Local\\Programs\\Sensor\\resources\\app.asar.unpacked\\electron\\cli\\netcatty-tool-cli.cmd",
       { platform: "win32", pathModule: path.win32 },
     ),
     [
-      "C:/Users/me/AppData/Local/Programs/Netcatty/resources/app.asar.unpacked/electron/cli",
-      "C:/Users/me/AppData/Local/Programs/Netcatty/resources/app.asar.unpacked/electron/cli/*",
-      "C:/Users/me/AppData/Local/Programs/Netcatty/resources/app.asar.unpacked/electron/cli/**",
+      "C:/Users/me/AppData/Local/Programs/Sensor/resources/app.asar.unpacked/electron/cli",
+      "C:/Users/me/AppData/Local/Programs/Sensor/resources/app.asar.unpacked/electron/cli/*",
+      "C:/Users/me/AppData/Local/Programs/Sensor/resources/app.asar.unpacked/electron/cli/**",
     ],
   );
 });
 
-test("buildNetcattySkillsOpenCodePathAllowlist dedupes launcher and script roots", () => {
-  const launcher = "/Applications/Netcatty.app/Contents/MacOS/netcatty-tool-cli";
-  const script = "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/electron/cli/netcatty-tool-cli.cjs";
-  const skill = "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli/SKILL.md";
-  const patterns = buildNetcattySkillsOpenCodePathAllowlist({
+test("buildSensorSkillsOpenCodePathAllowlist dedupes launcher and script roots", () => {
+  const launcher = "/Applications/Sensor.app/Contents/MacOS/netcatty-tool-cli";
+  const script = "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/electron/cli/netcatty-tool-cli.cjs";
+  const skill = "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli/SKILL.md";
+  const patterns = buildSensorSkillsOpenCodePathAllowlist({
     launcherPath: launcher,
     cliScriptPath: script,
     skillPath: skill,
@@ -97,58 +97,58 @@ test("buildNetcattySkillsOpenCodePathAllowlist dedupes launcher and script roots
   });
 
   assert.deepEqual(patterns, [
-    "/Applications/Netcatty.app/Contents/MacOS",
-    "/Applications/Netcatty.app/Contents/MacOS/*",
-    "/Applications/Netcatty.app/Contents/MacOS/**",
-    "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/electron/cli",
-    "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/electron/cli/*",
-    "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/electron/cli/**",
-    "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli",
-    "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli/*",
-    "/Applications/Netcatty.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli/**",
+    "/Applications/Sensor.app/Contents/MacOS",
+    "/Applications/Sensor.app/Contents/MacOS/*",
+    "/Applications/Sensor.app/Contents/MacOS/**",
+    "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/electron/cli",
+    "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/electron/cli/*",
+    "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/electron/cli/**",
+    "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli",
+    "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli/*",
+    "/Applications/Sensor.app/Contents/Resources/app.asar.unpacked/skills/netcatty-tool-cli/**",
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli",
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/*",
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**",
   ]);
 });
 
-test("buildNetcattySkillsOpenCodePathAllowlist includes temp dir and extra attachment paths", () => {
-  const patterns = buildNetcattySkillsOpenCodePathAllowlist({
+test("buildSensorSkillsOpenCodePathAllowlist includes temp dir and extra attachment paths", () => {
+  const patterns = buildSensorSkillsOpenCodePathAllowlist({
     discoveryFilePath: "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/discovery.json",
-    tempDir: "/var/folders/tmp/Netcatty",
-    extraFilePaths: ["/var/folders/tmp/Netcatty/ai-attachment-1.png"],
+    tempDir: "/var/folders/tmp/Sensor",
+    extraFilePaths: ["/var/folders/tmp/Sensor/ai-attachment-1.png"],
   });
 
   assert.deepEqual(patterns, [
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli",
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/*",
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**",
-    "/var/folders/tmp/Netcatty",
-    "/var/folders/tmp/Netcatty/*",
-    "/var/folders/tmp/Netcatty/**",
+    "/var/folders/tmp/Sensor",
+    "/var/folders/tmp/Sensor/*",
+    "/var/folders/tmp/Sensor/**",
   ]);
 });
 
-test("buildNetcattySkillsOpenCodePathAllowlist includes OpenCode-compatible Windows directory resources", () => {
-  const patterns = buildNetcattySkillsOpenCodePathAllowlist({
-    launcherPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Netcatty\\resources\\app.asar.unpacked\\electron\\cli\\netcatty-tool-cli.cmd",
-    cliScriptPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Netcatty\\resources\\app.asar.unpacked\\electron\\cli\\netcatty-tool-cli.cjs",
-    skillPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Netcatty\\resources\\app.asar.unpacked\\skills\\netcatty-tool-cli\\SKILL.md",
+test("buildSensorSkillsOpenCodePathAllowlist includes OpenCode-compatible Windows directory resources", () => {
+  const patterns = buildSensorSkillsOpenCodePathAllowlist({
+    launcherPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Sensor\\resources\\app.asar.unpacked\\electron\\cli\\netcatty-tool-cli.cmd",
+    cliScriptPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Sensor\\resources\\app.asar.unpacked\\electron\\cli\\netcatty-tool-cli.cjs",
+    skillPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Sensor\\resources\\app.asar.unpacked\\skills\\netcatty-tool-cli\\SKILL.md",
     discoveryFilePath: "C:\\Users\\me\\AppData\\Roaming\\netcatty\\netcatty-tool-cli\\discovery.json",
-    runtimeBinaryPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Netcatty\\Netcatty.exe",
-    tempDir: "C:\\Users\\me\\AppData\\Local\\Temp\\Netcatty",
-    extraFilePaths: ["C:\\Users\\me\\AppData\\Local\\Temp\\Netcatty\\attachment.png"],
+    runtimeBinaryPath: "C:\\Users\\me\\AppData\\Local\\Programs\\Sensor\\Sensor.exe",
+    tempDir: "C:\\Users\\me\\AppData\\Local\\Temp\\Sensor",
+    extraFilePaths: ["C:\\Users\\me\\AppData\\Local\\Temp\\Sensor\\attachment.png"],
   }, { platform: "win32", pathModule: path.win32 });
 
-  assert.equal(patterns.includes("C:/Users/me/AppData/Local/Programs/Netcatty/resources/app.asar.unpacked/electron/cli/*"), true);
+  assert.equal(patterns.includes("C:/Users/me/AppData/Local/Programs/Sensor/resources/app.asar.unpacked/electron/cli/*"), true);
   assert.equal(patterns.includes("C:/Users/me/AppData/Roaming/netcatty/netcatty-tool-cli/*"), true);
-  assert.equal(patterns.includes("C:/Users/me/AppData/Local/Temp/Netcatty/*"), true);
-  assert.equal(patterns.includes("C:/Users/me/AppData/Local/Programs/Netcatty/*"), true);
+  assert.equal(patterns.includes("C:/Users/me/AppData/Local/Temp/Sensor/*"), true);
+  assert.equal(patterns.includes("C:/Users/me/AppData/Local/Programs/Sensor/*"), true);
 });
 
-test("buildOpenCodeSkillsPermissionRules allowlists Netcatty CLI paths and denies other external access", () => {
+test("buildOpenCodeSkillsPermissionRules allowlists Sensor CLI paths and denies other external access", () => {
   const rules = buildOpenCodeSkillsPermissionRules([
-    "/Applications/Netcatty.app/Contents/MacOS/**",
+    "/Applications/Sensor.app/Contents/MacOS/**",
     "/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**",
   ]);
 
@@ -156,9 +156,9 @@ test("buildOpenCodeSkillsPermissionRules allowlists Netcatty CLI paths and denie
   assert.equal(rules.skill, "allow");
   assert.equal(rules.list, "deny");
   assert.equal(rules.external_directory["*"], "deny");
-  assert.equal(rules.external_directory["/Applications/Netcatty.app/Contents/MacOS/**"], "allow");
+  assert.equal(rules.external_directory["/Applications/Sensor.app/Contents/MacOS/**"], "allow");
   assert.equal(rules.external_directory["/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**"], "allow");
-  assert.equal(rules.read["/Applications/Netcatty.app/Contents/MacOS/**"], "allow");
+  assert.equal(rules.read["/Applications/Sensor.app/Contents/MacOS/**"], "allow");
   assert.equal(rules.read["/Users/me/Library/Application Support/netcatty/netcatty-tool-cli/**"], "allow");
   assert.equal(rules.read["*"], undefined);
   // Allowlist entries must come after the catch-all deny so OpenCode's

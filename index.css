@@ -1085,7 +1085,7 @@ html[data-theme-transition] *::after {
 
 /*
  * Image edit / insert dialog (MDX ImageDialog via Radix).
- * Match Netcatty popover / form tokens instead of stock MDX chrome.
+ * Match Sensor popover / form tokens instead of stock MDX chrome.
  */
 .netcatty-mdx-editor [class*="_dialogOverlay_"] {
   background: hsl(var(--background) / 0.55) !important;

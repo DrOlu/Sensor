@@ -262,7 +262,7 @@ const SESSION_LOG_TIMESTAMP_FILE = /^\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.(txt|l
 const SESSION_LOG_LABELED_FILE = /^.+_\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}\.(txt|log|html)$/i;
 
 /**
- * True when a basename matches a Netcatty session-log artifact filename.
+ * True when a basename matches a Sensor session-log artifact filename.
  * Used so "clear all" never wipes unrelated files in a shared save directory.
  */
 function isSessionLogArtifactName(name) {

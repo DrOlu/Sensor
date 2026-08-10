@@ -1,6 +1,6 @@
 # Sync providers
 
-Netcatty cloud sync providers are dynamic and namespaced. Built-in providers
+Sensor cloud sync providers are dynamic and namespaced. Built-in providers
 (`github`, `google`, `onedrive`, `webdav`, `s3`) stay compatible; plugins
 register additional IDs under their plugin namespace with `kind: "sync"` and
 permission `provider.sync`.
@@ -13,7 +13,7 @@ Plugins implement **encrypted object storage only**:
 - `getCapabilities` (`revisions`, `conditionalWrites`, `atomicReplacement`, size limits)
 - `readObject` / `writeObject` / `deleteObject`
 
-Netcatty owns encryption, the master key, CRDT merge, migrations, protection
+Sensor owns encryption, the master key, CRDT merge, migrations, protection
 snapshots, conflict handling, and read-merge-write-verify. Plugin providers
 never receive the vault master key or plaintext sync payloads.
 

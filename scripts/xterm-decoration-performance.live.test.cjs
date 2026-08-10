@@ -127,16 +127,16 @@ if (!process.versions.electron) {
         { enabled: true, patterns: ["failed"], color: "#fb7185" },
         { enabled: true, patterns: ["critical"], color: "#f43f5e" },
       ], true);
-      const countNetcattyDecorations = () => Array.from(highlighter.lineDecorations.values())
+      const countSensorDecorations = () => Array.from(highlighter.lineDecorations.values())
         .reduce((count, state) => count + state.decorations.length, 0);
       await waitForCondition(
-        () => countNetcattyDecorations() >= term.rows * 8,
-        "Netcatty keyword decorations",
+        () => countSensorDecorations() >= term.rows * 8,
+        "Sensor keyword decorations",
       );
-      const netcattyDecorationCount = countNetcattyDecorations();
+      const netcattyDecorationCount = countSensorDecorations();
       const netcattyRefreshMs = await waitForRender(
         () => term.refresh(0, term.rows - 1),
-        "Netcatty keyword highlight paint",
+        "Sensor keyword highlight paint",
       );
       highlighter.dispose();
       await waitForPaint();
@@ -191,7 +191,7 @@ if (!process.versions.electron) {
     assert.ok(result.netcattyDecorationCount >= 240, JSON.stringify(result));
     assert.ok(
       result.netcattyRefreshMs < 150,
-      `Netcatty keyword highlighting blocked terminal paint: ${JSON.stringify(result)}`,
+      `Sensor keyword highlighting blocked terminal paint: ${JSON.stringify(result)}`,
     );
     assert.ok(
       result.worstRefreshMs < 150,

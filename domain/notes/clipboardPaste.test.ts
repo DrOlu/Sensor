@@ -39,9 +39,9 @@ const CATTY_PASTE = `---
 test("centered README hero blocks wrap in div align=center", () => {
   const html = `
     <p align="center">
-      <img src="https://example.com/icon.png" alt="Netcatty" width="128" height="128">
+      <img src="https://example.com/icon.png" alt="Sensor" width="128" height="128">
     </p>
-    <h1 align="center">Netcatty</h1>
+    <h1 align="center">Sensor</h1>
     <p align="center">
       <strong>🔥 AI-Powered SSH Client</strong><br/>
       <a href="https://netcatty.app">netcatty.app</a>
@@ -52,30 +52,30 @@ test("centered README hero blocks wrap in div align=center", () => {
   assert.match(md, /<\/div>/);
   assert.match(md, /width="128"/);
   assert.match(md, /height="128"/);
-  assert.match(md, /# Netcatty/);
+  assert.match(md, /# Sensor/);
   assert.match(md, /netcatty\.app/);
   const centerIdx = md.indexOf('<div align="center">');
-  const logoIdx = md.search(/icon\.png|# Netcatty/);
+  const logoIdx = md.search(/icon\.png|# Sensor/);
   assert.ok(centerIdx >= 0 && logoIdx >= 0 && centerIdx < logoIdx);
 });
 
 test("island conversion keeps center on p align=center with image", () => {
   const plain = `
 <p align="center">
-  <img src="https://example.com/icon.png" alt="Netcatty" width="128" height="128">
+  <img src="https://example.com/icon.png" alt="Sensor" width="128" height="128">
 </p>
 
-<h1 align="center">Netcatty</h1>
+<h1 align="center">Sensor</h1>
 `;
   const md = convertHtmlIslandsInMarkdown(plain);
   assert.match(md, /<div align="center">/);
   assert.match(md, /width="128"/);
-  assert.match(md, /Netcatty/);
+  assert.match(md, /Sensor/);
 });
 
 test("relative public/ image paths map to Vite site root (not dropped)", () => {
   const md = convertHtmlIslandsInMarkdown(
-    '<p align="center"><img src="public/icon.png" alt="Netcatty" width="128" height="128"></p>',
+    '<p align="center"><img src="public/icon.png" alt="Sensor" width="128" height="128"></p>',
   );
   // Vite serves public/ at / — store /icon.png so the browser does not request /public/...
   assert.match(md, /src="\/icon\.png"/);
@@ -179,7 +179,7 @@ test("serializeSafeHtmlImage keeps relative paths; rejects data/javascript", () 
 
 test("linked badge images stay as images (tight single-line / a>img), not text-only", () => {
   const source = [
-    "[![GitHub Release](https://img.shields.io/github/v/release/binaricat/Netcatty)](https://github.com/binaricat/Netcatty/releases/latest)",
+    "[![GitHub Release](https://img.shields.io/github/v/release/DrOlu/Sensor)](https://github.com/DrOlu/Sensor/releases/latest)",
     "",
     "[ ",
     "![Platform](https://img.shields.io/badge/Platform-macOS-blue)",
@@ -196,7 +196,7 @@ test("linked badge images stay as images (tight single-line / a>img), not text-o
   // Markdown linked image kept (with image src), not reduced to text-only [GitHub Release](url).
   assert.match(
     md,
-    /\[!\[GitHub Release\]\(https:\/\/img\.shields\.io\/github\/v\/release\/binaricat\/Netcatty\)\]\(https:\/\/github\.com\/binaricat\/Netcatty\/releases\/latest\)/,
+    /\[!\[GitHub Release\]\(https:\/\/img\.shields\.io\/github\/v\/release\/binaricat\/Sensor\)\]\(https:\/\/github\.com\/binaricat\/Sensor\/releases\/latest\)/,
   );
   assert.match(md, /\[!\[Platform\]\(https:\/\/img\.shields\.io\/badge\/Platform-macOS-blue\)\]\(#\)/);
   // HTML img with width inside link → <a><img width></a>
@@ -210,7 +210,7 @@ test("linked badge images stay as images (tight single-line / a>img), not text-o
   // Not text-only badge (must keep image syntax).
   assert.doesNotMatch(
     md,
-    /(?<!!)\[GitHub Release\]\(https:\/\/github\.com\/binaricat\/Netcatty\/releases\/latest\)/,
+    /(?<!!)\[GitHub Release\]\(https:\/\/github\.com\/binaricat\/Sensor\/releases\/latest\)/,
   );
 });
 

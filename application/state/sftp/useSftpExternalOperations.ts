@@ -46,7 +46,7 @@ function createDropScanCancelledError(): Error {
 }
 
 async function listLocalTreeWithAbort(
-  bridge: NetcattyBridge,
+  bridge: SensorBridge,
   localPath: string,
   options: LocalTreeScanOptions = {},
 ): Promise<LocalTreeListEntry[]> {

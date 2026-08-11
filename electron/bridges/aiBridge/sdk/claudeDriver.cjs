@@ -35,7 +35,7 @@ function isClaudeImageAttachment(attachment) {
 
 /**
  * Resolve built-in tools for the active tool-integration mode.
- * - "skills": only Bash + Skill so the Netcatty CLI skill can run.
+ * - "skills": only Bash + Skill so the Sensor CLI skill can run.
  * - "mcp" (default): no Claude built-in local tools, forcing remote actions
  *   through netcatty MCP.
  */
@@ -87,9 +87,9 @@ function buildClaudeQueryOptions({
     includePartialMessages: true,
     permissionMode: "bypassPermissions",
     // Required companion to permissionMode:'bypassPermissions' (the SDK rejects
-    // the bypass without it). Netcatty blocks Claude's direct local read/write
+    // the bypass without it). Sensor blocks Claude's direct local read/write
     // tools and routes remote-session actions through MCP or Skills+CLI, where
-    // Netcatty enforces approval/scope.
+    // Sensor enforces approval/scope.
     allowDangerouslySkipPermissions: true,
     tools: claudeBuiltinTools(toolIntegrationMode),
     disallowedTools: [...UI_DISALLOWED_TOOLS],

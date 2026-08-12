@@ -1,8 +1,8 @@
-# Netcatty Code Signing Policy
+# Sensor Code Signing Policy
 
 ## Status
 
-Netcatty is applying to the SignPath Foundation open-source program. Once the
+Sensor is applying to the SignPath Foundation open-source program. Once the
 application and artifact scope are approved, covered Windows release artifacts
 will use **Free code signing provided by SignPath.io, certificate by SignPath Foundation**.
 Until that approval and integration are complete, Windows release artifacts may
@@ -10,21 +10,21 @@ remain unsigned.
 
 SignPath eligibility and the permitted artifact scope are still subject to
 SignPath Foundation review, including review of separately licensed third-party
-components bundled with optional integrations. Netcatty will not represent an
+components bundled with optional integrations. Sensor will not represent an
 artifact as SignPath-signed until that review is complete.
 
 ## Source and release provenance
 
 - Official source repository:
-  [binaricat/Netcatty](https://github.com/binaricat/Netcatty)
+  [DrOlu/Sensor](https://github.com/DrOlu/Sensor)
 - Official releases:
-  [GitHub Releases](https://github.com/binaricat/Netcatty/releases)
+  [GitHub Releases](https://github.com/DrOlu/Sensor/releases)
 - Release artifacts are built from the official repository with GitHub
   Actions.
 - Signing requests must originate from the approved build workflow and source
   revision.
 - A maintainer must approve every production signing request.
-- Third-party binaries are outside the Netcatty publisher-signing scope unless
+- Third-party binaries are outside the Sensor publisher-signing scope unless
   SignPath Foundation explicitly approves them. They retain their upstream
   signatures or remain unsigned.
 
@@ -41,7 +41,7 @@ configuration, or signing permissions require maintainer review.
 
 ## Key protection and revocation
 
-Netcatty maintainers do not receive or store the SignPath Foundation private
+Sensor maintainers do not receive or store the SignPath Foundation private
 key. Signing is performed by SignPath.io under the approved project and
 artifact policies.
 
@@ -52,4 +52,4 @@ when appropriate.
 
 ## Privacy
 
-See the [Netcatty Privacy Policy](PRIVACY.md).
+See the [Sensor Privacy Policy](PRIVACY.md).

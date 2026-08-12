@@ -5,7 +5,7 @@ interface AppWordmarkProps {
   className?: string;
 }
 
-/** Fixed Mona Sans Black Italic outlines for the Netcatty brand wordmark. */
+/** Fixed Mona Sans Black Italic outlines for the Sensor brand wordmark. */
 export const AppWordmark: React.FC<AppWordmarkProps> = ({ accessibleLabel, className }) => (
   <svg
     aria-hidden={accessibleLabel ? undefined : true}

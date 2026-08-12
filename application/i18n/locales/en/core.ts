@@ -163,7 +163,7 @@ export const enCoreMessages: Messages = {
   'settings.update.downloadError': 'Download failed.',
   'settings.update.manualDownload': 'Download from GitHub',
   'settings.update.manualDownloadHint': 'Auto-update is not available on this platform. Download the latest version from GitHub.',
-  'settings.update.hint': 'Netcatty checks for updates from GitHub Releases.',
+  'settings.update.hint': 'Sensor checks for updates from GitHub Releases.',
   'settings.update.lastCheckedJustNow': 'just now',
   'settings.update.lastCheckedMinutesAgo': '{n} min ago',
   'settings.update.lastCheckedHoursAgo': '{n} hr ago',
@@ -242,7 +242,7 @@ export const enCoreMessages: Messages = {
   'tray.recentHosts': 'Recent Hosts',
   'tray.empty.title': 'Nothing here yet',
   'tray.empty.subtitle': 'Go connect to a server, they miss you 🚀',
-  'tray.quit': 'Quit Netcatty',
+  'tray.quit': 'Quit Sensor',
   'tray.closeSession': 'Close session',
 
   // Vault Sidebar
@@ -274,7 +274,7 @@ export const enCoreMessages: Messages = {
   'settings.vault.showHostTreeSidebar': 'Show host list sidebar',
   'settings.vault.showHostTreeSidebarDesc': 'Display the host list sidebar and its top-bar toggle on terminal and editor tabs.',
   'settings.vault.autoImportSystemKnownHosts': 'Auto-import system known_hosts',
-  'settings.vault.autoImportSystemKnownHostsDesc': 'When Vault loads, silently import entries from the OpenSSH known_hosts file. Turn this off to keep Netcatty known hosts separate; Scan System still imports on demand.',
+  'settings.vault.autoImportSystemKnownHostsDesc': 'When Vault loads, silently import entries from the OpenSSH known_hosts file. Turn this off to keep Sensor known hosts separate; Scan System still imports on demand.',
 
   // Update notifications
   'update.available.title': 'Update Available',
@@ -442,7 +442,7 @@ Highlight the focused split pane:
   'settings.appearance.windowOpacity': 'Window Opacity',
   'settings.appearance.windowOpacity.desc': 'Adjust the transparency of the entire application window. Lower values also fade terminal text. Some Linux desktop environments may not support this.',
   'settings.appearance.appIcon': 'App Icon',
-  'settings.appearance.appIcon.desc': 'Choose a dock/taskbar icon style to make Netcatty easier to spot when switching apps. Applies at runtime; the installed app bundle icon is unchanged.',
+  'settings.appearance.appIcon.desc': 'Choose a dock/taskbar icon style to make Sensor easier to spot when switching apps. Applies at runtime; the installed app bundle icon is unchanged.',
   'settings.appearance.appIcon.original': 'Original',
   'settings.appearance.appIcon.bright': 'Bright',
   'settings.appearance.appIcon.dark': 'Dark',
@@ -500,7 +500,7 @@ Highlight the focused split pane:
   'settings.terminal.font.cjk.useCustom': 'Use font',
   'settings.terminal.font.cjk.refresh': 'Refresh installed fonts',
   'settings.terminal.font.cjk.alignmentWarning': 'This font is not verified as monospaced. Check the preview for column alignment.',
-  'settings.terminal.font.cjk.unavailableWarning': 'This font is not installed on this device. Netcatty will keep the setting and use a safe fallback.',
+  'settings.terminal.font.cjk.unavailableWarning': 'This font is not installed on this device. Sensor will keep the setting and use a safe fallback.',
   'settings.terminal.font.size': 'Font size',
   'settings.terminal.font.size.desc': 'Terminal text size',
   'settings.terminal.font.weight': 'Font weight',
@@ -1035,7 +1035,7 @@ Highlight the focused split pane:
   'settings.plugins.scopeTarget': '{scope} target',
   'settings.plugins.noScopeTargets': 'No available targets',
   'settings.plugins.thisDevice': 'This device',
-  'plugins.authentication.description': 'Complete the authentication request in this Netcatty dialog.',
+  'plugins.authentication.description': 'Complete the authentication request in this Sensor dialog.',
   'plugins.authentication.value': 'Value',
   'plugins.authentication.password': 'Password',
   'plugins.authentication.code': 'One-time code',

@@ -46,7 +46,7 @@ import {
 import type { CodexIntegrationStatus } from './settings/tabs/ai/types';
 import {
   useAIChatStreaming,
-  getNetcattyBridge,
+  getSensorBridge,
   isAIChatSessionStreaming,
   type DefaultTargetSessionHint,
 } from '../application/state/useAIChatStreaming';
@@ -124,7 +124,7 @@ if (typeof window !== 'undefined') {
 }
 
 function loadUserSkillsStatus(
-  bridge: ReturnType<typeof getNetcattyBridge>,
+  bridge: ReturnType<typeof getSensorBridge>,
 ): Promise<UserSkillsStatusLoadResult> {
   const requestVersion = userSkillsStatusCacheVersion;
   if (!bridge?.aiUserSkillsGetStatus) {
@@ -436,7 +436,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
 
   useEffect(() => {
     if (!isVisible) return;
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (!bridge?.aiMcpUpdateSessions) return;
 
     const timeoutId = window.setTimeout(() => {
@@ -585,7 +585,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
       }));
     };
 
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     void loadUserSkillsStatus(bridge)
       .then((result) => {
         if (cancelled) return;
@@ -608,7 +608,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
 
   useEffect(() => {
     if (!isVisible) return;
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (bridge?.aiSyncProviders && providers.length > 0) {
       void bridge.aiSyncProviders(providers);
     }
@@ -616,7 +616,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
 
   useEffect(() => {
     if (!isVisible) return;
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (bridge?.aiSyncWebSearch) {
       void bridge.aiSyncWebSearch(webSearchConfig?.apiHost || null, webSearchConfig?.apiKey || null);
     }
@@ -729,7 +729,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
       setCodexConfigModel(null);
       return;
     }
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (!bridge?.aiCodexGetIntegration) return;
     let cancelled = false;
     void Promise.resolve(
@@ -804,7 +804,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
     target: SdkRuntimeModelTarget,
     options: { force?: boolean; logErrors?: boolean } = {},
   ): Promise<SdkRuntimeModelCatalog | null> => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     if (!bridge?.aiSdkAgentListModels) return Promise.resolve(null);
 
     return sdkRuntimeModelCache.refresh(
@@ -1343,7 +1343,7 @@ const AIChatSidePanelActive: React.FC<AIChatSidePanelProps> = ({
     await stopAgentTurn({
       chatSessionId: sessionId,
       abortController: controller,
-      bridge: getNetcattyBridge(),
+      bridge: getSensorBridge(),
       reason: 'user',
     });
     await getAgentRuntime().waitForActiveTurn(sessionId);

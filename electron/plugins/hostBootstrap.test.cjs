@@ -17,7 +17,7 @@ test("disabled development host does not construct plugin infrastructure", () =>
   assert.equal(created, 0);
 });
 
-test("synchronous plugin host construction failure leaves Netcatty available", () => {
+test("synchronous plugin host construction failure leaves Sensor available", () => {
   const errors = [];
   let registered = 0;
   const service = startDevelopmentPluginHost({

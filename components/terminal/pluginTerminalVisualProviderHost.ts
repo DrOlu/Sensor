@@ -150,7 +150,7 @@ export class PluginTerminalVisualProviderHost implements IDisposable {
   #active: boolean;
   #visible: boolean;
   #reducedMotion: boolean;
-  readonly #isProviderAvailable: (kind: NetcattyTerminalProviderKind) => boolean;
+  readonly #isProviderAvailable: (kind: SensorTerminalProviderKind) => boolean;
   #providerAvailabilityGeneration = 0;
   #disposed = false;
   readonly #matcherQuietMs: number;
@@ -165,7 +165,7 @@ export class PluginTerminalVisualProviderHost implements IDisposable {
     active?: boolean;
     visible?: boolean;
     reducedMotion?: boolean;
-    isProviderAvailable?(kind: NetcattyTerminalProviderKind): boolean;
+    isProviderAvailable?(kind: SensorTerminalProviderKind): boolean;
   }) {
     this.#term = options.term;
     this.#request = options.request;
@@ -208,7 +208,7 @@ export class PluginTerminalVisualProviderHost implements IDisposable {
   }
 
   async #requestWithTimeout(
-    kind: NetcattyTerminalProviderKind,
+    kind: SensorTerminalProviderKind,
     operation: string,
     payload: Readonly<Record<string, unknown>>,
     supersessionKey?: string,

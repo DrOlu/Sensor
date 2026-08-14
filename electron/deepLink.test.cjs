@@ -33,7 +33,7 @@ test("isSshDeepLinkUrl accepts only ssh URLs", () => {
 test("collectSshDeepLinkUrls extracts ssh URLs from process arguments", () => {
   assert.deepEqual(
     collectSshDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "ssh://alice@example.com",
       "file:///tmp/example",
@@ -141,7 +141,7 @@ test("isTelnetDeepLinkUrl accepts only telnet URLs", () => {
 test("collectTelnetDeepLinkUrls extracts telnet URLs from process arguments", () => {
   assert.deepEqual(
     collectTelnetDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "telnet://example.com:2001",
       "file:///tmp/example",
@@ -284,7 +284,7 @@ test("isJmsDeepLinkUrl accepts only jms URLs", () => {
 test("collectJmsDeepLinkUrls extracts jms URLs from process arguments", () => {
   assert.deepEqual(
     collectJmsDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "jms://payload-one",
       "file:///tmp/example",

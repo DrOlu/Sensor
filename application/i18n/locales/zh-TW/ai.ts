@@ -349,7 +349,7 @@ export const zhTWAiMessages: Messages = {
   'ai.externalMcp.installCodex': '請先另外安裝 Codex，然後按重新整理。',
   'ai.externalMcp.installClaude': '請先另外安裝 Claude Code，然後按重新整理。',
   'ai.externalMcp.installGrok': '請先另外安裝 Grok CLI，然後按重新整理。',
-  'ai.externalMcp.conflict.description': '已存在指向其他位置的 netcatty-external 項目，請手動刪除或修改。',
+  'ai.externalMcp.conflict.description': '已存在指向其他位置的 sensor-external 項目，請手動刪除或修改。',
   'ai.externalMcp.enableForLauncher': '請先啟用對外 MCP，以取得可用的 launcher 路徑。',
   'ai.externalMcp.cursor.title': 'Cursor / 其他用戶端',
   'ai.externalMcp.cursor.description': '合併到 MCP 設定檔（例如 ~/.cursor/mcp.json）。若已有其他伺服器，請勿整檔覆蓋。',

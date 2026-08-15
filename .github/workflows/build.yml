@@ -243,18 +243,18 @@ jobs:
         run: |
           $compiler = "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\csc.exe"
           if (-not (Test-Path $compiler)) { throw "csc.exe not found" }
-          New-Item -ItemType Directory -Force -Path "$env:RUNNER_TEMP\sensor-mosh-conpty" | Out-Null
-          & $compiler /nologo /target:exe /out:"$env:RUNNER_TEMP\sensor-mosh-conpty\ssh.exe" electron\bridges\fixtures\mosh-conpty-fake-ssh.cs
+          New-Item -ItemType Directory -Force -Path "$env:RUNNER_TEMP\netcatty-mosh-conpty" | Out-Null
+          & $compiler /nologo /target:exe /out:"$env:RUNNER_TEMP\netcatty-mosh-conpty\ssh.exe" electron\bridges\fixtures\mosh-conpty-fake-ssh.cs
           if ($LASTEXITCODE -ne 0) { throw "failed to compile fake ssh" }
-          & $compiler /nologo /target:exe /out:"$env:RUNNER_TEMP\sensor-mosh-conpty\mosh-client.exe" electron\bridges\fixtures\mosh-conpty-fake-client.cs
+          & $compiler /nologo /target:exe /out:"$env:RUNNER_TEMP\netcatty-mosh-conpty\mosh-client.exe" electron\bridges\fixtures\mosh-conpty-fake-client.cs
           if ($LASTEXITCODE -ne 0) { throw "failed to compile fake mosh-client" }
 
       - name: Test Mosh handshake through ConPTY
         if: matrix.name == 'windows'
         shell: pwsh
         env:
-          SENSOR_TEST_MOSH_SSH_EXE: ${{ runner.temp }}\sensor-mosh-conpty\ssh.exe
-          SENSOR_TEST_MOSH_CLIENT_EXE: ${{ runner.temp }}\sensor-mosh-conpty\mosh-client.exe
+          NETCATTY_TEST_MOSH_SSH_EXE: ${{ runner.temp }}\netcatty-mosh-conpty\ssh.exe
+          NETCATTY_TEST_MOSH_CLIENT_EXE: ${{ runner.temp }}\netcatty-mosh-conpty\mosh-client.exe
         run: |
           node --test electron/bridges/moshHandshake.test.cjs
           node electron/bridges/terminalBridge.moshConpty.integration.cjs
@@ -1041,6 +1041,12 @@ jobs:
           name: sensor-macos
           path: artifacts/
 
-      - name: Bump Cask in homebrew tap (stubbed)
+      - name: Bump Cask in binaricat/homebrew-netcatty
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          ARTIFACTS_DIR: artifacts
         run: |
-          echo "Homebrew tap update is not configured — skipping."
+          # Strip the leading "v" — Cask version is plain semver.
+          VERSION="${GITHUB_REF_NAME#v}"
+          export VERSION
+          bash .github/scripts/bump-homebrew-cask.sh

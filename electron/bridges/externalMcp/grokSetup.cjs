@@ -2,7 +2,7 @@
 
 const { runBoundedCliCommand } = require("./boundedCliCommand.cjs");
 
-const EXTERNAL_MCP_GROK_NAME = "netcatty-external";
+const EXTERNAL_MCP_GROK_NAME = "sensor-external";
 const {
   formatDiscoveryEnvCliFlags,
 } = require("../../cli/externalMcpDiscoveryPath.cjs");

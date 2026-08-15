@@ -28,7 +28,7 @@ describe("externalMcpDiscoveryPath", () => {
     const discoveryPath = getExternalMcpDiscoveryFilePath({ userDataDir: tmp });
     assert.equal(discoveryPath, path.join(tmp, "external-mcp", "discovery.json"));
     assert.equal(EXTERNAL_MCP_CHAT_SESSION_ID, "__external_mcp__");
-    assert.ok(getExternalMcpLauncherPath().includes("netcatty-external-mcp"));
+    assert.ok(getExternalMcpLauncherPath().includes("sensor-external-mcp"));
   });
 
   it("honors NETCATTY_EXTERNAL_MCP_DISCOVERY_FILE without falling back", () => {

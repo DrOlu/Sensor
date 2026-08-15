@@ -123,7 +123,7 @@ jobs:
             UPSTREAM_RELEASE="${{ steps.check.outputs.last_upstream_release }}"
             if [ -n "$UPSTREAM_RELEASE" ]; then
               echo "$UPSTREAM_RELEASE" > .upstream-release
-              git add .upstream-release
+              git add -f .upstream-release
             fi
             git commit -m "sync: upstream Netcatty @ ${UPSTREAM_SHA} (rebranded)"
             git pull --rebase origin main
@@ -158,7 +158,7 @@ jobs:
             git config user.name "Sensor Sync Bot"
             git config user.email "sensor-bot@hyperspace.ng"
             echo "$UPSTREAM_RELEASE" > .upstream-release
-            git add .upstream-release
+            git add -f .upstream-release
             if ! git diff --cached --quiet; then
               git commit -m "chore: record upstream release $UPSTREAM_RELEASE in .upstream-release"
               git pull --rebase origin main

@@ -1,9 +1,9 @@
 /**
- * Netcatty MCP Server (stdio transport)
+ * Sensor MCP Server (stdio transport)
  *
  * Spawned by managed SDK agents as a child process.
- * Communicates with the Netcatty main process via TCP (JSON-RPC over newline-delimited JSON).
- * Exposes Netcatty terminal tools so external agents can operate on scoped sessions.
+ * Communicates with the Sensor main process via TCP (JSON-RPC over newline-delimited JSON).
+ * Exposes Sensor terminal tools so external agents can operate on scoped sessions.
  */
 "use strict";
 
@@ -32,7 +32,7 @@ function debugLog(...args) {
   }).join(" ")}\n`);
 }
 
-// ── TCP Bridge to Netcatty main process ──
+// ── TCP Bridge to Sensor main process ──
 
 const NETCATTY_MCP_PORT = parseInt(process.env.NETCATTY_MCP_PORT, 10);
 if (!NETCATTY_MCP_PORT) {
@@ -184,7 +184,7 @@ function connectTcp() {
 function rpcCall(method, params) {
   return new Promise((resolve, reject) => {
     if (!tcpSocket || tcpSocket.destroyed) {
-      return reject(new Error("Not connected to Netcatty"));
+      return reject(new Error("Not connected to Sensor"));
     }
     const id = nextRpcId++;
     pendingRequests.set(id, { resolve, reject });
@@ -213,7 +213,7 @@ const scopeParams = CHAT_SESSION_ID
 server.resource(
   "environment",
   "netcatty://context",
-  { description: "Current Netcatty workspace context: connected hosts, session IDs, and environment description." },
+  { description: "Current Sensor workspace context: connected hosts, session IDs, and environment description." },
   async () => {
     const ctx = await rpcCall("netcatty/getContext", scopeParams);
     return {

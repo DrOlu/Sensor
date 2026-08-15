@@ -1,7 +1,7 @@
 import type { CodebuddyAdvancedOptions } from '../../infrastructure/ai/types';
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     // AI / external agents
     aiSyncProviders?(providers: Array<{ id: string; providerId: string; apiKey?: string; baseURL?: string; enabled: boolean }>): Promise<{ ok: boolean }>;
     aiChatStream?(requestId: string, url: string, headers?: Record<string, string>, body?: string, providerId?: string): Promise<{ ok: boolean; statusCode?: number; statusText?: string; error?: string }>;

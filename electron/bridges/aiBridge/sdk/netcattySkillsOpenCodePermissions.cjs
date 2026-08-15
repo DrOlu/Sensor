@@ -76,7 +76,7 @@ function dedupePatterns(patterns) {
 // its global config dirs (~/.opencode and ~/.config/opencode, both "skill"
 // and "skills" spellings), Claude/agents-compatible dirs, project-level
 // .opencode/.claude/.agents dirs, and the remote-skill download cache.
-// Reads inside them must stay allowed even though Netcatty otherwise locks
+// Reads inside them must stay allowed even though Sensor otherwise locks
 // external directory access down, or loading a skill's reference files fails
 // with an OpenCode permission error (issue #1939).
 const OPENCODE_NATIVE_SKILL_DIR_SUFFIXES = [
@@ -133,7 +133,7 @@ function buildOpenCodeNativeSkillsPermissionRules() {
   };
 }
 
-function buildNetcattySkillsOpenCodePathAllowlist({
+function buildSensorSkillsOpenCodePathAllowlist({
   launcherPath,
   cliScriptPath,
   skillPath,
@@ -177,7 +177,7 @@ function buildOpenCodeSkillsPermissionRules(pathAllowlist = []) {
 }
 
 module.exports = {
-  buildNetcattySkillsOpenCodePathAllowlist,
+  buildSensorSkillsOpenCodePathAllowlist,
   buildOpenCodeNativeSkillEnvDenyPatterns,
   buildOpenCodeNativeSkillPermissionPatterns,
   buildOpenCodeNativeSkillsPermissionRules,

@@ -26,7 +26,7 @@ export function createTerminalInterruptTrace(options: {
   status: string;
   hasSelection: boolean;
   priority?: TerminalInputPrioritySnapshot;
-}): NetcattyTerminalInterruptTrace {
+}): SensorTerminalInterruptTrace {
   const debug = isDebugEnabled();
   return {
     debug,
@@ -43,13 +43,13 @@ export function createTerminalInterruptTrace(options: {
 
 export function logTerminalInterruptTrace(
   event: string,
-  trace: NetcattyTerminalInterruptTrace | undefined,
+  trace: SensorTerminalInterruptTrace | undefined,
   details: Record<string, unknown> = {},
 ): void {
   if (!trace?.debug) return;
   const now = Date.now();
   try {
-    console.info("[Netcatty Ctrl+C]", {
+    console.info("[Sensor Ctrl+C]", {
       event,
       traceId: trace.traceId,
       sessionId: trace.sessionId,

@@ -302,7 +302,7 @@ export const ruAiMessages: Messages = {
   'ai.externalMcp.installCodex': 'Сначала установите Codex, затем нажмите Обновить.',
   'ai.externalMcp.installClaude': 'Сначала установите Claude Code, затем нажмите Обновить.',
   'ai.externalMcp.installGrok': 'Сначала установите Grok CLI, затем нажмите Обновить.',
-  'ai.externalMcp.conflict.description': 'Запись netcatty-external уже существует и указывает в другое место. Удалите или измените её вручную.',
+  'ai.externalMcp.conflict.description': 'Запись sensor-external уже существует и указывает в другое место. Удалите или измените её вручную.',
   'ai.externalMcp.enableForLauncher': 'Включите External MCP, чтобы получить путь launcher.',
   'ai.externalMcp.cursor.title': 'Cursor / другие клиенты',
   'ai.externalMcp.cursor.description': 'Объедините с MCP-конфигом (например ~/.cursor/mcp.json). Не заменяйте весь файл, если там уже есть другие серверы.',

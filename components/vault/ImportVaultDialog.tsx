@@ -88,10 +88,10 @@ export type ImportVaultDialogProps = {
     options?: ImportOptions,
   ) => void;
   onPluginPreviewCommit: (
-    preview: NetcattyPluginImporterPreview,
+    preview: SensorPluginImporterPreview,
     destination?: VaultImportDestination,
   ) => Promise<void> | void;
-  getPluginPreviewAnalysis: (preview: NetcattyPluginImporterPreview) => {
+  getPluginPreviewAnalysis: (preview: SensorPluginImporterPreview) => {
     duplicateCount: number;
     validationErrorCount: number;
     safePreview: import("../../domain/pluginImporter").PluginImporterSafePreview;

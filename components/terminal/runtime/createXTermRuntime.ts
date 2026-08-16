@@ -170,7 +170,7 @@ type TerminalBackendApi = {
   openExternalAvailable: () => boolean;
   openExternal: (url: string) => Promise<void>;
   writeToSession: (sessionId: string, data: string) => void;
-  interruptSession?: (sessionId: string, trace?: NetcattyTerminalInterruptTrace) => void;
+  interruptSession?: (sessionId: string, trace?: SensorTerminalInterruptTrace) => void;
   signalPluginConnection?: (
     sessionId: string,
     signal?: "interrupt" | "terminate" | "kill" | "eof" | "break",
@@ -304,7 +304,7 @@ export type CreateXTermRuntimeContext = {
   onCommandCompleted?: () => void;
   requestPluginTerminalProviders?: RequestPluginTerminalProviders;
   pluginProviderVisible?: boolean;
-  isPluginTerminalProviderAvailable?: (kind: NetcattyTerminalProviderKind) => boolean;
+  isPluginTerminalProviderAvailable?: (kind: SensorTerminalProviderKind) => boolean;
   onResize?: (cols: number, rows: number) => void;
   onAlternateScreenChange?: (active: boolean) => void;
   commandBufferRef: RefObject<string>;

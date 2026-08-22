@@ -5,8 +5,8 @@ const { etExtraResources } = require('./scripts/et-extra-resources.cjs');
  * @type {import('electron-builder').Configuration}
  */
 module.exports = {
-    appId: 'com.netcatty.app',
-    productName: 'Netcatty',
+    appId: 'ng.hyperspace.sensor',
+    productName: 'Sensor',
     artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
     protocols: [
         {
@@ -24,7 +24,7 @@ module.exports = {
     ],
     electronLanguages: ['en', 'en-US', 'zh_CN', 'zh-CN', 'zh_TW', 'zh-TW', 'ru'],
     // Give the macOS build a unique Mach-O LC_UUID before signing, so macOS
-    // Local Network privacy treats Netcatty distinctly from every other
+    // Local Network privacy treats Sensor distinctly from every other
     // Electron app (which all share Electron's prebuilt LC_UUID) — see #1040
     // and scripts/afterPackMacUuid.cjs. No-op on Windows/Linux.
     beforePack: './scripts/beforePackCursorSdk.cjs',
@@ -127,7 +127,7 @@ module.exports = {
         // runtime.
         '!node_modules/typescript/**/*',
         // ── Exclude per-platform native agent binaries (~100s of MB each). ──
-        // Netcatty is "bring your own CLI": each SDK is pointed at the user's
+        // Sensor is "bring your own CLI": each SDK is pointed at the user's
         // system-installed CLI via an absolute path override (claude
         // pathToClaudeCodeExecutable / codex codexPathOverride / copilot cliPath).
         // Only the SDKs' JS is bundled; the heavy per-arch binaries are dropped.
@@ -147,11 +147,11 @@ module.exports = {
         '!node_modules/opencode-{darwin,linux,linuxmusl,windows}-*/**/*',
         '!node_modules/opencode-ai/**/*',
         // CodeBuddy follows the same first-party integration model as the
-        // other coding agents: Netcatty discovers and passes the user's
+        // other coding agents: Sensor discovers and passes the user's
         // installed CLI path to the SDK. Keep the small SDK wrapper, but do not
         // bundle the full CodeBuddy CLI payload (rg vendors + web UI).
         '!node_modules/@tencent-ai/agent-sdk/cli/**/*',
-        // Netcatty loads Cursor SDK through ESM dynamic import, so the duplicate
+        // Sensor loads Cursor SDK through ESM dynamic import, so the duplicate
         // CommonJS build and type metadata are not needed at runtime.
         '!node_modules/@cursor/sdk/dist/cjs/**/*',
         '!node_modules/@cursor/sdk/dist/**/*.d.ts',
@@ -205,14 +205,15 @@ module.exports = {
             }
         ],
         category: 'public.app-category.developer-tools',
-        hardenedRuntime: true,
-        notarize: true,
+        hardenedRuntime: false,
+        identity: null,
+        notarize: false,
         entitlements: 'electron/entitlements.mac.plist',
         entitlementsInherit: 'electron/entitlements.mac.plist',
         extendInfo: {
-            NSCameraUsageDescription: 'Netcatty may use the camera for video calls',
-            NSMicrophoneUsageDescription: 'Netcatty may use the microphone for audio',
-            NSLocalNetworkUsageDescription: 'Netcatty needs local network access for SSH connections',
+            NSCameraUsageDescription: 'Sensor may use the camera for video calls',
+            NSMicrophoneUsageDescription: 'Sensor may use the microphone for audio',
+            NSLocalNetworkUsageDescription: 'Sensor needs local network access for SSH connections',
             CFBundleDocumentTypes: [
                 {
                     CFBundleTypeName: 'Folder',
@@ -243,7 +244,7 @@ module.exports = {
         // and electron-builder unions config arch with the CLI set. Hard-coding
         // ['x64', 'arm64'] made the official x64 CI job also emit win-arm64 and
         // a universal win.exe whose 32-bit NSIS stub can mis-detect on ARM
-        // Windows, install to Program Files (x86), and leave Netcatty.exe
+        // Windows, install to Program Files (x86), and leave Sensor.exe
         // missing (#2570). Keep official releases on pack:win-x64 until win32
         // arm64 bundled mosh/et + native rebuilds are ready.
         target: ['nsis', 'portable', 'zip'],
@@ -251,8 +252,8 @@ module.exports = {
             ...moshExtraResources('win32'),
             ...etExtraResources('win32'),
             {
-                from: 'electron/bridges/windowsHelloHelper/build/${arch}/NetcattyWindowsHello.exe',
-                to: 'windowsHello/NetcattyWindowsHello.exe',
+                from: 'electron/bridges/windowsHelloHelper/build/${arch}/SensorWindowsHello.exe',
+                to: 'windowsHello/SensorWindowsHello.exe',
                 filter: ['**/*']
             }
         ]
@@ -268,7 +269,7 @@ module.exports = {
         allowToChangeInstallationDirectory: true,
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-        shortcutName: 'Netcatty'
+        shortcutName: 'Sensor'
     },
     linux: {
         // Linux .deb/.rpm/AppImage icons come from build/icons/* (see
@@ -315,8 +316,8 @@ module.exports = {
     publish: [
         {
             provider: 'github',
-            owner: 'binaricat',
-            repo: 'Netcatty',
+            owner: 'DrOlu',
+            repo: 'Sensor',
             releaseType: 'release'
         }
     ]

@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="public/icon.png" alt="Netcatty" width="128" height="128">
+  <img src="public/icon.png" alt="Sensor" width="128" height="128">
 </p>
 
-<h1 align="center">Netcatty</h1>
+<h1 align="center">Sensor</h1>
 
 <p align="center">
   <strong>🔥 AI 驅動的 SSH 用戶端、SFTP 瀏覽器與終端機管理工具 🚀</strong><br/>
@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=Release"></a>
+  <a href="https://github.com/DrOlu/Sensor/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=Release"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
@@ -23,8 +23,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest">
-    <img src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=%E4%B8%8B%E8%BC%89%E6%9C%80%E6%96%B0%E7%89%88&color=success" alt="下載最新版">
+  <a href="https://github.com/DrOlu/Sensor/releases/latest">
+    <img src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=%E4%B8%8B%E8%BC%89%E6%9C%80%E6%96%B0%E7%89%88&color=success" alt="下載最新版">
   </a>
 </p>
 
@@ -76,8 +76,8 @@
 # 目錄 <!-- omit in toc -->
 
 - [🔥 Catty Agent —— AI 夥伴](#catty-agent)
-- [Netcatty 是什麼](#netcatty-是什麼)
-- [為什麼選 Netcatty](#為什麼選-netcatty)
+- [Sensor 是什麼](#netcatty-是什麼)
+- [為什麼選 Sensor](#為什麼選-netcatty)
 - [功能特色](#功能特色)
 - [介面截圖](#介面截圖)
   - [主視窗](#主視窗)
@@ -95,22 +95,22 @@
 ---
 
 <a name="netcatty-是什麼"></a>
-# Netcatty 是什麼
+# Sensor 是什麼
 
-**Netcatty** 是一套現代化的 SSH 用戶端與終端機管理工具，支援 macOS、Windows 與 Linux，專為需要有效率管理多台遠端伺服器的開發者、系統管理員與 DevOps 工程師而設計。
+**Sensor** 是一套現代化的 SSH 用戶端與終端機管理工具，支援 macOS、Windows 與 Linux，專為需要有效率管理多台遠端伺服器的開發者、系統管理員與 DevOps 工程師而設計。
 
-- **Netcatty 是** PuTTY、Termius、SecureCRT 與 macOS Terminal.app 在 SSH 連線上的替代方案
-- **Netcatty 是** 一套功能完整的 SFTP 用戶端，具備雙窗格檔案瀏覽器
-- **Netcatty 是** 一個終端機工作區，支援分割窗格、分頁與工作階段管理
-- **Netcatty 支援** SSH、本機終端、Telnet、Mosh 與序列埠（Serial）連線（視環境而定）
-- **Netcatty 不是** Shell 的替代品 —— 它是透過 SSH／Telnet／Mosh 或本機／序列埠工作階段連上 Shell
+- **Sensor 是** PuTTY、Termius、SecureCRT 與 macOS Terminal.app 在 SSH 連線上的替代方案
+- **Sensor 是** 一套功能完整的 SFTP 用戶端，具備雙窗格檔案瀏覽器
+- **Sensor 是** 一個終端機工作區，支援分割窗格、分頁與工作階段管理
+- **Sensor 支援** SSH、本機終端、Telnet、Mosh 與序列埠（Serial）連線（視環境而定）
+- **Sensor 不是** Shell 的替代品 —— 它是透過 SSH／Telnet／Mosh 或本機／序列埠工作階段連上 Shell
 
 ---
 
 <a name="為什麼選-netcatty"></a>
-# 為什麼選 Netcatty
+# 為什麼選 Sensor
 
-如果你經常同時照顧一整批伺服器，Netcatty 是為了速度與順暢而設計的：
+如果你經常同時照顧一整批伺服器，Sensor 是為了速度與順暢而設計的：
 
 - **以工作區為核心** —— 分割窗格 + 分頁 + 工作階段還原，適合長時間掛著的工作流程
 - **Vault 整理** —— 網格／清單／樹狀檢視，搭配快速搜尋與順手的拖曳操作
@@ -173,7 +173,7 @@
 <a name="支援的發行版"></a>
 # 支援的發行版
 
-Netcatty 會自動辨識已連線主機的作業系統，並顯示對應圖示：
+Sensor 會自動辨識已連線主機的作業系統，並顯示對應圖示：
 
 <p align="center">
   <img src="public/distro/ubuntu.svg" width="48" alt="Ubuntu" title="Ubuntu">
@@ -196,7 +196,7 @@ Netcatty 會自動辨識已連線主機的作業系統，並顯示對應圖示�
 
 ### 下載
 
-到 [GitHub Releases](https://github.com/binaricat/Netcatty/releases/latest) 下載適合你平台的最新版本。
+到 [GitHub Releases](https://github.com/DrOlu/Sensor/releases/latest) 下載適合你平台的最新版本。
 
 | 作業系統 | 支援情況 |
 | :--- | :--- |
@@ -204,30 +204,30 @@ Netcatty 會自動辨識已連線主機的作業系統，並顯示對應圖示�
 | **Windows** | x64 / arm64 |
 | **Linux** | x64 / arm64 |
 
-也可以到 [GitHub Releases](https://github.com/binaricat/Netcatty/releases) 瀏覽所有版本。
+也可以到 [GitHub Releases](https://github.com/DrOlu/Sensor/releases) 瀏覽所有版本。
 
 ### 程式碼簽章與隱私
 
-Netcatty 正在申請 SignPath Foundation 的開源專案計畫。通過之後，適用的 Windows
+Sensor 正在申請 SignPath Foundation 的開源專案計畫。通過之後，適用的 Windows
 發行檔會採用 **Free code signing provided by SignPath.io, certificate by SignPath Foundation**。
 詳情請見[程式碼簽章政策](CODE_SIGNING_POLICY.md)與[隱私權政策](PRIVACY.md)。在申請與介接完成前，
 Windows 發行檔可能仍未簽章。
 
-> **Windows 免安裝版的資料存放：** 先結束 Netcatty，然後在 `Netcatty.exe`（zip 版）或免安裝版啟動檔旁邊建立一個名為 `data` 的資料夾。下次啟動時，Netcatty 就會把設定檔存在那裡。已儲存的密碼與私密金鑰仍受建立它們的那個 Windows 使用者帳戶保護，所以把資料夾搬到另一台電腦或另一個 Windows 帳戶後，這些資訊必須重新輸入。
+> **Windows 免安裝版的資料存放：** 先結束 Sensor，然後在 `Sensor.exe`（zip 版）或免安裝版啟動檔旁邊建立一個名為 `data` 的資料夾。下次啟動時，Sensor 就會把設定檔存在那裡。已儲存的密碼與私密金鑰仍受建立它們的那個 Windows 使用者帳戶保護，所以把資料夾搬到另一台電腦或另一個 Windows 帳戶後，這些資訊必須重新輸入。
 
-> **在 Windows 用 Netcatty 開啟資料夾：** 安裝版會在檔案總管的資料夾右鍵選單與資料夾空白處右鍵選單加入 **Open in Netcatty**，點了就會在該資料夾開啟本機終端。Windows 11 要先選 **顯示其他選項**。這個選單可以在 **設定 → 系統 → Windows 檔案總管** 隨時關閉或重新開啟。ZIP 版與免安裝版預設不會加入這個選單。
+> **在 Windows 用 Sensor 開啟資料夾：** 安裝版會在檔案總管的資料夾右鍵選單與資料夾空白處右鍵選單加入 **Open in Sensor**，點了就會在該資料夾開啟本機終端。Windows 11 要先選 **顯示其他選項**。這個選單可以在 **設定 → 系統 → Windows 檔案總管** 隨時關閉或重新開啟。ZIP 版與免安裝版預設不會加入這個選單。
 
 > **macOS 使用者請注意：** 目前的發行版本應該都已完成程式碼簽章與公證。如果 Gatekeeper 仍然跳出警告，請確認你下載的是 GitHub Releases 上最新的官方建置版本。
 
 ### Nix / NixOS
 
-Netcatty 提供了一個 flake，替 Nix 與 NixOS 使用者包裝官方的 Linux AppImage 發行版：
+Sensor 提供了一個 flake，替 Nix 與 NixOS 使用者包裝官方的 Linux AppImage 發行版：
 
 ```bash
-nix run github:binaricat/Netcatty
+nix run github:DrOlu/Sensor
 ```
 
-若要以宣告式方式安裝，把 Netcatty flake 加為 input，並在你的 NixOS 或 Home Manager 套件清單中使用 `inputs.netcatty.packages.${pkgs.system}.default`。
+若要以宣告式方式安裝，把 Sensor flake 加為 input，並在你的 NixOS 或 Home Manager 套件清單中使用 `inputs.netcatty.packages.${pkgs.system}.default`。
 
 ### 事前需求
 - Node.js 18+ 與 npm
@@ -237,8 +237,8 @@ nix run github:binaricat/Netcatty
 
 ```bash
 # 複製儲存庫
-git clone https://github.com/binaricat/Netcatty.git
-cd Netcatty
+git clone https://github.com/DrOlu/Sensor.git
+cd Sensor
 
 # 安裝相依套件
 npm install
@@ -303,8 +303,8 @@ npm run pack:linux   # Linux (AppImage + DEB + RPM)
 
 感謝每一位參與貢獻的人！
 
-<a href="https://github.com/binaricat/Netcatty/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=binaricat/Netcatty" />
+<a href="https://github.com/DrOlu/Sensor/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DrOlu/Sensor" />
 </a>
 
 ---
@@ -319,7 +319,7 @@ npm run pack:linux   # Linux (AppImage + DEB + RPM)
 <a name="star-紀錄"></a>
 # Star 紀錄
 
-<a href="https://www.star-history.com/#binaricat/Netcatty&Date">
+<a href="https://www.star-history.com/#DrOlu/Sensor&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history/star-history-dark.svg" />
    <source media="(prefers-color-scheme: light)" srcset="docs/assets/star-history/star-history-light.svg" />

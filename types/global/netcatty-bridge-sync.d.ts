@@ -38,7 +38,7 @@ type AppLockSystemUnlockSettingsResult =
   | { ok: false; error: 'empty-current' | 'incorrect' | 'locked' | 'unsupported' | 'unavailable' | 'cancelled' | 'failed' };
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     setTheme?(theme: 'light' | 'dark' | 'system'): Promise<boolean>;
     setBackgroundColor?(color: string): Promise<boolean>;
     setWindowOpacity?(opacity: number): Promise<boolean>;

@@ -9,7 +9,7 @@ const {
 test("parsePuttyCommandLine accepts JumpServer PuTTY template", () => {
   assert.deepEqual(
     parsePuttyCommandLine([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "-ssh",
       "alice@10.0.0.8",
       "-P",
@@ -30,7 +30,7 @@ test("parsePuttyCommandLine accepts JumpServer PuTTY template", () => {
 
 test("parsePuttyCommandLine accepts -l username and mixed flag order", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "bastion.example.com",
     "-P",
     "22",
@@ -46,7 +46,7 @@ test("parsePuttyCommandLine accepts -l username and mixed flag order", () => {
 
 test("parsePuttyCommandLine prefers user@host over -newtab session names", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-newtab",
     "Production",
     "-ssh",
@@ -63,7 +63,7 @@ test("parsePuttyCommandLine prefers user@host over -newtab session names", () =>
 
 test("parsePuttyCommandLine percent-encodes passwords for ssh:// round-trip", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@example.com",
     "-pw",
@@ -88,7 +88,7 @@ test("parsePuttyCommandLine accepts IPv6 hosts and optional positional port", ()
 
 test("parsePuttyCommandLine accepts user@host:port without -P", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@bastion.example.com:2222",
     "-pw",
@@ -99,7 +99,7 @@ test("parsePuttyCommandLine accepts user@host:port without -P", () => {
 
 test("parsePuttyCommandLine accepts telnet launches", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-telnet",
     "router.lab",
     "-P",
@@ -110,18 +110,18 @@ test("parsePuttyCommandLine accepts telnet launches", () => {
 });
 
 test("parsePuttyCommandLine ignores Chromium flags and missing hosts", () => {
-  assert.equal(parsePuttyCommandLine(["Netcatty.exe", "--enable-logging", "-ssh"]), null);
-  assert.equal(parsePuttyCommandLine(["Netcatty.exe", "just-a-file.txt"]), null);
-  assert.equal(parsePuttyCommandLine(["Netcatty.exe", "-P", "22"]), null);
+  assert.equal(parsePuttyCommandLine(["Sensor.exe", "--enable-logging", "-ssh"]), null);
+  assert.equal(parsePuttyCommandLine(["Sensor.exe", "just-a-file.txt"]), null);
+  assert.equal(parsePuttyCommandLine(["Sensor.exe", "-P", "22"]), null);
 });
 
 test("parsePuttyCommandLine rejects invalid ports", () => {
-  assert.equal(parsePuttyCommandLine(["Netcatty.exe", "-ssh", "host.example", "-P", "99999"]), null);
+  assert.equal(parsePuttyCommandLine(["Sensor.exe", "-ssh", "host.example", "-P", "99999"]), null);
 });
 
 test("parsePuttyCommandLine does not treat -m operands as the destination host", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "-l",
     "alice",
@@ -138,7 +138,7 @@ test("parsePuttyCommandLine does not treat -m operands as the destination host",
 
 test("parsePuttyCommandLine does not treat -D operands as the destination port", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-D",
@@ -153,7 +153,7 @@ test("parsePuttyCommandLine does not treat -D operands as the destination port",
 
 test("parsePuttyCommandLine consumes operands of known value-taking flags such as -cmd", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-cmd",
@@ -167,7 +167,7 @@ test("parsePuttyCommandLine consumes operands of known value-taking flags such a
 
 test("parsePuttyCommandLine rejects unsupported PuTTY protocol selectors", () => {
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "server.example",
     "-raw",
     "-P",
@@ -176,7 +176,7 @@ test("parsePuttyCommandLine rejects unsupported PuTTY protocol selectors", () =>
     "secret",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-serial",
     "COM1",
     "-P",
@@ -186,7 +186,7 @@ test("parsePuttyCommandLine rejects unsupported PuTTY protocol selectors", () =>
 
 test("parsePuttyCommandLine keeps the host after valueless options such as -batch", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "-batch",
     "alice@server.example",
@@ -198,7 +198,7 @@ test("parsePuttyCommandLine keeps the host after valueless options such as -batc
 
 test("parsePuttyCommandLine rejects unknown dash flags", () => {
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "-not-a-putty-flag",
     "alice@server.example",
@@ -207,26 +207,26 @@ test("parsePuttyCommandLine rejects unknown dash flags", () => {
 
 test("parsePuttyCommandLine rejects missing or empty option operands", () => {
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-pw",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-pw",
     "",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-P",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "server.example",
     "-l",
@@ -238,14 +238,14 @@ test("parsePuttyCommandLine rejects missing or empty option operands", () => {
 
 test("parsePuttyCommandLine rejects unsupported authentication and host-key overrides", () => {
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-pwfile",
     "secret.txt",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-i",
@@ -254,7 +254,7 @@ test("parsePuttyCommandLine rejects unsupported authentication and host-key over
     "secret",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-hostkey",
@@ -263,7 +263,7 @@ test("parsePuttyCommandLine rejects unsupported authentication and host-key over
     "secret",
   ]), null);
   assert.equal(parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@server.example",
     "-loghost",
@@ -275,7 +275,7 @@ test("parsePuttyCommandLine rejects unsupported authentication and host-key over
 
 test("parsePuttyCommandLine accepts destinations with executable-like suffixes", () => {
   const parsed = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "-ssh",
     "alice@prod.app",
     "-pw",
@@ -285,7 +285,7 @@ test("parsePuttyCommandLine accepts destinations with executable-like suffixes",
   assert.equal(parsed?.url, "ssh://alice:secret@prod.app");
 
   const positional = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "gateway.exe",
     "-ssh",
     "-l",
@@ -297,7 +297,7 @@ test("parsePuttyCommandLine accepts destinations with executable-like suffixes",
   assert.equal(positional?.url, "ssh://alice:secret@gateway.exe");
 
   const scriptLikeHost = parsePuttyCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "prod.js",
     "-ssh",
     "-l",
@@ -321,7 +321,7 @@ test("parsePuttyCommandLine accepts destinations with executable-like suffixes",
 });
 
 test("redactPuttyCommandLinePasswords masks -pw values in argv", () => {
-  const argv = ["Netcatty.exe", "-ssh", "alice@host", "-pw", "s3cret!!"];
+  const argv = ["Sensor.exe", "-ssh", "alice@host", "-pw", "s3cret!!"];
   redactPuttyCommandLinePasswords(argv);
   assert.equal(argv[4], "********");
 });

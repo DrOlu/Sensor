@@ -228,7 +228,7 @@ async function withLinuxPackageEnvironment({ packageType, appImage }, fn) {
     Object.defineProperty(process, "platform", { value: "linux", configurable: true });
     Object.defineProperty(process, "resourcesPath", { value: packageDir, configurable: true });
     if (appImage) {
-      process.env.APPIMAGE = path.join(packageDir, "Netcatty.AppImage");
+      process.env.APPIMAGE = path.join(packageDir, "Sensor.AppImage");
     } else {
       delete process.env.APPIMAGE;
     }

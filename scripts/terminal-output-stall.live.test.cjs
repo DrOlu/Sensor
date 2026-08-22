@@ -317,7 +317,7 @@ const runRemoteStress = async (target) => {
 
 const targets = parseTargets();
 
-test("live SSH TUI output does not strand the Netcatty terminal pipeline", {
+test("live SSH TUI output does not strand the Sensor terminal pipeline", {
   skip: targets.length === 0 ? "set NETCATTY_TERMINAL_STRESS_TARGETS" : false,
   timeout: Math.max(60_000, targets.length * 35_000),
 }, async () => {

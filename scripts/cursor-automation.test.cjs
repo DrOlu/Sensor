@@ -321,12 +321,12 @@ test('isFixEligiblePr allows automation bot author with bot marker', () => {
     body: `${auto.BOT_PR_MARKER}\nFixes #1`,
     head: {
       ref: 'cursor/issue-1-99',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: ['automation:bot-pr'],
   };
-  assert.equal(auto.isFixEligiblePr(pr, { repository: 'binaricat/Netcatty' }), true);
+  assert.equal(auto.isFixEligiblePr(pr, { repository: 'DrOlu/Sensor' }), true);
 });
 
 test('isFixEligiblePr rejects contributor spoofing bot marker', () => {
@@ -335,12 +335,12 @@ test('isFixEligiblePr rejects contributor spoofing bot marker', () => {
     body: `${auto.BOT_PR_MARKER}\nFixes #1`,
     head: {
       ref: 'cursor/issue-1-99',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: ['automation:bot-pr'],
   };
-  assert.equal(auto.isFixEligiblePr(pr, { repository: 'binaricat/Netcatty' }), false);
+  assert.equal(auto.isFixEligiblePr(pr, { repository: 'DrOlu/Sensor' }), false);
 });
 
 test('isFixEligiblePr rejects forks', () => {
@@ -349,9 +349,9 @@ test('isFixEligiblePr rejects forks', () => {
     body: auto.BOT_PR_MARKER,
     head: {
       ref: 'cursor/issue-1-99',
-      repo: { full_name: 'someone/Netcatty' },
+      repo: { full_name: 'someone/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: ['automation:bot-pr'],
   };
   assert.equal(auto.isFixEligiblePr(pr), false);
@@ -363,9 +363,9 @@ test('isFixEligiblePr allows maintainer same-repo PRs', () => {
     body: 'manual pr',
     head: {
       ref: 'feature/foo',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
     labels: [],
   };
   assert.equal(auto.isFixEligiblePr(pr), true);
@@ -1090,12 +1090,12 @@ test('source cleanup includes merged maintainer fixes but not unmerged handoffs'
     merged: true,
     body: 'Focused maintainer fix.\n\nFixes #42',
     user: { login: 'binaricat' },
-    head: { repo: { full_name: 'binaricat/Netcatty' } },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    head: { repo: { full_name: 'DrOlu/Sensor' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
   };
   const options = {
     ownActors: 'binaricat,netcatty-bot,github-actions[bot]',
-    repository: 'binaricat/Netcatty',
+    repository: 'DrOlu/Sensor',
   };
   assert.equal(auto.shouldCleanupSourceIssueAfterPull(maintainerPull, options), true);
   assert.deepEqual(
@@ -1235,7 +1235,7 @@ test('markNeedsHuman ignores forged dedupe markers from untrusted commenters', a
   };
   const args = {
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     issueNumber: 42,
     message: 'failure details',
     dedupeMarker: '<!-- cursor-implement-failure:base=abc;kind=no_changes -->',
@@ -1291,7 +1291,7 @@ test('applyReadyForHumanHandoff hands open auto-closed issues to humans', async 
   };
   const result = await auto.applyReadyForHumanHandoff({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     issueNumber: 2673,
   });
   assert.equal(result.commented, true);
@@ -1332,7 +1332,7 @@ test('applyReadyForHumanHandoff skips when auto-close labels were cleared', asyn
   };
   const result = await auto.applyReadyForHumanHandoff({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     issueNumber: 2673,
   });
   assert.equal(result.skipped, true);
@@ -1370,7 +1370,7 @@ test('applyReadyForHumanHandoff skips when maintainer already re-closed', async 
   };
   const result = await auto.applyReadyForHumanHandoff({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     issueNumber: 2673,
   });
   assert.equal(result.skipped, true);
@@ -1613,8 +1613,8 @@ test('getPendingIssueFollowupsForPull protects ready state with live issue comme
     labels: [{ name: 'automation:bot-pr' }],
     user: { login: 'netcatty-bot' },
     user: { login: 'netcatty-bot' },
-    head: { repo: { full_name: 'binaricat/Netcatty' } },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    head: { repo: { full_name: 'DrOlu/Sensor' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
   };
   const github = {
     rest: {
@@ -1646,7 +1646,7 @@ test('getPendingIssueFollowupsForPull protects ready state with live issue comme
   };
   const result = await auto.getPendingIssueFollowupsForPull({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     pull,
   });
   assert.equal(result.gated, true);
@@ -1684,11 +1684,11 @@ test('shouldGatePullOnSourceIssueFollowups is limited to automation bot PRs', ()
       body: `${auto.BOT_PR_MARKER}\n<!-- cursor-source-issue:42 -->\nFixes #42`,
       labels: [{ name: 'automation:bot-pr' }],
       user: { login: 'untrusted-collaborator' },
-      head: { repo: { full_name: 'binaricat/Netcatty' } },
-      base: { repo: { full_name: 'binaricat/Netcatty' } },
+      head: { repo: { full_name: 'DrOlu/Sensor' } },
+      base: { repo: { full_name: 'DrOlu/Sensor' } },
     }, {
       ownActors: 'binaricat,netcatty-bot,github-actions[bot]',
-      repository: 'binaricat/Netcatty',
+      repository: 'DrOlu/Sensor',
     }),
     false,
   );
@@ -1741,7 +1741,7 @@ test('findOpenPullForIssue keeps maintainer work from spawning a duplicate bot P
       paginate: async () => pulls,
       rest: { pulls: { list: async () => ({ data: pulls }) } },
     },
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     issueNumber: 42,
   });
   assert.equal(found.number, 8);
@@ -1850,7 +1850,7 @@ test('findOpenPullForIssue accepts same-repo work but ignores untrusted fork cla
       number: 8,
       body: 'Fixes #42',
       author_association: 'NONE',
-      head: { repo: { full_name: 'binaricat/Netcatty' } },
+      head: { repo: { full_name: 'DrOlu/Sensor' } },
     },
   ];
   const found = await auto.findOpenPullForIssue({
@@ -1858,7 +1858,7 @@ test('findOpenPullForIssue accepts same-repo work but ignores untrusted fork cla
       paginate: async () => pulls,
       rest: { pulls: { list: async () => ({ data: pulls }) } },
     },
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     issueNumber: 42,
   });
   assert.equal(found.number, 8);
@@ -1878,10 +1878,10 @@ test('automation pull references only control the marked source issue', () => {
     user: { login: 'netcatty-bot' },
     head: {
       ref: 'cursor/issue-41-123',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
   };
-  const options = { repository: 'binaricat/Netcatty', includeRelated: true };
+  const options = { repository: 'DrOlu/Sensor', includeRelated: true };
   assert.equal(auto.isTrustedOpenPullForIssue(pull, 41, options), true);
   assert.equal(auto.isTrustedOpenPullForIssue(pull, 42, options), false);
   assert.equal(auto.isTrustedOpenPullForIssue(pull, 43, options), false);
@@ -1897,11 +1897,11 @@ test('automation label does not hide a trusted maintainer pull reference', () =>
     author_association: 'OWNER',
     head: {
       ref: 'worktree/quiet-cloud-b74d',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
   };
   assert.equal(auto.isTrustedOpenPullForIssue(pull, 2699, {
-    repository: 'binaricat/Netcatty',
+    repository: 'DrOlu/Sensor',
     includeRelated: true,
   }), true);
 });
@@ -1914,8 +1914,8 @@ test('getPendingIssueFollowupsForPull does not block maintainer Fixes-only PRs',
     created_at: '2026-07-24T10:00:00Z',
     labels: [{ name: 'bug' }],
     user: { login: 'binaricat' },
-    head: { ref: 'fix/issue-42-manual', repo: { full_name: 'binaricat/Netcatty' } },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    head: { ref: 'fix/issue-42-manual', repo: { full_name: 'DrOlu/Sensor' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
   };
   const github = {
     rest: {
@@ -1941,7 +1941,7 @@ test('getPendingIssueFollowupsForPull does not block maintainer Fixes-only PRs',
   };
   const result = await auto.getPendingIssueFollowupsForPull({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     pull,
   });
   assert.equal(result.gated, false);
@@ -2005,7 +2005,7 @@ test('prepareIssueFollowupContext uses the triggering comment when no PR exists'
   };
   const result = await auto.prepareIssueFollowupContext({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core: { setOutput: (key, value) => { outputs[key] = value; } },
     issueNumber: 42,
     triggerCommentId: 9,
@@ -2021,7 +2021,7 @@ test('prepareIssueFollowupContext uses the triggering comment when no PR exists'
 
   const withPull = await auto.prepareIssueFollowupContext({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core: { setOutput() {} },
     issueNumber: 42,
     pullNumber: 77,
@@ -2123,7 +2123,7 @@ test('prepareIssueFollowupContext hands off after the daily follow-up limit', as
   };
   const result = await auto.prepareIssueFollowupContext({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core: { setOutput: (key, value) => { outputs[key] = value; } },
     issueNumber: 42,
     triggerCommentId: 9,
@@ -2157,7 +2157,7 @@ test('ensurePullRequestDraft pauses a ready open PR and ignores closed PRs', asy
       return { convertPullRequestToDraft: { pullRequest: { isDraft: true } } };
     },
   };
-  const context = { repo: { owner: 'binaricat', repo: 'Netcatty' } };
+  const context = { repo: { owner: 'binaricat', repo: 'Sensor' } };
   assert.equal(
     await auto.ensurePullRequestDraft({ github, context, pullNumber: 77 }),
     true,
@@ -2182,9 +2182,9 @@ test('restoreCleanPullRequestAfterNoChange undoes ready when a comment races', a
     head: {
       sha: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       ref: 'cursor/issue-42-1',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
   });
   const github = {
     rest: {
@@ -2240,7 +2240,7 @@ test('restoreCleanPullRequestAfterNoChange undoes ready when a comment races', a
   };
   const restored = await auto.restoreCleanPullRequestAfterNoChange({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     pullNumber: 77,
     expectedHeadSha: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     ignoredCommentIds: [2],
@@ -2259,9 +2259,9 @@ test('restoreCleanPullRequestAfterNoChange ignores only the current batch', asyn
     user: { login: 'netcatty-bot' },
     head: {
       sha: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
   });
   const github = {
     rest: {
@@ -2301,7 +2301,7 @@ test('restoreCleanPullRequestAfterNoChange ignores only the current batch', asyn
 
   const restored = await auto.restoreCleanPullRequestAfterNoChange({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     pullNumber: 77,
     expectedHeadSha: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
     ignoredCommentIds: [2],
@@ -2327,9 +2327,9 @@ test('restoreCleanPullRequestAfterNoChange rejects an edited current-batch comme
     user: { login: 'netcatty-bot' },
     head: {
       sha: 'cccccccccccccccccccccccccccccccccccccccc',
-      repo: { full_name: 'binaricat/Netcatty' },
+      repo: { full_name: 'DrOlu/Sensor' },
     },
-    base: { repo: { full_name: 'binaricat/Netcatty' } },
+    base: { repo: { full_name: 'DrOlu/Sensor' } },
   };
   const github = {
     rest: {
@@ -2352,7 +2352,7 @@ test('restoreCleanPullRequestAfterNoChange rejects an edited current-batch comme
 
   const restored = await auto.restoreCleanPullRequestAfterNoChange({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     pullNumber: 77,
     expectedHeadSha: pull.head.sha,
     ignoredCommentSnapshots: [{
@@ -3145,37 +3145,37 @@ test('normalizeExternalResearchText accepts sourced research and explicit no-op'
 
   assert.equal(
     auto.normalizeExternalResearchText(
-      'RESEARCH_NOT_NEEDED: the report only concerns local Netcatty behavior',
+      'RESEARCH_NOT_NEEDED: the report only concerns local Sensor behavior',
     ),
-    'RESEARCH_NOT_NEEDED: the report only concerns local Netcatty behavior',
+    'RESEARCH_NOT_NEEDED: the report only concerns local Sensor behavior',
   );
   assert.equal(
     auto.normalizeExternalResearchText(
-      'RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved',
+      'RESEARCH_NOT_NEEDED: only local Sensor behavior is involved',
       {
         input: {
           issue: {
-            url: 'https://github.com/binaricat/Netcatty/issues/42',
+            url: 'https://github.com/DrOlu/Sensor/issues/42',
             title: '[Bug] Local terminal issue',
             body: 'The terminal is blank after reconnecting.',
           },
           pull: {
-            url: 'https://github.com/binaricat/Netcatty/pull/77',
-            body: 'Fixes https://github.com/binaricat/Netcatty/issues/42',
+            url: 'https://github.com/DrOlu/Sensor/pull/77',
+            body: 'Fixes https://github.com/DrOlu/Sensor/issues/42',
           },
           comments: [{ is_bot: true, body: 'See https://github.com/actions/runs/1' }],
         },
       },
     ),
-    'RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved',
+    'RESEARCH_NOT_NEEDED: only local Sensor behavior is involved',
   );
   assert.equal(
     auto.normalizeExternalResearchText([
       '```text',
-      'RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved',
+      'RESEARCH_NOT_NEEDED: only local Sensor behavior is involved',
       '```',
     ].join('\n')),
-    'RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved',
+    'RESEARCH_NOT_NEEDED: only local Sensor behavior is involved',
   );
 });
 
@@ -3183,7 +3183,7 @@ test('research input replaces only successfully proxied GitHub image attachments
   const attachmentUrl =
     'https://github.com/user-attachments/assets/4ef1f25a-934d-4537-9ec0-3a415d7e9a32';
   const noResearchNeeded =
-    'RESEARCH_NOT_NEEDED: the report only concerns local Netcatty behavior';
+    'RESEARCH_NOT_NEEDED: the report only concerns local Sensor behavior';
   const input = {
     issue: {
       body: [
@@ -3438,7 +3438,7 @@ test('parseExternalResearchStream supports standard deltas and terminal result',
 });
 
 test('parseExternalResearchStream accepts the isolated fenced status from issue 2534', () => {
-  const status = 'RESEARCH_NOT_NEEDED: Issue is a Netcatty-local feature ask';
+  const status = 'RESEARCH_NOT_NEEDED: Issue is a Sensor-local feature ask';
   const events = [
     {
       type: 'assistant',
@@ -3531,7 +3531,7 @@ test('parseExternalResearchStream prefers the final isolated status over stale e
 });
 
 test('parseExternalResearchStream falls back to a complete fenced status split across events', () => {
-  const status = 'RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved';
+  const status = 'RESEARCH_NOT_NEEDED: only local Sensor behavior is involved';
   const events = [
     {
       type: 'assistant',
@@ -3825,7 +3825,7 @@ test('parseExternalResearchStream keeps a valid terminal status over assistant f
     /conflicting research statuses/,
   );
 
-  const terminalNoOp = 'RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved';
+  const terminalNoOp = 'RESEARCH_NOT_NEEDED: only local Sensor behavior is involved';
   const statusLikeBodyFragment = [
     {
       type: 'assistant',
@@ -3876,7 +3876,7 @@ test('parseExternalResearchStream keeps a valid terminal status over assistant f
 
   assert.match(
     auto.parseExternalResearchStream(prefixedTerminalWithStatusLikeDelta, {}),
-    /^RESEARCH_NOT_NEEDED: only local Netcatty behavior is involved/,
+    /^RESEARCH_NOT_NEEDED: only local Sensor behavior is involved/,
   );
 
   const bufferedDuplicate = [
@@ -4624,7 +4624,7 @@ test('applyClassification updates state before posting the final reply', async (
 
   const classification = await auto.applyClassification({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core,
     issueNumber: 2428,
     classificationPath,
@@ -4693,7 +4693,7 @@ test('applyClassification in triage-only never starts implement', async () => {
   try {
     const classification = await auto.applyClassification({
       github,
-      context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+      context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
       core,
       issueNumber: 99,
       classificationPath,
@@ -4814,7 +4814,7 @@ test('prepareIssueContext survives Octokit-normalized search pages (no .items)',
           return {
             data: {
               number: 2438,
-              html_url: 'https://github.com/binaricat/Netcatty/issues/2438',
+              html_url: 'https://github.com/DrOlu/Sensor/issues/2438',
               title: '[Feature] AI multi session',
               body: issueBody,
               pull_request: undefined,
@@ -4866,7 +4866,7 @@ test('prepareIssueContext survives Octokit-normalized search pages (no .items)',
 
   const result = await auto.prepareIssueContext({
     github,
-    context: { repo: { owner: 'binaricat', repo: 'Netcatty' } },
+    context: { repo: { owner: 'binaricat', repo: 'Sensor' } },
     core,
     issueNumber: 2438,
     outputPath,
@@ -5260,13 +5260,13 @@ test('nextCodexTerminalLabels rejects unknown terminal', () => {
 });
 
 test('hasAutomationPullRequestBacklink deduplicates only the same marked PR link', () => {
-  const pullRequestUrl = 'https://github.com/binaricat/Netcatty/pull/2474';
+  const pullRequestUrl = 'https://github.com/DrOlu/Sensor/pull/2474';
   assert.equal(
     auto.hasAutomationPullRequestBacklink(
       [
         { body: `ordinary maintainer note with ${pullRequestUrl}` },
         {
-          body: `${auto.TRIAGE_MARKER}\n\nA draft fix is available at https://github.com/binaricat/Netcatty/pull/2400.`,
+          body: `${auto.TRIAGE_MARKER}\n\nA draft fix is available at https://github.com/DrOlu/Sensor/pull/2400.`,
         },
         {
           body: `${auto.TRIAGE_MARKER}\n\nA draft fix is available at ${pullRequestUrl}.`,

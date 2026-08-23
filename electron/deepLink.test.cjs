@@ -36,7 +36,7 @@ test("isSshDeepLinkUrl accepts only ssh URLs", () => {
 test("collectSshDeepLinkUrls extracts ssh URLs from process arguments", () => {
   assert.deepEqual(
     collectSshDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "ssh://alice@example.com",
       "file:///tmp/example",
@@ -49,7 +49,7 @@ test("collectSshDeepLinkUrls extracts ssh URLs from process arguments", () => {
 test("collectPuttyStyleDeepLinkUrls converts PuTTY argv when no ssh:// token is present", () => {
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "-ssh",
       "alice@10.0.0.8",
       "-P",
@@ -64,7 +64,7 @@ test("collectPuttyStyleDeepLinkUrls converts PuTTY argv when no ssh:// token is 
 test("collectPuttyStyleDeepLinkUrls leaves ssh:// tokens to the existing collector", () => {
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      "Netcatty.exe",
+      "Sensor.exe",
       "-url",
       "ssh://alice@example.com",
       "-ssh",
@@ -172,7 +172,7 @@ test("isTelnetDeepLinkUrl accepts only telnet URLs", () => {
 test("collectTelnetDeepLinkUrls extracts telnet URLs from process arguments", () => {
   assert.deepEqual(
     collectTelnetDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "telnet://example.com:2001",
       "file:///tmp/example",
@@ -348,7 +348,7 @@ test("isJmsDeepLinkUrl accepts only jms URLs", () => {
 test("collectJmsDeepLinkUrls extracts jms URLs from process arguments", () => {
   assert.deepEqual(
     collectJmsDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "jms://payload-one",
       "file:///tmp/example",

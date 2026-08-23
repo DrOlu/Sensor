@@ -64,7 +64,7 @@ export function transitionPluginTerminalConnectionState(
 
 export function normalizePluginTerminalProtocol(
   protocol: string | undefined,
-): NetcattyTerminalSessionSnapshot['protocol'] {
+): SensorTerminalSessionSnapshot['protocol'] {
   const normalized = protocol?.trim();
   return normalized || 'ssh';
 }
@@ -89,19 +89,19 @@ export function ownsPluginTerminalBackendLifecycle(value: boolean | undefined): 
   return value !== false;
 }
 
-const BACKEND_LIFECYCLE_EVENTS = new Set<NetcattyTerminalSessionEvent['type']>([
+const BACKEND_LIFECYCLE_EVENTS = new Set<SensorTerminalSessionEvent['type']>([
   'created', 'connected', 'reconnected', 'disconnected', 'disposed',
 ]);
 
 export function shouldPublishPluginTerminalEvent(
-  type: NetcattyTerminalSessionEvent['type'],
+  type: SensorTerminalSessionEvent['type'],
   ownsBackendLifecycle: boolean | undefined,
 ): boolean {
   return ownsPluginTerminalBackendLifecycle(ownsBackendLifecycle)
     || !BACKEND_LIFECYCLE_EVENTS.has(type);
 }
 
-function normalizeShellType(shellType: string | undefined): NetcattyTerminalSessionSnapshot['shellType'] | undefined {
+function normalizeShellType(shellType: string | undefined): SensorTerminalSessionSnapshot['shellType'] | undefined {
   if (shellType === 'posix' || shellType === 'fish' || shellType === 'powershell' || shellType === 'cmd') {
     return shellType;
   }
@@ -116,7 +116,7 @@ export function usePluginTerminalSessionLifecycle(options: PluginTerminalSession
   const everConnectedRef = useRef(false);
   const exitDisconnectPublishedRef = useRef(false);
 
-  const snapshot = useCallback((): NetcattyTerminalSessionSnapshot => {
+  const snapshot = useCallback((): SensorTerminalSessionSnapshot => {
     const metadata = metadataRef.current;
     const state = snapshotStateRef.current;
     const shellType = normalizeShellType(metadata.shellType);
@@ -136,9 +136,9 @@ export function usePluginTerminalSessionLifecycle(options: PluginTerminalSession
   }, []);
 
   const publish = useCallback((
-    type: NetcattyTerminalSessionEvent['type'],
+    type: SensorTerminalSessionEvent['type'],
     details: { exitCode?: number } = {},
-    sessionOverrides: Partial<NetcattyTerminalSessionSnapshot> = {},
+    sessionOverrides: Partial<SensorTerminalSessionSnapshot> = {},
   ) => {
     if (!registry) return;
     if (!shouldPublishPluginTerminalEvent(type, metadataRef.current.ownsBackendLifecycle)) return;

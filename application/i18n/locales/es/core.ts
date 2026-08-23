@@ -163,7 +163,7 @@ export const esCoreMessages: Messages = {
   'settings.update.downloadError': 'La descarga falló.',
   'settings.update.manualDownload': 'Descargar desde GitHub',
   'settings.update.manualDownloadHint': 'La actualización automática no está disponible en esta plataforma. Descarga la última versión desde GitHub.',
-  'settings.update.hint': 'Netcatty busca actualizaciones en GitHub Releases.',
+  'settings.update.hint': 'Sensor busca actualizaciones en GitHub Releases.',
   'settings.update.lastCheckedJustNow': 'ahora mismo',
   'settings.update.lastCheckedMinutesAgo': 'hace {n} min',
   'settings.update.lastCheckedHoursAgo': 'hace {n} h',
@@ -174,7 +174,7 @@ export const esCoreMessages: Messages = {
   // Settings > Session Restore
   'settings.sessionRestore.title': 'Restauración de sesión',
   'settings.sessionRestore.startupLanding': 'Al iniciar',
-  'settings.sessionRestore.startupLandingDesc': 'Elige si abrir la página de inicio de hosts o una terminal local cuando Netcatty se inicia sin sesiones restauradas.',
+  'settings.sessionRestore.startupLandingDesc': 'Elige si abrir la página de inicio de hosts o una terminal local cuando Sensor se inicia sin sesiones restauradas.',
   'settings.sessionRestore.startupLanding.vault': 'Inicio (hosts)',
   'settings.sessionRestore.startupLanding.localTerminal': 'Terminal local',
   'settings.sessionRestore.restorePreviousSession': 'Restaurar pestañas y espacios de trabajo anteriores',
@@ -246,7 +246,7 @@ export const esCoreMessages: Messages = {
   'tray.recentHosts': 'Hosts recientes',
   'tray.empty.title': 'Nada por aquí todavía',
   'tray.empty.subtitle': 'Ve a conectarte a un servidor, te extrañan 🚀',
-  'tray.quit': 'Salir de Netcatty',
+  'tray.quit': 'Salir de Sensor',
   'tray.closeSession': 'Cerrar sesión',
 
   // Vault Sidebar
@@ -278,7 +278,7 @@ export const esCoreMessages: Messages = {
   'settings.vault.showHostTreeSidebar': 'Mostrar barra lateral de lista de hosts',
   'settings.vault.showHostTreeSidebarDesc': 'Muestra la barra lateral de lista de hosts y su alternador en la barra superior en las pestañas de terminal y editor.',
   'settings.vault.autoImportSystemKnownHosts': 'Importar automáticamente known_hosts del sistema',
-  'settings.vault.autoImportSystemKnownHostsDesc': 'Cuando se carga el Vault, importa en silencio las entradas del archivo known_hosts de OpenSSH. Desactívalo para mantener los hosts conocidos de Netcatty separados; Escanear sistema sigue importando a pedido.',
+  'settings.vault.autoImportSystemKnownHostsDesc': 'Cuando se carga el Vault, importa en silencio las entradas del archivo known_hosts de OpenSSH. Desactívalo para mantener los hosts conocidos de Sensor separados; Escanear sistema sigue importando a pedido.',
 
   // Update notifications
   'update.available.title': 'Actualización disponible',
@@ -446,7 +446,7 @@ Resalta el panel dividido enfocado:
   'settings.appearance.windowOpacity': 'Opacidad de la ventana',
   'settings.appearance.windowOpacity.desc': 'Ajusta la transparencia de toda la ventana de la aplicación. Los valores más bajos también atenúan el texto de la terminal. Algunos entornos de escritorio de Linux pueden no admitir esto.',
   'settings.appearance.appIcon': 'Ícono de la aplicación',
-  'settings.appearance.appIcon.desc': 'Elige un estilo de ícono para el dock o la barra de tareas que haga más fácil distinguir Netcatty al cambiar de aplicación. Se aplica en tiempo de ejecución; el ícono del paquete instalado no cambia.',
+  'settings.appearance.appIcon.desc': 'Elige un estilo de ícono para el dock o la barra de tareas que haga más fácil distinguir Sensor al cambiar de aplicación. Se aplica en tiempo de ejecución; el ícono del paquete instalado no cambia.',
   'settings.appearance.appIcon.original': 'Original',
   'settings.appearance.appIcon.bright': 'Brillante',
   'settings.appearance.appIcon.dark': 'Oscuro',
@@ -504,7 +504,7 @@ Resalta el panel dividido enfocado:
   'settings.terminal.font.cjk.useCustom': 'Usar fuente',
   'settings.terminal.font.cjk.refresh': 'Actualizar fuentes instaladas',
   'settings.terminal.font.cjk.alignmentWarning': 'Esta fuente no está verificada como monoespaciada. Revisa la vista previa para comprobar la alineación de columnas.',
-  'settings.terminal.font.cjk.unavailableWarning': 'Esta fuente no está instalada en este dispositivo. Netcatty mantendrá el ajuste y usará una alternativa segura.',
+  'settings.terminal.font.cjk.unavailableWarning': 'Esta fuente no está instalada en este dispositivo. Sensor mantendrá el ajuste y usará una alternativa segura.',
   'settings.terminal.font.size': 'Tamaño de fuente',
   'settings.terminal.font.size.desc': 'Tamaño del texto de la terminal',
   'settings.terminal.font.weight': 'Peso de fuente',
@@ -1093,7 +1093,7 @@ Resalta el panel dividido enfocado:
   'settings.plugins.scopeTarget': 'Destino de {scope}',
   'settings.plugins.noScopeTargets': 'No hay destinos disponibles',
   'settings.plugins.thisDevice': 'Este dispositivo',
-  'plugins.authentication.description': 'Completa la solicitud de autenticación en este diálogo de Netcatty.',
+  'plugins.authentication.description': 'Completa la solicitud de autenticación en este diálogo de Sensor.',
   'plugins.authentication.value': 'Valor',
   'plugins.authentication.password': 'Contraseña',
   'plugins.authentication.code': 'Código de un solo uso',

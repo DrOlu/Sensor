@@ -1934,7 +1934,7 @@ const TerminalComponent: React.FC<TerminalProps> = ({
             mode: terminalSettingsRef.current?.oscNotifications,
             sessionFocused: isFocusedRef.current,
             sessionId,
-            fallbackTitle: host.label || host.hostname || "Netcatty",
+            fallbackTitle: host.label || host.hostname || "Sensor",
             onSessionActivity: () => onTerminalBell?.(sessionId),
           });
         }
@@ -2261,7 +2261,7 @@ const TerminalComponent: React.FC<TerminalProps> = ({
   });
   pluginTerminalLifecycleRef.current = pluginTerminalLifecycle;
   pluginTerminalSessionExitRef.current = pluginTerminalLifecycle.onSessionExited;
-  const getPluginTerminalSnapshotState = useCallback((): Partial<NetcattyTerminalSessionSnapshot> => {
+  const getPluginTerminalSnapshotState = useCallback((): Partial<SensorTerminalSessionSnapshot> => {
     const term = termRef.current;
     return {
       status: statusRef.current,
@@ -4007,7 +4007,7 @@ const TerminalComponent: React.FC<TerminalProps> = ({
         mode: terminalSettingsRef.current?.oscNotifications,
         sessionFocused: isFocusedRef.current,
         sessionId,
-        fallbackTitle: host.label || host.hostname || "Netcatty",
+        fallbackTitle: host.label || host.hostname || "Sensor",
         onSessionActivity: () => onTerminalBell?.(sessionId),
       });
     },

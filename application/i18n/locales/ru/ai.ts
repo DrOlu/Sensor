@@ -102,7 +102,7 @@ export const ruAiMessages: Messages = {
   'ai.codex.connectedCustomConfig': 'Подключено через ~/.codex/config.toml',
   'ai.codex.customConfigIncomplete': 'Обнаружен пользовательский конфиг (отсутствует переменная окружения)',
   'ai.codex.customConfigHint': 'Используется пользовательский провайдер "{provider}", настроенный в ~/.codex/config.toml — вход через ChatGPT не требуется.',
-  'ai.codex.customConfigMissingEnvKey': 'Предупреждение: {envKey} не задана в переменных окружения вашей оболочки. Экспортируйте её (или запустите netcatty из оболочки, где она задана), чтобы Codex мог пройти аутентификацию.',
+  'ai.codex.customConfigMissingEnvKey': 'Предупреждение: {envKey} не задана в переменных окружения вашей оболочки. Экспортируйте её (или запустите Sensor из оболочки, где она задана), чтобы Codex мог пройти аутентификацию.',
   'ai.codex.notConnected': 'Не подключено',
   'ai.codex.statusUnknown': 'Статус неизвестен',
   'ai.codex.path': 'Путь:',

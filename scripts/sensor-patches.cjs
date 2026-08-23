@@ -23,3 +23,20 @@ if (!fs.existsSync(shimPath)) {
 } else {
   console.log('[sensor-patches] useSensorMonacoTheme.ts shim already present');
 }
+
+// Patch 2: SensorWindowsHello.cpp shim
+// scripts/build-windows-hello-helper.cjs compiles SensorWindowsHello.cpp.
+// Upstream only ships NetcattyWindowsHello.cpp — copy it under the Sensor name.
+const whDir = path.join(root, 'electron', 'bridges', 'windowsHelloHelper');
+const srcCpp = path.join(whDir, 'NetcattyWindowsHello.cpp');
+const dstCpp = path.join(whDir, 'SensorWindowsHello.cpp');
+if (!fs.existsSync(dstCpp)) {
+  if (fs.existsSync(srcCpp)) {
+    fs.copyFileSync(srcCpp, dstCpp);
+    console.log('[sensor-patches] Copied NetcattyWindowsHello.cpp -> SensorWindowsHello.cpp');
+  } else {
+    console.warn('[sensor-patches] WARNING: NetcattyWindowsHello.cpp not found; skipping SensorWindowsHello.cpp shim');
+  }
+} else {
+  console.log('[sensor-patches] SensorWindowsHello.cpp already present');
+}

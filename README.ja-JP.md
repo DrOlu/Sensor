@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="public/icon.png" alt="Netcatty" width="128" height="128">
+  <img src="public/icon.png" alt="Sensor" width="128" height="128">
 </p>
 
-<h1 align="center">Netcatty</h1>
+<h1 align="center">Sensor</h1>
 
 <p align="center">
   <strong>🔥 AI 搭載の SSH クライアント、SFTP ブラウザ & ターミナルマネージャー 🚀</strong><br/>
-  <a href="https://netcatty.app"><strong>netcatty.app</strong></a>
+  <a href="https://github.com/DrOlu/Sensor"><strong>Sensor</strong></a>
 </p>
 
 <p align="center">
@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=Release"></a>
+  <a href="https://github.com/DrOlu/Sensor/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=Release"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
@@ -23,8 +23,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest">
-    <img src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=%E6%9C%80%E6%96%B0%E7%89%88%E3%82%92%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89&color=success" alt="最新版をダウンロード">
+  <a href="https://github.com/DrOlu/Sensor/releases/latest">
+    <img src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=%E6%9C%80%E6%96%B0%E7%89%88%E3%82%92%E3%83%80%E3%82%A6%E3%83%B3%E3%83%AD%E3%83%BC%E3%83%89&color=success" alt="最新版をダウンロード">
   </a>
 </p>
 
@@ -44,12 +44,12 @@
 
 ---
 
-<a name="catty-agent"></a>
-# 🔥 Catty Agent — あなたの IT 運用 AI パートナー
+<a name="sensor-agent"></a>
+# 🔥 Sensor Agent — あなたの IT 運用 AI パートナー
 
-> 🚀 **AI で日常の IT 運用作業を加速。** Catty Agent はサーバー環境を理解し、コマンドを実行し、自然な会話で複数ホストの複雑な操作をこなす内蔵 AI アシスタントです。
+> 🚀 **AI で日常の IT 運用作業を加速。** Sensor Agent はサーバー環境を理解し、コマンドを実行し、自然な会話で複数ホストの複雑な操作をこなす内蔵 AI アシスタントです。
 
-### 🔥 Catty Agent にできること
+### 🔥 Sensor Agent にできること
 
 - 🚀 **自然言語でサーバー管理** — コマンドを暗記せず、必要なことを話しかけるだけ
 - 🔥 **リアルタイムサーバー診断** — 会話を通じてステータス確認、ログ調査、リソース監視
@@ -61,13 +61,13 @@
 
 #### 🔥 シングルホスト — インテリジェントなサーバー診断
 
-Catty Agent にサーバーの健全性チェックを依頼すると、適切なコマンドを実行し、出力を分析して数秒で明確なサマリーを提示します。
+Sensor Agent にサーバーの健全性チェックを依頼すると、適切なコマンドを実行し、出力を分析して数秒で明確なサマリーを提示します。
 
 <img width="1510" height="870" alt="ai-single" src="https://github.com/user-attachments/assets/d3f34e53-8476-4fab-8634-394b931d1ff1" />
 
 #### 🚀 マルチホスト — Docker Swarm クラスターのセットアップ
 
-1 つの会話で 2 台のサーバーをまたいで Docker Swarm クラスターをオーケストレーションする Catty Agent をご覧ください。初期化、トークン交換、ノード参加まですべてこなします — あなたは望む結果を伝えるだけ。
+1 つの会話で 2 台のサーバーをまたいで Docker Swarm クラスターをオーケストレーションする Sensor Agent をご覧ください。初期化、トークン交換、ノード参加まですべてこなします — あなたは望む結果を伝えるだけ。
 
 <img width="1515" height="870" alt="ai-muti" src="https://github.com/user-attachments/assets/ca166fc5-65d9-4d7b-951a-962c2ef230d8" />
 
@@ -75,9 +75,9 @@ Catty Agent にサーバーの健全性チェックを依頼すると、適切�
 
 # 目次 <!-- omit in toc -->
 
-- [🔥 Catty Agent — AI パートナー](#catty-agent)
-- [Netcatty とは](#netcatty-とは)
-- [なぜ Netcatty](#なぜ-netcatty)
+- [🔥 Sensor Agent — AI パートナー](#sensor-agent)
+- [Sensor とは](#sensor-とは)
+- [なぜ Sensor](#なぜ-sensor)
 - [機能](#機能)
 - [スクリーンショット](#スクリーンショット)
   - [メインウィンドウ](#メインウィンドウ)
@@ -94,23 +94,23 @@ Catty Agent にサーバーの健全性チェックを依頼すると、適切�
 
 ---
 
-<a name="netcatty-とは"></a>
-# Netcatty とは
+<a name="sensor-とは"></a>
+# Sensor とは
 
-**Netcatty** は、複数のリモートサーバーを効率的に管理する必要がある開発者、システム管理者、DevOps エンジニア向けに設計された、モダンなクロスプラットフォーム SSH クライアントおよびターミナルマネージャーです。
+**Sensor** は、複数のリモートサーバーを効率的に管理する必要がある開発者、システム管理者、DevOps エンジニア向けに設計された、モダンなクロスプラットフォーム SSH クライアントおよびターミナルマネージャーです。
 
-- **Netcatty は** PuTTY、Termius、SecureCRT、macOS Terminal.app の代替となる SSH 接続ツール
-- **Netcatty は** デュアルペインのファイルブラウザを備えた強力な SFTP クライアント
-- **Netcatty は** 分割ペイン、タブ、セッション管理を備えたターミナルワークスペース
-- **Netcatty は** SSH、ローカルターミナル、Telnet、Mosh、シリアル接続をサポートします（利用可能な場合）
-- **Netcatty は** シェルの代替ではありません — SSH/Telnet/Mosh またはローカル/シリアルセッション経由でシェルに接続します
+- **Sensor は** PuTTY、Termius、SecureCRT、macOS Terminal.app の代替となる SSH 接続ツール
+- **Sensor は** デュアルペインのファイルブラウザを備えた強力な SFTP クライアント
+- **Sensor は** 分割ペイン、タブ、セッション管理を備えたターミナルワークスペース
+- **Sensor は** SSH、ローカルターミナル、Telnet、Mosh、シリアル接続をサポートします（利用可能な場合）
+- **Sensor は** シェルの代替ではありません — SSH/Telnet/Mosh またはローカル/シリアルセッション経由でシェルに接続します
 
 ---
 
-<a name="なぜ-netcatty"></a>
-# なぜ Netcatty
+<a name="なぜ-sensor"></a>
+# なぜ Sensor
 
-複数サーバーを日常的に扱うなら、Netcatty は「スピード」と「流れ」を重視した作りになっています：
+複数サーバーを日常的に扱うなら、Sensor は「スピード」と「流れ」を重視した作りになっています：
 
 - **ワークスペース中心** — 分割ペイン + タブ + セッション復元で常時使うワークフローに対応
 - **Vault の整理** — グリッド/リスト/ツリー表示、高速検索、ドラッグしやすいワークフロー
@@ -173,7 +173,7 @@ Catty Agent にサーバーの健全性チェックを依頼すると、適切�
 <a name="対応ディストリビューション"></a>
 # 対応ディストリビューション
 
-Netcatty は接続したホストの OS を検出し、ホスト一覧でアイコンとして表示します：
+Sensor は接続したホストの OS を検出し、ホスト一覧でアイコンとして表示します：
 
 <p align="center">
   <img src="public/distro/ubuntu.svg" width="48" alt="Ubuntu" title="Ubuntu">
@@ -196,7 +196,7 @@ Netcatty は接続したホストの OS を検出し、ホスト一覧でアイ�
 
 ### ダウンロード
 
-[GitHub Releases](https://github.com/binaricat/Netcatty/releases/latest) からお使いのプラットフォームに対応した最新版をダウンロードしてください。
+[GitHub Releases](https://github.com/DrOlu/Sensor/releases/latest) からお使いのプラットフォームに対応した最新版をダウンロードしてください。
 
 | OS | サポート状況 |
 | :--- | :--- |
@@ -204,31 +204,31 @@ Netcatty は接続したホストの OS を検出し、ホスト一覧でアイ�
 | **Windows** | x64 / arm64 |
 | **Linux** | x64 / arm64 |
 
-または [GitHub Releases](https://github.com/binaricat/Netcatty/releases) ですべてのリリースを参照してください。
+または [GitHub Releases](https://github.com/DrOlu/Sensor/releases) ですべてのリリースを参照してください。
 
 ### コード署名とプライバシー
 
-Netcatty は SignPath Foundation のオープンソースプログラムに申請中です。
+Sensor は SignPath Foundation のオープンソースプログラムに申請中です。
 承認後、対象となる Windows リリース成果物には **Free code signing provided by SignPath.io, certificate by SignPath Foundation** が使用されます。詳細は
 [コード署名ポリシー](CODE_SIGNING_POLICY.md)と
 [プライバシーポリシー](PRIVACY.md)をご覧ください。申請と導入が完了するまで、
 Windows リリースは未署名の場合があります。
 
-> **Windows のポータブルデータ：** Netcatty を終了し、`Netcatty.exe`（zip 版）またはポータブル版ランチャーと同じ場所に `data` フォルダーを作成してください。次回起動時から、Netcatty はデータをこのフォルダーに保存します。保存済みのパスワードと秘密鍵は、作成した Windows ユーザーによって引き続き保護されます。別のコンピューターまたは Windows ユーザーへ移動した場合は、これらの機密情報を再入力する必要があります。
+> **Windows のポータブルデータ：** Sensor を終了し、`Sensor.exe`（zip 版）またはポータブル版ランチャーと同じ場所に `data` フォルダーを作成してください。次回起動時から、Sensor はデータをこのフォルダーに保存します。保存済みのパスワードと秘密鍵は、作成した Windows ユーザーによって引き続き保護されます。別のコンピューターまたは Windows ユーザーへ移動した場合は、これらの機密情報を再入力する必要があります。
 
-> **Windows でフォルダーを Netcatty で開く：** インストール版では、エクスプローラーのフォルダーおよびフォルダー背景のコンテキストメニューに **Open in Netcatty** が追加されます。選択すると、そのフォルダーでローカルターミナルが開きます。Windows 11 では、先に **その他のオプションを表示** を選択してください。**設定 → システム → Windows Explorer** からメニューの表示／非表示を切り替えられます。ZIP 版とポータブル版では、既定ではこのメニューは追加されません。
+> **Windows でフォルダーを Sensor で開く：** インストール版では、エクスプローラーのフォルダーおよびフォルダー背景のコンテキストメニューに **Open in Sensor** が追加されます。選択すると、そのフォルダーでローカルターミナルが開きます。Windows 11 では、先に **その他のオプションを表示** を選択してください。**設定 → システム → Windows Explorer** からメニューの表示／非表示を切り替えられます。ZIP 版とポータブル版では、既定ではこのメニューは追加されません。
 
 > **macOS ユーザーへ：** 現在のリリースはコード署名と notarization が行われている想定です。Gatekeeper の警告が出る場合は、GitHub Releases から最新版の公式ビルドを取得しているか確認してください。
 
 ### Nix / NixOS
 
-Netcatty は Nix および NixOS ユーザー向けに、公式 Linux AppImage リリースをラップした flake を提供しています：
+Sensor は Nix および NixOS ユーザー向けに、公式 Linux AppImage リリースをラップした flake を提供しています：
 
 ```bash
-nix run github:binaricat/Netcatty
+nix run github:DrOlu/Sensor
 ```
 
-宣言型インストールには、Netcatty flake を input として追加し、NixOS または Home Manager のパッケージリストで `inputs.netcatty.packages.${pkgs.system}.default` を使用してください。
+宣言型インストールには、Sensor flake を input として追加し、NixOS または Home Manager のパッケージリストで `inputs.sensor.packages.${pkgs.system}.default` を使用してください。
 
 ### 前提条件
 - Node.js 18+ と npm
@@ -238,8 +238,8 @@ nix run github:binaricat/Netcatty
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/binaricat/Netcatty.git
-cd Netcatty
+git clone https://github.com/DrOlu/Sensor.git
+cd Sensor
 
 # 依存関係をインストール
 npm install
@@ -304,8 +304,8 @@ npm run pack:linux   # Linux (AppImage + DEB + RPM)
 
 貢献してくださったすべての方に感謝します！
 
-<a href="https://github.com/binaricat/Netcatty/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=binaricat/Netcatty" />
+<a href="https://github.com/DrOlu/Sensor/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DrOlu/Sensor" />
 </a>
 
 ---
@@ -320,7 +320,7 @@ npm run pack:linux   # Linux (AppImage + DEB + RPM)
 <a name="star-履歴"></a>
 # Star 履歴
 
-<a href="https://www.star-history.com/#binaricat/Netcatty&Date">
+<a href="https://www.star-history.com/#DrOlu/Sensor&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history/star-history-dark.svg" />
    <source media="(prefers-color-scheme: light)" srcset="docs/assets/star-history/star-history-light.svg" />

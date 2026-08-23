@@ -20,7 +20,7 @@ test("getTempFilePath is unique for duplicate names in the same millisecond", ()
   }
 });
 
-test("Netcatty temp root is a private directory owned by the current user", () => {
+test("Sensor temp root is a private directory owned by the current user", () => {
   const tempRoot = tempDirBridge.getTempDir();
   const stat = fs.lstatSync(tempRoot);
   assert.equal(stat.isDirectory(), true);
@@ -37,7 +37,7 @@ test("shared system temp roots resolve to a stable path under the user's home", 
   await fs.promises.chmod(root, 0o777);
   try {
     if (typeof process.getuid === "function") {
-      assert.equal(tempDirBridge.resolvePrivateTempDir(root, fakeHome), path.join(fakeHome, ".netcatty", "tmp", "Netcatty"));
+      assert.equal(tempDirBridge.resolvePrivateTempDir(root, fakeHome), path.join(fakeHome, ".netcatty", "tmp", "Sensor"));
     }
   } finally {
     await fs.promises.rm(root, { recursive: true, force: true });
@@ -69,7 +69,7 @@ test("cached temp root is recreated after OS cleanup", async () => {
   }
 });
 
-test("tool output temp handlers write, read, and delete only Netcatty temp files", async () => {
+test("tool output temp handlers write, read, and delete only Sensor temp files", async () => {
   const handlers = new Map();
   tempDirBridge.registerHandlers({
     handle(channel, handler) {
@@ -120,7 +120,7 @@ test("tool output temp handlers write, read, and delete only Netcatty temp files
   assert.deepEqual(await read({}, { path: "/etc/passwd" }), null);
 });
 
-test("tool output temp reader rejects symlinks that point outside Netcatty temp", async () => {
+test("tool output temp reader rejects symlinks that point outside Sensor temp", async () => {
   const handlers = new Map();
   tempDirBridge.registerHandlers({ handle(channel, handler) { handlers.set(channel, handler); } });
   const linkPath = tempDirBridge.getTempFilePath("tool-output-link.log");
@@ -666,7 +666,7 @@ test("tool output signing key survives a real process restart", async () => {
     assert.equal(unlocked.status, 0, unlocked.stderr || unlocked.stdout);
     assert.match(unlocked.stdout, /RESULT:.*"locked":\{"durable":false.*"unlocked":\{"durable":true\}.*"content":"across restart"/);
 
-    const persistedDir = path.join(root, "Netcatty");
+    const persistedDir = path.join(root, "Sensor");
     const signingKeyPath = path.join(persistedDir, ".tool-output-signing-key");
     const signingKeyBeforeFailure = await fs.promises.readFile(signingKeyPath);
     const old = new Date(Date.now() - 31 * 60 * 1_000);

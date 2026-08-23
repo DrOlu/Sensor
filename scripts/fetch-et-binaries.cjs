@@ -17,7 +17,7 @@
 //                     Skip the whole step if unset (printed as a notice so
 //                     the build doesn't silently miss the bundling).
 //   ET_BIN_OWNER    — defaults to the GITHUB_REPOSITORY owner, or 'binaricat'
-//   ET_BIN_REPO     — default 'Netcatty-et-bin' (a dedicated binary
+//   ET_BIN_REPO     — default 'Sensor-et-bin' (a dedicated binary
 //                     repository so the client repo stays source-only).
 //   ET_BIN_BASE_URL — full override (e.g. for staging / local mirror).
 //   ET_BIN_RES_DIR  — override output dir for tests.
@@ -147,7 +147,7 @@ function parseEtBinRepository(env) {
   const githubOwner = (env.GITHUB_REPOSITORY || "").split("/")[0];
   return {
     owner: env.ET_BIN_OWNER || githubOwner || "binaricat",
-    repo: env.ET_BIN_REPO || "Netcatty-et-bin",
+    repo: env.ET_BIN_REPO || "Sensor-et-bin",
   };
 }
 

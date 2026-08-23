@@ -60,7 +60,7 @@ test("buildCodebuddyQueryOptions wires SDK options in isolated mode", () => {
   assert.equal(opts.resume, "sess-1");
   assert.deepEqual(opts.tools, []);
   // allowedTools must stay unset in mcp mode: tools:[] disables built-ins, while
-  // allowedTools:[] would prevent injected Netcatty MCP tools from running.
+  // allowedTools:[] would prevent injected Sensor MCP tools from running.
   assert.ok(!("allowedTools" in opts));
   assert.ok(opts.disallowedTools.includes("AskUserQuestion"));
   assert.equal(opts.mcpServers["netcatty-remote-hosts"].type, "stdio");
@@ -583,7 +583,7 @@ test("buildCodebuddyHooks returns hook matchers that emit events", async () => {
   assert.equal(events[0].ev.toolName, "Bash");
 });
 
-test("buildCodebuddyHooks blocks non-Netcatty Bash commands in skills mode", async () => {
+test("buildCodebuddyHooks blocks non-Sensor Bash commands in skills mode", async () => {
   const { emitter } = collector();
   emitter.emitEvent = () => {};
   const hooks = buildCodebuddyHooks(emitter, {
@@ -602,7 +602,7 @@ test("buildCodebuddyHooks blocks non-Netcatty Bash commands in skills mode", asy
       continue: true,
       decision: "block",
       reason:
-        "Only Netcatty CLI commands are allowed in Skills mode. " +
+        "Only Sensor CLI commands are allowed in Skills mode. " +
         "Use the netcatty-tool-cli command prefix provided by the host.",
     },
   );

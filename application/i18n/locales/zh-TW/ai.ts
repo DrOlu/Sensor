@@ -121,7 +121,7 @@ export const zhTWAiMessages: Messages = {
   'ai.codex.connectedCustomConfig': '使用 ~/.codex/config.toml 自訂 provider',
   'ai.codex.customConfigIncomplete': '偵測到自訂設定（缺少環境變數）',
   'ai.codex.customConfigHint': '使用 ~/.codex/config.toml 中設定的自訂 provider "{provider}"，無需 ChatGPT 登入。',
-  'ai.codex.customConfigMissingEnvKey': '警告：環境變數 {envKey} 未在目前 shell 中設定。請 export 它（或從包含該變數的 shell 啟動 netcatty），否則 Codex 無法完成認證。',
+  'ai.codex.customConfigMissingEnvKey': '警告：環境變數 {envKey} 未在目前 shell 中設定。請 export 它（或從包含該變數的 shell 啟動 Sensor），否則 Codex 無法完成認證。',
   'ai.codex.notConnected': '未連線',
   'ai.codex.statusUnknown': '狀態未知',
   'ai.codex.path': '路徑：',

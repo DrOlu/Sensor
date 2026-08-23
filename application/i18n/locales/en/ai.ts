@@ -355,7 +355,7 @@ export const enAiMessages: Messages = {
   'ai.externalMcp.installCodex': 'Install Codex separately, then click Refresh.',
   'ai.externalMcp.installClaude': 'Install Claude Code separately, then click Refresh.',
   'ai.externalMcp.installGrok': 'Install the Grok CLI separately, then click Refresh.',
-  'ai.externalMcp.conflict.description': 'A netcatty-external entry already exists and points elsewhere. Remove or edit it manually.',
+  'ai.externalMcp.conflict.description': 'A sensor-external entry already exists and points elsewhere. Remove or edit it manually.',
   'ai.externalMcp.enableForLauncher': 'Enable External MCP to get a usable launcher path.',
   'ai.externalMcp.cursor.title': 'Cursor / other clients',
   'ai.externalMcp.cursor.description': 'Merge this into your MCP config (for example ~/.cursor/mcp.json). Do not replace the whole file if you already have other servers.',

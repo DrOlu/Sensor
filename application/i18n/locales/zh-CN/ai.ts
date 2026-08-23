@@ -355,7 +355,7 @@ export const zhCNAiMessages: Messages = {
   'ai.externalMcp.installCodex': '请先单独安装 Codex，然后点击刷新。',
   'ai.externalMcp.installClaude': '请先单独安装 Claude Code，然后点击刷新。',
   'ai.externalMcp.installGrok': '请先单独安装 Grok CLI，然后点击刷新。',
-  'ai.externalMcp.conflict.description': '已存在指向其他位置的 netcatty-external 条目，请手动删除或修改。',
+  'ai.externalMcp.conflict.description': '已存在指向其他位置的 sensor-external 条目，请手动删除或修改。',
   'ai.externalMcp.enableForLauncher': '请先启用对外 MCP，以获取可用的 launcher 路径。',
   'ai.externalMcp.cursor.title': 'Cursor / 其他客户端',
   'ai.externalMcp.cursor.description': '合并到 MCP 配置文件（例如 ~/.cursor/mcp.json）。若已有其他服务器，请勿整文件覆盖。',

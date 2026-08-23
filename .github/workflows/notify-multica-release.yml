@@ -1,0 +1,28 @@
+name: Notify Multica Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (e.g. v1.1.86)"
+        required: true
+        type: string
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'DrOlu'
+    steps:
+      - name: Send webhook to Multica
+        run: |
+          TAG=${{ github.event.inputs.tag_name || github.event.release.tag_name }}
+          curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -d "{\"tag_name\": \"${TAG}\", \"repo\": \"DrOlu/Sensor\"}" \
+            https://multica.ai/api/webhooks/autopilots/awt_JlRNAtYk1QnYdEI9Sr32LWv9kw4ASiXJYBUKQVQFGHc
+          echo "Notified Multica of release ${TAG}"

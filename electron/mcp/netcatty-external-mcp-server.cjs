@@ -23,7 +23,7 @@ function main() {
   const discoveryPath = resolveDiscoveryPath();
   if (!fs.existsSync(discoveryPath)) {
     process.stderr.write(
-      `[netcatty-external-mcp] Discovery file not found at ${discoveryPath}. ` +
+      `[sensor-external-mcp] Discovery file not found at ${discoveryPath}. ` +
       "Enable External MCP in Sensor Settings → AI and keep the app running.\n",
     );
     process.exit(1);
@@ -34,7 +34,7 @@ function main() {
     discovery = readExternalDiscovery(discoveryPath);
   } catch (error) {
     process.stderr.write(
-      `[netcatty-external-mcp] Failed to read discovery: ${error?.message || error}\n`,
+      `[sensor-external-mcp] Failed to read discovery: ${error?.message || error}\n`,
     );
     process.exit(1);
   }

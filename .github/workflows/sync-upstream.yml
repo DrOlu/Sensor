@@ -110,18 +110,39 @@ jobs:
           fi
           echo "Restored Sensor-owned files."
 
+      - name: Regenerate app icon variants
+        if: steps.check.outputs.has_changes == 'true'
+        run: |
+          # Regenerate all runtime variant PNGs from public/icon.svg (the Sensor S logo)
+          # This ensures the dock/taskbar icon is always the Sensor S, not the upstream cat
+          if command -v rsvg-convert >/dev/null 2>&1; then
+            python3 scripts/generate-app-icon-variants.py
+            echo "✅ Regenerated icon variants from public/icon.svg"
+          elif command -v apt-get >/dev/null 2>&1; then
+            apt-get install -y -qq librsvg2-bin && python3 scripts/generate-app-icon-variants.py
+            echo "✅ Installed rsvg-convert and regenerated icon variants"
+          else
+            echo "::warning::rsvg-convert not available, icon variants not regenerated"
+          fi
+
       - name: Apply Sensor rebrand
         if: steps.check.outputs.has_changes == 'true'
         run: |
+          # Fix repo references
           find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.cjs" \
             -o -name "*.mjs" -o -name "*.json" -o -name "*.md" \) \
             ! -path "./.git/*" ! -path "./node_modules/*" \
             -exec sed -i \
               -e 's|binaricat/netcatty|DrOlu/Sensor|g' \
               -e 's|binaricat/Sensor|DrOlu/Sensor|g' \
-              -e 's|launch netcatty from|launch Sensor from|g' \
-              -e 's|netcatty-external|sensor-external|g' \
               {} +
+          # Fix user-visible locale strings only (NOT internal API keys like netcatty-external)
+          find application/i18n/locales -name "*.ts" -exec sed -i \
+            -e 's/launch netcatty from/launch Sensor from/g' \
+            -e "s/NetCatty's defaults/Sensor's defaults/g" \
+            -e "s/netcatty's defaults/Sensor's defaults/g" \
+            -e "s/\.netcatty-paste-images/.sensor-paste-images/g" \
+            {} + 2>/dev/null || true
 
       - name: Commit and push
         if: steps.check.outputs.has_changes == 'true'

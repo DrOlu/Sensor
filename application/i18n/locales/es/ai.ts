@@ -121,7 +121,7 @@ export const esAiMessages: Messages = {
   'ai.codex.connectedCustomConfig': 'Conectado mediante ~/.codex/config.toml',
   'ai.codex.customConfigIncomplete': 'Configuración personalizada detectada (falta la variable de entorno)',
   'ai.codex.customConfigHint': 'Usando el proveedor personalizado "{provider}" configurado en ~/.codex/config.toml: no se necesita inicio de sesión con ChatGPT.',
-  'ai.codex.customConfigMissingEnvKey': 'Advertencia: {envKey} no está definida en tu entorno de shell. Expórtala (o inicia netcatty desde un shell que la tenga) para que Codex pueda autenticarse.',
+  'ai.codex.customConfigMissingEnvKey': 'Advertencia: {envKey} no está definida en tu entorno de shell. Expórtala (o inicia Sensor desde un shell que la tenga) para que Codex pueda autenticarse.',
   'ai.codex.notConnected': 'No conectado',
   'ai.codex.statusUnknown': 'Estado desconocido',
   'ai.codex.path': 'Ruta:',

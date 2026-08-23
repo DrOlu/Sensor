@@ -55,10 +55,13 @@ jobs:
           fi
 
           # Fix netcatty in locales
-          if grep -rql "netcatty" application/i18n/locales/ 2>/dev/null; then
+          if grep -rql "launch netcatty from\|NetCatty's defaults\|\.netcatty-paste-images" application/i18n/locales/ 2>/dev/null; then
             find application/i18n/locales -name "*.ts" -exec sed -i \
               -e 's/launch netcatty from/launch Sensor from/g' \
-              -e 's/netcatty-external/sensor-external/g' {} + 2>/dev/null || true
+              -e "s/NetCatty's defaults/Sensor's defaults/g" \
+              -e "s/netcatty's defaults/Sensor's defaults/g" \
+              -e "s/\.netcatty-paste-images/.sensor-paste-images/g" \
+              {} + 2>/dev/null || true
             CHANGED=true
           fi
 

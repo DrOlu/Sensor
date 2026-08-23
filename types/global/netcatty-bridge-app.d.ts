@@ -1,6 +1,6 @@
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     // Auto-update
     checkForUpdate?(): Promise<{
       available: boolean;

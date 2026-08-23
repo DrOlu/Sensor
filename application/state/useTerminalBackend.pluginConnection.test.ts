@@ -13,20 +13,20 @@ const startOptions = {
   configuration: { endpoint: "example.test" },
   columns: 120,
   rows: 32,
-} satisfies NetcattyPluginConnectionStartRequest;
+} satisfies SensorPluginConnectionStartRequest;
 
 test("startPluginConnectionWithBridge uses the caller request ID and strips the renderer-only signal", async () => {
   const controller = new AbortController();
-  const providerRequests: NetcattyExtensionProviderRequest[] = [];
-  let startRequest: NetcattyPluginConnectionStartRequest | null = null;
+  const providerRequests: SensorExtensionProviderRequest[] = [];
+  let startRequest: SensorPluginConnectionStartRequest | null = null;
   const bridge = {
-    async invokePluginExtensionProvider(request: NetcattyExtensionProviderRequest) {
+    async invokePluginExtensionProvider(request: SensorExtensionProviderRequest) {
       providerRequests.push(request);
       return request.operation === "validateConfiguration"
         ? { valid: true, issues: [] }
         : { available: true };
     },
-    async startPluginConnection(request: NetcattyPluginConnectionStartRequest) {
+    async startPluginConnection(request: SensorPluginConnectionStartRequest) {
       startRequest = request;
       return {
         sessionId: request.sessionId,
@@ -55,13 +55,13 @@ test("startPluginConnectionWithBridge stops before connection start when cancell
   const controller = new AbortController();
   let startCalled = false;
   const bridge = {
-    async invokePluginExtensionProvider(request: NetcattyExtensionProviderRequest) {
+    async invokePluginExtensionProvider(request: SensorExtensionProviderRequest) {
       assert.equal(request.requestId, startOptions.requestId);
       assert.equal(request.operation, "validateConfiguration");
       controller.abort(new DOMException("Terminal closed", "AbortError"));
       return { valid: true };
     },
-    async startPluginConnection(_request: NetcattyPluginConnectionStartRequest) {
+    async startPluginConnection(_request: SensorPluginConnectionStartRequest) {
       startCalled = true;
       throw new Error("connection start should not run after cancellation");
     },
@@ -80,12 +80,12 @@ test("startPluginConnectionWithBridge stops before connection start when cancell
 test("startPluginConnectionWithBridge stops before connection start when the Provider probe is unavailable", async () => {
   let startCalled = false;
   const bridge = {
-    async invokePluginExtensionProvider(request: NetcattyExtensionProviderRequest) {
+    async invokePluginExtensionProvider(request: SensorExtensionProviderRequest) {
       return request.operation === "validateConfiguration"
         ? { valid: true, issues: [] }
         : { available: false, message: "Required helper is missing" };
     },
-    async startPluginConnection(_request: NetcattyPluginConnectionStartRequest) {
+    async startPluginConnection(_request: SensorPluginConnectionStartRequest) {
       startCalled = true;
       throw new Error("connection start should not run after an unavailable probe");
     },
@@ -97,18 +97,18 @@ test("startPluginConnectionWithBridge stops before connection start when the Pro
 
 test("startPluginConnectionWithBridge keeps the caller request ID while a Provider probe is cancelled", async () => {
   const controller = new AbortController();
-  let probeRequest: NetcattyExtensionProviderRequest | null = null;
+  let probeRequest: SensorExtensionProviderRequest | null = null;
   let probeEnteredResolve: (() => void) | null = null;
   const probeEntered = new Promise<void>((resolve) => { probeEnteredResolve = resolve; });
   let startCalled = false;
   const bridge = {
-    async invokePluginExtensionProvider(request: NetcattyExtensionProviderRequest) {
+    async invokePluginExtensionProvider(request: SensorExtensionProviderRequest) {
       if (request.operation === "validateConfiguration") return { valid: true, issues: [] };
       probeRequest = request;
       probeEnteredResolve?.();
       return new Promise<never>(() => {});
     },
-    async startPluginConnection(_request: NetcattyPluginConnectionStartRequest) {
+    async startPluginConnection(_request: SensorPluginConnectionStartRequest) {
       startCalled = true;
       throw new Error("connection start should not run after cancellation");
     },
@@ -144,13 +144,13 @@ test("startPluginConnectionWithBridge rejects promptly when cancelled during val
   const validationStarted = new Promise<void>((resolve) => { resolveValidationStarted = resolve; });
   let startCalled = false;
   const bridge = {
-    async invokePluginExtensionProvider(request: NetcattyExtensionProviderRequest) {
+    async invokePluginExtensionProvider(request: SensorExtensionProviderRequest) {
       assert.equal(request.requestId, startOptions.requestId);
       resolveValidationStarted?.();
       await new Promise(() => {});
       return { valid: true };
     },
-    async startPluginConnection(_request: NetcattyPluginConnectionStartRequest) {
+    async startPluginConnection(_request: SensorPluginConnectionStartRequest) {
       startCalled = true;
       throw new Error("connection start should not run after cancellation");
     },

@@ -324,7 +324,7 @@ export const validateToken = async (accessToken: string): Promise<boolean> => {
 // ============================================================================
 
 /**
- * Find existing Netcatty sync gist
+ * Find existing Sensor sync gist
  */
 export const findSyncGist = async (
   accessToken: string,

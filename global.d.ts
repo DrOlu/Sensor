@@ -19,7 +19,7 @@ declare module 'react' {
 
 declare global {
   // Proxy configuration for SSH connections
-  interface NetcattyProxyConfig {
+  interface SensorProxyConfig {
     type: 'http' | 'socks5' | 'command';
     host: string;
     port: number;
@@ -39,7 +39,7 @@ declare global {
   }
 
   // Jump host configuration for SSH tunneling
-  interface NetcattyJumpHost {
+  interface SensorJumpHost {
     hostname: string;
     hostId?: string;
     port: number;
@@ -54,7 +54,7 @@ declare global {
     keyId?: string;
     keySource?: 'generated' | 'imported' | 'reference';
     label?: string; // Display label for UI
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     identityFilePaths?: string[];
     useSshAgent?: boolean;
     agentPublicKeys?: string[];
@@ -84,7 +84,7 @@ declare global {
 
   // Host key information for verification
   // Reserved for future host key verification UI feature
-  interface _NetcattyHostKeyInfo {
+  interface _SensorHostKeyInfo {
     hostname: string;
     port: number;
     keyType: string;
@@ -92,7 +92,7 @@ declare global {
     publicKey?: string;
   }
 
-  interface NetcattySSHOptions {
+  interface SensorSSHOptions {
     sessionId?: string;
     hostId?: string;
     hostLabel?: string;
@@ -122,9 +122,9 @@ declare global {
     // Environment variables to set in the remote shell
     env?: Record<string, string>;
     // Proxy configuration
-    proxy?: NetcattyProxyConfig;
+    proxy?: SensorProxyConfig;
     // Jump hosts (bastion chain)
-    jumpHosts?: NetcattyJumpHost[];
+    jumpHosts?: SensorJumpHost[];
     // SSH-level keepalive interval in seconds (0 = disabled)
     keepaliveInterval?: number;
     // Unanswered keepalives before ssh2 declares the connection dead
@@ -217,8 +217,8 @@ declare global {
     passphrase?: string;
     knownHosts?: import("./domain/models").KnownHost[];
     verifyHostKeys?: boolean;
-    proxy?: NetcattyProxyConfig;
-    jumpHosts?: NetcattyJumpHost[];
+    proxy?: SensorProxyConfig;
+    jumpHosts?: SensorJumpHost[];
     identityFilePaths?: string[];
     useSshAgent?: boolean;
     agentPublicKeys?: string[];
@@ -292,7 +292,7 @@ declare global {
         ruleId?: string;
       };
 
-  interface NetcattyWindowsPtyInfo {
+  interface SensorWindowsPtyInfo {
     backend: 'conpty' | 'winpty';
     buildNumber?: number;
   }
@@ -300,12 +300,12 @@ declare global {
   type PortForwardStatusCallback = (status: 'inactive' | 'connecting' | 'active' | 'error', error?: string) => void;
   type PortForwardRuntimeEventCallback = (event: PortForwardRuntimeEvent) => void;
 
-  interface NetcattyPluginRuntimeStatus {
+  interface SensorPluginRuntimeStatus {
     available: boolean;
     experimental: true;
   }
 
-  interface NetcattyInstalledPlugin {
+  interface SensorInstalledPlugin {
     id: string;
     enabled: boolean;
     activeVersion: string | null;
@@ -318,14 +318,14 @@ declare global {
     };
   }
 
-  interface NetcattyExtensionProviderContribution {
+  interface SensorExtensionProviderContribution {
     pluginId: string;
     pluginVersion: string;
     pluginDisplayName?: string;
     provider: import("@netcatty/plugin-contract").ProviderContribution;
   }
 
-  interface NetcattyExtensionProviderRequest {
+  interface SensorExtensionProviderRequest {
     providerId: string;
     kind: 'connection' | 'authentication' | 'importer';
     operation: string;
@@ -334,7 +334,7 @@ declare global {
     deadlineMs?: number;
   }
 
-  interface NetcattyPluginConnectionStartRequest {
+  interface SensorPluginConnectionStartRequest {
     requestId?: string;
     sessionId: string;
     protocol?: string;
@@ -350,55 +350,55 @@ declare global {
     deadlineMs?: number;
   }
 
-  interface NetcattyPluginImporterPreview {
+  interface SensorPluginImporterPreview {
     providerId: string;
     result: import("@netcatty/plugin-contract").ImporterParseResult;
     records: ReadonlyArray<import("@netcatty/plugin-contract").ImporterRecord>;
   }
 
-  interface NetcattyPluginImporterProgressEvent {
+  interface SensorPluginImporterProgressEvent {
     requestId: string;
     providerId: string;
     progress: Extract<import("@netcatty/plugin-contract").ImporterRecord, { type: "progress" }>;
   }
 
-  interface NetcattyPluginAuthenticationChallengeOpenEvent {
+  interface SensorPluginAuthenticationChallengeOpenEvent {
     requestId: string;
     challengeRequestId: string;
     challenge: import("@netcatty/plugin-contract").AuthenticationChallenge;
   }
 
-  interface NetcattyPluginAuthenticationChallengeCancelEvent {
+  interface SensorPluginAuthenticationChallengeCancelEvent {
     requestId: string;
     challengeRequestId: string;
     challengeId?: string;
     cancelled: true;
   }
 
-  type NetcattyPluginAuthenticationChallengeEvent =
-    | NetcattyPluginAuthenticationChallengeOpenEvent
-    | NetcattyPluginAuthenticationChallengeCancelEvent;
+  type SensorPluginAuthenticationChallengeEvent =
+    | SensorPluginAuthenticationChallengeOpenEvent
+    | SensorPluginAuthenticationChallengeCancelEvent;
 
-  interface NetcattyBridge {
-    getPluginRuntimeStatus?(): Promise<NetcattyPluginRuntimeStatus>;
-    listPlugins?(): Promise<NetcattyInstalledPlugin[]>;
-    installPluginPackage?(archivePath: string, options?: { enable?: boolean }): Promise<NetcattyInstalledPlugin>;
-    setPluginEnabled?(pluginId: string, enabled: boolean): Promise<NetcattyInstalledPlugin>;
-    restartPlugin?(pluginId: string): Promise<NetcattyInstalledPlugin>;
+  interface SensorBridge {
+    getPluginRuntimeStatus?(): Promise<SensorPluginRuntimeStatus>;
+    listPlugins?(): Promise<SensorInstalledPlugin[]>;
+    installPluginPackage?(archivePath: string, options?: { enable?: boolean }): Promise<SensorInstalledPlugin>;
+    setPluginEnabled?(pluginId: string, enabled: boolean): Promise<SensorInstalledPlugin>;
+    restartPlugin?(pluginId: string): Promise<SensorInstalledPlugin>;
     uninstallPlugin?(pluginId: string): Promise<boolean>;
-    getPluginContributions?(options?: NetcattyPluginContributionQuery): Promise<NetcattyPluginContributionSnapshot>;
-    getPluginContributionIcon?(pluginId: string, icon: Extract<NetcattyPluginIconReference, { kind: 'package' }>): Promise<{ light: string; dark?: string }>;
+    getPluginContributions?(options?: SensorPluginContributionQuery): Promise<SensorPluginContributionSnapshot>;
+    getPluginContributionIcon?(pluginId: string, icon: Extract<SensorPluginIconReference, { kind: 'package' }>): Promise<{ light: string; dark?: string }>;
     executePluginCommand?(command: string, args?: unknown, context?: Record<string, unknown>): Promise<unknown>;
     updatePluginSetting?(pluginId: string, settingId: string, value: unknown, scopeId?: string): Promise<{ restartRequired: boolean }>;
     resetPluginSetting?(pluginId: string, settingId: string, scopeId?: string): Promise<{ restartRequired: boolean }>;
-    setPluginEnvironment?(environment: NetcattyPluginEnvironment): Promise<void>;
-    listPluginTerminalProviders?(options: NetcattyTerminalProviderQuery): Promise<ReadonlyArray<NetcattyTerminalProviderContribution>>;
-    providePluginTerminal?(request: NetcattyTerminalProviderRequest): Promise<ReadonlyArray<NetcattyTerminalProviderResult>>;
+    setPluginEnvironment?(environment: SensorPluginEnvironment): Promise<void>;
+    listPluginTerminalProviders?(options: SensorTerminalProviderQuery): Promise<ReadonlyArray<SensorTerminalProviderContribution>>;
+    providePluginTerminal?(request: SensorTerminalProviderRequest): Promise<ReadonlyArray<SensorTerminalProviderResult>>;
     cancelPluginTerminalRequest?(requestId: string): Promise<boolean>;
-    publishPluginTerminalSessionEvent?(event: NetcattyTerminalSessionEvent): Promise<ReadonlyArray<{ pluginId: string; delivered: boolean }>>;
-    listPluginExtensionProviders?(options: { kind: 'connection' | 'authentication' | 'importer' | 'sync'; locale?: string }): Promise<ReadonlyArray<NetcattyExtensionProviderContribution>>;
+    publishPluginTerminalSessionEvent?(event: SensorTerminalSessionEvent): Promise<ReadonlyArray<{ pluginId: string; delivered: boolean }>>;
+    listPluginExtensionProviders?(options: { kind: 'connection' | 'authentication' | 'importer' | 'sync'; locale?: string }): Promise<ReadonlyArray<SensorExtensionProviderContribution>>;
     updatePluginCredentialCatalog?(entries: ReadonlyArray<{ id: string; ciphertext: string }>): Promise<number>;
-    invokePluginExtensionProvider?(request: NetcattyExtensionProviderRequest): Promise<import("@netcatty/plugin-contract").JsonValue>;
+    invokePluginExtensionProvider?(request: SensorExtensionProviderRequest): Promise<import("@netcatty/plugin-contract").JsonValue>;
     cancelPluginExtensionRequest?(requestId: string): Promise<boolean>;
     pluginSyncConnect?(request: {
       requestId?: string;
@@ -490,14 +490,14 @@ declare global {
     collectPluginSyncSidecars?(): Promise<unknown>;
     applyPluginSyncSidecars?(bundle: unknown): Promise<{ applied: boolean; count?: number; entries?: unknown }>;
     pluginHostReady?(): boolean;
-    startPluginConnection?(request: NetcattyPluginConnectionStartRequest): Promise<{ sessionId: string; providerId: string; status: 'connecting' | 'connected'; diagnostics: ReadonlyArray<import("@netcatty/plugin-contract").ProviderValidationIssue> }>;
+    startPluginConnection?(request: SensorPluginConnectionStartRequest): Promise<{ sessionId: string; providerId: string; status: 'connecting' | 'connected'; diagnostics: ReadonlyArray<import("@netcatty/plugin-contract").ProviderValidationIssue> }>;
     writePluginConnection?(sessionId: string, data: Uint8Array): Promise<void>;
     controlPluginConnection?(sessionId: string, operation: 'resize' | 'signal' | 'reconnect' | 'close' | 'getStatus', payload?: Record<string, unknown>): Promise<unknown>;
     detectPluginImporter?(request: { providerId: string; sample: Uint8Array; fileName?: string; mediaType?: string; deadlineMs?: number }): Promise<import("@netcatty/plugin-contract").ImporterDetectResult>;
     selectPluginImporterFile?(): Promise<{ selectionToken: string; fileName: string; sample: Uint8Array } | null>;
     releasePluginImporterFile?(selectionToken: string): Promise<boolean>;
-    parsePluginImporterFile?(request: { requestId?: string; providerId: string; selectionToken: string; mediaType?: string; options?: import("@netcatty/plugin-contract").JsonValue; deadlineMs?: number }): Promise<NetcattyPluginImporterPreview>;
-    onPluginImporterProgress?(callback: (event: NetcattyPluginImporterProgressEvent) => void): () => void;
+    parsePluginImporterFile?(request: { requestId?: string; providerId: string; selectionToken: string; mediaType?: string; options?: import("@netcatty/plugin-contract").JsonValue; deadlineMs?: number }): Promise<SensorPluginImporterPreview>;
+    onPluginImporterProgress?(callback: (event: SensorPluginImporterProgressEvent) => void): () => void;
     respondPluginAuthenticationChallenge?(response: {
       requestId: string;
       challengeRequestId: string;
@@ -505,30 +505,30 @@ declare global {
       response?: string | boolean | ReadonlyArray<string>;
       cancelled?: boolean;
     }): Promise<void>;
-    onPluginAuthenticationChallenge?(callback: (event: NetcattyPluginAuthenticationChallengeEvent) => void): () => void;
+    onPluginAuthenticationChallenge?(callback: (event: SensorPluginAuthenticationChallengeEvent) => void): () => void;
     onPluginConnectionData?(callback: (event: { sessionId: string; data: Uint8Array }) => void): () => void;
     onPluginConnectionClosed?(callback: (event: { sessionId: string; reason: string }) => void): () => void;
-    openPluginView?(payload: NetcattyPluginViewOpenRequest): Promise<{ instanceId: string }>;
+    openPluginView?(payload: SensorPluginViewOpenRequest): Promise<{ instanceId: string }>;
     closePluginView?(instanceId: string): Promise<void>;
     setPluginViewBounds?(instanceId: string, bounds: { x: number; y: number; width: number; height: number }): Promise<void>;
     setPluginViewVisibility?(instanceId: string, visible: boolean): Promise<void>;
     postPluginViewMessage?(instanceId: string, message: unknown): Promise<void>;
     onPluginContributionsChanged?(callback: (event: { reason: string; pluginId: string | null; revision: number }) => void): () => void;
     onPluginViewMessage?(callback: (event: { pluginId: string; viewId: string; message: unknown }) => void): () => void;
-    onPluginViewClosed?(callback: (event: NetcattyPluginViewClosedEvent) => void): () => void;
-    getPluginScopeCatalog?(): Promise<NetcattyPluginScopeCatalog>;
-    setPluginScopeCatalog?(catalog: NetcattyPluginScopeCatalog): Promise<void>;
-    onPluginScopeCatalogChanged?(callback: (catalog: NetcattyPluginScopeCatalog) => void): () => void;
+    onPluginViewClosed?(callback: (event: SensorPluginViewClosedEvent) => void): () => void;
+    getPluginScopeCatalog?(): Promise<SensorPluginScopeCatalog>;
+    setPluginScopeCatalog?(catalog: SensorPluginScopeCatalog): Promise<void>;
+    onPluginScopeCatalogChanged?(callback: (catalog: SensorPluginScopeCatalog) => void): () => void;
   }
 
-  interface NetcattyPluginContributionQuery {
+  interface SensorPluginContributionQuery {
     locale?: string;
     context?: Record<string, unknown>;
     menuContexts?: Partial<Record<string, Record<string, unknown>>>;
     scopeIds?: Partial<Record<'workspace' | 'host' | 'session' | 'device', string>>;
   }
 
-  interface NetcattyPluginSettingContribution {
+  interface SensorPluginSettingContribution {
     id: string;
     label: string;
     description?: string;
@@ -550,18 +550,18 @@ declare global {
     valueSchema?: unknown;
   }
 
-  type NetcattyPluginIconReference =
+  type SensorPluginIconReference =
     | { kind: 'theme'; name: string }
     | { kind: 'package'; light: string; dark?: string };
 
-  interface NetcattyPluginContributionSnapshot {
+  interface SensorPluginContributionSnapshot {
     locale: string;
     plugins: ReadonlyArray<{
       id: string;
       version: string;
       displayName: string;
       description: string;
-      commands: ReadonlyArray<{ id: string; title: string; category?: string; description?: string; icon?: NetcattyPluginIconReference; enabled: boolean }>;
+      commands: ReadonlyArray<{ id: string; title: string; category?: string; description?: string; icon?: SensorPluginIconReference; enabled: boolean }>;
       keybindings: ReadonlyArray<{ command: string; key: string; mac?: string; linux?: string; windows?: string; args?: unknown; enabled: boolean }>;
       menus: ReadonlyArray<{
         id: string;
@@ -576,14 +576,14 @@ declare global {
         group?: string;
         shortcut?: string;
         showKeybinding?: boolean;
-        icon?: NetcattyPluginIconReference;
+        icon?: SensorPluginIconReference;
       }>;
-      settings: ReadonlyArray<NetcattyPluginSettingContribution>;
-      views: ReadonlyArray<{ id: string; title: string; location: string; entry: string; icon?: NetcattyPluginIconReference; order?: number; visible: boolean; retainContextWhenHidden?: boolean }>;
+      settings: ReadonlyArray<SensorPluginSettingContribution>;
+      views: ReadonlyArray<{ id: string; title: string; location: string; entry: string; icon?: SensorPluginIconReference; order?: number; visible: boolean; retainContextWhenHidden?: boolean }>;
     }>;
   }
 
-  interface NetcattyPluginEnvironment {
+  interface SensorPluginEnvironment {
     locale: string;
     theme: string;
     reducedMotion: boolean;
@@ -591,7 +591,7 @@ declare global {
     themeTokens?: Record<string, string>;
   }
 
-  type NetcattyTerminalProviderKind =
+  type SensorTerminalProviderKind =
     | 'terminal.completion'
     | 'terminal.decoration'
     | 'terminal.link'
@@ -602,7 +602,7 @@ declare global {
     | 'terminal.background'
     | 'terminal.theme';
 
-  interface NetcattyTerminalProviderContribution {
+  interface SensorTerminalProviderContribution {
     pluginId: string;
     pluginVersion: string;
     runtimeId?: string;
@@ -611,19 +611,19 @@ declare global {
       id: string;
       label: string;
       description?: string;
-      kind: NetcattyTerminalProviderKind;
+      kind: SensorTerminalProviderKind;
       capabilities?: ReadonlyArray<string>;
       configurationSchema?: unknown;
     };
   }
 
-  interface NetcattyTerminalProviderQuery {
-    kind: NetcattyTerminalProviderKind;
+  interface SensorTerminalProviderQuery {
+    kind: SensorTerminalProviderKind;
     locale?: string;
     preferredProviderIds?: ReadonlyArray<string>;
   }
 
-  interface NetcattyTerminalSessionSnapshot {
+  interface SensorTerminalSessionSnapshot {
     sessionId: string;
     hostId?: string;
     workspaceId?: string;
@@ -637,7 +637,7 @@ declare global {
     alternateScreen?: boolean;
   }
 
-  interface NetcattyTerminalSessionEvent {
+  interface SensorTerminalSessionEvent {
     type:
       | 'snapshot'
       | 'created'
@@ -651,27 +651,27 @@ declare global {
       | 'commandCompleted'
       | 'disconnected'
       | 'disposed';
-    session: NetcattyTerminalSessionSnapshot;
+    session: SensorTerminalSessionSnapshot;
     exitCode?: number;
   }
 
-  interface NetcattyTerminalProviderRequest {
+  interface SensorTerminalProviderRequest {
     requestId: string;
-    kind: NetcattyTerminalProviderKind;
+    kind: SensorTerminalProviderKind;
     operation: string;
-    session: NetcattyTerminalSessionSnapshot;
+    session: SensorTerminalSessionSnapshot;
     payload?: unknown;
     locale?: string;
     preferredProviderIds?: ReadonlyArray<string>;
     deadlineMs?: number;
   }
 
-  type NetcattyTerminalProviderResult = {
+  type SensorTerminalProviderResult = {
     pluginId: string;
     pluginVersion: string;
     runtimeId?: string;
     providerId: string;
-    kind: NetcattyTerminalProviderKind;
+    kind: SensorTerminalProviderKind;
     requestId: string;
     status: 'ok';
     result: unknown;
@@ -680,20 +680,20 @@ declare global {
     pluginVersion: string;
     runtimeId?: string;
     providerId: string;
-    kind: NetcattyTerminalProviderKind;
+    kind: SensorTerminalProviderKind;
     requestId: string;
     status: 'cancelled';
   } | {
     pluginId: string;
     pluginVersion: string;
     providerId: string;
-    kind: NetcattyTerminalProviderKind;
+    kind: SensorTerminalProviderKind;
     requestId: string;
     status: 'failed';
     error: { code: number; message: string; data?: unknown };
   };
 
-  interface NetcattyPluginViewOpenRequest {
+  interface SensorPluginViewOpenRequest {
     viewId: string;
     instanceId?: string;
     scopeId: string;
@@ -701,22 +701,22 @@ declare global {
     context?: Record<string, unknown>;
   }
 
-  interface NetcattyPluginViewClosedEvent {
+  interface SensorPluginViewClosedEvent {
     instanceId: string;
     pluginId: string;
     viewId: string;
     reason: string;
   }
 
-  type NetcattyPluginSettingScopeKind = 'workspace' | 'host' | 'session' | 'device';
+  type SensorPluginSettingScopeKind = 'workspace' | 'host' | 'session' | 'device';
 
-  type NetcattyPluginScopeCatalog = Record<
-    NetcattyPluginSettingScopeKind,
+  type SensorPluginScopeCatalog = Record<
+    SensorPluginSettingScopeKind,
     ReadonlyArray<{ id: string; label: string }>
   >;
 
   interface Window {
-    netcatty?: NetcattyBridge;
+    netcatty?: SensorBridge;
   }
 
 }

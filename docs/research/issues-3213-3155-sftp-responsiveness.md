@@ -4,9 +4,9 @@ Investigated on 2026-08-31 against `39d7c38a6acea2f59524566d117345e1ced21fbd`.
 
 ## Evidence and scope
 
-[#3213](https://github.com/binaricat/Netcatty/issues/3213) reports slow/unstable
+[#3213](https://github.com/DrOlu/Sensor/issues/3213) reports slow/unstable
 large-file transfers, ineffective pause/resume and failed recovery after killing
-the app. [#3155](https://github.com/binaricat/Netcatty/issues/3155) reports a freeze
+the app. [#3155](https://github.com/DrOlu/Sensor/issues/3155) reports a freeze
 with many files. Neither report supplies a direction, server configuration or
 transfer log. The following are reproduced code defects, not proof that every
 reported symptom has one cause. Keep both issues open for reporter confirmation.
@@ -55,12 +55,12 @@ reported symptom has one cause. Keep both issues open for reporter confirmation.
 - **OpenSSH:** 32 KiB requests and a 64-request default window; interruption
   stops new requests, drains replies and tracks the contiguous acknowledged
   prefix separately from the highest acknowledged position. Its manual warns
-  that mismatched partial content can corrupt a resumed file. Netcatty keeps
+  that mismatched partial content can corrupt a resumed file. Sensor keeps
   its stronger content checks. Sources: [defaults and transfer loops](https://github.com/openssh/openssh-portable/blob/0ef0f5a839831c213f24e3f2ae434765c607fb50/sftp-client.c#L59-L63),
   [resume warning](https://man.openbsd.org/sftp.1).
 - **WinSCP:** two simultaneous background operations is also its default;
   eligible transfers use temporary files before publication. These choices do
-  not establish that two files is Netcatty's bottleneck, or that every killed
+  not establish that two files is Sensor's bottleneck, or that every killed
   process can safely resume. Sources: [background queue](https://winscp.net/eng/docs/transfer_queue),
   [resume requirements and temporary-file tradeoffs](https://winscp.net/eng/docs/resume).
 - **rclone:** documents the same 32 KiB/64-request defaults, server compatibility

@@ -206,7 +206,7 @@ type TerminalBackendApi = {
   openExternalAvailable: () => boolean;
   openExternal: (url: string) => Promise<void>;
   writeToSession: (sessionId: string, data: string) => void;
-  interruptSession?: (sessionId: string, trace?: NetcattyTerminalInterruptTrace) => void;
+  interruptSession?: (sessionId: string, trace?: SensorTerminalInterruptTrace) => void;
   signalPluginConnection?: (
     sessionId: string,
     signal?: "interrupt" | "terminate" | "kill" | "eof" | "break",
@@ -340,7 +340,7 @@ export type CreateXTermRuntimeContext = {
   onCommandCompleted?: () => void;
   requestPluginTerminalProviders?: RequestPluginTerminalProviders;
   pluginProviderVisible?: boolean;
-  isPluginTerminalProviderAvailable?: (kind: NetcattyTerminalProviderKind) => boolean;
+  isPluginTerminalProviderAvailable?: (kind: SensorTerminalProviderKind) => boolean;
   onResize?: (cols: number, rows: number) => void;
   onAlternateScreenChange?: (active: boolean) => void;
   commandBufferRef: RefObject<string>;
@@ -1624,11 +1624,11 @@ export const createXTermRuntime = (ctx: CreateXTermRuntimeContext): XTermRuntime
       if (broadcastLegacyDataPending === identity) clearBroadcastLegacyDataPending();
       if (term.modes.win32InputMode) {
         // Broadcast peers may still need a paired Kitty release for a keydown
-        // consumed by a Netcatty action (notably the urgent Ctrl+C path).
+        // consumed by a Sensor action (notably the urgent Ctrl+C path).
         releaseForwardedKittyPress(toKittyKeyboardEvent(releaseEvent));
         kittyForwardedKeys.delete(identity);
         // Only let xterm emit a Win32 key-up when its matching keydown was
-        // previously handed to xterm. Netcatty shortcuts, sudo controls and
+        // previously handed to xterm. Sensor shortcuts, sudo controls and
         // autocomplete consume their keydown and must not leak an orphaned
         // native release into the PTY.
         if (!hasForwardedWin32KeyDown) {

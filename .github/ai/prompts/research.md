@@ -15,7 +15,7 @@ call Brave Search. Do not use Claude WebSearch/WebFetch, curl, wget, or MCP.
 Research is needed when the input contains an external URL, an unfamiliar
 product/project name, or a current external fact that materially affects the
 report. Prefer official documentation and upstream repositories. Do not search
-for ordinary Netcatty-only behavior that can be answered from local source.
+for ordinary Sensor-only behavior that can be answered from local source.
 Local proxied screenshots do not by themselves require external research.
 
 Print exactly one of these forms and nothing else:

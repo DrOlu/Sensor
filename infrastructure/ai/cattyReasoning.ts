@@ -52,7 +52,7 @@ export function estimateReasoningOutputReserve(
  * The installed `@ai-sdk/openai` only auto-adds the encrypted-content include
  * for model IDs its own capability detector recognizes (o-series / gpt-5).
  * Relay reasoners such as `deepseek-r1`, `gpt-oss`, or `grok-4` pass
- * Netcatty's broader classifier but not the SDK's, so the include must be
+ * Sensor's broader classifier but not the SDK's, so the include must be
  * requested explicitly or the provider returns no replayable ciphertext and
  * the reasoning items get dropped from subsequent turns. The SDK dedupes the
  * include when it would have added it anyway.

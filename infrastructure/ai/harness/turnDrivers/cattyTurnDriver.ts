@@ -31,7 +31,7 @@ import {
 import { computeTotalInputTokens, DEFAULT_MAX_OUTPUT_TOKENS } from '../contextBudget';
 import { clearChatSessionCancelled } from '../agentStop';
 import { isRequestTooLargeError } from '../../errorClassifier';
-import { getNetcattyBridge, generateId, resolveUserSkillsContext } from '../../aiChatStreamingSupport';
+import { getSensorBridge, generateId, resolveUserSkillsContext } from '../../aiChatStreamingSupport';
 import {
   buildCattySdkMessages,
   collectOpenAIChatAssistantFieldsForMessages,
@@ -73,7 +73,7 @@ async function runCattyTurn(input: CattyTurnInput, ctx: TurnDriverContext): Prom
     ui,
   } = input;
 
-  const netcattyBridge = (bridge ?? getNetcattyBridge()) as NonNullable<ReturnType<typeof getNetcattyBridge>>;
+  const netcattyBridge = (bridge ?? getSensorBridge()) as NonNullable<ReturnType<typeof getSensorBridge>>;
   const toolOutputTempBridge = netcattyBridge as typeof netcattyBridge & {
     getToolOutputPersistenceStatus?: () => Promise<{ durable: boolean; reason?: string }>;
     writeToolOutputTemp?: (

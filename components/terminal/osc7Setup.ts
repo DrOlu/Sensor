@@ -1,4 +1,4 @@
-export const OSC7_MARKER = "Netcatty OSC 7 cwd tracking";
+export const OSC7_MARKER = "Sensor OSC 7 cwd tracking";
 
 export const OSC7_SETUP_TARGETS = [
   "~/.bashrc",
@@ -101,7 +101,7 @@ const URL_PATH_AWK_SCRIPT_QUOTED = quoteForSingleQuotedShellString(URL_PATH_AWK_
 const BASH_DELETE_MARKED_HISTORY_COMMAND = String.raw`if test -n "${DOLLAR}{BASH_VERSION-}"; then __netcatty_osc7_history_cleanup_marker__=1; __netcatty_osc7_history_line=$(HISTTIMEFORMAT= builtin history 1 2>/dev/null) || __netcatty_osc7_history_line=""; case "$__netcatty_osc7_history_line" in *__netcatty_osc7_history_cleanup_marker__=1*) __netcatty_osc7_history_number=$(printf "%s\n" "$__netcatty_osc7_history_line" | sed "s/^ *\([0-9][0-9]*\).*/\1/"); case "$__netcatty_osc7_history_number" in ""|*[!0-9]*) ;; *) builtin history -d "$__netcatty_osc7_history_number" 2>/dev/null || true;; esac;; esac; unset __netcatty_osc7_history_cleanup_marker__ __netcatty_osc7_history_line __netcatty_osc7_history_number 2>/dev/null || true; fi`;
 
 const POSIX_SETUP_SCRIPT = String.raw`set -eu
-marker="# >>> Netcatty OSC 7 cwd tracking >>>"
+marker="# >>> Sensor OSC 7 cwd tracking >>>"
 SELF=$$
 expected_cwd="${DOLLAR}{NETCATTY_OSC7_EXPECTED_CWD:-}"
 forced_shell="${DOLLAR}{NETCATTY_OSC7_FORCE_SHELL:-}"
@@ -184,19 +184,19 @@ if [ -n "$active_shell_pid" ]; then
   if [ -n "$active_uid" ] && [ -n "$self_uid" ] && [ "$active_uid" != "$self_uid" ]; then
     other_shell=$(cat "/proc/$active_shell_pid/comm" 2>/dev/null | sed "s/^-//" | tr -d "[:space:]" || true)
     printf '%s%s\n' '${OSC7_SETUP_OTHER_USER_MARKER}' "${DOLLAR}{other_shell:-unknown}"
-    printf "Netcatty OSC 7 setup: the active terminal shell belongs to another user\n" >&2
+    printf "Sensor OSC 7 setup: the active terminal shell belongs to another user\n" >&2
     exit 5
   fi
 fi
 
 if [ -d /proc ] && [ -n "$expected_cwd" ]; then
   if [ -z "$active_shell_pid" ]; then
-    printf "Netcatty OSC 7 setup: could not identify the active terminal shell\n" >&2
+    printf "Sensor OSC 7 setup: could not identify the active terminal shell\n" >&2
     exit 4
   fi
   active_cwd=$(readlink "/proc/$active_shell_pid/cwd" 2>/dev/null || true)
   if [ "$active_cwd" != "$expected_cwd" ]; then
-    printf "Netcatty OSC 7 setup: active terminal shell did not match the current tab\n" >&2
+    printf "Sensor OSC 7 setup: active terminal shell did not match the current tab\n" >&2
     exit 4
   fi
 fi
@@ -215,7 +215,7 @@ if [ -n "$active_shell_pid" ]; then
     active_zdotdir=$(read_proc_env_value "$active_env_file" ZDOTDIR || true)
     active_xdg_config_home=$(read_proc_env_value "$active_env_file" XDG_CONFIG_HOME || true)
   elif [ "$active_shell_pid" != "$login_shell_pid" ]; then
-    printf "Netcatty OSC 7 setup: cannot silently configure an active shell owned by another user\n" >&2
+    printf "Sensor OSC 7 setup: cannot silently configure an active shell owned by another user\n" >&2
     exit 3
   fi
 fi
@@ -242,7 +242,7 @@ case "$shell_name" in
   zsh) config="$zdotdir/.zshrc" ;;
   fish) config="$xdg_config_home/fish/config.fish" ;;
   *)
-    printf "Netcatty OSC 7 setup: unsupported shell %s\n" "$shell_name" >&2
+    printf "Sensor OSC 7 setup: unsupported shell %s\n" "$shell_name" >&2
     printf "Supported shells: bash, zsh, fish\n" >&2
     exit 2
     ;;
@@ -257,7 +257,7 @@ touch "$config"
 # Snippet v2: guarded prompt entry + unexport PROMPT_COMMAND so su without
 # login does not inherit a bare osc7_cwd call into another user's shell.
 snippet_version_marker="netcatty-osc7-version: 2"
-end_marker="# <<< Netcatty OSC 7 cwd tracking <<<"
+end_marker="# <<< Sensor OSC 7 cwd tracking <<<"
 # Returns 0 when every start marker is closed by a matching end marker.
 # Markers must be whole lines (optional indent) so an echo of the marker text
 # does not count as a block boundary.
@@ -366,7 +366,7 @@ netcatty_osc7_append_v2() {
     bash)
       cat >> "$__netcatty_osc7_dest" <<'NETCATTY_OSC7_BASH'
 
-# >>> Netcatty OSC 7 cwd tracking >>>
+# >>> Sensor OSC 7 cwd tracking >>>
 # netcatty-osc7-version: 2
 __netcatty_osc7_url_path() {
   printf "%s" "$1" | LC_ALL=C awk '${URL_PATH_AWK_SCRIPT}'
@@ -436,13 +436,13 @@ unset __netcatty_osc7_hook 2>/dev/null || true
 # Do not force-unexport PROMPT_COMMAND: the guarded hook is safe if inherited
 # across non-login su (declare -F fails quietly), and users may intentionally
 # export PROMPT_COMMAND for child shells.
-# <<< Netcatty OSC 7 cwd tracking <<<
+# <<< Sensor OSC 7 cwd tracking <<<
 NETCATTY_OSC7_BASH
       ;;
     zsh)
       cat >> "$__netcatty_osc7_dest" <<'NETCATTY_OSC7_ZSH'
 
-# >>> Netcatty OSC 7 cwd tracking >>>
+# >>> Sensor OSC 7 cwd tracking >>>
 # netcatty-osc7-version: 2
 __netcatty_osc7_url_path() {
   printf "%s" "$1" | LC_ALL=C awk '${URL_PATH_AWK_SCRIPT}'
@@ -464,13 +464,13 @@ if (( ${DOLLAR}{+precmd_functions} )); then
 else
   precmd_functions=(__netcatty_osc7_prompt)
 fi
-# <<< Netcatty OSC 7 cwd tracking <<<
+# <<< Sensor OSC 7 cwd tracking <<<
 NETCATTY_OSC7_ZSH
       ;;
     fish)
       cat >> "$__netcatty_osc7_dest" <<'NETCATTY_OSC7_FISH'
 
-# >>> Netcatty OSC 7 cwd tracking >>>
+# >>> Sensor OSC 7 cwd tracking >>>
 # netcatty-osc7-version: 2
 function __netcatty_osc7_url_path
     printf "%s" "$argv[1]" | LC_ALL=C awk '${URL_PATH_AWK_SCRIPT}'
@@ -478,7 +478,7 @@ end
 function __netcatty_osc7_cwd --on-event fish_prompt
     printf '\033]7;file://%s%s\a' (hostname 2>/dev/null; or printf localhost) (__netcatty_osc7_url_path "$PWD")
 end
-# <<< Netcatty OSC 7 cwd tracking <<<
+# <<< Sensor OSC 7 cwd tracking <<<
 NETCATTY_OSC7_FISH
       ;;
   esac
@@ -640,7 +640,7 @@ const buildVerifiedStagedRunner = (contentSha256: string): string =>
   + `[ -n "$h" ] || h=$(printf "%s\\n" "$c" | shasum -a 256 2>/dev/null | cut -d" " -f1); `
   + `[ -n "$h" ] || h=$(printf "%s\\n" "$c" | openssl dgst -sha256 2>/dev/null | sed "s/^.* //"); `
   + `if [ "x$h" = "x${contentSha256}" ]; then printf "%s\\n" "$c" | sh; `
-  + `else printf "%s\\n" "Netcatty OSC 7 setup: staged script verification failed" >&2; fi`;
+  + `else printf "%s\\n" "Sensor OSC 7 setup: staged script verification failed" >&2; fi`;
 
 /**
  * Setup command typed into the interactive terminal itself. Used when the

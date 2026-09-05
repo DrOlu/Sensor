@@ -6,7 +6,7 @@ function getCursorPlatformPackageName(platform = process.platform, arch = proces
   return null;
 }
 
-// Bundled @cursor/sdk is importable in every Netcatty build. "installed" is the
+// Bundled @cursor/sdk is importable in every Sensor build. "installed" is the
 // user's Cursor Agent CLI, not that bundled package.
 function computeCursorInstallState({ sdkInstalled, cliBinPath, cliLoginOk } = {}) {
   return {

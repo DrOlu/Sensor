@@ -137,7 +137,7 @@ test("remote SSH terminal drop stays on ZMODEM when rz starts", async () => {
         };
       },
       startZmodemDragDropUpload: async (_sessionId, _files, uploadCommand) => {
-        assert.match(uploadCommand ?? "", /NetcattyRzMissing=/);
+        assert.match(uploadCommand ?? "", /SensorRzMissing=/);
         zmodemCallback?.({ type: "detect", transferType: "upload" });
         return { success: true };
       },
@@ -344,11 +344,11 @@ test("remote SSH terminal drop falls back to SFTP when rz is unavailable", async
         cancelled = { sessionId, interrupt: options?.interrupt };
       },
       startZmodemDragDropUpload: async (_sessionId, _files, uploadCommand) => {
-        assert.match(uploadCommand ?? "", /NetcattyRzMissing=/);
-        assert.equal((uploadCommand ?? "").includes("\u001b]1337;NetcattyRzMissing="), false);
-        const token = uploadCommand?.match(/NetcattyRzMissing=([A-Za-z0-9_-]+)/)?.[1];
+        assert.match(uploadCommand ?? "", /SensorRzMissing=/);
+        assert.equal((uploadCommand ?? "").includes("\u001b]1337;SensorRzMissing="), false);
+        const token = uploadCommand?.match(/SensorRzMissing=([A-Za-z0-9_-]+)/)?.[1];
         assert.ok(token);
-        dataCallback?.(`\u001b]1337;NetcattyRzMissing=${token}\u0007`);
+        dataCallback?.(`\u001b]1337;SensorRzMissing=${token}\u0007`);
         return { success: true };
       },
     },
@@ -524,9 +524,9 @@ test("ET rz fallback keeps its origin but opens a fresh SFTP route", async () =>
       },
       cancelZmodem: () => {},
       startZmodemDragDropUpload: async (_sessionId, _files, uploadCommand) => {
-        const token = uploadCommand?.match(/NetcattyRzMissing=([A-Za-z0-9_-]+)/)?.[1];
+        const token = uploadCommand?.match(/SensorRzMissing=([A-Za-z0-9_-]+)/)?.[1];
         assert.ok(token);
-        dataCallback?.(`\u001b]1337;NetcattyRzMissing=${token}\u0007`);
+        dataCallback?.(`\u001b]1337;SensorRzMissing=${token}\u0007`);
         return { success: true };
       },
     },

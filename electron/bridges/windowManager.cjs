@@ -1131,7 +1131,7 @@ function registerWindowHandlers(ipcMain, nativeTheme) {
     }
     const value = typeof title === "string" ? title.trim() : "";
     try {
-      win.setTitle(value || "Netcatty");
+      win.setTitle(value || "Sensor");
       return true;
     } catch {
       return false;

@@ -72,7 +72,7 @@ export interface AgentPathInfo {
   sdkInstalled?: boolean;
 }
 
-/** User-environment Cursor Agent CLI, not Netcatty's bundled @cursor/sdk. */
+/** User-environment Cursor Agent CLI, not Sensor's bundled @cursor/sdk. */
 export function isCursorRuntimeInstalled(pathInfo: AgentPathInfo | null | undefined): boolean {
   return Boolean(pathInfo?.cliBinPath || pathInfo?.cliLoginOk);
 }
@@ -94,7 +94,7 @@ export function isCursorAvailableForMode(
     || pathInfo.authSource === "CURSOR_API_KEY",
   );
   // Missing sdkInstalled means the probe has not filled it yet. API-key mode
-  // uses Netcatty's bundled SDK and must not wait for Cursor.app.
+  // uses Sensor's bundled SDK and must not wait for Cursor.app.
   const sdkOk = pathInfo.sdkInstalled !== undefined
     ? Boolean(pathInfo.sdkInstalled)
     : true;
@@ -149,7 +149,7 @@ export interface FetchBridge {
   aiAllowlistAddHost?: (baseURL: string) => Promise<{ ok: boolean }>;
 }
 
-export interface NetcattyAiBridge {
+export interface SensorAiBridge {
   aiDiscoverAgents?: (options?: { refreshShellEnv?: boolean; apiKeyPresent?: boolean }) => Promise<Array<AgentPathInfo & { command: string }>>;
   aiPrewarmShellEnv?: () => Promise<{ ok: boolean; error?: string }>;
   aiCodexGetIntegration?: (options?: { refreshShellEnv?: boolean; validateChatGptAuth?: boolean; codexPath?: string }) => Promise<CodexIntegrationStatus>;
@@ -236,8 +236,8 @@ export const AGENT_DEFAULTS: Record<string, Omit<ExternalAgentConfig, "id" | "co
 // Bridge helpers
 // ---------------------------------------------------------------------------
 
-export function getBridge(): NetcattyAiBridge | undefined {
-  return (window as unknown as { netcatty?: NetcattyAiBridge }).netcatty;
+export function getBridge(): SensorAiBridge | undefined {
+  return (window as unknown as { netcatty?: SensorAiBridge }).netcatty;
 }
 
 export function getFetchBridge(): FetchBridge | undefined {
@@ -247,7 +247,7 @@ export function getFetchBridge(): FetchBridge | undefined {
 export function normalizeCodexBridgeError(error: unknown): string {
   const message = error instanceof Error ? error.message : String(error);
   if (message.includes("No handler registered for 'netcatty:ai:codex:")) {
-    return "Codex main-process handlers are not loaded yet. Fully restart Netcatty, or restart the Electron dev process, then try again.";
+    return "Codex main-process handlers are not loaded yet. Fully restart Sensor, or restart the Electron dev process, then try again.";
   }
   return message;
 }

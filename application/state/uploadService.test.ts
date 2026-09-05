@@ -42,10 +42,10 @@ function installCompressedUploadBridge(
   } = {},
 ) {
   const previousWindow = globalThis.window;
-  const previousNetcatty = previousWindow?.netcatty;
+  const previousSensor = previousWindow?.netcatty;
   const nextWindow = previousWindow ?? ({} as Window & typeof globalThis);
   nextWindow.netcatty = {
-    ...previousNetcatty,
+    ...previousSensor,
     getPathForFile: (file: File) => (file as File & { path?: string }).path,
     checkCompressedUploadSupport: async () => ({
       supported: options.supported !== false,
@@ -56,7 +56,7 @@ function installCompressedUploadBridge(
       options.onStart?.(payload);
       return { compressionId: payload.compressionId, success: true };
     },
-  } as NetcattyBridge;
+  } as SensorBridge;
   Object.defineProperty(globalThis, "window", {
     value: nextWindow,
     writable: true,
@@ -64,7 +64,7 @@ function installCompressedUploadBridge(
   });
   t.after(() => {
     if (previousWindow) {
-      previousWindow.netcatty = previousNetcatty;
+      previousWindow.netcatty = previousSensor;
       Object.defineProperty(globalThis, "window", {
         value: previousWindow,
         writable: true,

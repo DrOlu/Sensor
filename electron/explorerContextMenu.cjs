@@ -12,10 +12,10 @@ const EXPLORER_CONTEXT_MENU_PROBE_FILE = "explorer-context-menu-probe.json";
 // v2: prefer PORTABLE_EXECUTABLE_FILE over process.execPath for registry cmds.
 // v3: include development app entry path after electron.exe.
 const EXPLORER_CONTEXT_MENU_SCHEMA_VERSION = 3;
-const SHELL_VERB = "Netcatty";
+const SHELL_VERB = "Sensor";
 const DIRECTORY_SHELL_KEY = `Software\\Classes\\Directory\\shell\\${SHELL_VERB}`;
 const DIRECTORY_BACKGROUND_SHELL_KEY = `Software\\Classes\\Directory\\Background\\shell\\${SHELL_VERB}`;
-const MENU_LABEL = "Open in Netcatty";
+const MENU_LABEL = "Open in Sensor";
 const OPEN_TERMINAL_PATH_ARG = "--open-terminal-path";
 // Hides a shell verb from Explorer while keeping the key present. Used as a
 // per-user override when per-machine (HKLM) keys cannot be deleted without elevation.
@@ -41,7 +41,7 @@ function resolveExplorerContextMenuExecutablePath({
 /**
  * Resolve executable + optional app entry args for shell registration.
  * In development (`electron.exe .`), include the absolute app path so Explorer
- * launches Netcatty rather than a bare Electron binary.
+ * launches Sensor rather than a bare Electron binary.
  */
 function resolveExplorerContextMenuLaunchSpec({
   execPath = process.execPath,
@@ -446,7 +446,7 @@ function clearUserSuppression(options = {}) {
 }
 
 function clearUserShellKeys(options = {}) {
-  // Drop both HKCU Netcatty verbs (real install or suppression). Used when a
+  // Drop both HKCU Sensor verbs (real install or suppression). Used when a
   // machine-wide (HKLM) registration exists so stale portable/ZIP HKCU commands
   // cannot take precedence over the all-users path.
   let ok = true;

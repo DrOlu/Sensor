@@ -544,7 +544,7 @@ export function useTerminalEffects(ctx: TerminalEffectsContext) {
               mode: terminalSettingsRef.current?.oscNotifications,
               sessionFocused: isFocusedRef.current,
               sessionId,
-              fallbackTitle: host.label || host.hostname || "Netcatty",
+              fallbackTitle: host.label || host.hostname || "Sensor",
               onSessionActivity: () => onTerminalBell?.(sessionId),
             });
           },
@@ -1707,7 +1707,7 @@ export function useTerminalEffects(ctx: TerminalEffectsContext) {
 
   // Track whether the terminal application has enabled mouse tracking
   // (e.g. tmux with `set -g mouse on`, vim with `set mouse=a`).
-  // When mouse tracking is active, disable Netcatty's context menu to avoid
+  // When mouse tracking is active, disable Sensor's context menu to avoid
   // conflicting with the application's own mouse handling.
   useEffect(() => {
     const term = termRef.current;

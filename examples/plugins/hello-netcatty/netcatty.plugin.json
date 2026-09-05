@@ -4,8 +4,8 @@
   "id": "com.netcatty.hello",
   "name": "hello-netcatty",
   "displayName": {
-    "en": "Hello Netcatty",
-    "zh-CN": "你好，Netcatty"
+    "en": "Hello Sensor",
+    "zh-CN": "你好，Sensor"
   },
   "description": "Minimal plugin contract and SDK example.",
   "version": "0.1.0",
@@ -44,7 +44,7 @@
         "description": "Text used by the example command.",
         "control": "text",
         "scope": "application",
-        "default": "Hello from Netcatty"
+        "default": "Hello from Sensor"
       }
     ],
     "commands": [

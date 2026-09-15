@@ -68,14 +68,14 @@ export interface SftpConnectOptions {
   onConnectionCreated?: (target: { tabId: string; connectionId: string }) => void;
 }
 
-type SftpOpenBridge = Pick<NetcattyBridge, "openSftp"> &
-  Partial<Pick<NetcattyBridge, "openSftpForSession">>;
+type SftpOpenBridge = Pick<SensorBridge, "openSftp"> &
+  Partial<Pick<SensorBridge, "openSftpForSession">>;
 
 interface OpenSftpWithSessionPreferenceParams {
   bridge: SftpOpenBridge | null | undefined;
   sourceSessionId?: string;
   requireSourceSessionReuse?: boolean;
-  openOptions: NetcattySSHOptions;
+  openOptions: SensorSSHOptions;
 }
 
 export function takeSftpConnectionMetadataForClose(params: {
@@ -177,7 +177,7 @@ export async function openSftpWithSessionPreference({
 export const openSftpConnectionOnce = openSftpWithSessionPreference;
 
 export function rejectHostKeyVerificationRequest(
-  bridge: Partial<Pick<NetcattyBridge, "respondHostKeyVerification">> | null | undefined,
+  bridge: Partial<Pick<SensorBridge, "respondHostKeyVerification">> | null | undefined,
   requestId: string,
 ): void {
   void bridge?.respondHostKeyVerification?.(requestId, false, false);

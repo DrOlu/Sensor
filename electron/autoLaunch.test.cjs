@@ -12,10 +12,10 @@ const {
   registerHandlers,
 } = require("./autoLaunch.cjs");
 
-const EXEC_PATH = "C:\\Netcatty\\Netcatty.exe";
+const EXEC_PATH = "C:\\Sensor\\Sensor.exe";
 
 function hiddenLaunchItem(overrides = {}) {
-  return { name: "Netcatty", path: EXEC_PATH, args: [HIDDEN_LAUNCH_ARG], scope: "user", enabled: true, ...overrides };
+  return { name: "Sensor", path: EXEC_PATH, args: [HIDDEN_LAUNCH_ARG], scope: "user", enabled: true, ...overrides };
 }
 
 test("isAutoLaunchSupported is false when running unpackaged (electron .)", () => {

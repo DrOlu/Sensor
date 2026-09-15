@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, type MutableRefObject } from "react";
 
 export async function cleanupFailedExternalOpenTemp(
-  bridge: Pick<NetcattyBridge, "unregisterTempFile" | "deleteTempFile">,
+  bridge: Pick<SensorBridge, "unregisterTempFile" | "deleteTempFile">,
   sftpId: string,
   localPath: string,
 ): Promise<void> {

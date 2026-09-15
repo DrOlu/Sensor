@@ -15,7 +15,7 @@ test("last app content window closes the app even while a hidden plugin host win
       getAppContentWindows: () => [],
       getIsQuitting: () => false,
       // A hidden BrowserWindow still exists globally, but it is intentionally
-      // not part of Netcatty's app-content registry.
+      // not part of Sensor's app-content registry.
       getAllBrowserWindows: () => [hiddenPluginWindow],
     },
   });

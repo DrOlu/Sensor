@@ -114,8 +114,8 @@ test("Windows packaging includes the Windows Hello helper executable", () => {
   assert.ok(
     config.win.extraResources.some((entry) => (
       entry &&
-      entry.from === "electron/bridges/windowsHelloHelper/build/${arch}/NetcattyWindowsHello.exe" &&
-      entry.to === "windowsHello/NetcattyWindowsHello.exe"
+      entry.from === "electron/bridges/windowsHelloHelper/build/${arch}/SensorWindowsHello.exe" &&
+      entry.to === "windowsHello/SensorWindowsHello.exe"
     )),
     "Windows package must include the Windows Hello helper executable for the target arch",
   );
@@ -300,8 +300,8 @@ test("windows installer registers and removes Explorer folder context menu entri
     path.join(__dirname, "..", config.nsis.include),
     "utf8",
   );
-  const folderKey = String.raw`Software\Classes\Directory\shell\Netcatty`;
-  const backgroundKey = String.raw`Software\Classes\Directory\Background\shell\Netcatty`;
+  const folderKey = String.raw`Software\Classes\Directory\shell\Sensor`;
+  const backgroundKey = String.raw`Software\Classes\Directory\Background\shell\Sensor`;
 
   assert.match(installerScript, /!macro customInstall\b/);
   assert.match(installerScript, new RegExp(`WriteRegStr SHCTX "${folderKey.replaceAll("\\", "\\\\")}"`));

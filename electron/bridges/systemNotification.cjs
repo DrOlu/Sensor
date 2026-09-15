@@ -18,7 +18,7 @@ function showSystemNotification({
   title,
   body,
   sessionId,
-  defaultTitle = "Netcatty",
+  defaultTitle = "Sensor",
 }) {
   if (typeof Notification !== "function" || typeof Notification.isSupported !== "function") {
     return { shown: false, reason: "unavailable" };

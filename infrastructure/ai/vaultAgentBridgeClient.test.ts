@@ -2176,7 +2176,7 @@ it('popup bridge reads its local screen without installing a vault handler', asy
   const { netcattyBridge } = await import('../services/netcattyBridge');
   const { registerScreenSnapshotProvider } = await import('../scripts/screenSnapshotRegistry');
   const { buildTerminalContextReadResult } = await import('../../domain/terminalContextRead');
-  let listener: Parameters<NetcattyBridge['onVaultAgentRequest']>[0];
+  let listener: Parameters<SensorBridge['onVaultAgentRequest']>[0];
   const responses: Record<string, unknown>[] = [];
   let unsubscribed = false;
   const stub = {
@@ -2186,7 +2186,7 @@ it('popup bridge reads its local screen without installing a vault handler', asy
     },
     respondVaultAgent: async (_id: string, result: Record<string, unknown>) => { responses.push(result); },
   };
-  t.mock.method(netcattyBridge, 'get', () => stub as unknown as NetcattyBridge);
+  t.mock.method(netcattyBridge, 'get', () => stub as unknown as SensorBridge);
   registerVaultAgentHandler(null);
   const unregister = registerScreenSnapshotProvider('popup', () => ({ rows: 1, cols: 80, currentRow: 0, lines: ['screen'] }), async (request) =>
     buildTerminalContextReadResult({ ...request, fullText: 'popup output', source: 'live' }));

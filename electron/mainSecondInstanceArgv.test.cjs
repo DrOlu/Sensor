@@ -43,7 +43,7 @@ test("command-line PuTTY launches queue regardless of the ssh:// protocol-client
   // scheme URLs are dropped but the CLI connection must still be queued.
   const puttyItems = collectSshDeepLinkQueueItems(
     [
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "-ssh",
       "alice@10.0.0.8",
       "-P",

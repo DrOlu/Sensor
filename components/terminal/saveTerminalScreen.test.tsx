@@ -13,7 +13,7 @@ test('saving captures the screen before the dialog, prevents duplicate dialogs, 
     previous.set(key, Object.getOwnPropertyDescriptor(globalThis, key));
     Object.defineProperty(globalThis, key, { configurable: true, writable: true, value });
   }
-  const requests: Array<Parameters<NonNullable<NetcattyBridge['exportSessionLog']>>[0]> = [];
+  const requests: Array<Parameters<NonNullable<SensorBridge['exportSessionLog']>>[0]> = [];
   let finishSave: (result: { success: boolean; canceled?: boolean }) => void = () => {};
   Object.assign(dom.window, { netcatty: { exportSessionLog: (payload: typeof requests[number]) => {
     requests.push(payload);

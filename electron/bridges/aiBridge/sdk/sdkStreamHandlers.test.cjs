@@ -164,7 +164,7 @@ test("normalizeSdkListModelsResult preserves current model ids from object resul
   });
 });
 
-test("CodeBuddy and OpenCode keep Netcatty context in the system prompt only", () => {
+test("CodeBuddy and OpenCode keep Sensor context in the system prompt only", () => {
   const input = {
     turnPrompt: "user request",
     contextualPrompt: "netcatty context\n\nuser request",

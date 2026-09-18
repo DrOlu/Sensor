@@ -11,7 +11,7 @@ const TELNET_PROTOCOL = "telnet";
 
 // SecureCRT-style protocol switches, e.g. `/SSH2 /L user /P 22 /PASSWORD pass
 // host` (case-insensitive). 4A / PAM bastion launchers that let the operator
-// pick a "SecureCRT" client emit exactly this shape, so Netcatty accepts it
+// pick a "SecureCRT" client emit exactly this shape, so Sensor accepts it
 // and funnels the result through the same ssh:// deep-link queue as PuTTY-style
 // argv (#3390).
 const PROTOCOL_FLAGS = new Map([
@@ -21,7 +21,7 @@ const PROTOCOL_FLAGS = new Map([
   ["/telnet", TELNET_PROTOCOL],
 ]);
 
-// Protocol switches Netcatty cannot map to a connection; bail out instead of
+// Protocol switches Sensor cannot map to a connection; bail out instead of
 // silently connecting over a different transport.
 const UNSUPPORTED_PROTOCOL_FLAGS = new Set([
   "/serial",
@@ -30,7 +30,7 @@ const UNSUPPORTED_PROTOCOL_FLAGS = new Set([
 ]);
 
 // Switches whose next argv token is a value. Most are accepted but ignored:
-// Netcatty has no SecureCRT session database, identity file, auth-method or
+// Sensor has no SecureCRT session database, identity file, auth-method or
 // logging concept, so a 4A line that carries them still connects via the host.
 const VALUE_FLAGS = new Set([
   "/l", // login username

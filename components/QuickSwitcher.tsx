@@ -29,7 +29,7 @@ type QuickSwitcherItemBase = {
   altCommand?: string;
   shortcut?: string;
   pluginId?: string;
-  icon?: NetcattyPluginIconReference;
+  icon?: SensorPluginIconReference;
 };
 
 type QuickSwitcherItem = QuickSwitcherItemBase & (
@@ -66,7 +66,7 @@ export function shouldUseQuickSwitcherPointerNavigation(
 }
 
 export function buildPluginPaletteItems(
-  plugins: NetcattyPluginContributionSnapshot['plugins'],
+  plugins: SensorPluginContributionSnapshot['plugins'],
   trimmedQuery: string,
 ): QuickSwitcherItem[] {
   return plugins.flatMap((plugin) => {

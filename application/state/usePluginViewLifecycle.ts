@@ -35,8 +35,8 @@ export interface OpenPluginViewDetail {
 }
 
 export type ResolvedPluginView = {
-  plugin: NetcattyPluginContributionSnapshot['plugins'][number];
-  view: NetcattyPluginContributionSnapshot['plugins'][number]['views'][number];
+  plugin: SensorPluginContributionSnapshot['plugins'][number];
+  view: SensorPluginContributionSnapshot['plugins'][number]['views'][number];
 };
 
 export function requestOpenPluginView(detail: OpenPluginViewDetail) {

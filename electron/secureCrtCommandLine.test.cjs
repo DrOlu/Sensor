@@ -10,7 +10,7 @@ const {
 test("parseSecureCrtCommandLine accepts 4A-style /SSH2 launch", () => {
   assert.deepEqual(
     parseSecureCrtCommandLine([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "/SSH2",
       "/L",
       "alice",
@@ -33,7 +33,7 @@ test("parseSecureCrtCommandLine accepts 4A-style /SSH2 launch", () => {
 
 test("parseSecureCrtCommandLine accepts PAM-style /T /N /SSH2 line", () => {
   const parsed = parseSecureCrtCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/T",
     "/N",
     "Device",
@@ -52,7 +52,7 @@ test("parseSecureCrtCommandLine accepts PAM-style /T /N /SSH2 line", () => {
 
 test("parseSecureCrtCommandLine accepts case-insensitive flags and user@host positional", () => {
   const parsed = parseSecureCrtCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/ssh2",
     "/password",
     "pw",
@@ -65,7 +65,7 @@ test("parseSecureCrtCommandLine accepts case-insensitive flags and user@host pos
 
 test("parseSecureCrtCommandLine accepts /TELNET", () => {
   const parsed = parseSecureCrtCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/TELNET",
     "old.example.com",
     "/P",
@@ -77,7 +77,7 @@ test("parseSecureCrtCommandLine accepts /TELNET", () => {
 
 test("parseSecureCrtCommandLine consumes and ignores auth, identity and session values", () => {
   const parsed = parseSecureCrtCommandLine([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/AUTH",
     "keyboard-interactive",
@@ -95,16 +95,16 @@ test("parseSecureCrtCommandLine consumes and ignores auth, identity and session 
 });
 
 test("parseSecureCrtCommandLine rejects unsupported protocols and missing values", () => {
-  assert.equal(parseSecureCrtCommandLine(["Netcatty.exe", "/SERIAL", "com1"]), null);
-  assert.equal(parseSecureCrtCommandLine(["Netcatty.exe", "/SSH2", "/L"]), null);
-  assert.equal(parseSecureCrtCommandLine(["Netcatty.exe", "/SSH2", "/P", "99999"]), null);
-  assert.equal(parseSecureCrtCommandLine(["Netcatty.exe", "/SSH2", "/PASSWORD", ""]), null);
-  assert.equal(parseSecureCrtCommandLine(["Netcatty.exe", "-ssh", "user@host", "-pw", "x"]), null);
+  assert.equal(parseSecureCrtCommandLine(["Sensor.exe", "/SERIAL", "com1"]), null);
+  assert.equal(parseSecureCrtCommandLine(["Sensor.exe", "/SSH2", "/L"]), null);
+  assert.equal(parseSecureCrtCommandLine(["Sensor.exe", "/SSH2", "/P", "99999"]), null);
+  assert.equal(parseSecureCrtCommandLine(["Sensor.exe", "/SSH2", "/PASSWORD", ""]), null);
+  assert.equal(parseSecureCrtCommandLine(["Sensor.exe", "-ssh", "user@host", "-pw", "x"]), null);
 });
 
 test("parseSecureCrtCommandLineTokens reports consumed operand indices", () => {
   const { result, consumedIndices } = parseSecureCrtCommandLineTokens([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/L",
     "alice",
@@ -120,7 +120,7 @@ test("parseSecureCrtCommandLineTokens reports consumed operand indices", () => {
 
 test("parseSecureCrtCommandLineTokens returns consumed indices with a null result on failure", () => {
   const { result, consumedIndices } = parseSecureCrtCommandLineTokens([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/PASSWORD",
     "ssh://s3cret",
@@ -133,7 +133,7 @@ test("parseSecureCrtCommandLineTokens returns consumed indices with a null resul
 
 test("parseSecureCrtCommandLineTokens reports credential indices even when the parse fails", () => {
   const { result, consumedIndices, credentialIndices } = parseSecureCrtCommandLineTokens([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/PASSWORD",
     "ssh://s3cret",
@@ -150,7 +150,7 @@ test("parseSecureCrtCommandLineTokens reports credential indices even when the p
 
 test("parseSecureCrtCommandLineTokens reports credential operands after a pre-credential parse failure", () => {
   const { result, credentialIndices } = parseSecureCrtCommandLineTokens([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/P",
     "99999",
@@ -166,7 +166,7 @@ test("parseSecureCrtCommandLineTokens reports credential operands after a pre-cr
 
 test("parseSecureCrtCommandLineTokens reports /PASSPHRASE operands as credentials on failure", () => {
   const { result, credentialIndices } = parseSecureCrtCommandLineTokens([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/PASSPHRASE",
     "ssh://secret",
@@ -180,7 +180,7 @@ test("parseSecureCrtCommandLineTokens reports /PASSPHRASE operands as credential
 
 test("parseSecureCrtCommandLineTokens reports /L username operands as credentials on failure", () => {
   const { result, credentialIndices } = parseSecureCrtCommandLineTokens([
-    "Netcatty.exe",
+    "Sensor.exe",
     "/SSH2",
     "/P",
     "99999",
@@ -195,18 +195,18 @@ test("parseSecureCrtCommandLineTokens reports /L username operands as credential
 });
 
 test("parseSecureCrtCommandLineTokens returns null without a SecureCRT launch signal", () => {
-  assert.equal(parseSecureCrtCommandLineTokens(["Netcatty.exe", "ssh://alice@example.com"]), null);
+  assert.equal(parseSecureCrtCommandLineTokens(["Sensor.exe", "ssh://alice@example.com"]), null);
 });
 
 test("redactSecureCrtCommandLinePasswords masks /PASSWORD and /PASSPHRASE values", () => {
-  const argv = ["Netcatty.exe", "/SSH2", "/PASSWORD", "s3cret", "/PASSPHRASE", "phrase", "host"];
+  const argv = ["Sensor.exe", "/SSH2", "/PASSWORD", "s3cret", "/PASSPHRASE", "phrase", "host"];
   redactSecureCrtCommandLinePasswords(argv);
-  assert.deepEqual(argv, ["Netcatty.exe", "/SSH2", "/PASSWORD", "******", "/PASSPHRASE", "******", "host"]);
+  assert.deepEqual(argv, ["Sensor.exe", "/SSH2", "/PASSWORD", "******", "/PASSPHRASE", "******", "host"]);
 });
 
 test("reported 4A launch uses the bastion address, never the title address", () => {
   const result = parseSecureCrtCommandLine([
-    String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+    String.raw`C:\Program Files\Sensor\Sensor.exe`,
     "/TITLEBAR", "192.0.2.10", "/N", "192.0.2.10", "/T", "/SSH2", "198.51.100.20",
     "/P", "2200", "/L", "alice", "/PASSWORD", "example",
   ]);
@@ -215,19 +215,19 @@ test("reported 4A launch uses the bastion address, never the title address", () 
 
 test("unknown SecureCRT options cannot supply a host candidate", () => {
   assert.equal(parseSecureCrtCommandLine([
-    "Netcatty.exe", "/SSH2", "/SCRIPT", "login.vbs", "/L", "alice", "/PASSWORD", "secret", "server",
+    "Sensor.exe", "/SSH2", "/SCRIPT", "login.vbs", "/L", "alice", "/PASSWORD", "secret", "server",
   ]), null);
 });
 
 test("redaction does not mistake a flag-shaped username for a password switch", () => {
-  const argv = ["Netcatty.exe", "/SSH2", "/L", "/PASSWORD", "/PASSWORD", "secret", "server.example.com"];
+  const argv = ["Sensor.exe", "/SSH2", "/L", "/PASSWORD", "/PASSWORD", "secret", "server.example.com"];
   redactSecureCrtCommandLinePasswords(argv);
-  assert.deepEqual(argv, ["Netcatty.exe", "/SSH2", "/L", "/PASSWORD", "/PASSWORD", "******", "server.example.com"]);
+  assert.deepEqual(argv, ["Sensor.exe", "/SSH2", "/L", "/PASSWORD", "/PASSWORD", "******", "server.example.com"]);
 });
 
 test("punctuated unknown SecureCRT switches are rejected", () => {
   for (const flag of ["/UNKNOWN-FLAG", "/UNKNOWN_FLAG", "/UNKNOWN=value", "/UNKNOWN:value", "/unknown/path"]) {
-    assert.equal(parseSecureCrtCommandLine(["Netcatty.exe", "/SSH2", flag, "server.example.com"]), null);
+    assert.equal(parseSecureCrtCommandLine(["Sensor.exe", "/SSH2", flag, "server.example.com"]), null);
   }
 });
 

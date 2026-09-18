@@ -77,14 +77,14 @@ test("createNdjsonRpcClient uses injectable cli-compatible timeout messages", as
     },
     messages: {
       rpcTimeout: (method, timeoutMs) => (
-        `Timed out waiting for Netcatty RPC response to "${method}" after ${timeoutMs}ms.`
+        `Timed out waiting for Sensor RPC response to "${method}" after ${timeoutMs}ms.`
       ),
     },
   });
 
   await assert.rejects(
     () => client.call("netcatty/exec", { sessionId: "sess-1", command: "pwd", chatSessionId: "chat-1" }),
-    (error) => error.code === "RPC_TIMEOUT" && /Netcatty RPC response/.test(error.message),
+    (error) => error.code === "RPC_TIMEOUT" && /Sensor RPC response/.test(error.message),
   );
 });
 

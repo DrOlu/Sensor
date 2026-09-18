@@ -28,7 +28,7 @@ const TERMINAL_PERF_DEBUG_ENV_KEYS = [
   "NETCATTY_TERMINAL_PERF_DEBUG",
   "NETCATTY_TERMINAL_DEBUG",
 ];
-const TERMINAL_PERF_LOG_PREFIX = "[Netcatty Terminal Perf]";
+const TERMINAL_PERF_LOG_PREFIX = "[Sensor Terminal Perf]";
 
 // ---------------------------------------------------------------------------
 // Helpers

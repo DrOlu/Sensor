@@ -22,7 +22,7 @@ const { CAPABILITY_STATUS } = require("../capabilities/constants.cjs");
 function printHelp() {
   const catalogLines = formatCliHelpLines().join("\n");
   process.stdout.write(
-    "Netcatty Tool CLI\n\n" +
+    "Sensor Tool CLI\n\n" +
     "Usage:\n" +
     catalogLines + "\n\n" +
     "Examples:\n" +
@@ -37,7 +37,7 @@ function printHelp() {
     "  netcatty-tool-cli snippets run --snippet-id snip_1 --session sess_123 --json\n" +
     "  netcatty-tool-cli portforward rules list --json\n\n" +
     "Notes:\n" +
-    "  - Start the Netcatty desktop app before using this CLI.\n" +
+    "  - Start the Sensor desktop app before using this CLI.\n" +
     "  - This CLI is intended as an internal Skills + CLI transport, not a general customer-facing shell tool.\n" +
     "  - Host-launched agents receive NETCATTY_CLI_CHAT_SESSION_ID in the environment. There is no --chat-session flag.\n" +
     "  - `env` and `session` require NETCATTY_CLI_CHAT_SESSION_ID.\n" +
@@ -342,7 +342,7 @@ function formatSessionText(host) {
 
 function formatStatusText(status) {
   const lines = [
-    "Netcatty Tool Status",
+    "Sensor Tool Status",
     `Permission Mode: ${status.permissionMode || "unknown"}`,
     `Command Timeout (ms): ${status.commandTimeoutMs ?? "unknown"}`,
     `Max Iterations: ${status.maxIterations ?? "unknown"}`,

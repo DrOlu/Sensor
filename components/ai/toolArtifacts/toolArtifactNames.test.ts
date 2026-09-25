@@ -43,10 +43,10 @@ test('normalizeArtifactToolName unwraps Copilot server prefixes', () => {
   );
 });
 
-test('inferArtifactToolNameFromCliArgs maps Netcatty CLI artifact commands', () => {
+test('inferArtifactToolNameFromCliArgs maps Sensor CLI artifact commands', () => {
   assert.equal(
     inferArtifactToolNameFromCliArgs({
-      command: `/bin/zsh -lc '"/Applications/Netcatty.app/netcatty-tool-cli" vault host get --host-id host_1 --json'`,
+      command: `/bin/zsh -lc '"/Applications/Sensor.app/netcatty-tool-cli" vault host get --host-id host_1 --json'`,
     }),
     'host_get',
   );

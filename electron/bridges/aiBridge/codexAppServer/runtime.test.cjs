@@ -142,7 +142,7 @@ test("runtime maps lifecycle, activities, usage, and retry warnings", async () =
 
   connection.notify({ method: "item/agentMessage/delta", params: { threadId: "thread-1", turnId: "turn-1", itemId: "msg-1", delta: "Hi" } });
   connection.notify({ method: "turn/plan/updated", params: { threadId: "thread-1", turnId: "turn-1", plan: [{ step: "Inspect", status: "completed" }] } });
-  connection.notify({ method: "item/started", params: { threadId: "thread-1", turnId: "turn-1", item: { type: "webSearch", id: "search-1", query: "Netcatty" } } });
+  connection.notify({ method: "item/started", params: { threadId: "thread-1", turnId: "turn-1", item: { type: "webSearch", id: "search-1", query: "Sensor" } } });
   connection.notify({ method: "item/completed", params: { threadId: "thread-1", turnId: "turn-1", item: { type: "fileChange", id: "file-1", status: "completed", changes: [{ path: "a.ts", kind: { type: "add" } }] } } });
   connection.notify({ method: "thread/tokenUsage/updated", params: { threadId: "thread-1", turnId: "turn-1", tokenUsage: { last: { inputTokens: 10, cachedInputTokens: 2, outputTokens: 3, reasoningOutputTokens: 1, totalTokens: 13 } } } });
   connection.notify({ method: "error", params: { threadId: "thread-1", turnId: "turn-1", willRetry: true, error: { message: "network" } } });
@@ -209,7 +209,7 @@ test("runtime bounds command output and avoids replaying streamed message prefix
   assert.match(toolResult[2], /\[exit code: 0\]$/);
 });
 
-test("runtime delegates injected MCP approvals to Netcatty's policy gate", async () => {
+test("runtime delegates injected MCP approvals to Sensor's policy gate", async () => {
   let connection;
   const runtime = new CodexAppServerRuntime({
     connectionFactory: (options) => (connection = new FakeConnection(options)),

@@ -2,7 +2,7 @@
 
 /**
  * Bootstrap for external MCP clients.
- * Reads the external discovery file written by Netcatty, sets env, then
+ * Reads the external discovery file written by Sensor, sets env, then
  * loads the existing catalog-backed stdio MCP server.
  */
 
@@ -24,7 +24,7 @@ function main() {
   if (!fs.existsSync(discoveryPath)) {
     process.stderr.write(
       `[netcatty-external-mcp] Discovery file not found at ${discoveryPath}. ` +
-      "Enable External MCP in Netcatty Settings → AI and keep the app running.\n",
+      "Enable External MCP in Sensor Settings → AI and keep the app running.\n",
     );
     process.exit(1);
   }

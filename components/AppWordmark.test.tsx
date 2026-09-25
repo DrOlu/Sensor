@@ -16,10 +16,10 @@ test('AppWordmark renders decorative fixed vector outlines without font-dependen
 
 test('AppWordmark exposes an accessible product name when requested', () => {
   const markup = renderToStaticMarkup(
-    <AppWordmark accessibleLabel="Netcatty" className="h-8" />,
+    <AppWordmark accessibleLabel="Sensor" className="h-8" />,
   );
 
-  assert.match(markup, /aria-label="Netcatty"/);
+  assert.match(markup, /aria-label="Sensor"/);
   assert.match(markup, /role="img"/);
   assert.doesNotMatch(markup, /aria-hidden/);
 });

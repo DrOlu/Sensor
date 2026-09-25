@@ -9,7 +9,7 @@ const {
   isGitHubUserAttachment,
 } = require("./spam-comment-filter.cjs");
 
-test("flags the fake Netcatty patch spam pattern", () => {
+test("flags the fake Sensor patch spam pattern", () => {
   const result = detectSpamComment({
     authorAssociation: "NONE",
     userType: "User",

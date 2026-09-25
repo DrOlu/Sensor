@@ -134,7 +134,7 @@ function parseLoaderResult(result) {
 
 /**
  * Register the 15-tool initial MCP surface and add catalog tools on demand.
- * This loader is transport control, not a Netcatty product capability, so it
+ * This loader is transport control, not a Sensor product capability, so it
  * intentionally lives outside the capability catalog.
  */
 function registerProgressiveMcpTools(server, deps, toolDefs = listMcpTools()) {
@@ -143,9 +143,9 @@ function registerProgressiveMcpTools(server, deps, toolDefs = listMcpTools()) {
 
   server.tool(
     MCP_TOOL_LOADER_NAME,
-    "Load more Netcatty tools by category. Choose attachments, sftp_advanced, vault_hosts, vault_notes, snippets, scripts, portforward, or all. Newly loaded tools appear immediately without restarting the MCP server.",
+    "Load more Sensor tools by category. Choose attachments, sftp_advanced, vault_hosts, vault_notes, snippets, scripts, portforward, or all. Newly loaded tools appear immediately without restarting the MCP server.",
     {
-      toolset: z.enum(LOADABLE_MCP_TOOLSET_NAMES).describe("Netcatty tool category to load"),
+      toolset: z.enum(LOADABLE_MCP_TOOLSET_NAMES).describe("Sensor tool category to load"),
     },
     async ({ toolset }) => {
       const requestedNames = toolset === "all"

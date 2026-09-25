@@ -28,7 +28,7 @@ test("buildExternalAgentSystemContext (MCP mode) includes vault host vs notes gu
   assert.match(context, /do not silently create a Vault note/i);
 });
 
-test("buildExternalAgentSystemContext (skills mode) routes attachments through Netcatty CLI", () => {
+test("buildExternalAgentSystemContext (skills mode) routes attachments through Sensor CLI", () => {
   const context = buildExternalAgentSystemContext({
     mode: "skills",
     chatSessionId: "chat-1",
@@ -38,5 +38,5 @@ test("buildExternalAgentSystemContext (skills mode) routes attachments through N
   assert.match(context, /attachment read --filename <filename> --json/i);
   assert.match(context, /already bound in this process via the host environment/i);
   assert.doesNotMatch(context, /--chat-session/);
-  assert.match(context, /Use the local shell only to invoke Netcatty CLI commands/i);
+  assert.match(context, /Use the local shell only to invoke Sensor CLI commands/i);
 });

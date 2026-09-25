@@ -7,7 +7,7 @@ const fs = require("node:fs");
 const EXTERNAL_MCP_STATE_DIR_NAME = "external-mcp";
 const EXTERNAL_MCP_DISCOVERY_ENV_VAR = "NETCATTY_EXTERNAL_MCP_DISCOVERY_FILE";
 const EXTERNAL_MCP_CHAT_SESSION_ID = "__external_mcp__";
-const FALLBACK_APP_DATA_DIR_NAME = "Netcatty";
+const FALLBACK_APP_DATA_DIR_NAME = "Sensor";
 
 function toUnpackedAsarPath(filePath) {
   return filePath.replace(/app\.asar([\\/])/, "app.asar.unpacked$1");
@@ -55,14 +55,14 @@ function getDefaultUserDataDir() {
 
 /**
  * Candidate userData roots the launcher may need when env is missing.
- * Includes packaged (Netcatty), lowercase package name, and Electron Dev (/dev).
+ * Includes packaged (Sensor), lowercase package name, and Electron Dev (/dev).
  */
 function listCandidateUserDataDirs(options = {}) {
   const names = Array.from(new Set([
     getDefaultAppDataDirName(options),
-    "Netcatty",
+    "Sensor",
     "netcatty",
-    "Netcatty Dev",
+    "Sensor Dev",
   ].filter(Boolean)));
   const roots = [];
   for (const name of names) {

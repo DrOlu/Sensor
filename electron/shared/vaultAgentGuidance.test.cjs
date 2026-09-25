@@ -23,8 +23,8 @@ test("VAULT_HOSTS_VS_NOTES_GUIDANCE routes unknown attached host files through A
 });
 
 test("appendVaultAgentGuidance appends guidance once", () => {
-  const once = appendVaultAgentGuidance("Netcatty terminal manager.");
-  assert.match(once, /Netcatty terminal manager/);
+  const once = appendVaultAgentGuidance("Sensor terminal manager.");
+  assert.match(once, /Sensor terminal manager/);
   assert.match(once, /Vault → Hosts vs Vault → Notes/);
 
   const twice = appendVaultAgentGuidance(once);
@@ -38,5 +38,5 @@ test("VAULT_SCRIPTS_GUIDANCE prefers explicit wait APIs", () => {
 
 test("VAULT_SCRIPTS_GUIDANCE avoids mustache template braces", () => {
   assert.doesNotMatch(VAULT_SCRIPTS_GUIDANCE, /\{\{/);
-  assert.doesNotMatch(appendVaultAgentGuidance("Netcatty terminal manager."), /\{\{/);
+  assert.doesNotMatch(appendVaultAgentGuidance("Sensor terminal manager."), /\{\{/);
 });

@@ -37,7 +37,7 @@ test("isSshDeepLinkUrl accepts only ssh URLs", () => {
 test("collectSshDeepLinkUrls extracts ssh URLs from process arguments", () => {
   assert.deepEqual(
     collectSshDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "ssh://alice@example.com",
       "file:///tmp/example",
@@ -50,7 +50,7 @@ test("collectSshDeepLinkUrls extracts ssh URLs from process arguments", () => {
 test("collectPuttyStyleDeepLinkUrls converts PuTTY argv when no ssh:// token is present", () => {
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "-ssh",
       "alice@10.0.0.8",
       "-P",
@@ -65,7 +65,7 @@ test("collectPuttyStyleDeepLinkUrls converts PuTTY argv when no ssh:// token is 
 test("collectPuttyStyleDeepLinkUrls leaves ssh:// tokens to the existing collector", () => {
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      "Netcatty.exe",
+      "Sensor.exe",
       "-url",
       "ssh://alice@example.com",
       "-ssh",
@@ -80,7 +80,7 @@ test("collectSshDeepLinkQueueItems keeps PuTTY CLI launches when scheme URLs are
   // argv while the ssh:// protocol-client preference is disabled.
   assert.deepEqual(
     collectSshDeepLinkQueueItems([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "-ssh",
       "alice@10.0.0.8",
       "-P",
@@ -95,7 +95,7 @@ test("collectSshDeepLinkQueueItems keeps PuTTY CLI launches when scheme URLs are
 test("collectPuttyStyleDeepLinkUrls converts SecureCRT-style argv", () => {
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      String.raw`C:\Program Files\Netcatty\Netcatty.exe`,
+      String.raw`C:\Program Files\Sensor\Sensor.exe`,
       "/SSH2",
       "/L",
       "alice",
@@ -112,7 +112,7 @@ test("collectPuttyStyleDeepLinkUrls converts SecureCRT-style argv", () => {
 test("collectPuttyStyleDeepLinkUrls routes SecureCRT /TELNET to the telnet queue", () => {
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      "Netcatty.exe",
+      "Sensor.exe",
       "/TELNET",
       "old.example.com",
       "/P",
@@ -125,7 +125,7 @@ test("collectPuttyStyleDeepLinkUrls routes SecureCRT /TELNET to the telnet queue
 test("collectSshDeepLinkQueueItems keeps SecureCRT CLI launches when scheme URLs are disabled", () => {
   assert.deepEqual(
     collectSshDeepLinkQueueItems([
-      "Netcatty.exe",
+      "Sensor.exe",
       "/SSH2",
       "/L",
       "alice",
@@ -144,7 +144,7 @@ test("collectPuttyStyleDeepLinkUrls connects SecureCRT launches whose password l
   // scheme-token early return: the whole CLI launch would be dropped.
   assert.deepEqual(
     collectPuttyStyleDeepLinkUrls([
-      "Netcatty.exe",
+      "Sensor.exe",
       "/SSH2",
       "/L",
       "alice",
@@ -161,7 +161,7 @@ test("collectSshDeepLinkQueueItems does not queue SecureCRT password values as s
   // queued as a standalone ssh:// link to host "s3cret".
   assert.deepEqual(
     collectSshDeepLinkQueueItems([
-      "Netcatty.exe",
+      "Sensor.exe",
       "/SSH2",
       "/L",
       "alice",
@@ -179,7 +179,7 @@ test("collectSshDeepLinkQueueItems filters password operands even when the Secur
   // standalone ssh:// link to host "s3cret".
   assert.deepEqual(
     collectSshDeepLinkQueueItems([
-      "Netcatty.exe",
+      "Sensor.exe",
       "/SSH2",
       "/PASSWORD",
       "ssh://s3cret",
@@ -196,7 +196,7 @@ test("collectSshDeepLinkQueueItems keeps genuine scheme links alongside a failed
   // index, so genuine scheme links in the same argv still queue.
   assert.deepEqual(
     collectSshDeepLinkQueueItems([
-      "Netcatty.exe",
+      "Sensor.exe",
       "/SSH2",
       "/PASSWORD",
       "s3cret",
@@ -211,7 +211,7 @@ test("collectSshDeepLinkQueueItems keeps genuine scheme links alongside a failed
 
 for (const url of ["ssh://bob@example.com", "ssh://example.com", "telnet://example.com", " ssh://bob@example.com "]) {
   test(`standalone scheme link ${url} never inherits SecureCRT credentials`, () => {
-    const argv = ["Netcatty.exe", "/SSH2", "/L", "alice", "/PASSWORD",
+    const argv = ["Sensor.exe", "/SSH2", "/L", "alice", "/PASSWORD",
       "secret", "10.0.0.8", url];
     const protocol = new URL(url).protocol === "ssh:" ? "ssh" : "telnet";
     const expected = { ssh: [], telnet: [] };
@@ -225,14 +225,14 @@ for (const url of ["ssh://bob@example.com", "ssh://example.com", "telnet://examp
 
 test("collectSshDeepLinkQueueItems keeps scheme URL gating separate from CLI launches", () => {
   const queueItems = collectSshDeepLinkQueueItems(
-    ["/Applications/Netcatty.app/Contents/MacOS/Netcatty", "ssh://alice@example.com"],
+    ["/Applications/Sensor.app/Contents/MacOS/Sensor", "ssh://alice@example.com"],
     { includeSchemeUrls: true },
   );
   assert.deepEqual(queueItems.ssh, [{ rawUrl: "ssh://alice@example.com", viaCommandLine: false }]);
   assert.deepEqual(queueItems.telnet, []);
 
   const disabledQueueItems = collectSshDeepLinkQueueItems(
-    ["/Applications/Netcatty.app/Contents/MacOS/Netcatty", "ssh://alice@example.com"],
+    ["/Applications/Sensor.app/Contents/MacOS/Sensor", "ssh://alice@example.com"],
     { includeSchemeUrls: false },
   );
   assert.deepEqual(disabledQueueItems.ssh, []);
@@ -337,7 +337,7 @@ test("isTelnetDeepLinkUrl accepts only telnet URLs", () => {
 test("collectTelnetDeepLinkUrls extracts telnet URLs from process arguments", () => {
   assert.deepEqual(
     collectTelnetDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "telnet://example.com:2001",
       "file:///tmp/example",
@@ -513,7 +513,7 @@ test("isJmsDeepLinkUrl accepts only jms URLs", () => {
 test("collectJmsDeepLinkUrls extracts jms URLs from process arguments", () => {
   assert.deepEqual(
     collectJmsDeepLinkUrls([
-      "/Applications/Netcatty.app/Contents/MacOS/Netcatty",
+      "/Applications/Sensor.app/Contents/MacOS/Sensor",
       "--flag",
       "jms://payload-one",
       "file:///tmp/example",
@@ -649,7 +649,7 @@ test("applyInitialJmsDeepLinkPreference does not warn when disabled startup remo
 for (const flag of ["/L", "/P", "/PASSWORD", "/PASSPHRASE", "/AUTH", "/I", "/S", "/N", "/TITLEBAR", "/LOG", "/LOGAPPEND", "/FIREWALL", "/FWFIREWALL", "/PROXY"]) {
   for (const scheme of ["ssh", "telnet", "jms"]) {
     test(`malformed SecureCRT launch filters ${flag} ${scheme} operands`, () => {
-      const argv = ["Netcatty.exe", "/SSH2", "/P", "99999", flag,
+      const argv = ["Sensor.exe", "/SSH2", "/P", "99999", flag,
         `${scheme}://option-value`, "real.example.com"];
       assert.deepEqual(collectSshDeepLinkQueueItems(argv), { ssh: [], telnet: [] });
       assert.deepEqual(collectJmsDeepLinkUrls(argv), []);
@@ -658,28 +658,28 @@ for (const flag of ["/L", "/P", "/PASSWORD", "/PASSPHRASE", "/AUTH", "/I", "/S",
 }
 
 test("failed SecureCRT launch cannot reinterpret its password as a PuTTY switch", () => {
-  const argv = ["Netcatty.exe", "/SSH2", "/L", "alice", "/P", "99999", "/PASSWORD", "-ssh", "server.example.com"];
+  const argv = ["Sensor.exe", "/SSH2", "/L", "alice", "/P", "99999", "/PASSWORD", "-ssh", "server.example.com"];
   assert.deepEqual(collectSshDeepLinkQueueItems(argv), { ssh: [], telnet: [] });
 });
 
 for (const password of ["/SSH2", "/TELNET", "/PASSWORD", "/PASSPHRASE"]) {
   test(`PuTTY password ${password} does not select SecureCRT parsing`, () => {
     assert.deepEqual(collectSshDeepLinkQueueItems([
-      "Netcatty.exe", "-ssh", "-l", "alice", "-P", "2222", "-pw", password, "server.example.com",
+      "Sensor.exe", "-ssh", "-l", "alice", "-P", "2222", "-pw", password, "server.example.com",
     ]), { ssh: [{ rawUrl: `ssh://alice:${encodeURIComponent(password)}@server.example.com:2222`, viaCommandLine: true }], telnet: [] });
   });
 }
 
 test("flag-shaped SecureCRT passwords do not consume genuine scheme links", () => {
   assert.deepEqual(collectSshDeepLinkQueueItems([
-    "Netcatty.exe", "/SSH2", "/PASSWORD", "/L", "ssh://bob@example.com",
+    "Sensor.exe", "/SSH2", "/PASSWORD", "/L", "ssh://bob@example.com",
   ]), { ssh: [{ rawUrl: "ssh://bob@example.com", viaCommandLine: false }], telnet: [] });
 });
 
 test("ambiguous SecureCRT destinations are rejected instead of guessing a host", () => {
   for (const names of [["Device", "bastion"], ["device.example.com", "bastion"]]) {
     assert.deepEqual(collectSshDeepLinkQueueItems([
-      "Netcatty.exe", "/T", names[0], "/SSH2", names[1], "/L", "alice", "/PASSWORD", "secret",
+      "Sensor.exe", "/T", names[0], "/SSH2", names[1], "/L", "alice", "/PASSWORD", "secret",
     ]), { ssh: [], telnet: [] });
   }
 });
@@ -687,14 +687,14 @@ test("ambiguous SecureCRT destinations are rejected instead of guessing a host",
 test("SecureCRT launches reject mixed single-dash client switches", () => {
   for (const flag of ["-serial", "-raw", "-telnet", "-ssh", "-unknown"]) {
     assert.deepEqual(collectSshDeepLinkQueueItems([
-      "Netcatty.exe", "/SSH2", flag, "host", "/L", "alice", "/PASSWORD", "secret",
+      "Sensor.exe", "/SSH2", flag, "host", "/L", "alice", "/PASSWORD", "secret",
     ]), { ssh: [], telnet: [] });
   }
 });
 
 test("SecureCRT launches preserve dash-shaped values and Electron switches", () => {
   assert.deepEqual(collectSshDeepLinkQueueItems([
-    "Netcatty.exe", "--original-process-start-time=1", "/SSH2", "host",
+    "Sensor.exe", "--original-process-start-time=1", "/SSH2", "host",
     "/TITLEBAR", "-serial", "/L", "-raw", "/PASSWORD", "-telnet",
   ]), { ssh: [{ rawUrl: "ssh://-raw:-telnet@host", viaCommandLine: true }], telnet: [] });
 });

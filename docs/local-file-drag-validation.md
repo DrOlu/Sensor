@@ -30,7 +30,7 @@ copy is involved in the new drag path.
   the external-upload flow. Filesystem services and conflict handling are unchanged.
 - Electron advertises COPY/LINK on Windows/Linux. The drop target negotiates an
   allowed effect while the existing same-pane callback performs a local move;
-  Netcatty never requests an OS deletion of the source on external delivery.
+  Sensor never requests an OS deletion of the source on external delivery.
 
 ## Automated checks
 
@@ -51,7 +51,7 @@ npm run test:local-file-drag:electron
 ```
 
 The fixture uses the actual list hook, preload methods and main-process native
-bridge. It creates disposable files and a destination directory under Netcatty's
+bridge. It creates disposable files and a destination directory under Sensor's
 own temp directory and uses a separate Electron profile. It never connects to an
 SFTP server. Its copy/move callbacks **record intent**, rather than modifying files.
 

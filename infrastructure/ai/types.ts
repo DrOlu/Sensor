@@ -327,7 +327,7 @@ export interface CodebuddyAdvancedOptions {
   /**
    * Persist the session transcript to disk. Defaults to true; set false to keep
    * the conversation in memory only (CodeBuddy writes no session data under
-   * its config dir, and file checkpointing is skipped). Netcatty chat history
+   * its config dir, and file checkpointing is skipped). Sensor chat history
    * and external session metadata are unaffected. Requires CodeBuddy CLI >=
    * 2.125.1.
    */
@@ -552,7 +552,7 @@ export interface AgentModelPreset {
   encodeDefaultThinking?: boolean;
   /**
    * Minimum agent CLI version that advertises this model (semver core).
-   * Netcatty is BYO-CLI: the packaged SDK does not replace the user's binary.
+   * Sensor is BYO-CLI: the packaged SDK does not replace the user's binary.
    */
   minCliVersion?: string;
 }

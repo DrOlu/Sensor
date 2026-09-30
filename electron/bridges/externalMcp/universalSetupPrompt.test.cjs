@@ -7,12 +7,12 @@ const { buildUniversalSetupPrompt } = require("./universalSetupPrompt.cjs");
 
 test("builds a portable MCP and Skill installation prompt", () => {
   const prompt = buildUniversalSetupPrompt({
-    launcherPath: "/Applications/Netcatty App/netcatty-external-mcp",
-    discoveryPath: "/Users/test/Library/Application Support/Netcatty/discovery.json",
+    launcherPath: "/Applications/Sensor App/netcatty-external-mcp",
+    discoveryPath: "/Users/test/Library/Application Support/Sensor/discovery.json",
     skillContent: "---\nname: netcatty-mcp\nmetadata:\n  managed-by: netcatty\n---\nUse get_environment first.\n",
   });
 
-  assert.match(prompt, /Install the Netcatty integration/);
+  assert.match(prompt, /Install the Sensor integration/);
   assert.match(prompt, /Agent Skills are unsupported/);
   assert.match(prompt, /managed-by: netcatty/);
   assert.match(prompt, /call `get_environment`/);
@@ -22,10 +22,10 @@ test("builds a portable MCP and Skill installation prompt", () => {
   assert.deepEqual(JSON.parse(jsonBlock), {
     mcpServers: {
       "netcatty-external": {
-        command: "/Applications/Netcatty App/netcatty-external-mcp",
+        command: "/Applications/Sensor App/netcatty-external-mcp",
         args: [],
         env: {
-          NETCATTY_EXTERNAL_MCP_DISCOVERY_FILE: "/Users/test/Library/Application Support/Netcatty/discovery.json",
+          NETCATTY_EXTERNAL_MCP_DISCOVERY_FILE: "/Users/test/Library/Application Support/Sensor/discovery.json",
         },
       },
     },

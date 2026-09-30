@@ -78,12 +78,12 @@ test("openTransferSftpSession defaults to dedicated vault open (ignores terminal
 test("openTransferSftpSession can use terminal session only when dedicated:false", async () => {
   resetDedicatedSessionOpenGateForTests();
   let openForSessionCalls = 0;
-  let expectedEndpoint: NetcattySSHOptions | undefined;
+  let expectedEndpoint: SensorSSHOptions | undefined;
   const { netcattyBridge } = await import("../../../infrastructure/services/netcattyBridge.ts");
   const restore = netcattyBridge.get;
   (netcattyBridge as { get: () => unknown }).get = () => ({
     openSftp: async () => "dedicated-sftp",
-    openSftpForSession: async (_sessionId: string, endpoint?: NetcattySSHOptions) => {
+    openSftpForSession: async (_sessionId: string, endpoint?: SensorSSHOptions) => {
       openForSessionCalls += 1;
       expectedEndpoint = endpoint;
       return "session-sftp";
@@ -107,12 +107,12 @@ test("openTransferSftpSession can use terminal session only when dedicated:false
 
 test("non-dedicated transfer without a terminal keeps unified transport reuse enabled", async () => {
   resetDedicatedSessionOpenGateForTests();
-  const seen: NetcattySSHOptions[] = [];
+  const seen: SensorSSHOptions[] = [];
   let openForSessionCalls = 0;
   const { netcattyBridge } = await import("../../../infrastructure/services/netcattyBridge.ts");
   const restore = netcattyBridge.get;
   (netcattyBridge as { get: () => unknown }).get = () => ({
-    openSftp: async (options: NetcattySSHOptions) => {
+    openSftp: async (options: SensorSSHOptions) => {
       seen.push(options);
       return "pooled-sftp";
     },
@@ -145,11 +145,11 @@ test("dedicated transfer delegates key and password fallback to one main-process
     identityFilePaths: ["/tmp/id_ed25519"],
     password: "fallback-password",
   } as Host;
-  const seen: NetcattySSHOptions[] = [];
+  const seen: SensorSSHOptions[] = [];
   const { netcattyBridge } = await import("../../../infrastructure/services/netcattyBridge.ts");
   const restore = netcattyBridge.get;
   (netcattyBridge as { get: () => unknown }).get = () => ({
-    openSftp: async (options: NetcattySSHOptions) => {
+    openSftp: async (options: SensorSSHOptions) => {
       seen.push(options);
       throw new Error("All configured authentication methods failed");
     },

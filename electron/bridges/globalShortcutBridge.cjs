@@ -1038,7 +1038,7 @@ function createTray() {
     }
 
     tray = new Tray(trayIcon || nativeImage.createEmpty());
-    tray.setToolTip("Netcatty");
+    tray.setToolTip("Sensor");
 
     // Build and set initial context menu
     updateTrayMenu();

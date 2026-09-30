@@ -928,7 +928,7 @@ const applyLocaleDefaults = (env) => {
  *
  * A terminal should see the PATH a brand-new cmd/PowerShell would inherit, not
  * the snapshot the Electron main process captured at launch: a GUI-launched or
- * auto-started Netcatty keeps that snapshot for its entire lifetime, so CLIs
+ * auto-started Sensor keeps that snapshot for its entire lifetime, so CLIs
  * installed or upgraded afterwards stay invisible inside local terminals while
  * resolving fine in an external shell. `resolveWindowsLivePath` re-reads the
  * registry on Windows to close that gap.
@@ -1195,7 +1195,7 @@ const telnetSessionApi = createTelnetSessionApi({
 const { startTelnetSession } = telnetSessionApi;
 
 /**
- * Resolve Netcatty's bundled bare `mosh-client` binary.
+ * Resolve Sensor's bundled bare `mosh-client` binary.
  *
  * Returns the absolute path or null.
  */
@@ -1232,7 +1232,7 @@ const {
 
 /**
  * EternalTerminal session API. `et` is a self-contained client that performs
- * its own SSH bootstrap + ET protocol handshake, so Netcatty just spawns the
+ * its own SSH bootstrap + ET protocol handshake, so Sensor just spawns the
  * bundled `et` binary as a PTY (no Node handshake wrapper like Mosh needs).
  */
 const { createEtSessionApi } = require("./terminalBridge/etSession.cjs");
@@ -2661,7 +2661,7 @@ const { getDefaultShell, validatePath } = pathValidationApi;
  * root so the helper is testable without packaging the app.
  *
  * Note this returns the network-protocol `mosh-client`, not the `mosh`
- * wrapper script. Netcatty drives the SSH bootstrap itself and then
+ * wrapper script. Sensor drives the SSH bootstrap itself and then
  * launches this bundled client directly.
  */
 function bundledMoshClient(opts = {}) {
@@ -2703,7 +2703,7 @@ function bundledMoshClient(opts = {}) {
  * the helper is testable without packaging the app.
  *
  * `et` is a self-contained client that performs its own SSH bootstrap and
- * EternalTerminal protocol handshake; Netcatty just spawns it as a PTY.
+ * EternalTerminal protocol handshake; Sensor just spawns it as a PTY.
  */
 function bundledEtClient(opts = {}) {
   const isWin = (opts.platform || process.platform) === "win32";

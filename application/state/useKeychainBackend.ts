@@ -7,7 +7,7 @@ export const useKeychainBackend = () => {
     return bridge?.generateKeyPair?.(options);
   }, []);
 
-  const execCommand = useCallback(async (options: Parameters<NetcattyBridge["execCommand"]>[0]) => {
+  const execCommand = useCallback(async (options: Parameters<SensorBridge["execCommand"]>[0]) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.execCommand) throw new Error("execCommand unavailable");
     return bridge.execCommand(options);

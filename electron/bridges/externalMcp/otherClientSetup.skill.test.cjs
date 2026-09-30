@@ -8,7 +8,7 @@ const path = require("node:path");
 
 const { createExternalMcpClaudeSetup } = require("./claudeSetup.cjs");
 const { createExternalMcpGrokSetup } = require("./grokSetup.cjs");
-const { getUserNetcattySkillPath } = require("./netcattySkillInstaller.cjs");
+const { getUserSensorSkillPath } = require("./netcattySkillInstaller.cjs");
 
 const LAUNCHER_PATH = "/opt/netcatty/netcatty-external-mcp";
 const DISCOVERY_ENV = { NETCATTY_EXTERNAL_MCP_DISCOVERY_FILE: "/tmp/netcatty.json" };
@@ -98,7 +98,7 @@ async function withGrokSetup(initiallyConfigured, run) {
   }
 }
 
-test("Add to Claude Code installs both the MCP entry and Netcatty skill", async () => {
+test("Add to Claude Code installs both the MCP entry and Sensor skill", async () => {
   await withClaudeSetup(false, async ({ setup, calls, homeDir }) => {
     const result = await setup.addToClaude();
 
@@ -106,7 +106,7 @@ test("Add to Claude Code installs both the MCP entry and Netcatty skill", async 
     assert.equal(result.mcpConfigured, true);
     assert.equal(result.skillInstalled, true);
     assert.equal(calls.some(args => args[1] === "add"), true);
-    assert.match(await fs.readFile(getUserNetcattySkillPath("claude", { homeDir }), "utf8"), /name: netcatty-mcp/);
+    assert.match(await fs.readFile(getUserSensorSkillPath("claude", { homeDir }), "utf8"), /name: netcatty-mcp/);
   });
 });
 
@@ -120,11 +120,11 @@ test("Add to Claude Code only installs the skill when MCP already exists", async
     assert.equal(result.state, "configured");
     assert.equal(result.skillInstalled, true);
     assert.equal(calls.some(args => args[1] === "add" || args[1] === "remove"), false);
-    assert.match(await fs.readFile(getUserNetcattySkillPath("claude", { homeDir }), "utf8"), /name: netcatty-mcp/);
+    assert.match(await fs.readFile(getUserSensorSkillPath("claude", { homeDir }), "utf8"), /name: netcatty-mcp/);
   });
 });
 
-test("Add to Grok installs both the MCP entry and Netcatty skill under GROK_HOME", async () => {
+test("Add to Grok installs both the MCP entry and Sensor skill under GROK_HOME", async () => {
   await withGrokSetup(false, async ({ setup, calls, homeDir, grokHomeDir }) => {
     const result = await setup.addToGrok();
 
@@ -132,7 +132,7 @@ test("Add to Grok installs both the MCP entry and Netcatty skill under GROK_HOME
     assert.equal(result.mcpConfigured, true);
     assert.equal(result.skillInstalled, true);
     assert.equal(calls.some(args => args[1] === "add"), true);
-    const skillPath = getUserNetcattySkillPath("grok", { homeDir, grokHomeDir });
+    const skillPath = getUserSensorSkillPath("grok", { homeDir, grokHomeDir });
     assert.match(await fs.readFile(skillPath, "utf8"), /name: netcatty-mcp/);
   });
 });
@@ -147,7 +147,7 @@ test("Add to Grok only installs the skill when MCP already exists", async () => 
     assert.equal(result.state, "configured");
     assert.equal(result.skillInstalled, true);
     assert.equal(calls.some(args => args[1] === "add" || args[1] === "remove"), false);
-    const skillPath = getUserNetcattySkillPath("grok", { homeDir, grokHomeDir });
+    const skillPath = getUserSensorSkillPath("grok", { homeDir, grokHomeDir });
     assert.match(await fs.readFile(skillPath, "utf8"), /name: netcatty-mcp/);
   });
 });
@@ -155,10 +155,10 @@ test("Add to Grok only installs the skill when MCP already exists", async () => 
 for (const initiallyConfigured of [false, true]) {
   test(`Claude custom config directory is used for skill setup and status (MCP exists: ${initiallyConfigured})`, async () => {
     await withClaudeSetup(initiallyConfigured, async ({ setup, homeDir, claudeConfigDir }) => {
-      const defaultSkillPath = getUserNetcattySkillPath("claude", { homeDir });
+      const defaultSkillPath = getUserSensorSkillPath("claude", { homeDir });
       await fs.mkdir(path.dirname(defaultSkillPath), { recursive: true });
-      const { getBundledNetcattySkillPath } = require("./netcattySkillInstaller.cjs");
-      await fs.copyFile(getBundledNetcattySkillPath(), defaultSkillPath);
+      const { getBundledSensorSkillPath } = require("./netcattySkillInstaller.cjs");
+      await fs.copyFile(getBundledSensorSkillPath(), defaultSkillPath);
       const before = await setup.getStatus();
       assert.equal(before.state, "not_configured");
 

@@ -156,7 +156,7 @@ test("xterm preserves modified Enter keys as Win32 input records for ConPTY", as
       sourceTerm.dispose();
     }
 
-    // Netcatty consumes shortcuts and local controls before xterm. Their
+    // Sensor consumes shortcuts and local controls before xterm. Their
     // releases must be consumed too, otherwise ConPTY receives an orphaned
     // native key-up after a Ctrl+C interrupt or sudo/autocomplete Enter.
     sent.length = 0;

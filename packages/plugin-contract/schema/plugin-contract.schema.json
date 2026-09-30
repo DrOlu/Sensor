@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://netcatty.com/schemas/plugins/0.1.0-internal/plugin-contract.schema.json",
-  "title": "Netcatty Plugin Contract",
-  "description": "Canonical public contract for Netcatty plugin manifests and host RPC messages.",
+  "title": "Sensor Plugin Contract",
+  "description": "Canonical public contract for Sensor plugin manifests and host RPC messages.",
   "$ref": "#/$defs/PluginManifest",
   "$defs": {
     "JsonPrimitive": {
@@ -157,7 +157,7 @@
       "additionalProperties": false
     },
     "CredentialRef": {
-      "description": "An opaque host-issued reference to a Netcatty-owned credential. The host validates ownership and provider-operation scope before issuing a plaintext lease.",
+      "description": "An opaque host-issued reference to a Sensor-owned credential. The host validates ownership and provider-operation scope before issuing a plaintext lease.",
       "type": "object",
       "required": ["kind", "id"],
       "properties": {
@@ -952,13 +952,13 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 256,
-          "description": "Source id of an identity or key draft in the same import. Netcatty maps it to the newly persisted host-owned credential id."
+          "description": "Source id of an identity or key draft in the same import. Sensor maps it to the newly persisted host-owned credential id."
         }
       },
       "additionalProperties": false
     },
     "ImporterHostDraft": {
-      "description": "A host draft normalized by Netcatty before Vault persistence. Executable startup commands and plaintext built-in credentials are intentionally not part of this public importer shape.",
+      "description": "A host draft normalized by Sensor before Vault persistence. Executable startup commands and plaintext built-in credentials are intentionally not part of this public importer shape.",
       "type": "object",
       "anyOf": [
         {

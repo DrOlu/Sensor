@@ -286,7 +286,7 @@ test("empty or failed live catalogs surface a failure for the warning path", asy
   );
 });
 
-test("CodeBuddy, OpenCode and MiMo keep Netcatty context in the system prompt only", () => {
+test("CodeBuddy, OpenCode and MiMo keep Sensor context in the system prompt only", () => {
   const input = {
     turnPrompt: "user request",
     contextualPrompt: "netcatty context\n\nuser request",

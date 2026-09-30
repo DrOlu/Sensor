@@ -106,7 +106,7 @@ function logTerminalInterruptDebug(event, details = {}, trace = null) {
     ...details,
   };
   try {
-    console.info(`[Netcatty Ctrl+C] ${safeJson(payload)}`);
+    console.info(`[Sensor Ctrl+C] ${safeJson(payload)}`);
   } catch {
     // Diagnostics must never affect terminal control flow.
   }

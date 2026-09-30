@@ -46,7 +46,7 @@ export function truncateToolCommandTooltip(
  * Pull the user-meaningful shell command out of the tool-call args.
  *
  * Different tool surfaces hand us different shapes:
- *   - Netcatty's own `terminal_execute` MCP tool → `{command: "<string>"}`
+ *   - Sensor's own `terminal_execute` MCP tool → `{command: "<string>"}`
  *   - Codex `local_shell`                      → `{command: ["zsh","-lc","<full>"]}`
  *   - Codex command_execution (SDK)             → `{command: "/bin/zsh -lc '<full>'"}`
  *   - Claude `Bash`                             → `{command: "<string>"}`
@@ -94,7 +94,7 @@ export function extractDisplayCommand(args: Record<string, unknown> | undefined)
   );
   if (strWrap) cmdString = strWrap[2];
 
-  // Netcatty CLI wrapper extraction.
+  // Sensor CLI wrapper extraction.
   // Packaged / Windows paths may be `netcatty-tool-cli.cjs` or `.cmd`; strip the
   // optional extension so the subcommand after the binary is still found.
   const cliIdx = cmdString.search(/netcatty-tool-cli(?:\.(?:cjs|cmd|exe|js))?/i);
@@ -223,7 +223,7 @@ export function extractApprovalExecutionContext(
     }
   }
 
-  // Skills+CLI wrappers keep the Netcatty target only on CLI flags after unwrap.
+  // Skills+CLI wrappers keep the Sensor target only on CLI flags after unwrap.
   if (!sessionId) {
     const cmd = rawCommandString(args);
     if (cmd && cmd.includes('netcatty-tool-cli')) {

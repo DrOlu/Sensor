@@ -317,7 +317,7 @@ export async function connectConfigProviderImpl(this: any,
 
 /**
  * Connect a namespaced plugin sync Provider. Configuration is opaque plugin-
- * owned JSON; Netcatty still owns encryption and only forwards encrypted objects.
+ * owned JSON; Sensor still owns encryption and only forwards encrypted objects.
  */
 export async function connectPluginProviderImpl(
   this: any,

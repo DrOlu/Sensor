@@ -126,7 +126,7 @@ test("AppLockOverlay submits a whitespace-only password unchanged", async () => 
   }
 });
 
-test("AppLockOverlay reveals reset action after clicking Netcatty logo five times", async () => {
+test("AppLockOverlay reveals reset action after clicking Sensor logo five times", async () => {
   const dom = installDomEnvironment();
   const renderer = await createDomRenderer(dom.document);
   const resetAttempts: string[] = [];

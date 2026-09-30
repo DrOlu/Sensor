@@ -3,7 +3,7 @@ import type { AuthenticationChallenge } from "@netcatty/plugin-contract";
 import { isSafePluginAuthenticationUrl } from "../../domain/pluginConnection";
 import { pluginExtensionBridge } from "./pluginExtensionBridge";
 
-type ChallengeEvent = NetcattyPluginAuthenticationChallengeEvent;
+type ChallengeEvent = SensorPluginAuthenticationChallengeEvent;
 export type PluginAuthenticationChallengeResponse = string | boolean | ReadonlyArray<string>;
 type ActiveChallengeEvent = Extract<ChallengeEvent, { challenge: AuthenticationChallenge }>;
 type ChallengeQueueRef = { current: ActiveChallengeEvent[] };

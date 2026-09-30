@@ -41,7 +41,7 @@ for (const mode of modes) {
         mkdirLocal: async () => undefined,
         mkdirSftp: async () => undefined,
         realpathSftp: async (_id: string, value: string) => value,
-      } as unknown as NetcattyBridge);
+      } as unknown as SensorBridge);
       function Probe() {
         ops = useSftpDirectoryTransferOps({
           ownerId: root.id, cancelledTasksRef: { current: new Set() }, pausedTasksRef: { current: new Set() },

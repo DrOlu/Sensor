@@ -143,8 +143,8 @@ data and do not cascade when a package version is removed.
 Plugins can ask `PluginCredentialBroker` for a `SecretLeaseRef`. A lease is
 single-consumption, opaque, maximum 60 seconds, and bound to plugin, active
 runtime, operation ID, abort signal and secret ownership. Only a host capability
-broker can redeem it. A plugin-owned `SecretRef`, a Netcatty-owned opaque
-`CredentialRef`, or a lease ID alone is not authority. Netcatty credential
+broker can redeem it. A plugin-owned `SecretRef`, a Sensor-owned opaque
+`CredentialRef`, or a lease ID alone is not authority. Sensor credential
 references use an injected main-process resolver. Authorization treats both
 secret and credential IDs as opaque identifiers and does not reveal whether
 they exist; secret keys are already plugin-declared resources. Ownership,

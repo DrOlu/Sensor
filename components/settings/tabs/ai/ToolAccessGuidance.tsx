@@ -6,21 +6,21 @@ import { cn } from "../../../../lib/utils";
 import { useToolAccessGuidanceState } from "../../../../application/state/useToolAccessGuidanceState";
 import { EXTERNAL_MCP_DISCOVERY_ENV_VAR } from "./ExternalMcpCard";
 
-/** Build a ready-to-paste prompt so an external AI client can register Netcatty MCP itself. */
+/** Build a ready-to-paste prompt so an external AI client can register Sensor MCP itself. */
 export function buildMcpOnboardingPrompt(
   launcherPath: string | null | undefined,
   discoveryPath: string | null | undefined,
 ): string {
   if (!launcherPath) {
     return [
-      "Please connect Netcatty to this session via MCP.",
-      "In the Netcatty desktop app, open Settings → AI → Tool Access, turn on External MCP,",
+      "Please connect Sensor to this session via MCP.",
+      "In the Sensor desktop app, open Settings → AI → Tool Access, turn on External MCP,",
       "then copy the generated prompt from the Tool Access section and run it here.",
       "After that, list the netcatty-external MCP tools and call get_environment to verify the connection.",
     ].join(" ");
   }
   const lines = [
-    "Please register Netcatty's MCP server in your MCP client configuration:",
+    "Please register Sensor's MCP server in your MCP client configuration:",
     `- Server name: netcatty-external`,
     `- Transport: local stdio`,
     `- Command: ${launcherPath}`,
@@ -30,7 +30,7 @@ export function buildMcpOnboardingPrompt(
   }
   lines.push(
     "After registering, list the server's tools and call get_environment to verify the connection.",
-    "Keep the Netcatty desktop app running while you use these tools.",
+    "Keep the Sensor desktop app running while you use these tools.",
   );
   return lines.join("\n");
 }

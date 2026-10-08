@@ -16,7 +16,7 @@ A production classify run failed because Cursor hit its usage limit:
 ActionRequiredError: You've hit your usage limit Get Cursor Pro for more Agent usage
 ```
 
-Example: https://github.com/binaricat/Netcatty/actions/runs/33050247387
+Example: https://github.com/DrOlu/Sensor/actions/runs/33050247387
 (job `Classify issue`, step `Research external context for classification`).
 
 The goal is to keep issue triage running by swapping the agent from Cursor CLI
@@ -209,25 +209,25 @@ user.
 
 ### Phase 0 — secrets, no YAML behavior change
 
-Set via `gh` against `binaricat/Netcatty`. Values never land in git.
+Set via `gh` against `DrOlu/Sensor`. Values never land in git.
 
 ```bash
 # Key: GitHub secret (Bearer token for ollama.com)
-printf '%s' "$OLLAMA_API_KEY" | gh secret set ANTHROPIC_AUTH_TOKEN -R binaricat/Netcatty
+printf '%s' "$OLLAMA_API_KEY" | gh secret set ANTHROPIC_AUTH_TOKEN -R DrOlu/Sensor
 
 # Host: repo variable is enough (not a credential)
-gh variable set ANTHROPIC_BASE_URL -R binaricat/Netcatty --body 'https://ollama.com'
+gh variable set ANTHROPIC_BASE_URL -R DrOlu/Sensor --body 'https://ollama.com'
 
 # Model: repo variable so it can change without rotating the key
-gh variable set CLAUDE_CODE_MODEL -R binaricat/Netcatty --body 'kimi-k2.7-code:cloud'
+gh variable set CLAUDE_CODE_MODEL -R DrOlu/Sensor --body 'kimi-k2.7-code:cloud'
 ```
 
 Optional aliases, same key:
 
 ```bash
-gh variable set ANTHROPIC_DEFAULT_HAIKU_MODEL  -R binaricat/Netcatty --body 'kimi-k2.7-code:cloud'
-gh variable set ANTHROPIC_DEFAULT_SONNET_MODEL -R binaricat/Netcatty --body 'kimi-k2.7-code:cloud'
-gh variable set ANTHROPIC_DEFAULT_OPUS_MODEL   -R binaricat/Netcatty --body 'kimi-k2.7-code:cloud'
+gh variable set ANTHROPIC_DEFAULT_HAIKU_MODEL  -R DrOlu/Sensor --body 'kimi-k2.7-code:cloud'
+gh variable set ANTHROPIC_DEFAULT_SONNET_MODEL -R DrOlu/Sensor --body 'kimi-k2.7-code:cloud'
+gh variable set ANTHROPIC_DEFAULT_OPUS_MODEL   -R DrOlu/Sensor --body 'kimi-k2.7-code:cloud'
 ```
 
 Do **not** commit the key, put it in `.github/workflows/*.yml` literals, or

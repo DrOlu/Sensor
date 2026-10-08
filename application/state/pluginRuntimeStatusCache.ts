@@ -1,15 +1,15 @@
-type PluginRuntimeBridge = Pick<NetcattyBridge, "getPluginRuntimeStatus">;
+type PluginRuntimeBridge = Pick<SensorBridge, "getPluginRuntimeStatus">;
 
 interface StatusCacheEntry {
-  value?: NetcattyPluginRuntimeStatus;
-  pending?: Promise<NetcattyPluginRuntimeStatus>;
+  value?: SensorPluginRuntimeStatus;
+  pending?: Promise<SensorPluginRuntimeStatus>;
 }
 
 let statusByBridge = new WeakMap<object, StatusCacheEntry>();
 
 export async function getSharedPluginRuntimeStatus(
   bridge: PluginRuntimeBridge,
-): Promise<NetcattyPluginRuntimeStatus> {
+): Promise<SensorPluginRuntimeStatus> {
   const key = bridge as object;
   let entry = statusByBridge.get(key);
   if (!entry) {

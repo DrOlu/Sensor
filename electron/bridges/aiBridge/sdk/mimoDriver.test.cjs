@@ -600,7 +600,7 @@ test("runMimoTurn gates MiMo commands by the selected permission mode", async ()
   }
 });
 
-test("runMimoTurn answers MiMo native permission requests through Netcatty approval", async () => {
+test("runMimoTurn answers MiMo native permission requests through Sensor approval", async () => {
   const { events, emitter } = collector();
   const approvals = [];
   const replies = [];

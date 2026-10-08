@@ -26,10 +26,10 @@ test("validateReleaseTag accepts only et binary release tags", () => {
 });
 
 test("parseRepository falls back to the dedicated et binary repository", () => {
-  assert.deepEqual(parseRepository({}), { owner: "binaricat", repo: "Netcatty-et-bin" });
+  assert.deepEqual(parseRepository({}), { owner: "binaricat", repo: "Sensor-et-bin" });
   assert.deepEqual(parseRepository({ GITHUB_REPOSITORY: "owner/project" }), {
     owner: "owner",
-    repo: "Netcatty-et-bin",
+    repo: "Sensor-et-bin",
   });
   assert.deepEqual(
     parseRepository({ GITHUB_REPOSITORY: "owner/project", ET_BIN_OWNER: "bin", ET_BIN_REPO: "binaries" }),

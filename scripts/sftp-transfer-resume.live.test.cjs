@@ -156,7 +156,7 @@ if (process.env.NETCATTY_SFTP_LIVE === "1") {
       const tempDirBridge = require("../electron/bridges/tempDirBridge.cjs");
       const testRoot = fs.mkdtempSync(`${tempDirBridge.getTempFilePath("sftp-live-setup-test")}-`);
       t.after(() => fs.rmSync(testRoot, { recursive: true, force: true }));
-      const managedParent = path.join(testRoot, "Netcatty");
+      const managedParent = path.join(testRoot, "Sensor");
       if (existingParent) fs.mkdirSync(managedParent, { mode: 0o700 });
       const result = require("node:child_process").spawnSync(process.execPath, [__filename], {
         env: {

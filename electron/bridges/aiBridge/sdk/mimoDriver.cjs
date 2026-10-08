@@ -266,7 +266,7 @@ async function spawnMimoServer({
     MIMOCODE_SERVER_PASSWORD: serverPassword,
   };
   // MiMo merges this env override after the config we supply. Never let an
-  // inherited permission policy undo Netcatty's observer/confirm restrictions.
+  // inherited permission policy undo Sensor's observer/confirm restrictions.
   delete childEnv.MIMOCODE_PERMISSION;
 
   const spawnSpec = prepareCommandForSpawn(command, args, { unwrapNativeExe: false });
@@ -515,7 +515,7 @@ async function runMimoTurn({
       nativeSkillOptions: { ...nativeSkillOptions, skillPaths: trustedPaths },
     });
     // The shared OpenCode builder permits bash in Skills mode. MiMo runs that
-    // command directly, so the selected Netcatty mode must gate it here.
+    // command directly, so the selected Sensor mode must gate it here.
     if (toolIntegrationMode === "skills") {
       config.permission.bash = permissionMode === "auto" ? "allow"
         : permissionMode === "observer" ? "deny" : "ask";
@@ -561,7 +561,7 @@ async function runMimoTurn({
 
     if (!sessionId) {
       const created = await awaitMimoSetup(client.session.create({
-        body: { title: "Netcatty MiMo Code" },
+        body: { title: "Sensor MiMo Code" },
         query: directoryQuery,
       }), abortController?.signal, instance.server);
       if (abortController?.signal?.aborted) {

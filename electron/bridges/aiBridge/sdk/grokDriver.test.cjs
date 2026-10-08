@@ -136,7 +136,7 @@ test("buildGrokCliArgs applies MCP-mode local-tool lockdown via real builder", (
   assert.match(denied, /run_terminal_command/);
   assert.match(denied, /search_replace/);
   assert.match(denied, /write/);
-  // MCP meta-tools must not appear in the deny list (Netcatty remote path).
+  // MCP meta-tools must not appear in the deny list (Sensor remote path).
   assert.doesNotMatch(denied, /mcp|netcatty/i);
 
   const skillsArgs = buildGrokCliArgs({

@@ -6,7 +6,7 @@ function createCursorWorker(options) {
   // failure outside Electron main as well as isolating the chat environment.
   return require("electron").utilityProcess.fork(
     path.join(__dirname, "cursorTurnWorker.cjs"), [],
-    { ...options, serviceName: "Netcatty Cursor", stdio: "pipe" },
+    { ...options, serviceName: "Sensor Cursor", stdio: "pipe" },
   );
 }
 

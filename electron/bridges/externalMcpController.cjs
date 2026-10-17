@@ -16,7 +16,7 @@ const { createExternalMcpCodexSetup } = require("./externalMcp/codexSetup.cjs");
 const { createExternalMcpClaudeSetup } = require("./externalMcp/claudeSetup.cjs");
 const { createExternalMcpGrokSetup } = require("./externalMcp/grokSetup.cjs");
 const {
-  readBundledNetcattySkillContent,
+  readBundledSensorSkillContent,
 } = require("./externalMcp/netcattySkillInstaller.cjs");
 const {
   buildUniversalSetupPrompt,
@@ -57,7 +57,7 @@ function createExternalMcpController(options = {}) {
     createCodexSetup: options.createCodexSetup || createExternalMcpCodexSetup,
     createClaudeSetup: options.createClaudeSetup || createExternalMcpClaudeSetup,
     createGrokSetup: options.createGrokSetup || createExternalMcpGrokSetup,
-    readSkillContent: options.readSkillContent || readBundledNetcattySkillContent,
+    readSkillContent: options.readSkillContent || readBundledSensorSkillContent,
     buildUniversalSetupPrompt: options.buildUniversalSetupPrompt || buildUniversalSetupPrompt,
     randomBytes: options.randomBytes || ((size) => crypto.randomBytes(size)),
     Date: options.Date || Date,

@@ -43,7 +43,7 @@ const FILE_MODE = 0o100644;
 const DIR_MODE = 0o040755;
 
 /**
- * Minimal in-memory fs for the server side: enough of SFTP for Netcatty's
+ * Minimal in-memory fs for the server side: enough of SFTP for Sensor's
  * upload pipeline (stat / open / write / setstat / rename / backup cleanup).
  */
 function makeSftpHandlers(files, dirs) {

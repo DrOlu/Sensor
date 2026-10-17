@@ -697,8 +697,8 @@ test("job diagnostics tell a scope mismatch from a lost route and log chat cance
   t.mock.method(console, "info", (...args) => { lines.push(args.join(" ")); });
   t.after(() => { delete process.env.NETCATTY_JOB_DIAG; });
   const events = () => lines
-    .filter((line) => line.startsWith("[Netcatty JobDiag] "))
-    .map((line) => JSON.parse(line.slice("[Netcatty JobDiag] ".length)));
+    .filter((line) => line.startsWith("[Sensor JobDiag] "))
+    .map((line) => JSON.parse(line.slice("[Sensor JobDiag] ".length)));
 
   const bridge = loadFreshBridge();
   bridge.init({
@@ -745,8 +745,8 @@ test("route-removed is emitted once when a concurrent cancel removes the route d
   t.mock.method(console, "info", (...args) => { lines.push(args.join(" ")); });
   t.after(() => { delete process.env.NETCATTY_JOB_DIAG; });
   const removedEvents = () => lines
-    .filter((line) => line.startsWith("[Netcatty JobDiag] "))
-    .map((line) => JSON.parse(line.slice("[Netcatty JobDiag] ".length)))
+    .filter((line) => line.startsWith("[Sensor JobDiag] "))
+    .map((line) => JSON.parse(line.slice("[Sensor JobDiag] ".length)))
     .filter((event) => event.event === "route-removed");
 
   let releaseStop;
@@ -787,8 +787,8 @@ test("job diagnostics log a worker-side miss while the main-process route still 
   t.mock.method(console, "info", (...args) => { lines.push(args.join(" ")); });
   t.after(() => { delete process.env.NETCATTY_JOB_DIAG; });
   const misses = () => lines
-    .filter((line) => line.startsWith("[Netcatty JobDiag] "))
-    .map((line) => JSON.parse(line.slice("[Netcatty JobDiag] ".length)))
+    .filter((line) => line.startsWith("[Sensor JobDiag] "))
+    .map((line) => JSON.parse(line.slice("[Sensor JobDiag] ".length)))
     .filter((event) => event.event === "job-stop-miss");
 
   const bridge = loadFreshBridge();

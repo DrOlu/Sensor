@@ -25,11 +25,11 @@ test("buildFidoAskpassEnv creates helper artifacts", () => {
   shutdownFidoAskpass();
 });
 
-test("getTempBase uses Netcatty managed temp dir (no os.tmpdir fallback)", () => {
+test("getTempBase uses Sensor managed temp dir (no os.tmpdir fallback)", () => {
   const tempDirBridge = require("./tempDirBridge.cjs");
   const managed = tempDirBridge.getTempDir();
   assert.equal(getTempBase(), managed);
-  assert.match(managed, /Netcatty/i);
+  assert.match(managed, /Sensor/i);
 });
 
 test("classifyAskpassPrompt re-export works", () => {

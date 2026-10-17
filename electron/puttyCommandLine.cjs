@@ -68,7 +68,7 @@ function isElectronNoiseArg(arg, index, argv) {
   if (index === 0) return true;
   if (arg === "." || arg === "--") return true;
   if (arg.startsWith("--")) return true;
-  // Dev argv is [electron, main.cjs|app.asar, ...]; packaged argv is [Netcatty.exe, ...user args].
+  // Dev argv is [electron, main.cjs|app.asar, ...]; packaged argv is [Sensor.exe, ...user args].
   if (
     index === 1
     && isElectronExecutableName(argv?.[0])

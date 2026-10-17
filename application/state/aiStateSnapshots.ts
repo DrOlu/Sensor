@@ -212,11 +212,11 @@ function truncatePersistedToolResultContent(content: string): string {
   // head+tail until the whole persisted copy fits the cap.
   let half = Math.floor(MAX_PERSISTED_TOOL_RESULT_CHARS / 2);
   let omitted = content.length - 2 * half;
-  let marker = `[Netcatty] persisted copy truncated; ${omitted} characters of tool output omitted`;
+  let marker = `[Sensor] persisted copy truncated; ${omitted} characters of tool output omitted`;
   while (2 * half + marker.length > MAX_PERSISTED_TOOL_RESULT_CHARS) {
     half -= Math.ceil((2 * half + marker.length - MAX_PERSISTED_TOOL_RESULT_CHARS) / 2);
     omitted = content.length - 2 * half;
-    marker = `[Netcatty] persisted copy truncated; ${omitted} characters of tool output omitted`;
+    marker = `[Sensor] persisted copy truncated; ${omitted} characters of tool output omitted`;
   }
   return `${content.slice(0, half)}${marker}${content.slice(content.length - half)}`;
 }

@@ -29,10 +29,10 @@ function createApp({ executablePath, packaged = true }) {
   };
 }
 
-test("Windows zip build uses a data directory beside Netcatty.exe when present", () => {
+test("Windows zip build uses a data directory beside Sensor.exe when present", () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "netcatty-portable-data-"));
   test.after(() => fs.rmSync(root, { recursive: true, force: true }));
-  const executablePath = path.join(root, "Netcatty.exe");
+  const executablePath = path.join(root, "Sensor.exe");
   const dataDirectory = path.join(root, "data");
   fs.mkdirSync(dataDirectory);
   const { app, writes } = createApp({ executablePath });
@@ -62,7 +62,7 @@ test("Windows single-file build uses data beside the portable launcher", () => {
   fs.mkdirSync(dataDirectory, { recursive: true });
   fs.mkdirSync(runtimeDirectory, { recursive: true });
   const { app, writes } = createApp({
-    executablePath: path.join(runtimeDirectory, "Netcatty.exe"),
+    executablePath: path.join(runtimeDirectory, "Sensor.exe"),
   });
 
   const result = applyPortableDataDirectory({
@@ -85,7 +85,7 @@ test("Windows builds keep the system profile when no data directory is present",
   const root = fs.mkdtempSync(path.join(os.tmpdir(), "netcatty-standard-data-"));
   test.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const { app, writes } = createApp({
-    executablePath: path.join(root, "Netcatty.exe"),
+    executablePath: path.join(root, "Sensor.exe"),
   });
 
   const result = applyPortableDataDirectory({
@@ -109,7 +109,7 @@ test("development and non-Windows builds ignore a neighboring data directory", (
     { packaged: true, platform: "linux" },
   ]) {
     const { app, writes } = createApp({
-      executablePath: path.join(root, "Netcatty.exe"),
+      executablePath: path.join(root, "Sensor.exe"),
       packaged: options.packaged,
     });
     const result = applyPortableDataDirectory({
@@ -127,7 +127,7 @@ test("a file named data does not enable portable mode", () => {
   test.after(() => fs.rmSync(root, { recursive: true, force: true }));
   fs.writeFileSync(path.join(root, "data"), "not a directory");
   const { app, writes } = createApp({
-    executablePath: path.join(root, "Netcatty.exe"),
+    executablePath: path.join(root, "Sensor.exe"),
   });
 
   assert.equal(applyPortableDataDirectory({ app, env: {}, platform: "win32" }), null);

@@ -14,10 +14,10 @@ import {
 import { fitTerminalExecuteResultForModel } from '../harness/terminalCompression';
 
 /**
- * Bridge interface for Catty Agent to interact with the Electron main process.
+ * Bridge interface for Sensor Agent to interact with the Electron main process.
  * This mirrors the AI-related subset of window.netcatty from electron/preload.cjs.
  */
-export interface NetcattyBridge {
+export interface SensorBridge {
   aiExec(
     sessionId: string,
     command: string,
@@ -30,7 +30,7 @@ export interface NetcattyBridge {
     error?: string;
   }>;
   /**
-   * Cancel any in-flight Catty Agent command execution scoped to the
+   * Cancel any in-flight Sensor Agent command execution scoped to the
    * given chat session. Idempotent — safe to call when nothing is
    * running. Used by tools to re-issue cancel during the IPC transit
    * window if the user clicks Stop after we've already dispatched
@@ -113,11 +113,11 @@ function toToolResult(toolCallId: string, r: ToolExecResult): ToolResult {
 }
 
 /**
- * Create a tool executor function for the Catty Agent.
+ * Create a tool executor function for the Sensor Agent.
  * This bridges tool calls to the netcatty Electron IPC layer.
  */
 export function createToolExecutor(
-  bridge: NetcattyBridge | undefined,
+  bridge: SensorBridge | undefined,
   context: ExecutorContext,
   commandBlocklist?: string[],
   permissionMode: AIPermissionMode = 'confirm',
@@ -128,7 +128,7 @@ export function createToolExecutor(
     if (!bridge) {
       return {
         toolCallId: toolCall.id,
-        content: 'Netcatty bridge is not available',
+        content: 'Sensor bridge is not available',
         isError: true,
       };
     }

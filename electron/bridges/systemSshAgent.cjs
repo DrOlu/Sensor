@@ -470,7 +470,7 @@ async function prepareSystemSshAgent(options, injected = {}) {
         }
       }
       if (bareAlreadyPresent && !companionCertificateMissing) {
-        // Join refcount only when Netcatty already owns this identity (another
+        // Join refcount only when Sensor already owns this identity (another
         // session loaded it). Pre-existing user agent identities must not be
         // adopted into cleanup — last release would ssh-add -d them.
         const key = blob || identityPath;

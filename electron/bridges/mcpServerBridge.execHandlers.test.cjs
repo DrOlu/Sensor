@@ -276,7 +276,7 @@ test("expired local and unknown jobs do not claim a lost worker route", (t) => {
   });
   const events = [];
   t.mock.method(console, "info", (line) => {
-    events.push(JSON.parse(line.slice("[Netcatty JobDiag] ".length)));
+    events.push(JSON.parse(line.slice("[Sensor JobDiag] ".length)));
   });
   const jobs = new Map([["local-expired", {
     status: "completed", updatedAt: Date.now() - 20 * 60 * 1000,

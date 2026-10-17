@@ -1236,7 +1236,7 @@ function createTerminalWorkerManager(options = {}) {
     if (!message || typeof message !== "object") return;
     if (message.kind === "job-diagnostic") {
       if (isJobDiagEnabled() && typeof message.line === "string"
-        && message.line.startsWith("[Netcatty JobDiag] ")) {
+        && message.line.startsWith("[Sensor JobDiag] ")) {
         try { console.info(message.line); } catch { /* Read-only diagnostics. */ }
       }
       return;

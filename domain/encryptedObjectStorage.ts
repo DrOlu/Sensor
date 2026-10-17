@@ -1,6 +1,6 @@
 /**
  * Shared encrypted-object storage surface for built-in cloud adapters and
- * plugin sync Providers. Netcatty always encrypts before write and decrypts
+ * plugin sync Providers. Sensor always encrypts before write and decrypts
  * after read; implementations only handle already-encrypted bytes.
  */
 

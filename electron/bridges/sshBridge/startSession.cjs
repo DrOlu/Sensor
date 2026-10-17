@@ -1739,10 +1739,10 @@ function createStartSessionApi(ctx) {
           require("../attachFidoAgentRelease.cjs").attachFidoAgentRelease(conn, systemAuthAgent);
         }
 
-        // Soft-key certificates use NetcattyAgent local signing. FIDO SK + cert
+        // Soft-key certificates use SensorAgent local signing. FIDO SK + cert
         // must keep the system/owned agent (hardware signs via ssh-sk-helper).
         if (hasCertificate && !forceSystemAgentForFido) {
-          authAgent = new NetcattyAgent({
+          authAgent = new SensorAgent({
             mode: "certificate",
             webContents: event.sender,
             meta: {
@@ -2156,7 +2156,7 @@ function createStartSessionApi(ctx) {
                       password: connectOpts.password,
                     });
                   } else if (matchingMethod.type === "agent") {
-                    const agentType = typeof matchingMethod.agent === "string" ? "path" : "NetcattyAgent";
+                    const agentType = typeof matchingMethod.agent === "string" ? "path" : "SensorAgent";
                     log("Trying agent auth (partial success)", { id: matchingMethod.id, agentType });
                     return matchingMethod.agent === connectOpts.agent
                       ? callback("agent")
@@ -2203,7 +2203,7 @@ function createStartSessionApi(ctx) {
 
                 if (method.type === "agent") {
                   // Only log safe identifier, not the full agent object which may contain private keys
-                  const agentType = typeof method.agent === "string" ? "path" : "NetcattyAgent";
+                  const agentType = typeof method.agent === "string" ? "path" : "SensorAgent";
                   log("Trying agent auth", { id: method.id, agentType });
                   sendProgress(totalHops, totalHops, options.hostname, 'auth-attempt', 'SSH agent');
                   return method.agent === connectOpts.agent

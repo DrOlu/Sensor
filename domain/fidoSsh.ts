@@ -1,7 +1,7 @@
 /**
  * OpenSSH FIDO2 / U2F security-key (sk-*) helpers.
  *
- * Netcatty does not drive CTAP itself. SK keys authenticate through the system
+ * Sensor does not drive CTAP itself. SK keys authenticate through the system
  * OpenSSH agent + ssh-sk-helper (libfido2). These helpers detect sk material so
  * the app can force the agent path instead of software privateKey signing.
  */

@@ -1,7 +1,7 @@
 import type { SftpFilenameEncoding } from "../../types";
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     // File opener helpers (for "Open With" feature)
     selectApplication?(): Promise<{ path: string; name: string } | null>;
     openWithApplication?(filePath: string, appPath: string): Promise<boolean>;
@@ -143,7 +143,7 @@ declare global {
       sessionId?: string;
       /** Skip a second notification for the same approval across windows. */
       dedupeKey?: string;
-      /** Show only when no Netcatty window is focused. */
+      /** Show only when no Sensor window is focused. */
       whenUnfocused?: boolean;
     }): Promise<{ shown: boolean; reason?: string }>;
     setExternalMcpApprovalAlertMode?(payload: {

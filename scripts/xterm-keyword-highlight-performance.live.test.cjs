@@ -241,7 +241,7 @@ if (!process.versions.electron) {
         rebuildMs,
         rebuildCount: highlighter.rebuildCount,
         blueMatchCount: (serialized.match(/38;2;96;165;250m/g) || []).length,
-        pristineHasNetcattyColor: /38;2;(248;113;113|96;165;250)m/.test(pristine),
+        pristineHasSensorColor: /38;2;(248;113;113|96;165;250)m/.test(pristine),
       };
       highlighter.dispose();
       term.dispose();
@@ -263,7 +263,7 @@ if (!process.versions.electron) {
     assert.equal(result.enterRebuildCount, result.rebuildsBeforeEnter, JSON.stringify(result));
     assert.equal(result.rebuildCount, result.rebuildsBeforeEnter + 1, JSON.stringify(result));
     assert.ok(result.blueMatchCount >= 10000, JSON.stringify(result));
-    assert.equal(result.pristineHasNetcattyColor, false, JSON.stringify(result));
+    assert.equal(result.pristineHasSensorColor, false, JSON.stringify(result));
     assert.ok(result.enterWriteMs < 150, `Enter write regressed: ${JSON.stringify(result)}`);
     assert.ok(result.rebuildMs < 1000, `10k-line rule rebuild regressed: ${JSON.stringify(result)}`);
     process.stdout.write(`XTERM_KEYWORD_HIGHLIGHT_PERFORMANCE_OK ${JSON.stringify(result)}\n`);

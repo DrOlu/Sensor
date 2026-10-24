@@ -107,7 +107,7 @@ export function useHostBrowserPanel(options: BrowserPanelOptions) {
       const offsetY = rect && bounds ? bounds.y - rect.y : 0;
       const theme = element && getComputedStyle(element).colorScheme === 'light' ? 'light' : 'dark';
       const themeTokens = currentBrowserThemeTokens(element ?? undefined);
-      const layout: Parameters<NonNullable<NetcattyBridge['setHostBrowserPanelLayout']>>[0] = {
+      const layout: Parameters<NonNullable<SensorBridge['setHostBrowserPanelLayout']>>[0] = {
         browserId, visible, occluded: visible && covered, bounds, theme, themeTokens,
       };
       const next = JSON.stringify(layout);

@@ -47,7 +47,7 @@ test("internal browser failures never fall back to the local system browser", as
   assert.equal(errors.length, 1);
 });
 
-test("OSC 8 links use the Netcatty external browser bridge", async () => {
+test("OSC 8 links use the Sensor external browser bridge", async () => {
   const opened: string[] = [];
   const confirmed: string[] = [];
   const handler = createTerminalLinkHandler({

@@ -71,7 +71,7 @@ export function createAppLockBridgeHarness(options: HarnessOptions) {
     if (notify) emitRuntimeState();
   };
 
-  const bridge: NetcattyBridge = {
+  const bridge: SensorBridge = {
     getAppLockRuntimeState: async () => {
       runtimeFetchCount += 1;
       return cloneRuntimeState(runtimeState);

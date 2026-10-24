@@ -27,14 +27,14 @@ import { classifyError } from '../../infrastructure/ai/errorClassifier';
 import { latestAISessionsSnapshot } from './aiStateSnapshots';
 import {
   generateId,
-  getNetcattyBridge,
+  getSensorBridge,
   type DefaultTargetSessionHint,
   type TerminalSessionInfo,
 } from '../../infrastructure/ai/aiChatStreamingSupport';
 import { useAgentCompactionUi } from './useAgentCompactionUi';
 import { useI18n } from '../i18n/I18nProvider';
 
-export { getNetcattyBridge } from '../../infrastructure/ai/aiChatStreamingSupport';
+export { getSensorBridge } from '../../infrastructure/ai/aiChatStreamingSupport';
 export type { ActiveCompactionUi } from './useAgentCompactionUi';
 export type { DefaultTargetSessionHint } from '../../infrastructure/ai/aiChatStreamingSupport';
 
@@ -51,7 +51,7 @@ export function isAIChatSessionStreaming(sessionId: string | null | undefined): 
 export async function stopAIChatSessionBeforeReplacement(sessionId: string): Promise<void> {
   const controller = sharedAbortControllers.get(sessionId);
   if (controller || sharedStreamingSessionIds.has(sessionId)) {
-    await stopAgentTurn({ chatSessionId: sessionId, abortController: controller, bridge: getNetcattyBridge() });
+    await stopAgentTurn({ chatSessionId: sessionId, abortController: controller, bridge: getSensorBridge() });
   }
   await getAgentRuntime().waitForActiveTurn(sessionId);
   if (controller && sharedAbortControllers.get(sessionId) === controller) sharedAbortControllers.delete(sessionId);
@@ -220,7 +220,7 @@ export function useAIChatStreaming({
     attachedImages: Array<{ base64Data: string; mediaType: string; filename?: string; filePath?: string }>,
     context: SendToExternalContext,
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     await getAgentRuntime().runTurn({
       backend: 'external-sdk',
       chatSessionId: sessionId,
@@ -249,7 +249,7 @@ export function useAIChatStreaming({
     context: SendToCattyContext,
     attachments?: ChatMessageAttachment[],
   ) => {
-    const bridge = getNetcattyBridge();
+    const bridge = getSensorBridge();
     try {
       await getAgentRuntime().runTurn({
         backend: 'catty',

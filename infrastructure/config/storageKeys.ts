@@ -177,7 +177,7 @@ export const STORAGE_KEY_SESSION_LOGS_TIMESTAMPS_ENABLED = 'netcatty_session_log
 export const STORAGE_KEY_SSH_DEBUG_LOGS_ENABLED = 'netcatty_ssh_debug_logs_enabled_v1';
 export const STORAGE_KEY_SSH_DEEP_LINK_ENABLED = 'netcatty_ssh_deep_link_enabled_v1';
 export const STORAGE_KEY_JMS_DEEP_LINK_ENABLED = 'netcatty_jms_deep_link_enabled_v1';
-/** Windows Explorer "Open in Netcatty" folder context menu (device-local). */
+/** Windows Explorer "Open in Sensor" folder context menu (device-local). */
 export const STORAGE_KEY_EXPLORER_CONTEXT_MENU_ENABLED = 'netcatty_explorer_context_menu_enabled_v1';
 
 // Archived legacy key records that are no longer supported by the app (e.g. biometric/WebAuthn/FIDO2 experiments).
@@ -243,7 +243,7 @@ export const STORAGE_KEY_AI_SESSION_IDLE_TIMEOUT_MINUTES = 'netcatty_ai_session_
 export const STORAGE_KEY_AI_EXTERNAL_MCP_SILENT_SESSIONS = 'netcatty_ai_external_mcp_silent_sessions_v1';
 /** External MCP confirm-mode approval alert: off, unfocused, or always. Default unfocused. */
 export const STORAGE_KEY_AI_EXTERNAL_MCP_APPROVAL_ALERT = 'netcatty_ai_external_mcp_approval_alert_v1';
-/** Shared AI privacy settings for Netcatty-managed context and tools. Device-local and off by default. */
+/** Shared AI privacy settings for Sensor-managed context and tools. Device-local and off by default. */
 export const STORAGE_KEY_AI_PRIVACY = 'netcatty_ai_privacy_v1';
 /** Legacy External MCP privacy key, read only when no shared AI privacy preference exists. */
 export const STORAGE_KEY_AI_EXTERNAL_MCP_REDACTION = 'netcatty_ai_external_mcp_redaction_v1';

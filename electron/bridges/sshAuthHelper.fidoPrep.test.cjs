@@ -304,7 +304,7 @@ test("owned FIDO agent reference-counts identities: ssh-add -d only on the last 
   const deleted = [];
   let generation = 0;
 
-  // The owned agent is a Netcatty-managed singleton shared across concurrent
+  // The owned agent is a Sensor-managed singleton shared across concurrent
   // sessions; releaseFidoAgent only drops one refcount and keeps it alive.
   fidoAgentManager.acquireFidoAgent = async () => {
     generation += 1;
@@ -359,10 +359,10 @@ test("owned FIDO agent reference-counts identities: ssh-add -d only on the last 
     }, "[test-owned-b]");
 
     // Closing session A must not leave A's identity advertised to session B.
-    agentA._releaseNetcattyFidoAgent();
+    agentA._releaseSensorFidoAgent();
     await new Promise(setImmediate);
     assert.deepEqual(deleted, [], "first release must keep the identity for the surviving session");
-    agentB._releaseNetcattyFidoAgent();
+    agentB._releaseSensorFidoAgent();
     await new Promise(setImmediate);
     assert.deepEqual(deleted, [pathA], "last release removes the identity from the owned agent");
   } finally {
@@ -431,8 +431,8 @@ test("prepareSystemSshAgentForAuth removes newly loaded identities from a shared
       identityFilePaths: [identityPath],
     }, "[test]");
     assert.ok(agent);
-    assert.equal(typeof agent._releaseNetcattyFidoAgent, "function");
-    agent._releaseNetcattyFidoAgent();
+    assert.equal(typeof agent._releaseSensorFidoAgent, "function");
+    agent._releaseSensorFidoAgent();
     await new Promise(setImmediate);
     assert.deepEqual(deleted, [identityPath]);
     assert.equal(releasedAgent, 1);
@@ -517,10 +517,10 @@ test("shared Windows agent defers ssh-add -d until the last identity user releas
       identityFilePaths: [pathB],
     }, "[test-b]");
 
-    agentA._releaseNetcattyFidoAgent();
+    agentA._releaseSensorFidoAgent();
     await new Promise(setImmediate);
     assert.deepEqual(deleted, [], "first release must keep the shared identity loaded");
-    agentB._releaseNetcattyFidoAgent();
+    agentB._releaseSensorFidoAgent();
     await new Promise(setImmediate);
     assert.deepEqual(deleted, [pathA], "last release removes the identity via the retained path");
   } finally {
@@ -590,9 +590,9 @@ test("shared Windows agent keeps staging dir until ssh-add -d finishes", async (
       identityFilePaths: [identityPath],
     }, "[test-staging-cleanup]");
     assert.ok(agent);
-    assert.equal(typeof agent._releaseNetcattyFidoAgent, "function");
+    assert.equal(typeof agent._releaseSensorFidoAgent, "function");
 
-    agent._releaseNetcattyFidoAgent();
+    agent._releaseSensorFidoAgent();
     await new Promise(setImmediate);
     assert.ok(pendingDeleteCb, "expected ssh-add -d to start");
     assert.equal(

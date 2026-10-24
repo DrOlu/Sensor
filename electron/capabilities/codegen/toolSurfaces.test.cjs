@@ -91,7 +91,7 @@ test("listMcpTools includes host_open for external MCP clients", () => {
   assert.equal(hostOpen.publicRpcMethod, "public/vault/hosts/open");
 });
 
-test("core MCP descriptions strongly route live terminal work through Netcatty", () => {
+test("core MCP descriptions strongly route live terminal work through Sensor", () => {
   const tools = listMcpTools();
   const environment = tools.find((tool) => tool.mcpTool === "get_environment");
   const execute = tools.find((tool) => tool.mcpTool === "terminal_execute");

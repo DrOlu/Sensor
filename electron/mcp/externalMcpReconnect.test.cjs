@@ -352,12 +352,12 @@ test("managed stdio children fail fast without rereading discovery", async (t) =
   const failed = await callEnvironment(child.client);
   assert.ok(Date.now() - started < 1000, "managed disconnect must not wait on discovery refresh");
   assert.equal(failed.isError, true);
-  assert.match(errorText(failed), /Not connected to Netcatty/);
+  assert.match(errorText(failed), /Not connected to Sensor/);
   assert.equal(second.connections, 0);
 
   const stillAlive = await callEnvironment(child.client);
   assert.equal(stillAlive.isError, true);
-  assert.match(errorText(stillAlive), /Not connected to Netcatty/);
+  assert.match(errorText(stillAlive), /Not connected to Sensor/);
   assert.equal(second.connections, 0);
 });
 
@@ -407,11 +407,11 @@ test("managed stdio calls that race bridge shutdown stay not-connected", {
   const failed = await pending;
   assert.ok(Date.now() - started < 1000, "managed disconnect must not wait on discovery refresh");
   assert.equal(failed.isError, true);
-  assert.match(errorText(failed), /Not connected to Netcatty/);
+  assert.match(errorText(failed), /Not connected to Sensor/);
   assert.equal(second.connections, 0);
 
   const stillAlive = await callEnvironment(child.client);
   assert.equal(stillAlive.isError, true);
-  assert.match(errorText(stillAlive), /Not connected to Netcatty/);
+  assert.match(errorText(stillAlive), /Not connected to Sensor/);
   assert.equal(second.connections, 0);
 });

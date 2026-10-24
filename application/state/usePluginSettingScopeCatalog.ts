@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
-const EMPTY_SCOPE_CATALOG: NetcattyPluginScopeCatalog = Object.freeze({
+const EMPTY_SCOPE_CATALOG: SensorPluginScopeCatalog = Object.freeze({
   workspace: Object.freeze([]),
   host: Object.freeze([]),
   session: Object.freeze([]),
@@ -19,7 +19,7 @@ export function buildPluginSettingScopeCatalog({
   workspaces: readonly { id: string; title?: string }[];
   sessions: readonly { id: string; customName?: string; hostLabel?: string; hostname?: string }[];
   deviceLabel: string;
-}): NetcattyPluginScopeCatalog {
+}): SensorPluginScopeCatalog {
   return {
     host: hosts.map((host) => ({ id: host.id, label: host.label || host.hostname || host.id })),
     workspace: workspaces.map((workspace) => ({ id: workspace.id, label: workspace.title || workspace.id })),
@@ -32,9 +32,9 @@ export function buildPluginSettingScopeCatalog({
 }
 
 export function resolvePluginSettingScopeSelection(
-  catalog: NetcattyPluginScopeCatalog,
-  current: Partial<Record<NetcattyPluginSettingScopeKind, string>>,
-): Partial<Record<NetcattyPluginSettingScopeKind, string>> {
+  catalog: SensorPluginScopeCatalog,
+  current: Partial<Record<SensorPluginSettingScopeKind, string>>,
+): Partial<Record<SensorPluginSettingScopeKind, string>> {
   const next = { ...current };
   for (const kind of ['workspace', 'host', 'session', 'device'] as const) {
     const entries = catalog[kind];
@@ -43,8 +43,8 @@ export function resolvePluginSettingScopeSelection(
   return next;
 }
 
-export function usePluginSettingScopeCatalog(): NetcattyPluginScopeCatalog {
-  const [catalog, setCatalog] = useState<NetcattyPluginScopeCatalog>(EMPTY_SCOPE_CATALOG);
+export function usePluginSettingScopeCatalog(): SensorPluginScopeCatalog {
+  const [catalog, setCatalog] = useState<SensorPluginScopeCatalog>(EMPTY_SCOPE_CATALOG);
 
   useEffect(() => {
     const bridge = netcattyBridge.get();

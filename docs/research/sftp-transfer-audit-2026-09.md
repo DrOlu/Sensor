@@ -78,11 +78,11 @@ Verification so far:
 
 | PR | Confirmed failure | Architectural change |
 | --- | --- | --- |
-| [3284](https://github.com/binaricat/Netcatty/pull/3284) | Late pause/resume replies revive a newer paused/cancelled task or overwrite its visible state, including cross-window and folder watcher paths | Shared held-file resume handling; obsolete controls carry the winning action to reconcile local barriers; compensation checks current intent rather than assuming every epoch change means resume. |
-| [3285](https://github.com/binaricat/Netcatty/pull/3285) | Deleted recorded host or duplicate legacy display names can resume an upload against another saved server | Exact host-ID recovery; unique-match-only legacy resolution; preserve live-session recovery. |
-| [3286](https://github.com/binaricat/Netcatty/pull/3286) | Publication/restoration can overwrite a concurrently saved local file; rollback can delete a replacement | One exclusive publication helper, a clear commit boundary, preserved recovery artifacts on conflicts or incomplete fallback copying. |
-| [3287](https://github.com/binaricat/Netcatty/pull/3287) | Folder stays active after child completion was compacted out of visible history | One bounded settlement observer/helper for both live transfer and recovery; no persistent tombstone history. |
-| [3288](https://github.com/binaricat/Netcatty/pull/3288) | Cancelling or timing out channel initialization disconnects shared SSH users | Channel cancellation is separated from shared-transport ownership; abandoned initialization is bounded until settlement. |
+| [3284](https://github.com/DrOlu/Sensor/pull/3284) | Late pause/resume replies revive a newer paused/cancelled task or overwrite its visible state, including cross-window and folder watcher paths | Shared held-file resume handling; obsolete controls carry the winning action to reconcile local barriers; compensation checks current intent rather than assuming every epoch change means resume. |
+| [3285](https://github.com/DrOlu/Sensor/pull/3285) | Deleted recorded host or duplicate legacy display names can resume an upload against another saved server | Exact host-ID recovery; unique-match-only legacy resolution; preserve live-session recovery. |
+| [3286](https://github.com/DrOlu/Sensor/pull/3286) | Publication/restoration can overwrite a concurrently saved local file; rollback can delete a replacement | One exclusive publication helper, a clear commit boundary, preserved recovery artifacts on conflicts or incomplete fallback copying. |
+| [3287](https://github.com/DrOlu/Sensor/pull/3287) | Folder stays active after child completion was compacted out of visible history | One bounded settlement observer/helper for both live transfer and recovery; no persistent tombstone history. |
+| [3288](https://github.com/DrOlu/Sensor/pull/3288) | Cancelling or timing out channel initialization disconnects shared SSH users | Channel cancellation is separated from shared-transport ownership; abandoned initialization is bounded until settlement. |
 
 Additional engine experiments used actual loopback SSH/SFTP, killed the child
 process, and resumed in a fresh process for remote-to-remote transfers. Both the
@@ -94,18 +94,18 @@ download recovery, not full-app history restoration or reporter confirmation.
 
 | Issue | Reported condition | Audit treatment |
 | --- | --- | --- |
-| [3213](https://github.com/binaricat/Netcatty/issues/3213) | macOS, 10+ files of 100-200 MB; pause/resume and force-quit recovery unreliable | Control ordering reproduced separately; source direction and server still absent from report. Do not claim reporter confirmation. |
-| [3155](https://github.com/binaricat/Netcatty/issues/3155) | Windows, many-file transfer freezes; no count or logs | Recheck bounded discovery, scheduling, publication and history work. |
-| [2973](https://github.com/binaricat/Netcatty/issues/2973) | VPN uploads disconnect SSH and SFTP; transfer spinner continues; later inode VPN report | Check transport loss and settlement. Network/security cause not established by the available logs. |
-| [3186](https://github.com/binaricat/Netcatty/issues/3186) | Replacement changes permissions on 1.1.82 | Check mode/owner behavior on each replacement path; existing bot explanations are not proof. |
-| [3149](https://github.com/binaricat/Netcatty/issues/3149) | Windows proxy + terminal drag-upload reports No such file | Check target pinning, path encoding, session and retry behavior. |
-| [2832](https://github.com/binaricat/Netcatty/issues/2832) | Browsing works through VPN/jump host, transfers wait indefinitely, cancel works | Check dedicated connection admission/authentication/timeout. |
-| [2568](https://github.com/binaricat/Netcatty/issues/2568) | Folder copy reaches 100% but remains active; pause ineffective | Check parent settlement and directory checkpoints. |
-| [2458](https://github.com/binaricat/Netcatty/issues/2458) | Windows 1 GiB upload continues after Pause/Pause all from both terminal sidebar and SFTP tab | Motivates transport-plus-visible-state regressions; current delayed-control defects independently reproduced. |
-| [3031](https://github.com/binaricat/Netcatty/issues/3031) | macOS jump-host/proxy drag upload: no such file | Missing full error, protocol, target path and direct-connect comparison prevent attribution. |
-| [2556](https://github.com/binaricat/Netcatty/issues/2556) | Windows download of 1.9 GiB from local Linux VM; separate many-small-files progress complaint | Preserve verification correctness; distinguish network payload from verification and incremental discovery. No comparative reporter throughput available. |
-| [2886](https://github.com/binaricat/Netcatty/issues/2886) | sudo terminal drop denied while SFTP upload succeeds | Existing terminal fallback fix is separate; contradictory bot explanations are not evidence of identity or permission correctness. |
-| [2638](https://github.com/binaricat/Netcatty/issues/2638) | Recovery after network failure | Verify restore end to end; UI availability alone is insufficient. |
+| [3213](https://github.com/DrOlu/Sensor/issues/3213) | macOS, 10+ files of 100-200 MB; pause/resume and force-quit recovery unreliable | Control ordering reproduced separately; source direction and server still absent from report. Do not claim reporter confirmation. |
+| [3155](https://github.com/DrOlu/Sensor/issues/3155) | Windows, many-file transfer freezes; no count or logs | Recheck bounded discovery, scheduling, publication and history work. |
+| [2973](https://github.com/DrOlu/Sensor/issues/2973) | VPN uploads disconnect SSH and SFTP; transfer spinner continues; later inode VPN report | Check transport loss and settlement. Network/security cause not established by the available logs. |
+| [3186](https://github.com/DrOlu/Sensor/issues/3186) | Replacement changes permissions on 1.1.82 | Check mode/owner behavior on each replacement path; existing bot explanations are not proof. |
+| [3149](https://github.com/DrOlu/Sensor/issues/3149) | Windows proxy + terminal drag-upload reports No such file | Check target pinning, path encoding, session and retry behavior. |
+| [2832](https://github.com/DrOlu/Sensor/issues/2832) | Browsing works through VPN/jump host, transfers wait indefinitely, cancel works | Check dedicated connection admission/authentication/timeout. |
+| [2568](https://github.com/DrOlu/Sensor/issues/2568) | Folder copy reaches 100% but remains active; pause ineffective | Check parent settlement and directory checkpoints. |
+| [2458](https://github.com/DrOlu/Sensor/issues/2458) | Windows 1 GiB upload continues after Pause/Pause all from both terminal sidebar and SFTP tab | Motivates transport-plus-visible-state regressions; current delayed-control defects independently reproduced. |
+| [3031](https://github.com/DrOlu/Sensor/issues/3031) | macOS jump-host/proxy drag upload: no such file | Missing full error, protocol, target path and direct-connect comparison prevent attribution. |
+| [2556](https://github.com/DrOlu/Sensor/issues/2556) | Windows download of 1.9 GiB from local Linux VM; separate many-small-files progress complaint | Preserve verification correctness; distinguish network payload from verification and incremental discovery. No comparative reporter throughput available. |
+| [2886](https://github.com/DrOlu/Sensor/issues/2886) | sudo terminal drop denied while SFTP upload succeeds | Existing terminal fallback fix is separate; contradictory bot explanations are not evidence of identity or permission correctness. |
+| [2638](https://github.com/DrOlu/Sensor/issues/2638) | Recovery after network failure | Verify restore end to end; UI availability alone is insufficient. |
 
 Issue state (open/closed) and automated comments do not substitute for runtime
 proof. Initial title search hit its 100-result cap. Expanded SFTP search returned
@@ -127,7 +127,7 @@ to have investigated all 308 matching issues individually.
   channel on the existing SSH connection when available, and uses 32 KiB chunks
   with 64 requests. Its live pause flag stops scheduling additional reads. Its
   ordinary transfer opens the destination with `w`; it is not evidence for
-  durable checkpoint recovery. Retain Netcatty's staging and contiguous-offset
+  durable checkpoint recovery. Retain Sensor's staging and contiguous-offset
   protections when simplifying ownership.
 - [Electerm action store](https://github.com/electerm/electerm/blob/master/src/client/components/file-transfer/transports-action-store.jsx)
   counts pending initializations toward admission; its

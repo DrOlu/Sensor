@@ -78,7 +78,7 @@ test('prepareTurnContext applies typed compression before LLM summarize threshol
   assert.ok(prepared.messages.length >= messages.length);
   const serialized = JSON.stringify(prepared.messages);
   assert.match(serialized, /Fix only the upstream timeout issue/);
-  assert.doesNotMatch(serialized, /Netcatty session context/);
+  assert.doesNotMatch(serialized, /Sensor session context/);
   assert.ok(serialized.length < JSON.stringify(messages).length);
 });
 
@@ -107,7 +107,7 @@ test('prepareTurnContext skips reinjection when no compaction occurred', async (
   assert.equal(prepared.didAdjust, false);
   assert.equal(events.length, 0);
   const serialized = JSON.stringify(prepared.messages);
-  assert.doesNotMatch(serialized, /Netcatty session context/);
+  assert.doesNotMatch(serialized, /Sensor session context/);
   assert.doesNotMatch(serialized, /Permission mode: confirm/);
 });
 

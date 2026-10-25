@@ -43,7 +43,7 @@ type Translate = (
 /**
  * Build the system notification for one External MCP approval.
  * Returns null when the preference is off. Focus gating stays in the main
- * process so every Netcatty window is considered, not only the sender.
+ * process so every Sensor window is considered, not only the sender.
  */
 export function presentExternalMcpApprovalNotification(options: {
   toolName: string;

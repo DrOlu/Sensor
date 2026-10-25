@@ -8,7 +8,7 @@ const NETCATTY_EXTERNAL_SKILL_NAME = "netcatty-mcp";
 const NETCATTY_SKILL_MANAGED_MARKER = "managed-by: netcatty";
 const SUPPORTED_SKILL_CLIENTS = new Set(["codex", "claude", "grok"]);
 
-function getBundledNetcattySkillPath() {
+function getBundledSensorSkillPath() {
   return path.resolve(
     __dirname,
     "../../../skills",
@@ -37,9 +37,9 @@ function resolveGrokHomeDir(shellEnv = {}) {
   return path.isAbsolute(configured) ? configured : path.resolve(homeDir, configured);
 }
 
-function getUserNetcattySkillPath(client, options = {}) {
+function getUserSensorSkillPath(client, options = {}) {
   if (!SUPPORTED_SKILL_CLIENTS.has(client)) {
-    throw new Error(`Unsupported Netcatty skill client: ${client}`);
+    throw new Error(`Unsupported Sensor skill client: ${client}`);
   }
   const homeDir = options.homeDir || os.homedir();
   const skillRoot = client === "codex"
@@ -62,21 +62,21 @@ async function lstatIfPresent(filePath, fsApi) {
 async function readBundledSkill(sourcePath, fsApi) {
   const content = await fsApi.readFile(sourcePath, "utf8");
   if (!content.includes(NETCATTY_SKILL_MANAGED_MARKER)) {
-    throw new Error("Bundled Netcatty skill is missing its ownership marker.");
+    throw new Error("Bundled Sensor skill is missing its ownership marker.");
   }
   return content;
 }
 
-async function readBundledNetcattySkillContent(options = {}) {
+async function readBundledSensorSkillContent(options = {}) {
   const fsApi = options.fs || fs;
-  const sourcePath = options.sourcePath || getBundledNetcattySkillPath();
+  const sourcePath = options.sourcePath || getBundledSensorSkillPath();
   return await readBundledSkill(sourcePath, fsApi);
 }
 
-async function getNetcattySkillStatus(options = {}) {
+async function getSensorSkillStatus(options = {}) {
   const fsApi = options.fs || fs;
-  const sourcePath = options.sourcePath || getBundledNetcattySkillPath();
-  const skillPath = options.skillPath || getUserNetcattySkillPath(options.client, options);
+  const sourcePath = options.sourcePath || getBundledSensorSkillPath();
+  const skillPath = options.skillPath || getUserSensorSkillPath(options.client, options);
   const expectedContent = await readBundledSkill(sourcePath, fsApi);
   const skillDir = path.dirname(skillPath);
   const dirStat = await lstatIfPresent(skillDir, fsApi);
@@ -87,7 +87,7 @@ async function getNetcattySkillStatus(options = {}) {
       managed: false,
       conflict: true,
       skillPath,
-      reason: "The Netcatty skill directory is not a regular directory.",
+      reason: "The Sensor skill directory is not a regular directory.",
     };
   }
 
@@ -101,7 +101,7 @@ async function getNetcattySkillStatus(options = {}) {
       managed: false,
       conflict: true,
       skillPath,
-      reason: "The Netcatty SKILL.md path is not a regular file.",
+      reason: "The Sensor SKILL.md path is not a regular file.",
     };
   }
 
@@ -116,11 +116,11 @@ async function getNetcattySkillStatus(options = {}) {
   };
 }
 
-async function installNetcattySkill(options = {}) {
+async function installSensorSkill(options = {}) {
   const fsApi = options.fs || fs;
-  const sourcePath = options.sourcePath || getBundledNetcattySkillPath();
-  const skillPath = options.skillPath || getUserNetcattySkillPath(options.client, options);
-  const status = await getNetcattySkillStatus({ ...options, fs: fsApi, sourcePath, skillPath });
+  const sourcePath = options.sourcePath || getBundledSensorSkillPath();
+  const skillPath = options.skillPath || getUserSensorSkillPath(options.client, options);
+  const status = await getSensorSkillStatus({ ...options, fs: fsApi, sourcePath, skillPath });
 
   if (status.installed) {
     return { ...status, changed: false };
@@ -146,11 +146,11 @@ async function installNetcattySkill(options = {}) {
 module.exports = {
   NETCATTY_EXTERNAL_SKILL_NAME,
   NETCATTY_SKILL_MANAGED_MARKER,
-  getBundledNetcattySkillPath,
-  getUserNetcattySkillPath,
+  getBundledSensorSkillPath,
+  getUserSensorSkillPath,
   resolveUserHomeDir,
   resolveGrokHomeDir,
-  readBundledNetcattySkillContent,
-  getNetcattySkillStatus,
-  installNetcattySkill,
+  readBundledSensorSkillContent,
+  getSensorSkillStatus,
+  installSensorSkill,
 };

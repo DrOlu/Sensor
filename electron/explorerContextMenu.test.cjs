@@ -17,12 +17,12 @@ const {
 
 test("buildExplorerContextMenuCommand puts path args after -- for Electron", () => {
   assert.equal(
-    buildExplorerContextMenuCommand("C:\\Program Files\\Netcatty\\Netcatty.exe", "%1"),
-    '"C:\\Program Files\\Netcatty\\Netcatty.exe" -- --open-terminal-path="%1."',
+    buildExplorerContextMenuCommand("C:\\Program Files\\Sensor\\Sensor.exe", "%1"),
+    '"C:\\Program Files\\Sensor\\Sensor.exe" -- --open-terminal-path="%1."',
   );
   assert.equal(
-    buildExplorerContextMenuCommand("C:\\Netcatty\\Netcatty.exe", "%V"),
-    '"C:\\Netcatty\\Netcatty.exe" -- --open-terminal-path="%V."',
+    buildExplorerContextMenuCommand("C:\\Sensor\\Sensor.exe", "%V"),
+    '"C:\\Sensor\\Sensor.exe" -- --open-terminal-path="%V."',
   );
   assert.equal(
     buildExplorerContextMenuCommand(
@@ -37,16 +37,16 @@ test("buildExplorerContextMenuCommand puts path args after -- for Electron", () 
 test("isExplorerContextMenuRegistered requires both folder and background verbs", () => {
   const queries = [];
   const commandByKey = {
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command":
-      '"C:\\\\Apps\\\\Netcatty.exe" -- --open-terminal-path="%1."',
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command":
-      '"C:\\\\Apps\\\\Netcatty.exe" -- --open-terminal-path="%V."',
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command":
+      '"C:\\\\Apps\\\\Sensor.exe" -- --open-terminal-path="%1."',
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command":
+      '"C:\\\\Apps\\\\Sensor.exe" -- --open-terminal-path="%V."',
   };
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -77,9 +77,9 @@ test("isExplorerContextMenuRegistered requires both folder and background verbs"
   assert.ok(queries.some((args) => args[0] === "query"));
 
   // Missing background verb => not fully registered.
-  present.delete("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty");
-  present.delete("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command");
-  delete commandByKey["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command"];
+  present.delete("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor");
+  present.delete("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command");
+  delete commandByKey["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command"];
   assert.equal(
     isExplorerContextMenuRegistered({ platform: "win32", spawnSyncImpl, logWarn: () => {} }),
     false,
@@ -93,7 +93,7 @@ test("isExplorerContextMenuRegistered ignores bare verb keys without command", (
       // No ProgrammaticAccessOnly and no command default value.
       return { status: 1, stdout: "", stderr: "value missing" };
     }
-    if (args[1] === "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty") {
+    if (args[1] === "HKCU\\Software\\Classes\\Directory\\shell\\Sensor") {
       return { status: 0, stdout: "ok", stderr: "" };
     }
     return { status: 1, stdout: "", stderr: "not found" };
@@ -114,8 +114,8 @@ test("isExplorerContextMenuRegistered is false when user suppressed HKLM menu", 
       if (
         args.includes(SUPPRESSION_VALUE)
         && (
-          key === "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"
-          || key === "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty"
+          key === "HKCU\\Software\\Classes\\Directory\\shell\\Sensor"
+          || key === "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor"
         )
       ) {
         return { status: 0, stdout: "ok", stderr: "" };
@@ -123,10 +123,10 @@ test("isExplorerContextMenuRegistered is false when user suppressed HKLM menu", 
       return { status: 1, stdout: "", stderr: "value missing" };
     }
     if (
-      key === "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"
-      || key === "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty"
-      || key === "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty"
-      || key === "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty"
+      key === "HKCU\\Software\\Classes\\Directory\\shell\\Sensor"
+      || key === "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor"
+      || key === "HKLM\\Software\\Classes\\Directory\\shell\\Sensor"
+      || key === "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor"
       || key.endsWith("\\command")
     ) {
       return { status: 0, stdout: "ok", stderr: "" };
@@ -142,17 +142,17 @@ test("isExplorerContextMenuRegistered is false when user suppressed HKLM menu", 
 
 test("isExplorerContextMenuRegistered stays true when only one verb is suppressed", () => {
   const commandByKey = {
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command":
-      '"C:\\\\Apps\\\\Netcatty.exe" -- --open-terminal-path="%1."',
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command":
-      '"C:\\\\Apps\\\\Netcatty.exe" -- --open-terminal-path="%V."',
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command":
+      '"C:\\\\Apps\\\\Sensor.exe" -- --open-terminal-path="%1."',
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command":
+      '"C:\\\\Apps\\\\Sensor.exe" -- --open-terminal-path="%V."',
   };
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -167,7 +167,7 @@ test("isExplorerContextMenuRegistered stays true when only one verb is suppresse
       // Only the folder verb is suppressed; background is still visible via HKLM.
       if (
         args.includes(SUPPRESSION_VALUE)
-        && args[1] === "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"
+        && args[1] === "HKCU\\Software\\Classes\\Directory\\shell\\Sensor"
       ) {
         return { status: 0, stdout: "ok", stderr: "" };
       }
@@ -187,8 +187,8 @@ test("isExplorerContextMenuRegistered stays true when only one verb is suppresse
 test("removeExplorerContextMenu deletes per-user folder and background keys", () => {
   const deleted = [];
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -215,15 +215,15 @@ test("removeExplorerContextMenu deletes per-user folder and background keys", ()
   });
   assert.equal(result.success, true);
   assert.equal(result.enabled, false);
-  assert.ok(deleted.some((key) => key.endsWith("Directory\\shell\\Netcatty")));
-  assert.ok(deleted.some((key) => key.includes("Directory\\Background\\shell\\Netcatty")));
+  assert.ok(deleted.some((key) => key.endsWith("Directory\\shell\\Sensor")));
+  assert.ok(deleted.some((key) => key.includes("Directory\\Background\\shell\\Sensor")));
   assert.ok(deleted.every((key) => key.startsWith("HKCU\\")));
 });
 
 test("removeExplorerContextMenu never deletes HKLM; suppresses per-user instead", () => {
   const present = new Set([
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
   ]);
   const deleted = [];
   const suppressed = new Set();
@@ -270,27 +270,27 @@ test("removeExplorerContextMenu never deletes HKLM; suppresses per-user instead"
   });
   assert.equal(result.success, true);
   assert.equal(result.enabled, false);
-  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"));
-  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty"));
+  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor"));
+  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor"));
   // Machine keys remain for other users / uninstaller; working HKCU verbs are
   // hidden via suppression rather than deleted first.
   assert.equal(deleted.length, 0);
-  assert.ok(present.has("HKLM\\Software\\Classes\\Directory\\shell\\Netcatty"));
-  assert.ok(present.has("HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty"));
+  assert.ok(present.has("HKLM\\Software\\Classes\\Directory\\shell\\Sensor"));
+  assert.ok(present.has("HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor"));
   assert.ok(deleted.every((key) => key.startsWith("HKCU\\")));
 });
 
 test("writeUserSuppression rollback preserves pre-existing portable HKCU commands", () => {
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%1."'],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%V."'],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%1."'],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%V."'],
   ]);
   let folderSuppressWrites = 0;
   const deletedKeys = [];
@@ -320,7 +320,7 @@ test("writeUserSuppression rollback preserves pre-existing portable HKCU command
       const valueIdx = args.indexOf("/v");
       if (valueIdx >= 0 && args[valueIdx + 1] === SUPPRESSION_VALUE) {
         // First suppression succeeds; second fails so rollback must run.
-        if (key.includes("Directory\\shell\\Netcatty") && !key.includes("Background")) {
+        if (key.includes("Directory\\shell\\Sensor") && !key.includes("Background")) {
           folderSuppressWrites += 1;
           values.set(`${key}::${SUPPRESSION_VALUE}`, "");
           return { status: 0, stdout: "", stderr: "" };
@@ -354,26 +354,26 @@ test("writeUserSuppression rollback preserves pre-existing portable HKCU command
   assert.equal(deletedKeys.length, 0);
   assert.ok(deletedValues.some((entry) => entry.includes(SUPPRESSION_VALUE)));
   assert.equal(
-    present.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"),
+    present.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor"),
     true,
   );
   assert.equal(
-    values.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::"),
+    values.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::"),
     true,
   );
 });
 
 test("removeExplorerContextMenu keeps portable HKCU when machine suppression fails", () => {
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%1."'],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%V."'],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%1."'],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%V."'],
   ]);
   const deleted = [];
   const spawnSyncImpl = (cmd, args) => {
@@ -415,7 +415,7 @@ test("removeExplorerContextMenu keeps portable HKCU when machine suppression fai
   });
   assert.equal(result.success, false);
   assert.equal(deleted.length, 0);
-  assert.equal(present.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"), true);
+  assert.equal(present.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor"), true);
   assert.equal(result.enabled, true);
 });
 
@@ -462,7 +462,7 @@ test("installExplorerContextMenu writes HKCU shell command entries", () => {
   };
 
   const result = installExplorerContextMenu({
-    executablePath: "C:\\Apps\\Netcatty.exe",
+    executablePath: "C:\\Apps\\Sensor.exe",
     platform: "win32",
     spawnSyncImpl,
     logWarn: () => {},
@@ -470,7 +470,7 @@ test("installExplorerContextMenu writes HKCU shell command entries", () => {
 
   assert.equal(result.success, true);
   assert.equal(result.enabled, true);
-  assert.ok(writes.some((args) => args.includes("MUIVerb") && args.includes("Open in Netcatty")));
+  assert.ok(writes.some((args) => args.includes("MUIVerb") && args.includes("Open in Sensor")));
   assert.ok(writes.some((args) =>
     args.some((part) => String(part).includes('--open-terminal-path="%1."'))
   ));
@@ -484,8 +484,8 @@ test("installExplorerContextMenu writes HKCU shell command entries", () => {
 test("installExplorerContextMenu does not duplicate HKLM verbs into HKCU", () => {
   const writes = [];
   const present = new Set([
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
   ]);
   const values = new Map();
   const spawnSyncImpl = (cmd, args) => {
@@ -527,7 +527,7 @@ test("installExplorerContextMenu does not duplicate HKLM verbs into HKCU", () =>
   };
 
   const result = installExplorerContextMenu({
-    executablePath: "C:\\Program Files\\Netcatty\\Netcatty.exe",
+    executablePath: "C:\\Program Files\\Sensor\\Sensor.exe",
     platform: "win32",
     spawnSyncImpl,
     logWarn: () => {},
@@ -541,20 +541,20 @@ test("installExplorerContextMenu does not duplicate HKLM verbs into HKCU", () =>
 });
 
 test("installExplorerContextMenu falls back to HKCU when unelevated HKLM verbs are stale", () => {
-  const exe = "C:\\Program Files\\Netcatty\\Netcatty.exe";
+  const exe = "C:\\Program Files\\Sensor\\Sensor.exe";
   const present = new Set([
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", "C:\\Old\\Netcatty.exe,0"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Old\\Netcatty.exe" --open-terminal-path "%1"'],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", "C:\\Old\\Netcatty.exe,0"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", '"C:\\Old\\Netcatty.exe" --open-terminal-path "%V"'],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::Icon", "C:\\Old\\Sensor.exe,0"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Old\\Sensor.exe" --open-terminal-path "%1"'],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", "C:\\Old\\Sensor.exe,0"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", '"C:\\Old\\Sensor.exe" --open-terminal-path "%V"'],
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -603,28 +603,28 @@ test("installExplorerContextMenu falls back to HKCU when unelevated HKLM verbs a
   assert.equal(result.success, true);
   assert.equal(result.enabled, true);
   assert.equal(
-    values.get("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::"),
+    values.get("HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::"),
     buildExplorerContextMenuCommand(exe, "%1"),
   );
 });
 
 test("installExplorerContextMenu skips reg writes when shell verbs are already current", () => {
-  const exe = "C:\\Program Files\\Netcatty\\Netcatty.exe";
+  const exe = "C:\\Program Files\\Sensor\\Sensor.exe";
   const folderCmd = buildExplorerContextMenuCommand(exe, "%1");
   const backgroundCmd = buildExplorerContextMenuCommand(exe, "%V");
   const present = new Set([
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", folderCmd],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", backgroundCmd],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", folderCmd],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", backgroundCmd],
   ]);
   const writes = [];
   const spawnSyncImpl = (cmd, args) => {
@@ -674,7 +674,7 @@ test("resolveExplorerContextMenuEnabled prefers saved preference over registry",
     existsSync: () => true,
     readFileSync: () => JSON.stringify({ enabled: false }),
   };
-  const app = { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" };
+  const app = { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" };
   const spawnSyncImpl = () => ({ status: 0, stdout: "present", stderr: "" });
 
   const resolved = resolveExplorerContextMenuEnabled({
@@ -721,32 +721,32 @@ test("updateExplorerContextMenuEnabledPreference rolls back registry on apply fa
 });
 
 test("installExplorerContextMenu clears stale portable HKCU verbs when HKLM exists", () => {
-  const exe = "C:\\Program Files\\Netcatty\\Netcatty.exe";
+  const exe = "C:\\Program Files\\Sensor\\Sensor.exe";
   const folderCmd = buildExplorerContextMenuCommand(exe, "%1");
   const backgroundCmd = buildExplorerContextMenuCommand(exe, "%V");
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", "C:\\Portable\\Netcatty.exe,0"],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%1."'],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", "C:\\Portable\\Netcatty.exe,0"],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%V."'],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", folderCmd],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", backgroundCmd],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor::Icon", "C:\\Portable\\Sensor.exe,0"],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%1."'],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", "C:\\Portable\\Sensor.exe,0"],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%V."'],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", folderCmd],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", backgroundCmd],
   ]);
   const deleted = [];
   const spawnSyncImpl = (cmd, args) => {
@@ -792,26 +792,26 @@ test("installExplorerContextMenu clears stale portable HKCU verbs when HKLM exis
 
   assert.equal(result.success, true);
   assert.equal(result.enabled, true);
-  assert.ok(deleted.some((key) => key.includes("HKCU\\") && key.includes("Directory\\shell\\Netcatty")));
-  assert.ok(deleted.some((key) => key.includes("HKCU\\") && key.includes("Directory\\Background\\shell\\Netcatty")));
-  assert.equal(present.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"), false);
+  assert.ok(deleted.some((key) => key.includes("HKCU\\") && key.includes("Directory\\shell\\Sensor")));
+  assert.ok(deleted.some((key) => key.includes("HKCU\\") && key.includes("Directory\\Background\\shell\\Sensor")));
+  assert.equal(present.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor"), false);
 });
 
 test("installExplorerContextMenu unsuppresses portable HKCU when HKLM refresh fails", () => {
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    [`HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::${SUPPRESSION_VALUE}`, ""],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%1."'],
-    [`HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::${SUPPRESSION_VALUE}`, ""],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%V."'],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Old\\Netcatty.exe" --open-terminal-path "%1"'],
+    [`HKCU\\Software\\Classes\\Directory\\shell\\Sensor::${SUPPRESSION_VALUE}`, ""],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%1."'],
+    [`HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::${SUPPRESSION_VALUE}`, ""],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%V."'],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Old\\Sensor.exe" --open-terminal-path "%1"'],
   ]);
   const deletedValues = [];
   const deletedKeys = [];
@@ -854,7 +854,7 @@ test("installExplorerContextMenu unsuppresses portable HKCU when HKLM refresh fa
   };
 
   const result = installExplorerContextMenu({
-    executablePath: "C:\\Program Files\\Netcatty\\Netcatty.exe",
+    executablePath: "C:\\Program Files\\Sensor\\Sensor.exe",
     platform: "win32",
     spawnSyncImpl,
     logWarn: () => {},
@@ -864,37 +864,37 @@ test("installExplorerContextMenu unsuppresses portable HKCU when HKLM refresh fa
   assert.ok(deletedValues.every((entry) => entry.includes(SUPPRESSION_VALUE)));
   assert.equal(result.enabled, true);
   assert.equal(
-    values.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::"),
+    values.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::"),
     true,
   );
 });
 
 test("installExplorerContextMenu keeps working HKCU when HKLM refresh fails", () => {
-  const portableCmd = '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%1."';
-  const portableBg = '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%V."';
+  const portableCmd = '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%1."';
+  const portableBg = '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%V."';
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", "C:\\Portable\\Netcatty.exe,0"],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", portableCmd],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", "C:\\Portable\\Netcatty.exe,0"],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", portableBg],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", "C:\\Old\\Netcatty.exe,0"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Old\\Netcatty.exe" --open-terminal-path "%1"'],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", "C:\\Old\\Netcatty.exe,0"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", '"C:\\Old\\Netcatty.exe" --open-terminal-path "%V"'],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor::Icon", "C:\\Portable\\Sensor.exe,0"],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", portableCmd],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", "C:\\Portable\\Sensor.exe,0"],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", portableBg],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::Icon", "C:\\Old\\Sensor.exe,0"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Old\\Sensor.exe" --open-terminal-path "%1"'],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", "C:\\Old\\Sensor.exe,0"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", '"C:\\Old\\Sensor.exe" --open-terminal-path "%V"'],
   ]);
   const deleted = [];
   const spawnSyncImpl = (cmd, args) => {
@@ -930,7 +930,7 @@ test("installExplorerContextMenu keeps working HKCU when HKLM refresh fails", ()
   };
 
   const result = installExplorerContextMenu({
-    executablePath: "C:\\Program Files\\Netcatty\\Netcatty.exe",
+    executablePath: "C:\\Program Files\\Sensor\\Sensor.exe",
     platform: "win32",
     spawnSyncImpl,
     logWarn: () => {},
@@ -939,30 +939,30 @@ test("installExplorerContextMenu keeps working HKCU when HKLM refresh fails", ()
   assert.equal(result.success, false);
   // Portable HKCU must remain so Explorer still has a working entry.
   assert.equal(deleted.length, 0);
-  assert.equal(present.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"), true);
+  assert.equal(present.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor"), true);
   assert.equal(result.enabled, true);
 });
 
 test("installExplorerContextMenu fails when residual HKCU verbs cannot be cleared under HKLM", () => {
-  const exe = "C:\\Program Files\\Netcatty\\Netcatty.exe";
+  const exe = "C:\\Program Files\\Sensor\\Sensor.exe";
   const folderCmd = buildExplorerContextMenuCommand(exe, "%1");
   const backgroundCmd = buildExplorerContextMenuCommand(exe, "%V");
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Portable\\Netcatty.exe" -- --open-terminal-path="%1."'],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", folderCmd],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", backgroundCmd],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Portable\\Sensor.exe" -- --open-terminal-path="%1."'],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", folderCmd],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", backgroundCmd],
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -1010,12 +1010,12 @@ test("installExplorerContextMenu fails when residual HKCU verbs cannot be cleare
 
 test("installExplorerContextMenu fails when suppression cleanup fails on user-scope enable", () => {
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
   ]);
   const values = new Map([
-    [`HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::${SUPPRESSION_VALUE}`, ""],
-    [`HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::${SUPPRESSION_VALUE}`, ""],
+    [`HKCU\\Software\\Classes\\Directory\\shell\\Sensor::${SUPPRESSION_VALUE}`, ""],
+    [`HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::${SUPPRESSION_VALUE}`, ""],
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -1047,7 +1047,7 @@ test("installExplorerContextMenu fails when suppression cleanup fails on user-sc
   };
 
   const result = installExplorerContextMenu({
-    executablePath: "C:\\Apps\\Netcatty.exe",
+    executablePath: "C:\\Apps\\Sensor.exe",
     platform: "win32",
     spawnSyncImpl,
     logWarn: () => {},
@@ -1056,13 +1056,13 @@ test("installExplorerContextMenu fails when suppression cleanup fails on user-sc
 });
 
 test("installExplorerContextMenu falls back to HKCU when only a partial HKLM verb remains", () => {
-  const exe = "C:\\Program Files\\Netcatty\\Netcatty.exe";
+  const exe = "C:\\Program Files\\Sensor\\Sensor.exe";
   const present = new Set([
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKLM\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", '"C:\\Old\\Netcatty.exe" --open-terminal-path "%1"'],
+    ["HKLM\\Software\\Classes\\Directory\\shell\\Sensor\\command::", '"C:\\Old\\Sensor.exe" --open-terminal-path "%1"'],
   ]);
   const spawnSyncImpl = (cmd, args) => {
     assert.equal(cmd, "reg.exe");
@@ -1110,7 +1110,7 @@ test("installExplorerContextMenu falls back to HKCU when only a partial HKLM ver
   assert.equal(result.success, true);
   assert.equal(result.enabled, true);
   assert.equal(
-    values.get("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::"),
+    values.get("HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::"),
     buildExplorerContextMenuCommand(exe, "%1"),
   );
 });
@@ -1125,8 +1125,8 @@ test("applyInitialExplorerContextMenuPreference caches default-off via probe mar
     },
   };
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
-    executablePath: "D:\\Tools\\NetcattyPortable.exe",
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
+    executablePath: "D:\\Tools\\SensorPortable.exe",
     platform: "win32",
     fsModule,
     spawnSyncImpl: () => ({ status: 1, stdout: "", stderr: "missing" }),
@@ -1140,28 +1140,28 @@ test("applyInitialExplorerContextMenuPreference caches default-off via probe mar
 });
 
 test("applyInitialExplorerContextMenuPreference repairs per-user HKCU verbs after probe", () => {
-  const exe = "C:\\Users\\me\\AppData\\Local\\Programs\\Netcatty\\Netcatty.exe";
+  const exe = "C:\\Users\\me\\AppData\\Local\\Programs\\Sensor\\Sensor.exe";
   const folderCmd = buildExplorerContextMenuCommand(exe, "%1");
   const backgroundCmd = buildExplorerContextMenuCommand(exe, "%V");
   const files = new Map([
     [
-      "C:\\Users\\test\\AppData\\Roaming\\Netcatty\\explorer-context-menu-probe.json",
+      "C:\\Users\\test\\AppData\\Roaming\\Sensor\\explorer-context-menu-probe.json",
       JSON.stringify({ schemaVersion: EXPLORER_CONTEXT_MENU_SCHEMA_VERSION }),
     ],
   ]);
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", folderCmd],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::MUIVerb", "Open in Netcatty"],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty::Icon", `${exe},0`],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", backgroundCmd],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", folderCmd],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::MUIVerb", "Open in Sensor"],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor::Icon", `${exe},0`],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", backgroundCmd],
   ]);
   let wrotePreference = null;
   const fsModule = {
@@ -1202,7 +1202,7 @@ test("applyInitialExplorerContextMenuPreference repairs per-user HKCU verbs afte
   };
 
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
     executablePath: exe,
     platform: "win32",
     fsModule,
@@ -1246,33 +1246,33 @@ test("non-windows platforms report unsupported explorer context menu", () => {
 test("resolveExplorerContextMenuExecutablePath prefers portable launcher path", () => {
   assert.equal(
     resolveExplorerContextMenuExecutablePath({
-      execPath: "C:\\Users\\me\\AppData\\Local\\Temp\\ncaXXXX\\Netcatty.exe",
-      env: { PORTABLE_EXECUTABLE_FILE: "D:\\Tools\\NetcattyPortable.exe" },
+      execPath: "C:\\Users\\me\\AppData\\Local\\Temp\\ncaXXXX\\Sensor.exe",
+      env: { PORTABLE_EXECUTABLE_FILE: "D:\\Tools\\SensorPortable.exe" },
     }),
-    "D:\\Tools\\NetcattyPortable.exe",
+    "D:\\Tools\\SensorPortable.exe",
   );
   assert.equal(
     resolveExplorerContextMenuExecutablePath({
-      execPath: "C:\\Program Files\\Netcatty\\Netcatty.exe",
+      execPath: "C:\\Program Files\\Sensor\\Sensor.exe",
       env: {},
     }),
-    "C:\\Program Files\\Netcatty\\Netcatty.exe",
+    "C:\\Program Files\\Sensor\\Sensor.exe",
   );
 });
 
 test("applyInitialExplorerContextMenuPreference warm-starts when verbs remain registered", () => {
-  const exe = "D:\\Tools\\NetcattyPortable.exe";
+  const exe = "D:\\Tools\\SensorPortable.exe";
   const folderCmd = buildExplorerContextMenuCommand(exe, "%1");
   const backgroundCmd = buildExplorerContextMenuCommand(exe, "%V");
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", folderCmd],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", backgroundCmd],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", folderCmd],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", backgroundCmd],
   ]);
   let writes = 0;
   const fsModule = {
@@ -1316,7 +1316,7 @@ test("applyInitialExplorerContextMenuPreference warm-starts when verbs remain re
     return { status: 1, stdout: "", stderr: "unexpected" };
   };
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
     executablePath: exe,
     platform: "win32",
     fsModule,
@@ -1328,15 +1328,15 @@ test("applyInitialExplorerContextMenuPreference warm-starts when verbs remain re
 });
 
 test("applyInitialExplorerContextMenuPreference re-applies when enabled preference has missing verbs", () => {
-  const exe = "D:\\Tools\\NetcattyPortable.exe";
+  const exe = "D:\\Tools\\SensorPortable.exe";
   let wrote = null;
   const present = new Set([
     // Only one verb remains after an interrupted rewrite.
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", buildExplorerContextMenuCommand(exe, "%1")],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", buildExplorerContextMenuCommand(exe, "%1")],
   ]);
   const fsModule = {
     existsSync: () => true,
@@ -1385,7 +1385,7 @@ test("applyInitialExplorerContextMenuPreference re-applies when enabled preferen
     return { status: 1, stdout: "", stderr: "unexpected" };
   };
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
     executablePath: exe,
     platform: "win32",
     fsModule,
@@ -1400,8 +1400,8 @@ test("applyInitialExplorerContextMenuPreference re-applies when enabled preferen
 test("applyInitialExplorerContextMenuPreference re-suppresses when preference is disabled", () => {
   let wrote = null;
   const present = new Set([
-    "HKLM\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
+    "HKLM\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKLM\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
   ]);
   const suppressed = new Set();
   const fsModule = {
@@ -1409,7 +1409,7 @@ test("applyInitialExplorerContextMenuPreference re-suppresses when preference is
     readFileSync: () => JSON.stringify({
       enabled: false,
       schemaVersion: EXPLORER_CONTEXT_MENU_SCHEMA_VERSION,
-      executablePath: "C:\\Program Files\\Netcatty\\Netcatty.exe",
+      executablePath: "C:\\Program Files\\Sensor\\Sensor.exe",
     }),
     mkdirSync: () => {},
     writeFileSync: (_path, data) => {
@@ -1447,8 +1447,8 @@ test("applyInitialExplorerContextMenuPreference re-suppresses when preference is
   };
 
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
-    executablePath: "C:\\Program Files\\Netcatty\\Netcatty.exe",
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
+    executablePath: "C:\\Program Files\\Sensor\\Sensor.exe",
     platform: "win32",
     fsModule,
     spawnSyncImpl,
@@ -1457,8 +1457,8 @@ test("applyInitialExplorerContextMenuPreference re-suppresses when preference is
   assert.equal(result.success, true);
   assert.equal(result.enabled, false);
   assert.equal(wrote?.enabled, false);
-  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty"));
-  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty"));
+  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\shell\\Sensor"));
+  assert.ok(suppressed.has("HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor"));
 });
 
 test("applyInitialExplorerContextMenuPreference re-applies when development appArgs change", () => {
@@ -1467,14 +1467,14 @@ test("applyInitialExplorerContextMenuPreference re-applies when development appA
   const newApp = "C:\\new\\netcatty";
   let wrote = null;
   const present = new Set([
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty",
-    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor",
+    "HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command",
   ]);
   const values = new Map([
-    ["HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::", buildExplorerContextMenuCommand(electronExe, "%1", { appArgs: [oldApp] })],
-    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Netcatty\\command::", buildExplorerContextMenuCommand(electronExe, "%V", { appArgs: [oldApp] })],
+    ["HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::", buildExplorerContextMenuCommand(electronExe, "%1", { appArgs: [oldApp] })],
+    ["HKCU\\Software\\Classes\\Directory\\Background\\shell\\Sensor\\command::", buildExplorerContextMenuCommand(electronExe, "%V", { appArgs: [oldApp] })],
   ]);
   const fsModule = {
     existsSync: () => true,
@@ -1524,7 +1524,7 @@ test("applyInitialExplorerContextMenuPreference re-applies when development appA
   };
 
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
     executablePath: electronExe,
     appArgs: [newApp],
     platform: "win32",
@@ -1536,7 +1536,7 @@ test("applyInitialExplorerContextMenuPreference re-applies when development appA
   assert.equal(result.enabled, true);
   assert.deepEqual(wrote?.appArgs, [newApp]);
   assert.equal(
-    values.get("HKCU\\Software\\Classes\\Directory\\shell\\Netcatty\\command::"),
+    values.get("HKCU\\Software\\Classes\\Directory\\shell\\Sensor\\command::"),
     buildExplorerContextMenuCommand(electronExe, "%1", { appArgs: [newApp] }),
   );
 });
@@ -1550,7 +1550,7 @@ test("applyInitialExplorerContextMenuPreference re-applies when portable path ch
     readFileSync: () => JSON.stringify({
       enabled: true,
       schemaVersion: EXPLORER_CONTEXT_MENU_SCHEMA_VERSION,
-      executablePath: "D:\\Old\\NetcattyPortable.exe",
+      executablePath: "D:\\Old\\SensorPortable.exe",
     }),
     mkdirSync: () => {},
     writeFileSync: (_path, data) => {
@@ -1591,9 +1591,9 @@ test("applyInitialExplorerContextMenuPreference re-applies when portable path ch
     return { status: 1, stdout: "", stderr: "unexpected" };
   };
 
-  const nextExe = "E:\\Moved\\NetcattyPortable.exe";
+  const nextExe = "E:\\Moved\\SensorPortable.exe";
   const result = applyInitialExplorerContextMenuPreference({
-    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Netcatty" },
+    app: { getPath: () => "C:\\Users\\test\\AppData\\Roaming\\Sensor" },
     executablePath: nextExe,
     platform: "win32",
     fsModule,

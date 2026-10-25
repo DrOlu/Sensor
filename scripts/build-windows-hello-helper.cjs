@@ -94,9 +94,9 @@ function buildWindowsHelloHelper({
   if (!targetArch) return { skipped: true, reason: "unsupported-arch" };
 
   const pathApi = platform === "win32" ? path.win32 : path;
-  const sourcePath = pathApi.join(projectDir, "electron", "bridges", "windowsHelloHelper", "NetcattyWindowsHello.cpp");
+  const sourcePath = pathApi.join(projectDir, "electron", "bridges", "windowsHelloHelper", "SensorWindowsHello.cpp");
   const outputDir = pathApi.join(projectDir, "electron", "bridges", "windowsHelloHelper", "build", targetArch);
-  const outputPath = pathApi.join(outputDir, "NetcattyWindowsHello.exe");
+  const outputPath = pathApi.join(outputDir, "SensorWindowsHello.exe");
   mkdir(outputDir, { recursive: true });
 
   const compiler = findCompiler(env);

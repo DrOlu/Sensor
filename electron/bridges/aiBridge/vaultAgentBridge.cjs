@@ -36,7 +36,7 @@ function createVaultAgentBridge({ getMainWindowFn, validateSender }) {
     if (!target || target.isDestroyed?.()) {
       return {
         ok: false,
-        error: "No active Netcatty window is available for vault access.",
+        error: "No active Sensor window is available for vault access.",
       };
     }
 

@@ -9,7 +9,7 @@ type WindowGlobal = typeof globalThis & { window?: unknown };
 function setBridge(bridge: Record<string, unknown>): () => void {
   const g = globalThis as WindowGlobal;
   const original = g.window;
-  // Loosely typed: the real window.netcatty is a large NetcattyBridge; tests
+  // Loosely typed: the real window.netcatty is a large SensorBridge; tests
   // only stub the handful of Google methods the adapter actually calls.
   g.window = { netcatty: bridge } as unknown as Window & typeof globalThis;
   return () => {

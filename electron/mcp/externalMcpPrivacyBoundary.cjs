@@ -37,7 +37,7 @@ function createPrivacyBoundary(rpcCall, getConfig) {
     } catch (error) {
       checkConfig();
       if (!protection) throw error;
-      throw new Error(protection.redact(String(error?.message || "Netcatty tool failed.")));
+      throw new Error(protection.redact(String(error?.message || "Sensor tool failed.")));
     }
     checkConfig();
     if (protection && method === "netcatty/readAttachment" && typeof result?.text === "string") {

@@ -6,7 +6,7 @@
  *
  * Some bastions bind the TCP/SSH connection to the first interactive session.
  * After that session ends they still accept a new session channel, then
- * immediately EOF / exit 0. Netcatty used to treat that as a clean user exit
+ * immediately EOF / exit 0. Sensor used to treat that as a clean user exit
  * and close the tab (issue #2923, 齐治 TERM-SSHD).
  */
 

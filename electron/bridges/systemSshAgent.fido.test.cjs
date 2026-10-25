@@ -292,7 +292,7 @@ test("prepareSystemSshAgent ssh-adds when bare identity is loaded but companion 
     });
 
     assert.deepEqual(sshAddCalls, [[identityPath]]);
-    // Bare key was already Netcatty-owned; join that refcount (do not treat
+    // Bare key was already Sensor-owned; join that refcount (do not treat
     // the cert-only reload as a newly loaded private identity).
     assert.deepEqual(prepared._netcattyNewlyLoadedIdentityPaths, [certPath]);
     assert.deepEqual(prepared._netcattySharedAgentIdentities, [
@@ -386,7 +386,7 @@ test("prepareSystemSshAgent tracks companion cert added beside a pre-existing us
   }
 });
 
-test("prepareSystemSshAgent joins Netcatty-owned already-loaded identities for shared cleanup", async () => {
+test("prepareSystemSshAgent joins Sensor-owned already-loaded identities for shared cleanup", async () => {
   const {
     prepareSystemSshAgent,
     publicKeyBlob,

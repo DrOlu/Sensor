@@ -5,7 +5,7 @@ Status: Approved (design) — pending spec review
 
 ## Summary
 
-Three small terminal UX improvements for Netcatty:
+Three small terminal UX improvements for Sensor:
 
 1. **One-click clone tab** — the existing tab right-click "Copy Tab" should also
    inherit the source tab's current working directory.

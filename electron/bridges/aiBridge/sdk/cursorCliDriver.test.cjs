@@ -759,7 +759,7 @@ test("listCursorCliModels aborts a hung CLI and settles after forced cleanup", a
   assert.deepEqual(signals, ["SIGTERM", "SIGKILL"]);
 });
 
-test("resolveCursorCliWorkspaceCwd prefers Netcatty temp over unwritable preferred cwd", () => {
+test("resolveCursorCliWorkspaceCwd prefers Sensor temp over unwritable preferred cwd", () => {
   const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "netcatty-cli-ws-"));
   const resolved = resolveCursorCliWorkspaceCwd({
     preferredCwd: "/",
@@ -864,5 +864,5 @@ test("runCursorCliTurn surfaces MCP merge failure instead of continuing without 
   assert.equal(spawned, false);
   assert.equal(emitter.calls.length, 1);
   assert.equal(emitter.calls[0][0], "error");
-  assert.match(emitter.calls[0][1], /Failed to prepare Netcatty MCP for Cursor CLI/i);
+  assert.match(emitter.calls[0][1], /Failed to prepare Sensor MCP for Cursor CLI/i);
 });

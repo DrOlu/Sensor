@@ -51,9 +51,9 @@ test("SSH debug logging keeps auth messages but drops noisy channel data", () =>
   );
 });
 
-test("SSH diagnostic log defaults to Netcatty's managed temp directory", () => {
+test("SSH diagnostic log defaults to Sensor's managed temp directory", () => {
   const logPath = _getSshDebugLogFilePath();
-  assert.equal(path.basename(path.dirname(logPath)), "Netcatty");
+  assert.equal(path.basename(path.dirname(logPath)), "Sensor");
   assert.match(path.basename(logPath), /netcatty-ssh\.log$/);
 });
 

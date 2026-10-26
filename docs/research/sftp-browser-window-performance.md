@@ -60,7 +60,7 @@ and hides/restores both views after selecting the final file. Selection and
 position persist (one CSS-pixel boundary tolerance). It uses its own sandboxed
 BrowserWindow/profile, dedicated port 5379 and private Vite cache, allows only
 its local fixture requests, and closes its listener/profile afterward. Results
-and window pixels are kept in Netcatty's dedicated temporary directory. This is
+and window pixels are kept in Sensor's dedicated temporary directory. This is
 programmatic native-window input; it does not use the user's SSH or unlock the
 macOS session, and is not a claim of manual CUA acceptance while macOS was locked.
 

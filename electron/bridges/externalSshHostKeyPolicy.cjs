@@ -1,11 +1,11 @@
 /**
  * Host-key policy helpers for external OpenSSH-driven protocols (Mosh, ET).
  *
- * Netcatty's in-app SSH path uses ssh2 + hostKeyVerifier with a renderer
+ * Sensor's in-app SSH path uses ssh2 + hostKeyVerifier with a renderer
  * confirmation dialog. Mosh and Eternal Terminal bootstrap via system
  * OpenSSH instead, so they cannot share that dialog path. They still need
  * the vault known_hosts snapshot for MITM protection: keys the user already
- * trusted through Netcatty SSH must reject when the live server presents a
+ * trusted through Sensor SSH must reject when the live server presents a
  * different key of the same type.
  *
  * Strategy (aligned with issue #2501 user priority — key-change intercept):
@@ -80,7 +80,7 @@ const formatVaultKnownHostLine = (knownHost, { hostnameOverride, portOverride, b
 /**
  * @param {object[]} knownHosts
  * @param {object} [opts]
- * @param {string} [opts.connectionHostname] Netcatty connection hostname
+ * @param {string} [opts.connectionHostname] Sensor connection hostname
  * @param {number} [opts.connectionPort]
  * @param {string} [opts.hostKeyAlias] Effective OpenSSH HostKeyAlias for the hop
  * @param {string} [opts.resolvedHostName] Effective OpenSSH HostName for the hop
@@ -775,7 +775,7 @@ const resolveExternalStrictHostKeyChecking = ({
   // covers passwords/passphrases). accept-new still rejects a changed key.
   if (protocol === "et") return "accept-new";
   // Force ask for Mosh so a user ssh_config StrictHostKeyChecking=no/off
-  // cannot disable Netcatty's verification setting.
+  // cannot disable Sensor's verification setting.
   return "ask";
 };
 

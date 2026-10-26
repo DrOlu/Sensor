@@ -9,7 +9,7 @@ const EXPECTED_VERSION = "0.10.0-beta.292";
 
 // External IIP metadata must not overwrite fields.type, the parser's internal
 // SequenceType discriminator. In particular, nu_plugin_charton emits type=image/png
-// and otherwise skips FILE decoder initialization (Netcatty #3700).
+// and otherwise skips FILE decoder initialization (Sensor #3700).
 // Pinned-version workaround pending an upstream release; patch both runtime bundles.
 const PATCHES = [
   ...["lib/addon-image.js", "lib/addon-image.mjs"].map(file => ({

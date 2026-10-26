@@ -195,7 +195,7 @@ function emitCodexToolResultOnce(item, emitter, state, output, toolName) {
  * Codex emits mid-turn `type:"error"` JSONL events while it reconnects after a
  * dropped SSE/response body (`Reconnecting...`, `retrying N/M`). Those are
  * recoverable — the same turn keeps producing items afterward. Treating them
- * as fatal settles the Netcatty sidebar turn and stops UI refresh while the CLI
+ * as fatal settles the Sensor sidebar turn and stops UI refresh while the CLI
  * process continues (issue #2456).
  *
  * Explicit `willRetry: false` / `will_retry: false` means Codex exhausted its

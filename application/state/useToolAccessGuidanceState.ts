@@ -17,7 +17,7 @@ const EXTERNAL_MCP_READY_RETRY_DELAY_MS = 1200;
 const EXTERNAL_MCP_SLOW_POLL_DELAY_MS = 3000;
 
 export type ToolAccessGuidanceState = {
-  /** Path of the local Netcatty skill file (Skills + CLI mode). */
+  /** Path of the local Sensor skill file (Skills + CLI mode). */
   skillPath: string | null;
   /** Human-readable CLI command prefix shown under the skill path. */
   commandPrefix: string;

@@ -10,7 +10,7 @@ const mcpServerBridge = await import('../../../electron/bridges/mcpServerBridge.
 
 /**
  * cleanup() deletes the CLI discovery file. Point it at a temp path so a test
- * run cannot remove the live Netcatty user's discovery.json (#3501).
+ * run cannot remove the live Sensor user's discovery.json (#3501).
  */
 function useTempCliDiscovery(t: test.TestContext): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'netcatty-catty-attach-'));

@@ -95,7 +95,7 @@ function lsofBinaries(platform) {
 }
 
 /**
- * Working directory of the local PTY shell Netcatty spawned.
+ * Working directory of the local PTY shell Sensor spawned.
  *
  * `cd` is a shell builtin, so the spawned process cwd changes even when the
  * shell never prints OSC 7. Linux reads `/proc/<pid>/cwd`; macOS uses lsof

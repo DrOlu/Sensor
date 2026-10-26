@@ -319,11 +319,11 @@ function createAppLockController({
     try {
       if (typeof win.getTitle === "function") {
         const currentTitle = win.getTitle();
-        if (currentTitle && currentTitle !== "Netcatty") {
+        if (currentTitle && currentTitle !== "Sensor") {
           lockedWindowTitles.set(win, currentTitle);
         }
       }
-      win.setTitle?.("Netcatty");
+      win.setTitle?.("Sensor");
       if (win.webContents?.isDevToolsOpened?.()) {
         win.webContents.closeDevTools?.();
       }
@@ -366,11 +366,11 @@ function createAppLockController({
 
   function setWindowTitle(win, title) {
     if (!win || win.isDestroyed?.()) return false;
-    const nextTitle = typeof title === "string" && title.trim() ? title.trim() : "Netcatty";
+    const nextTitle = typeof title === "string" && title.trim() ? title.trim() : "Sensor";
     try {
       if (getRuntimeState()?.locked === true) {
         lockedWindowTitles.set(win, nextTitle);
-        win.setTitle?.("Netcatty");
+        win.setTitle?.("Sensor");
         return false;
       }
       win.setTitle?.(nextTitle);
@@ -388,8 +388,8 @@ function createAppLockController({
 
     for (const [win, title] of lockedWindowTitles) {
       try {
-        if (!win.isDestroyed?.() && win.getTitle?.() === "Netcatty") {
-          win.setTitle?.(title || "Netcatty");
+        if (!win.isDestroyed?.() && win.getTitle?.() === "Sensor") {
+          win.setTitle?.(title || "Sensor");
         }
       } catch {
         // ignore disposed windows during unlock
@@ -597,7 +597,7 @@ function createAppLockController({
     });
     if (fail) return fail;
     // While lock was disabled the renderer never reported activity. Re-arming
-    // the idle timer on enable would schedule an immediate lock if Netcatty
+    // the idle timer on enable would schedule an immediate lock if Sensor
     // has been open longer than the timeout. Record fresh activity first
     // (Codex P2 on dbe1a746).
     if (enablingFromNoVerifier) {

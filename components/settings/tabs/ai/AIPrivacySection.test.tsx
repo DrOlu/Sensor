@@ -53,7 +53,7 @@ test('privacy settings default off and explain their limits and connection scope
     assert.match(markup, /cannot detect every secret/);
     assert.match(markup, /AI privacy/);
     assert.match(markup, /Catty, integrated agents and external MCP clients/);
-    assert.match(markup, /Only Netcatty-managed data and tools are covered/);
+    assert.match(markup, /Only Sensor-managed data and tools are covered/);
     assert.match(markup, /native tools, direct file access and other MCP servers/);
     assert.match(markup, /Binary tool responses are blocked/);
     assert.match(markup, /one managed conversation or external MCP connection/);

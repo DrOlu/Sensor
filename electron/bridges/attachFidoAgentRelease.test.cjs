@@ -9,7 +9,7 @@ test("attachFidoAgentRelease invokes release once on close", () => {
   const conn = new EventEmitter();
   let releaseCount = 0;
   const agent = {
-    _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+    _releaseSensorFidoAgent: () => { releaseCount += 1; },
   };
 
   attachFidoAgentRelease(conn, agent);
@@ -24,7 +24,7 @@ test("attachFidoAgentRelease invokes release once on end", () => {
   const conn = new EventEmitter();
   let releaseCount = 0;
   const agent = {
-    _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+    _releaseSensorFidoAgent: () => { releaseCount += 1; },
   };
 
   attachFidoAgentRelease(conn, agent);
@@ -39,7 +39,7 @@ test("attachFidoAgentRelease is one-shot across close and end", () => {
   const conn = new EventEmitter();
   let releaseCount = 0;
   const agent = {
-    _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+    _releaseSensorFidoAgent: () => { releaseCount += 1; },
   };
 
   attachFidoAgentRelease(conn, agent);
@@ -52,7 +52,7 @@ test("attachFidoAgentRelease is one-shot across close and end", () => {
 test("attachFidoAgentRelease no-ops without conn or release hook", () => {
   let releaseCount = 0;
   const agent = {
-    _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+    _releaseSensorFidoAgent: () => { releaseCount += 1; },
   };
 
   attachFidoAgentRelease(null, agent);
@@ -66,7 +66,7 @@ test("explicit FIDO cancellation ends the transport instead of trying another cr
   const conn = new EventEmitter();
   let ended = 0;
   conn.end = () => { ended++; };
-  attachFidoAgentRelease(conn, { _releaseNetcattyFidoAgent() {} });
+  attachFidoAgentRelease(conn, { _releaseSensorFidoAgent() {} });
   conn.emit("error", Object.assign(new Error("cancelled"), { code: "ERR_FIDO_CANCELLED" }));
   assert.equal(ended, 1);
   conn.emit("error", new Error("ordinary agent error"));

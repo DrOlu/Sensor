@@ -19,6 +19,8 @@ import {
 } from '../state/connectionLogsStore';
 import { getNotesSnapshot } from '../state/notesStore';
 import { useVaultAgentBridge } from '../state/useVaultAgentBridge';
+import { terminalReconnectRegistry } from '../state/terminalReconnectRegistry';
+import { requestAgentSessionReconnect } from '../state/agentSessionReconnect';
 import { useWindowControls } from '../state/useWindowControls';
 import { useTerminalKeyboardFocus } from '../state/useTerminalKeyboardFocus';
 import { editorTabStore, useEditorTabChromeList } from '../state/editorTabStore';
@@ -1527,6 +1529,19 @@ export function AppSideEffects() {
     sessions, hosts, keys, identities, resolveEffectiveHost,
   });
 
+  const reconnectSessionForVaultAgent = useCallback((sessionId: string) => {
+    const session = sessions.find((entry) => entry.id === sessionId);
+    return requestAgentSessionReconnect(sessionId, session?.status, terminalReconnectRegistry);
+  }, [sessions]);
+
+  const inspectSessionRecoveryForVaultAgent = useCallback((sessionId: string) => {
+    const session = sessions.find((entry) => entry.id === sessionId);
+    if (!session) return { ok: false, error: `Session "${sessionId}" was not found.` };
+    const live = terminalReconnectRegistry.inspect(sessionId);
+    return { ok: true, sessionId, status: session.status, waitingForInput: false,
+      reconnecting: false, reconnectAllowed: false, ...live };
+  }, [sessions]);
+
   const closeSessionForVaultAgent = useCallback((sessionId: string) => {
     if (!sessions.some((session) => session.id === sessionId)) {
       return { ok: false as const, error: `Session "${sessionId}" was not found.` };
@@ -1571,6 +1586,8 @@ export function AppSideEffects() {
     openHost: openHostForVaultAgent,
     findExistingSessionForHost: findExistingSessionForHostForVaultAgent,
     closeSession: closeSessionForVaultAgent,
+    reconnectSession: reconnectSessionForVaultAgent,
+    inspectSessionRecovery: inspectSessionRecoveryForVaultAgent,
     getScriptSessionMeta: (sessionId) => sessions.find((session) => session.id === sessionId),
   });
 

@@ -36,7 +36,7 @@ import {
   providerAllowsAnthropicSignedThinkingRemoval,
   stripAnthropicSignedReasoningParts,
 } from '../anthropicThinkingBinding';
-import { getNetcattyBridge, generateId, resolveUserSkillsContext } from '../../aiChatStreamingSupport';
+import { getSensorBridge, generateId, resolveUserSkillsContext } from '../../aiChatStreamingSupport';
 import {
   buildCattySdkMessages,
   collectOpenAIChatAssistantFieldsForMessages,
@@ -78,7 +78,7 @@ async function runCattyTurn(input: CattyTurnInput, ctx: TurnDriverContext): Prom
     ui,
   } = input;
 
-  const netcattyBridge = (bridge ?? getNetcattyBridge()) as NonNullable<ReturnType<typeof getNetcattyBridge>>;
+  const netcattyBridge = (bridge ?? getSensorBridge()) as NonNullable<ReturnType<typeof getSensorBridge>>;
   const privacy = await initializeModelPrivacy(netcattyBridge as ModelPrivacyBridge, sessionId);
   const toolOutputTempBridge = netcattyBridge as typeof netcattyBridge & {
     getToolOutputPersistenceStatus?: () => Promise<{ durable: boolean; reason?: string }>;

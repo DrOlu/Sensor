@@ -57,7 +57,7 @@ async function initialize() {
     if (run !== generation) return;
     const failedChat = chat; chat = undefined;
     if (failedChat) await invoke('close', { chatHandle: failedChat.chatHandle }).catch(() => {});
-    if (run === generation) element('status').textContent = 'Choose a model and grant access in Netcatty, then refresh the model.';
+    if (run === generation) element('status').textContent = 'Choose a model and grant access in Sensor, then refresh the model.';
   } finally { if (run === generation) busy(false); }
 }
 element('refresh').addEventListener('click', async () => {
@@ -67,7 +67,7 @@ element('refresh').addEventListener('click', async () => {
   try {
     if (await replaceChat(run)) element('status').textContent = 'Ready';
   } catch {
-    if (run === generation) element('status').textContent = 'Choose a model and grant access in Netcatty, then refresh the model.';
+    if (run === generation) element('status').textContent = 'Choose a model and grant access in Sensor, then refresh the model.';
   } finally { if (run === generation) busy(false); }
 });
 element('choose-reference').addEventListener('click', async () => {

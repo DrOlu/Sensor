@@ -11,7 +11,7 @@ const EXPECTED_VERSION = "0.10.0-beta.292";
 // Keep that stride for draw, extractTile and viewportResize. Recomputing it from
 // the rescaled canvas can add a column: ceil(400 * 9.51 / 10) / 9.51 > 40.
 // DOM cell widths can change fractionally on window resize, shifting each image
-// row one more tile and producing diagonal corruption (Netcatty #3746).
+// row one more tile and producing diagonal corruption (Sensor #3746).
 // Local pinned-version workaround pending an upstream release, not a merged
 // upstream backport. The open draft uses the same original-grid principle:
 // https://github.com/xtermjs/xterm.js/issues/5861

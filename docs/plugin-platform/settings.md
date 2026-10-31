@@ -1,7 +1,7 @@
 # Plugin settings
 
 Settings > Plugins uses the same sections, divided cards, rows and toggles as
-other Netcatty settings. The first two rows open the plugin manager and configure
+other Sensor settings. The first two rows open the plugin manager and configure
 [local logging](local-logging.md). Logging details live in a standard host dialog;
 opening it does not enable saving or verbose diagnostics.
 

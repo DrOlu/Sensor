@@ -33,7 +33,7 @@ node packages/plugin-cli/dist/cli.js validate /tmp/hello-netcatty.ncpkg
 ```
 
 The catalog contains first-party source examples: Plugin Starter for minimal
-settings/command use, and Hello Netcatty for terminal provider demonstrations.
+settings/command use, and Hello Sensor for terminal provider demonstrations.
 No downloadable release is fabricated or published by this change. A maintainer
 must verify real artifact provenance before adding the artifact object.
 

@@ -1,7 +1,7 @@
 # Embedded plugin UI feasibility
 
 > Research only. The user subsequently clarified that plugin UI must be drawn
-> by Netcatty, not displayed in an embedded frame. See
+> by Sensor, not displayed in an embedded frame. See
 > [host-rendered React UI research](./native-react-ui-research.md).
 
 ## Goal

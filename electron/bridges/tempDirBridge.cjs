@@ -1,8 +1,8 @@
 /**
- * Temp Directory Bridge - Manages Netcatty's dedicated temp directory
+ * Temp Directory Bridge - Manages Sensor's dedicated temp directory
  * 
  * All temporary files (SFTP downloads, etc.) are stored in a dedicated
- * Netcatty folder within the system temp directory for easier cleanup.
+ * Sensor folder within the system temp directory for easier cleanup.
  */
 
 const fs = require("node:fs");
@@ -12,8 +12,8 @@ const crypto = require("node:crypto");
 
 // Keep the legacy name when the OS already provides a private per-user temp
 // root. Shared temp roots fall back to a stable directory under the user's home
-// so another OS user cannot claim Netcatty's path before startup.
-const NETCATTY_TEMP_DIR_NAME = "Netcatty";
+// so another OS user cannot claim Sensor's path before startup.
+const NETCATTY_TEMP_DIR_NAME = "Sensor";
 const MANAGED_TEMP_MARKER = ".netcatty-managed-temp";
 const MAX_TOOL_OUTPUT_TEMP_CHARS = 4_000_000;
 const MAX_TOOL_OUTPUT_TEMP_BYTES = 8_000_000;
@@ -320,7 +320,7 @@ function validateTempRoot(input) {
   const hasMarker = entries.includes(MANAGED_TEMP_MARKER)
     && fs.lstatSync(path.join(dir, MANAGED_TEMP_MARKER)).isFile();
   if (entries.length && !hasMarker) {
-    throw new Error("Existing Netcatty directory is not empty and is not managed by Netcatty.");
+    throw new Error("Existing Sensor directory is not empty and is not managed by Sensor.");
   }
   const stat = assertSafeTempDir(dir);
   if (!hasMarker) {
@@ -407,7 +407,7 @@ function getCustomTempDir() { return customTempDir; }
 function getDefaultTempDir() { return resolvePrivateTempDir(); }
 
 /**
- * Get the Netcatty temp directory path
+ * Get the Sensor temp directory path
  * Creates the directory if it doesn't exist
  */
 function getTempDir() {
@@ -419,7 +419,7 @@ function getTempDir() {
       // ENOENT: OS/temp cleaner removed the directory. Identity mismatch: the
       // path still exists but was deleted and recreated (new inode). Both are
       // recoverable if the replacement still passes full safety checks below.
-      const identityChanged = error?.message === "Netcatty temp directory identity changed during this process.";
+      const identityChanged = error?.message === "Sensor temp directory identity changed during this process.";
       if (error?.code !== "ENOENT" && !identityChanged) throw error;
       cachedTempDir = null;
       cachedTempDirIdentity = null;
@@ -435,7 +435,7 @@ function getTempDir() {
   try {
     if (!fs.existsSync(netcattyTempDir)) {
       fs.mkdirSync(netcattyTempDir, { recursive: true, mode: 0o700 });
-      console.log(`[TempDir] Created Netcatty temp directory: ${netcattyTempDir}`);
+      console.log(`[TempDir] Created Sensor temp directory: ${netcattyTempDir}`);
     }
     if (customTempDir) {
       const validated = validateTempRoot(customTempDir);
@@ -459,17 +459,17 @@ function getTempDirRebindGeneration() {
 
 function assertSafeTempDir(tempDir, expectedIdentity) {
   const stat = fs.lstatSync(tempDir);
-  if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error("Netcatty temp path is not a safe directory.");
+  if (!stat.isDirectory() || stat.isSymbolicLink()) throw new Error("Sensor temp path is not a safe directory.");
   if (typeof process.getuid === "function" && stat.uid !== process.getuid()) {
-    throw new Error("Netcatty temp directory is not owned by the current user.");
+    throw new Error("Sensor temp directory is not owned by the current user.");
   }
   if (expectedIdentity && (stat.dev !== expectedIdentity.dev || stat.ino !== expectedIdentity.ino)) {
-    throw new Error("Netcatty temp directory identity changed during this process.");
+    throw new Error("Sensor temp directory identity changed during this process.");
   }
   fs.chmodSync(tempDir, 0o700);
   const expectedRealPath = path.join(fs.realpathSync(path.dirname(tempDir)), path.basename(tempDir));
   if (fs.realpathSync(tempDir) !== expectedRealPath) {
-    throw new Error("Netcatty temp directory must not traverse symbolic links.");
+    throw new Error("Sensor temp directory must not traverse symbolic links.");
   }
   return stat;
 }
@@ -479,7 +479,7 @@ function assertSafeTempDir(tempDir, expectedIdentity) {
  */
 function ensureTempDir() {
   const tempDir = getTempDir();
-  console.log(`[TempDir] Netcatty temp directory: ${tempDir}`);
+  console.log(`[TempDir] Sensor temp directory: ${tempDir}`);
   return tempDir;
 }
 
@@ -596,7 +596,7 @@ function getTransferTempFilePath(transferId, fileName) {
   return path.join(tempDir, `.transfer_${safeTransferId}_${safeFileName}.part`);
 }
 
-function isNetcattyTempPath(filePath) {
+function isSensorTempPath(filePath) {
   if (typeof filePath !== "string" || !filePath) return false;
   const tempDir = path.resolve(getTempDir());
   const resolved = path.resolve(filePath);
@@ -610,7 +610,7 @@ async function openSafeToolOutputFile(
   requireEvenBytes = true,
   allowSigningKeyPublication = false,
 ) {
-  if (!isNetcattyTempPath(filePath)) return null;
+  if (!isSensorTempPath(filePath)) return null;
   let file;
   try {
     const noFollow = fs.constants.O_NOFOLLOW ?? 0;
@@ -722,7 +722,7 @@ async function safeUnlink(filePath, expectedGeneration) {
   // If the temp root was rebound, the same pathname now addresses the
   // replacement root, so the unlink must abort instead of deleting that data.
   if (expectedGeneration != null && tempDirRebindGeneration !== expectedGeneration) return false;
-  if (!isNetcattyTempPath(filePath)) return false;
+  if (!isSensorTempPath(filePath)) return false;
   try {
     const stat = await fs.promises.lstat(filePath);
     if (expectedGeneration != null && tempDirRebindGeneration !== expectedGeneration) return false;
@@ -742,7 +742,7 @@ async function deleteToolOutputPair(filePath, expectedGeneration) {
 }
 
 async function readSafeManifest(manifestPath, signingKey) {
-  if (!isNetcattyTempPath(manifestPath) || !manifestPath.endsWith(".log.meta.json")) return null;
+  if (!isSensorTempPath(manifestPath) || !manifestPath.endsWith(".log.meta.json")) return null;
   const entryTempDir = getTempDir();
   const entryGeneration = tempDirRebindGeneration;
   let file;
@@ -1417,7 +1417,7 @@ function registerHandlers(ipcMain, shell, electronModule, terminalWorkerManager)
 
   ipcMain.handle("netcatty:tempdir:toolOutputDelete", async (_event, payload = {}) => {
     const filePath = payload.path;
-    if (!isNetcattyTempPath(filePath)) return { ok: false };
+    if (!isSensorTempPath(filePath)) return { ok: false };
     return { ok: await deleteToolOutputPair(filePath) };
   });
 

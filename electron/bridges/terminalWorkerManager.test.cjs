@@ -4992,7 +4992,7 @@ test("worker job diagnostics reach the main console with the diagnostic flag", (
   const manager = createTerminalWorkerManager({ utilityProcess: { fork: () => child } });
   t.after(() => manager.stop());
   manager.ensureStarted();
-  const line = '[Netcatty JobDiag] {"event":"probe-write","sessionId":"s1","jobId":"j1"}';
+  const line = '[Sensor JobDiag] {"event":"probe-write","sessionId":"s1","jobId":"j1"}';
   child.emit("message", { kind: "job-diagnostic", line });
   assert.deepEqual(lines, []);
   process.env.NETCATTY_JOB_DIAG = "1";
@@ -5292,9 +5292,9 @@ test("custom temp directory is seeded and delivered to the worker", () => {
     utilityProcess: { fork(_script, _args, options) { env = options.env; return child; } },
     workerScriptPath: "/worker.cjs",
   });
-  manager.setCustomTempDir("/custom/Netcatty");
+  manager.setCustomTempDir("/custom/Sensor");
   manager.ensureStarted();
-  assert.equal(env.NETCATTY_CUSTOM_TEMP_DIR, "/custom/Netcatty");
+  assert.equal(env.NETCATTY_CUSTOM_TEMP_DIR, "/custom/Sensor");
   manager.setCustomTempDir(null);
   assert.deepEqual(child.messages.at(-1), { kind: "set-custom-temp-dir", value: null });
   const parentPort = new EventEmitter();
@@ -5302,7 +5302,7 @@ test("custom temp directory is seeded and delivered to the worker", () => {
   const values = [];
   const runtime = createTerminalWorkerRuntime({ parentPort, registerBridges() {}, applyCustomTempDir: value => values.push(value) });
   runtime.start();
-  parentPort.emit("message", { kind: "set-custom-temp-dir", value: "/custom/Netcatty" });
+  parentPort.emit("message", { kind: "set-custom-temp-dir", value: "/custom/Sensor" });
   parentPort.emit("message", { kind: "set-custom-temp-dir", value: null });
-  assert.deepEqual(values, ["/custom/Netcatty", null]);
+  assert.deepEqual(values, ["/custom/Sensor", null]);
 });

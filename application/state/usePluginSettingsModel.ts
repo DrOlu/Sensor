@@ -6,17 +6,17 @@ import { resolvePluginSettingScopeSelection, usePluginSettingScopeCatalog } from
 export function usePluginSettingsModel(pluginId: string) {
   const { locale } = useI18n();
   const catalog = usePluginSettingScopeCatalog();
-  const [scopeIds, setScopeIds] = useState<Partial<Record<NetcattyPluginSettingScopeKind, string>>>({});
+  const [scopeIds, setScopeIds] = useState<Partial<Record<SensorPluginSettingScopeKind, string>>>({});
   useEffect(() => {
     setScopeIds(current => resolvePluginSettingScopeSelection(catalog, current));
   }, [catalog]);
-  const query = useMemo<NetcattyPluginContributionQuery>(() => ({
+  const query = useMemo<SensorPluginContributionQuery>(() => ({
     locale, context: { 'netcatty.surface': 'settings' }, scopeIds,
   }), [locale, scopeIds]);
   const contributions = usePluginContributions(query);
   const plugin = contributions.snapshot.plugins.find(item => item.id === pluginId);
   const settings = plugin?.settings.filter(setting => setting.visible) ?? [];
   const contextualScopes = [...new Set(settings.map(setting => setting.scope)
-    .filter((scope): scope is NetcattyPluginSettingScopeKind => scope !== 'application'))];
+    .filter((scope): scope is SensorPluginSettingScopeKind => scope !== 'application'))];
   return { ...contributions, plugin, settings, catalog, scopeIds, setScopeIds, contextualScopes };
 }

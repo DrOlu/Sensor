@@ -24,15 +24,15 @@ test('Vault navigation mounts a real content slot, yields to host dialogs, and w
   const page = { id: 'com.example.page.main', title: 'Synthetic page', location: 'vault-page', visible: true };
   let snapshot = { locale: 'en', plugins: [{ id: 'com.example.page', version: '1.0.0', displayName: 'Synthetic plugin', commands: [], keybindings: [], menus: [], settings: [], views: [page] }] };
   let changed: (() => void) | undefined;
-  const listeners = new Set<(event: NetcattyPluginViewClosedEvent) => void>();
-  const opens: NetcattyPluginViewOpenRequest[] = [], closes: string[] = [];
+  const listeners = new Set<(event: SensorPluginViewClosedEvent) => void>();
+  const opens: SensorPluginViewOpenRequest[] = [], closes: string[] = [];
   Object.assign(dom.window, { netcatty: {
     async getPluginRuntimeStatus() { return { available: true }; },
     async getPluginContributions() { return snapshot; },
     onPluginContributionsChanged(fn: () => void) { changed = fn; return () => { changed = undefined; }; },
-    onPluginViewClosed(fn: (event: NetcattyPluginViewClosedEvent) => void) { listeners.add(fn); return () => { listeners.delete(fn); }; },
+    onPluginViewClosed(fn: (event: SensorPluginViewClosedEvent) => void) { listeners.add(fn); return () => { listeners.delete(fn); }; },
     onHostDrawnPluginViewUpdate() { return () => {}; },
-    async openHostDrawnPluginView(payload: NetcattyPluginViewOpenRequest) { opens.push(payload); return { instanceId: payload.instanceId! }; },
+    async openHostDrawnPluginView(payload: SensorPluginViewOpenRequest) { opens.push(payload); return { instanceId: payload.instanceId! }; },
     async closeHostDrawnPluginView(id: string) { closes.push(id); },
   } });
   let selectSection!: (section: 'hosts' | `plugin-vault:${string}`) => void;

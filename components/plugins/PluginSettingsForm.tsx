@@ -20,7 +20,7 @@ export function PluginSettingField({
   availableFonts,
 }: {
   pluginId: string;
-  setting: NetcattyPluginSettingContribution;
+  setting: SensorPluginSettingContribution;
   updateSetting: ReturnType<typeof usePluginContributions>['updateSetting'];
   resetSetting: ReturnType<typeof usePluginContributions>['resetSetting'];
   selectSettingPath: ReturnType<typeof usePluginContributions>['selectSettingPath'];
@@ -257,9 +257,9 @@ export function PluginSettingField({
 
 
 export function PluginSettingGroups({ settings, ...props }: Omit<Parameters<typeof PluginSettingField>[0], 'setting'> & {
-  settings: ReadonlyArray<NetcattyPluginSettingContribution>;
+  settings: ReadonlyArray<SensorPluginSettingContribution>;
 }) {
-  const groups = new Map<string, NetcattyPluginSettingContribution[]>();
+  const groups = new Map<string, SensorPluginSettingContribution[]>();
   for (const setting of settings) {
     if (!setting.visible) continue;
     const group = setting.group ?? '';

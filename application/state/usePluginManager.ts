@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 export function usePluginManager() {
-  const [plugins, setPlugins] = useState<NetcattyInstalledPlugin[]>([]);
+  const [plugins, setPlugins] = useState<SensorInstalledPlugin[]>([]);
   const [available, setAvailable] = useState(false);
   const [statusKnown, setStatusKnown] = useState(false);
   const [credentialStorageAvailable, setCredentialStorageAvailable] = useState<boolean | undefined>();
@@ -38,7 +38,7 @@ export function usePluginManager() {
     const refreshGeneration = generation;
     return () => { refreshGeneration.current++; unsubscribe?.(); window.removeEventListener('netcatty:plugin-packages-changed', update); };
   }, [refresh]);
-  const run = useCallback(async (action: (bridge: NetcattyBridge) => Promise<unknown>, throwOnError = false) => {
+  const run = useCallback(async (action: (bridge: SensorBridge) => Promise<unknown>, throwOnError = false) => {
     if (mutation.current) return;
     mutation.current = true;
     setBusy(true);
@@ -57,7 +57,7 @@ export function usePluginManager() {
     plugins, available, statusKnown, busy, error, credentialStorageAvailable, refresh,
     importPackage: () => run(async (bridge) => {
       if (!bridge.selectFile || !bridge.installPluginPackage) throw new Error('Plugin import unavailable');
-      const path = await bridge.selectFile('Import plugin package', undefined, [{ name: 'Netcatty plugin', extensions: ['ncpkg'] }]);
+      const path = await bridge.selectFile('Import plugin package', undefined, [{ name: 'Sensor plugin', extensions: ['ncpkg'] }]);
       if (path) await bridge.installPluginPackage(path, { enable: false });
     }),
     setEnabled: (id: string, enabled: boolean) => run(async (bridge) => {

@@ -31,7 +31,7 @@ test("getTempFilePath is unique for duplicate names in the same millisecond", ()
   }
 });
 
-test("Netcatty temp root is a private directory owned by the current user", () => {
+test("Sensor temp root is a private directory owned by the current user", () => {
   const tempRoot = tempDirBridge.getTempDir();
   const stat = fs.lstatSync(tempRoot);
   assert.equal(stat.isDirectory(), true);
@@ -48,7 +48,7 @@ test("shared system temp roots resolve to a stable path under the user's home", 
   await fs.promises.chmod(root, 0o777);
   try {
     if (typeof process.getuid === "function") {
-      assert.equal(tempDirBridge.resolvePrivateTempDir(root, fakeHome), path.join(fakeHome, ".netcatty", "tmp", "Netcatty"));
+      assert.equal(tempDirBridge.resolvePrivateTempDir(root, fakeHome), path.join(fakeHome, ".netcatty", "tmp", "Sensor"));
     }
   } finally {
     await fs.promises.rm(root, { recursive: true, force: true });
@@ -373,7 +373,7 @@ test("tool output write keeps the loaded key during a temporary keychain failure
   }
 });
 
-test("tool output temp handlers write, read, and delete only Netcatty temp files", async () => {
+test("tool output temp handlers write, read, and delete only Sensor temp files", async () => {
   const handlers = new Map();
   tempDirBridge.registerHandlers({
     handle(channel, handler) {
@@ -424,7 +424,7 @@ test("tool output temp handlers write, read, and delete only Netcatty temp files
   assert.deepEqual(await read({}, { path: "/etc/passwd" }), null);
 });
 
-test("tool output temp reader rejects symlinks that point outside Netcatty temp", async () => {
+test("tool output temp reader rejects symlinks that point outside Sensor temp", async () => {
   const handlers = new Map();
   tempDirBridge.registerHandlers({ handle(channel, handler) { handlers.set(channel, handler); } });
   const linkPath = tempDirBridge.getTempFilePath("tool-output-link.log");
@@ -967,7 +967,7 @@ test("tool output signing key survives a real process restart", async () => {
     assert.equal(unlocked.status, 0, unlocked.stderr || unlocked.stdout);
     assert.match(unlocked.stdout, /RESULT:.*"locked":\{"durable":false.*"unlocked":\{"durable":true\}.*"content":"across restart"/);
 
-    const persistedDir = path.join(root, "Netcatty");
+    const persistedDir = path.join(root, "Sensor");
     const signingKeyPath = path.join(persistedDir, ".tool-output-signing-key");
     const signingKeyBeforeFailure = await fs.promises.readFile(signingKeyPath);
     const old = new Date(Date.now() - 31 * 60 * 1_000);
@@ -1070,7 +1070,7 @@ test("custom temp preference validates, creates, persists, and resets roots", as
     fs.chmodSync(existing, 0o755);
     const sibling = path.join(existing, "keep.txt");
     fs.writeFileSync(sibling, "keep");
-    const managed = path.join(existing, "Netcatty");
+    const managed = path.join(existing, "Sensor");
     bridge.setCustomTempDir(existing);
     assert.equal(bridge.getTempDir(), managed);
     if (process.platform !== "win32") {
@@ -1083,7 +1083,7 @@ test("custom temp preference validates, creates, persists, and resets roots", as
     assert.equal(fs.existsSync(path.join(managed, "staged.txt")), false);
     assert.equal(fs.existsSync(path.join(managed, ".netcatty-managed-temp")), true);
     const unsafeParent = path.join(fixture, "unsafe");
-    const unsafe = path.join(unsafeParent, "Netcatty");
+    const unsafe = path.join(unsafeParent, "Sensor");
     fs.mkdirSync(unsafe, { recursive: true });
     fs.writeFileSync(path.join(unsafe, "user.txt"), "keep");
     fs.writeFileSync(path.join(unsafeParent, "sibling.txt"), "keep");
@@ -1097,22 +1097,22 @@ test("custom temp preference validates, creates, persists, and resets roots", as
     assert.equal((await bridge.getTempDirInfo()).isCustom, true);
     const created = path.join(fixture, "new", "nested");
     bridge.setCustomTempDir(created);
-    assert.equal(bridge.getTempDir(), path.join(created, "Netcatty"));
+    assert.equal(bridge.getTempDir(), path.join(created, "Sensor"));
     assert.equal(fs.statSync(created).isDirectory(), true);
     const file = path.join(fixture, "file");
     fs.writeFileSync(file, "x");
     for (const invalid of ["", "relative", file, path.join(file, "child")]) {
       assert.throws(() => bridge.setCustomTempDir(invalid));
-      assert.equal(bridge.getTempDir(), path.join(created, "Netcatty"));
+      assert.equal(bridge.getTempDir(), path.join(created, "Sensor"));
     }
     if (process.platform !== "win32") {
       const link = path.join(fixture, "link");
       fs.symlinkSync(existing, link);
       assert.throws(() => bridge.setCustomTempDir(link));
-      assert.equal(bridge.getTempDir(), path.join(created, "Netcatty"));
+      assert.equal(bridge.getTempDir(), path.join(created, "Sensor"));
     }
     bridge.configureTempDirPreference({ app: { getPath: () => userData } });
-    assert.equal(bridge.getTempDir(), path.join(created, "Netcatty"));
+    assert.equal(bridge.getTempDir(), path.join(created, "Sensor"));
     bridge.resetCustomTempDir();
     assert.equal(bridge.getTempDir(), bridge.resolvePrivateTempDir());
     assert.equal((await bridge.getTempDirInfo()).isCustom, false);

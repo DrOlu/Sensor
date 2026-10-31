@@ -3,9 +3,9 @@ import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 type ReadmeState = { id: string; token?: string; attempt: number; status: 'loading' | 'ready' | 'error'; text: string; error: string | null };
 export function usePluginCatalog(selectedId: string | null, sourceId = 'official') {
-  const [entries, setEntries] = useState<NetcattyPluginCatalogEntry[]>([]);
+  const [entries, setEntries] = useState<SensorPluginCatalogEntry[]>([]);
   const [listStatus, setListStatus] = useState<'loading' | 'ready' | 'error'>('loading');
-  const [source, setSource] = useState<NetcattyPluginCatalogSnapshot['source']>('builtin');
+  const [source, setSource] = useState<SensorPluginCatalogSnapshot['source']>('builtin');
   const [listError, setListError] = useState<string | null>(null);
   const [listAttempt, setListAttempt] = useState(0);
   const [readmeState, setReadmeState] = useState<ReadmeState | null>(null);
@@ -13,7 +13,7 @@ export function usePluginCatalog(selectedId: string | null, sourceId = 'official
   const [imageState, setImageState] = useState<{ id: string; token?: string; sourceId: string; images: Record<string, string> } | null>(null);
   const [installError, setInstallError] = useState<{ id: string; message: string } | null>(null);
   const [busy, setBusy] = useState(false);
-  const [sourceBinding, setSourceBinding] = useState<NetcattyPluginSource | null>(null);
+  const [sourceBinding, setSourceBinding] = useState<SensorPluginSource | null>(null);
   const installing = useRef(false);
   const mounted = useRef(false);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);

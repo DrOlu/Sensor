@@ -80,7 +80,7 @@ An independent source-baseline worktree at `4213d8e` ran five affected files in
 the same environment with shared dependencies: 145 tests, 118 passed,
 24 failed, three skipped. It reproduced failures in transfer-resume,
 Markdown editor, SSH algorithms, AI bridge resolution, and updater tests;
-updater errors include the unavailable `/home/agent/.netcatty/tmp/Netcatty`.
+updater errors include the unavailable `/home/agent/.netcatty/tmp/Sensor`.
 This diagnoses that tested subset only. It does not classify every broad-suite
 failure, replace exact-head CI, or make any failed result successful.
 

@@ -1,7 +1,7 @@
 /**
  * Job startup diagnostics for background AI jobs (issue #3443).
  *
- * Emits a read-only `[Netcatty JobDiag]` timeline keyed by sessionId + jobId
+ * Emits a read-only `[Sensor JobDiag]` timeline keyed by sessionId + jobId
  * covering the startup pipeline checkpoints: probe write/reply, command write,
  * start marker, startup timeout, interrupt delivery, and the MCP-server
  * background-job routing map lifecycle.
@@ -9,7 +9,7 @@
  * Read-only by design: every emitter is gated behind an environment flag and
  * instrumentation calls never alter control flow, timeouts, or error paths.
  * Flow-control state (checkpoint 1) remains covered by the existing
- * [Netcatty Ctrl+C] / [Netcatty Terminal Perf] emitters; the session snapshots
+ * [Sensor Ctrl+C] / [Sensor Terminal Perf] emitters; the session snapshots
  * attached here reuse the same helpers so both timelines can be correlated.
  */
 "use strict";
@@ -32,7 +32,7 @@ function safeJson(value) {
 }
 
 function writeJobDiag(payload) {
-  const line = `[Netcatty JobDiag] ${safeJson(payload)}`;
+  const line = `[Sensor JobDiag] ${safeJson(payload)}`;
   // Utility-process stdout is not reliably captured by the app's launch log.
   // Use the existing worker message channel and log once in the main process.
   if (process.parentPort) {

@@ -8,7 +8,7 @@ const { RegistryCatalogService } = require("./registryCatalogService.cjs");
 const { thirdPartySource } = require("./sourceIdentity.cjs");
 const { catalog, realFiles, makeFiles, digest } = require("./fixtures/staticDistributionFixture.cjs");
 const first = thirdPartySource("First", "https://first.example.com");
-const second = thirdPartySource("Netcatty", "https://second.example.com");
+const second = thirdPartySource("Sensor", "https://second.example.com");
 
 test("identical mirrored catalogs never share selection tokens or offline cache", async () => {
   const service = (source) => new RegistryCatalogService({ source, fetch: async (url) => {

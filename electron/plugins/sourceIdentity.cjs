@@ -4,12 +4,12 @@ const { createHash } = require("node:crypto");
 const { isIP } = require("node:net");
 
 const OFFICIAL_ORIGIN = "https://plugins.netcatty.app";
-const OFFICIAL_SOURCE = Object.freeze({ id: "official", kind: "official", name: "Netcatty marketplace", origin: OFFICIAL_ORIGIN });
+const OFFICIAL_SOURCE = Object.freeze({ id: "official", kind: "official", name: "Sensor marketplace", origin: OFFICIAL_ORIGIN });
 const LOCAL_SOURCE = Object.freeze({ id: "local", kind: "local", name: "Local import", origin: null });
 // Curated first-party maintenance authority, independent of manifest publisher text.
 const FIRST_PARTY_PLUGINS = Object.freeze([
-  Object.freeze({ id: "com.netcatty.starter", repository: "binaricat/Netcatty" }),
-  Object.freeze({ id: "com.netcatty.hello", repository: "binaricat/Netcatty" }),
+  Object.freeze({ id: "com.netcatty.starter", repository: "DrOlu/Sensor" }),
+  Object.freeze({ id: "com.netcatty.hello", repository: "DrOlu/Sensor" }),
 ]);
 const hash = (value) => createHash("sha256").update(value).digest("hex");
 

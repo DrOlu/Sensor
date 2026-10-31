@@ -53,7 +53,7 @@ test('README failures clear on retry/switch and stale requests cannot replace th
 
 test('offline snapshot stays browsable, retry clears warning, and operations bind the selected token', async (context) => {
   const original = Object.getOwnPropertyDescriptor(globalThis, 'window');
-  const entry = { id: 'com.test.registry', selectionToken: 'first' } as NetcattyPluginCatalogEntry;
+  const entry = { id: 'com.test.registry', selectionToken: 'first' } as SensorPluginCatalogEntry;
   let offline = true;
   const reads: unknown[][] = []; const installs: unknown[][] = [];
   Object.defineProperty(globalThis, 'window', { configurable: true, value: {

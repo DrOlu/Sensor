@@ -173,9 +173,9 @@ test("runOsc7SetupAction stages the script and types a short runner for user-swi
         return {
           success: false,
           stdout: `${OSC7_SETUP_OTHER_USER_MARKER}bash\n`,
-          stderr: "Netcatty OSC 7 setup: the active terminal shell belongs to another user\n",
+          stderr: "Sensor OSC 7 setup: the active terminal shell belongs to another user\n",
           code: 5,
-          error: "Netcatty OSC 7 setup: the active terminal shell belongs to another user",
+          error: "Sensor OSC 7 setup: the active terminal shell belongs to another user",
         };
       }
       return {
@@ -282,8 +282,8 @@ test("exit 4 probes the foreground shell and waits for chunked installation DONE
 
 test("exit-4 stderr messages also select the dedicated PTY path", async () => {
   for (const stderr of [
-    "Netcatty OSC 7 setup: could not identify the active terminal shell",
-    "Netcatty OSC 7 setup: active terminal shell did not match the current tab",
+    "Sensor OSC 7 setup: could not identify the active terminal shell",
+    "Sensor OSC 7 setup: active terminal shell did not match the current tab",
   ]) {
     const h = createExit4PtyHarness();
     h.options.setupOsc7Tracking = async () => ({ success: false, stderr: `${stderr}\n` });
@@ -550,12 +550,12 @@ test("buildOsc7SetupCommand upgrades legacy bash snippet in place", () => {
       [
         "# user preamble",
         "",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "osc7_cwd() {",
         "  printf 'legacy'\\n",
         "}",
         'PROMPT_COMMAND="osc7_cwd"',
-        "# <<< Netcatty OSC 7 cwd tracking <<<",
+        "# <<< Sensor OSC 7 cwd tracking <<<",
         "",
         "# user epilogue",
         "",
@@ -586,7 +586,7 @@ test("buildOsc7SetupCommand does not truncate bashrc when start marker lacks end
       bashrcPath,
       [
         "# keep-me-before",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "osc7_cwd() { :; }",
         "# important-user-config-after-open-marker",
         "alias ll='ls -la'",
@@ -603,8 +603,8 @@ test("buildOsc7SetupCommand does not truncate bashrc when start marker lacks end
     assert.match(bashrc, /netcatty-osc7-version: 2/);
     assert.match(bashrc, /__netcatty_osc7_prompt/);
     // Open region kept + complete v2 appended (no truncation of user lines).
-    assert.equal((bashrc.match(/# >>> Netcatty OSC 7 cwd tracking >>>/g) || []).length, 2);
-    assert.equal((bashrc.match(/# <<< Netcatty OSC 7 cwd tracking <<</g) || []).length, 1);
+    assert.equal((bashrc.match(/# >>> Sensor OSC 7 cwd tracking >>>/g) || []).length, 2);
+    assert.equal((bashrc.match(/# <<< Sensor OSC 7 cwd tracking <<</g) || []).length, 1);
   });
 });
 
@@ -615,9 +615,9 @@ test("buildOsc7SetupCommand appends when markers are present but unbalanced", ()
       bashrcPath,
       [
         "# orphan end first",
-        "# <<< Netcatty OSC 7 cwd tracking <<<",
+        "# <<< Sensor OSC 7 cwd tracking <<<",
         "# user config",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "alias ll='ls -la'",
         "",
       ].join("\n"),
@@ -632,8 +632,8 @@ test("buildOsc7SetupCommand appends when markers are present but unbalanced", ()
     assert.match(bashrc, /netcatty-osc7-version: 2/);
     assert.match(bashrc, /__netcatty_osc7_prompt/);
     // Original markers kept; complete v2 appended.
-    assert.equal((bashrc.match(/# >>> Netcatty OSC 7 cwd tracking >>>/g) || []).length, 2);
-    assert.equal((bashrc.match(/# <<< Netcatty OSC 7 cwd tracking <<</g) || []).length, 2);
+    assert.equal((bashrc.match(/# >>> Sensor OSC 7 cwd tracking >>>/g) || []).length, 2);
+    assert.equal((bashrc.match(/# <<< Sensor OSC 7 cwd tracking <<</g) || []).length, 2);
   });
 });
 
@@ -644,7 +644,7 @@ test("buildOsc7SetupCommand recovers from partial v2 write missing end marker", 
       bashrcPath,
       [
         "# keep-me",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "# netcatty-osc7-version: 2",
         "osc7_cwd() { :; }",
         "# interrupted before end marker",
@@ -661,7 +661,7 @@ test("buildOsc7SetupCommand recovers from partial v2 write missing end marker", 
     assert.match(bashrc, /__netcatty_osc7_prompt/);
     assert.match(bashrc, /declare -F __netcatty_osc7_prompt/);
     // Partial open kept + one recovered complete block; second setup is a no-op.
-    assert.equal((bashrc.match(/# <<< Netcatty OSC 7 cwd tracking <<</g) || []).length, 1);
+    assert.equal((bashrc.match(/# <<< Sensor OSC 7 cwd tracking <<</g) || []).length, 1);
     assert.equal((bashrc.match(/# netcatty-osc7-version: 2/g) || []).length, 2);
   });
 });
@@ -673,7 +673,7 @@ test("buildOsc7SetupCommand preserves user lines after mid-construct interruptio
       bashrcPath,
       [
         "# keep-me",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "# netcatty-osc7-version: 2",
         "osc7_cwd() {",
         "alias keep_user_alias='yes'",
@@ -699,8 +699,8 @@ test("buildOsc7SetupCommand recovers when version line exists with unbalanced ma
     writeFileSync(
       bashrcPath,
       [
-        "# <<< Netcatty OSC 7 cwd tracking <<<",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# <<< Sensor OSC 7 cwd tracking <<<",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "# netcatty-osc7-version: 2",
         "osc7_cwd() { :; }",
         "# interrupted before end marker",
@@ -716,7 +716,7 @@ test("buildOsc7SetupCommand recovers when version line exists with unbalanced ma
     assert.match(bashrc, /__netcatty_osc7_prompt/);
     assert.match(bashrc, /declare -F __netcatty_osc7_prompt/);
     // Orphan end + one recovered complete block; second run no-ops.
-    assert.equal((bashrc.match(/# <<< Netcatty OSC 7 cwd tracking <<</g) || []).length, 2);
+    assert.equal((bashrc.match(/# <<< Sensor OSC 7 cwd tracking <<</g) || []).length, 2);
     assert.equal((bashrc.match(/# netcatty-osc7-version: 2/g) || []).length, 2);
   });
 });
@@ -727,9 +727,9 @@ test("buildOsc7SetupCommand ignores marker text embedded in echo commands", () =
     writeFileSync(
       bashrcPath,
       [
-        'echo "# >>> Netcatty OSC 7 cwd tracking >>>"',
+        'echo "# >>> Sensor OSC 7 cwd tracking >>>"',
         "alias keep_me='yes'",
-        'echo "# <<< Netcatty OSC 7 cwd tracking <<<"',
+        'echo "# <<< Sensor OSC 7 cwd tracking <<<"',
         "",
       ].join("\n"),
     );
@@ -738,8 +738,8 @@ test("buildOsc7SetupCommand ignores marker text embedded in echo commands", () =
 
     const bashrc = readFileSync(bashrcPath, "utf8");
     assert.match(bashrc, /alias keep_me=/);
-    assert.match(bashrc, /echo "# >>> Netcatty OSC 7 cwd tracking >>>"/);
-    assert.match(bashrc, /echo "# <<< Netcatty OSC 7 cwd tracking <<<"/);
+    assert.match(bashrc, /echo "# >>> Sensor OSC 7 cwd tracking >>>"/);
+    assert.match(bashrc, /echo "# <<< Sensor OSC 7 cwd tracking <<<"/);
     assert.match(bashrc, /netcatty-osc7-version: 2/);
   });
 });
@@ -751,10 +751,10 @@ test("buildOsc7SetupCommand upgrades a legacy block wrapped in control flow in p
       bashrcPath,
       [
         "if true; then",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "osc7_cwd() { :; }",
         'PROMPT_COMMAND="osc7_cwd"',
-        "# <<< Netcatty OSC 7 cwd tracking <<<",
+        "# <<< Sensor OSC 7 cwd tracking <<<",
         "fi",
         "echo after",
         "",
@@ -785,9 +785,9 @@ test("buildOsc7SetupCommand upgrades a read-only legacy bashrc in one atomic wri
       bashrcPath,
       [
         "# before",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "legacy",
-        "# <<< Netcatty OSC 7 cwd tracking <<<",
+        "# <<< Sensor OSC 7 cwd tracking <<<",
         "# after",
         "",
       ].join("\n"),
@@ -816,12 +816,12 @@ test("buildOsc7SetupCommand upgrades through a symlinked bashrc without replacin
       realPath,
       [
         "# managed-preamble",
-        "# >>> Netcatty OSC 7 cwd tracking >>>",
+        "# >>> Sensor OSC 7 cwd tracking >>>",
         "osc7_cwd() {",
         "  printf 'legacy'\\n",
         "}",
         'PROMPT_COMMAND="osc7_cwd"',
-        "# <<< Netcatty OSC 7 cwd tracking <<<",
+        "# <<< Sensor OSC 7 cwd tracking <<<",
         "# managed-epilogue",
         "",
       ].join("\n"),

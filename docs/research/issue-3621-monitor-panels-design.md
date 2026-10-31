@@ -1,6 +1,6 @@
 # 自定义监控面板：研究与页面雏形
 
-日期：2026-10-17。对应 [#3621](https://github.com/binaricat/Netcatty/issues/3621)。本稿取代上一版“在主机分组里开启监控”的提案，以用户本轮要求为准。
+日期：2026-10-17。对应 [#3621](https://github.com/DrOlu/Sensor/issues/3621)。本稿取代上一版“在主机分组里开启监控”的提案，以用户本轮要求为准。
 
 状态：用户已认可雏形并授权正式实现，补充的五项要求如下，优先于原型中仅为演示而作的简化：
 
@@ -16,7 +16,7 @@
 2. 用户可创建、命名和切换多个监控面板。
 3. 每个面板自由选择已有主机，可跨分组；面板不等于主机分组。
 4. 同一个面板可在列表和丰富图表两种展示之间切换。
-5. 使用 SSH 长连接，沿用 Netcatty 现有连接复用逻辑，不另造一套独立监控连接池。
+5. 使用 SSH 长连接，沿用 Sensor 现有连接复用逻辑，不另造一套独立监控连接池。
 6. 用户已明确：面板名称、主机选择、展示偏好等配置重启后保留；监控读数不在本地持久化。
 7. 研究与雏形已完成并获认可；正式实现单独创建 thread 与 worktree，延续此前授权的 PR 审查与合并流程。原型验证不替代真实 App、同步与 SSH 验收。
 
@@ -24,7 +24,7 @@
 
 ## 2. 研究结论
 
-最适合的组合是 **Homarr 的命名面板管理 + Grafana 的对象与展示分离 + ServerBox 的紧凑主机卡片 + Termix 的共享采集**。最终做成 Netcatty 自己的轻量监控页面，保持现有 Vault 导航、品牌、配色、图标和右侧面板习惯。
+最适合的组合是 **Homarr 的命名面板管理 + Grafana 的对象与展示分离 + ServerBox 的紧凑主机卡片 + Termix 的共享采集**。最终做成 Sensor 自己的轻量监控页面，保持现有 Vault 导航、品牌、配色、图标和右侧面板习惯。
 
 不需要让用户逐张图配置数据源、查询语言和坐标位置。面板只负责“看哪些主机、怎么显示、多久更新”，一台主机在多个面板出现，不应使远端查询成倍增加。
 
@@ -59,7 +59,7 @@
 ### ServerBox 与 Termix：多机读数与共享
 
 - [ServerBox 列表密度](https://github.com/lollipopkit/flutter_server_box/blob/278d48013e0e855c889455aeb58e17c9b8db6679/lib/view/page/server/card/density.dart#L6-L95)和[读数构造](https://github.com/lollipopkit/flutter_server_box/blob/278d48013e0e855c889455aeb58e17c9b8db6679/lib/view/page/server/card/metric.dart#L491)提供多机紧凑呈现参考；标签过滤不等于本设计的命名面板。
-- [Termix 观察者管理](https://github.com/Termix-SSH/Plugin-Host-Metrics/blob/e3bde42a184e41c2b09c80a82fe2ab1f3306a726/src/backend/poller.ts#L59-L157)提供同机多处查看共享采集的参考；[采集入口](https://github.com/Termix-SSH/Plugin-Host-Metrics/blob/e3bde42a184e41c2b09c80a82fe2ab1f3306a726/src/backend/collect.ts#L67-L185)优先使用插件自己的连接或 stats 池，不能当成已经满足 Netcatty 的终端连接复用要求。
+- [Termix 观察者管理](https://github.com/Termix-SSH/Plugin-Host-Metrics/blob/e3bde42a184e41c2b09c80a82fe2ab1f3306a726/src/backend/poller.ts#L59-L157)提供同机多处查看共享采集的参考；[采集入口](https://github.com/Termix-SSH/Plugin-Host-Metrics/blob/e3bde42a184e41c2b09c80a82fe2ab1f3306a726/src/backend/collect.ts#L67-L185)优先使用插件自己的连接或 stats 池，不能当成已经满足 Sensor 的终端连接复用要求。
 
 ### Xterminal 在新方案中的位置
 
@@ -123,7 +123,7 @@ Vault 左侧在“主机”下方增加“监控”，沿用原有选中态和�
 
 ## 5. SSH 长连接：复用现有机制的真实边界
 
-核对基线：Netcatty main `8aeb6ade6fc2b56436442ebe93852cb5dde5c141`。
+核对基线：Sensor main `8aeb6ade6fc2b56436442ebe93852cb5dde5c141`。
 
 ### 已有基础
 
@@ -186,7 +186,7 @@ Vault 左侧在“主机”下方增加“监控”，沿用原有选中态和�
 5. 核验读数绝无落盘或同步路径；重启只有配置没有曲线与运行状态；配置跨窗口编辑不会互相覆盖。两端真实同步或代表性端到端路径覆盖创建、改名、增删主机、改布局、删除面板、旧载荷缺字段及导入导出恢复；对既有同步方式的影响逐项核对。
 6. 真实主机与至少一个代表堡垒机测查询与审计量；测试慢主机、首次采样、睡眠、断网、认证、主机删除和凭据变更。
 7. 对代表性的主机规模测试内存、重绘与连接成本；不以原始数字估算替代运行结果。
-8. 实际运行 Netcatty 走完整新建/编辑/切换/启停/详情流程；检查设计系统、Vault 表单交互、亮暗主题和窄窗口，切换语言验证状态、错误、复数和长文本；确认系统探测复用已有真实路径，再按已有 PR 审查与合并标准交付。
+8. 实际运行 Sensor 走完整新建/编辑/切换/启停/详情流程；检查设计系统、Vault 表单交互、亮暗主题和窄窗口，切换语言验证状态、错误、复数和长文本；确认系统探测复用已有真实路径，再按已有 PR 审查与合并标准交付。
 
 ## 9. Implementation acceptance checklist
 

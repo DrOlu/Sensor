@@ -23,7 +23,7 @@ test('real Settings logging and Ask dialogs open, nest and dismiss correctly', a
   const { PluginSettingsLanding } = await import('./PluginSettingsLanding');
   const { PluginPermissionHost } = await import('../../plugins/PluginPermissionHost');
   const { PluginPermissionDecisionHost } = require('../../../electron/plugins/permissionDecisionHost.cjs');
-  type Prompt = NetcattyPluginPermissionPrompt | { requestId: string; closed: true };
+  type Prompt = SensorPluginPermissionPrompt | { requestId: string; closed: true };
   const listeners = new Set<(event: Prompt) => void>();
   const sender = Object.assign(new EventEmitter(), { isDestroyed: () => false, send: (_channel: string, event: Prompt) => { for (const listener of listeners) listener(event); } });
   const owner = Object.assign(new EventEmitter(), { webContents: sender, isFocused: () => true, isVisible: () => true, isDestroyed: () => false });

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 export function usePluginLogs() {
-  const [status, setStatus] = useState<NetcattyPluginLogStatus | null>(null);
+  const [status, setStatus] = useState<SensorPluginLogStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const pending = useRef(false);

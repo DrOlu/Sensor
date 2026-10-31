@@ -1,7 +1,7 @@
 import type { CodebuddyAdvancedOptions } from '../../infrastructure/ai/types';
 
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     // AI / external agents
     aiPrivacyStatus?(): Promise<{ ok: boolean; enabled?: boolean; error?: string }>;
     aiPrivacyTransform?(request: { chatSessionId: string; operation: 'redact' | 'restore'; value: unknown }): Promise<{ ok: boolean; value?: unknown; error?: string }>;

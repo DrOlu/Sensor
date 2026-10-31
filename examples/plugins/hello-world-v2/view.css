@@ -1,5 +1,5 @@
  .plugin-page { min-height:100%; color:hsl(var(--foreground)); background:hsl(var(--background)); font:14px/1.5 system-ui,sans-serif; }
-/* Opt-in foundation for isolated Netcatty plugin pages. */
+/* Opt-in foundation for isolated Sensor plugin pages. */
 .plugin-page { color-scheme: light dark; font: 14px/1.5 system-ui, sans-serif; }
 * { box-sizing: border-box; }
 .plugin-page { margin: 0; background: hsl(var(--background, 0 0% 100%)); color: hsl(var(--foreground, 222 47% 12%)); }

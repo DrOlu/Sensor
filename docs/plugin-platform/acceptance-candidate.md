@@ -11,9 +11,9 @@ Only the dedicated acceptance branch is published by this integration task;
 the reported feature checkpoints are preserved through ordinary merges.
 
 The previous candidate `174c525cd45bdc1152e9feb21839a288706d3bd1` passed
-[test CI](https://github.com/binaricat/Netcatty/actions/runs/40381685282),
-[four-platform packages](https://github.com/binaricat/Netcatty/actions/runs/40381685946),
-and [ET CI](https://github.com/binaricat/Netcatty/actions/runs/40381684810).
+[test CI](https://github.com/DrOlu/Sensor/actions/runs/40381685282),
+[four-platform packages](https://github.com/DrOlu/Sensor/actions/runs/40381685946),
+and [ET CI](https://github.com/DrOlu/Sensor/actions/runs/40381684810).
 No actionable CI regression was found. Its full test suite records 15,375 tests:
 15,325 passed, 50 skipped, zero failed or cancelled.
 

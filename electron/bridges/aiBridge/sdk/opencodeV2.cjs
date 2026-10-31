@@ -1011,7 +1011,7 @@ async function runOpenCodeV2Turn({
     const parsed = parseOpenCodeModel(model);
     const sessionModel = parsed ? { id: parsed.modelID, providerID: parsed.providerID } : undefined;
     const permissions = flattenOpenCodePermissionRules(config.permission);
-    const createBody = { title: "Netcatty OpenCode" };
+    const createBody = { title: "Sensor OpenCode" };
     if (cwd) createBody.location = { directory: cwd };
     if (sessionModel) createBody.model = sessionModel;
     if (permissions.length) createBody.permissions = permissions;

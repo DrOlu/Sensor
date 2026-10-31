@@ -175,8 +175,8 @@ initial-checkpoint evidence.
   That download stopped; no mirror, alternate host, checksum bypass, dependency
   shim, native-rebuild skip, HOME change or sandbox change was used. Normal
   postinstall/native rebuild and desktop packaging remain incomplete.
-- A private task-local `TMPDIR` uses Netcatty's existing safe-temp resolution to
-  its normal `Netcatty` subdirectory; HOME remains unchanged. This fixes the
+- A private task-local `TMPDIR` uses Sensor's existing safe-temp resolution to
+  its normal `Sensor` subdirectory; HOME remains unchanged. This fixes the
   earlier fallback-to-unwritable-home prerequisite without changing app code.
 - A **diagnostic full-suite run on the evolving worktree**, after those environment
   repairs, reported **15,059 tests: 14,922 passed, 92 failed, two cancelled, 43

@@ -51,7 +51,7 @@ test('information previews on hover/focus, pins on click and Escape returns focu
     const { PluginMarketplaceContent } = await import('./PluginMarketplace');
     const entry = { id: 'com.example.guide', name: 'Guide', author: 'Example', version: '1.0.0', license: 'MIT', repository: 'example/plugin', commit: 'a'.repeat(40), description: 'Synthetic metadata',
       manifest: { id: 'com.example.guide', name: 'Guide', publisher: 'Example', main: { browser: 'index.js' }, engines: { netcatty: '*', api: '0.1.0-internal' } },
-    } as NetcattyPluginCatalogEntry;
+    } as SensorPluginCatalogEntry;
     const catalog = { entries: [entry], source: 'registry', sourceBinding: null, listStatus: 'ready', listError: null, readmeImages: {}, readme: '# Guide', readmeStatus: 'ready', readmeError: null, error: null, busy: false, retryList() {}, retryReadme() {}, async install() {} } as ReturnType<typeof import('../../../application/state/usePluginCatalog').usePluginCatalog>;
     function Browser() {
       const [selected, setSelected] = useState<string | null>(null);
@@ -104,7 +104,7 @@ test('information previews on hover/focus, pins on click and Escape returns focu
     await act(async () => { healthy.click(); await settle(); });
     assert.match(document.querySelector('[role="dialog"]')?.textContent ?? '', /Updates are manual/);
     await act(async () => { document.querySelector('[role="dialog"]')!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); await settle(); });
-    const thirdParty: NetcattyPluginSource = { id: 'third-party:synthetic', kind: 'third-party', name: 'Independent source', origin: 'https://example.com' };
+    const thirdParty: SensorPluginSource = { id: 'third-party:synthetic', kind: 'third-party', name: 'Independent source', origin: 'https://example.com' };
     await act(async () => { root.render(<I18nProvider locale="en"><PluginMarketplaceContent marketSource={thirdParty} catalog={{ ...catalog, entries: [], listError: 'ECONNREFUSED', source: 'cached' }} installed={[]} selected={null} onSelect={() => {}} /></I18nProvider>); await settle(); });
     const thirdStatus = document.querySelector<HTMLButtonElement>('button[aria-label$="Notices: 1"]')!;
     await act(async () => { thirdStatus.focus(); await settle(); });

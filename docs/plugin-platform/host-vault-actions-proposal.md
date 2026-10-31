@@ -1,7 +1,7 @@
 # Host and Vault actions
 
 Feature: `vault.host-actions`. The SDK registers three methods under
-`context.vault`. Netcatty owns the picker, field-diff review, permission routing,
+`context.vault`. Sensor owns the picker, field-diff review, permission routing,
 and normal connection dispatch. Plugin business logic stays in the offline browser sandbox.
 
 Base: source integration #3981 at
@@ -67,7 +67,7 @@ managed-file sync or expose plugin file access.
 
 The API excludes Vault and renderer stores, the internal MCP catalog, plaintext
 credentials, private keys, TOTP configuration, startup scripts, and arbitrary
-execution. Host selection and action UI live in Netcatty. Plugin business logic
+execution. Host selection and action UI live in Sensor. Plugin business logic
 stays in the sandboxed plugin.
 
 ## Typed target and action authority

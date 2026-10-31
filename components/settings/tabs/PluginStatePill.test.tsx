@@ -10,7 +10,7 @@ test('state pill exposes actual state, opposite action, focus styling and pendin
   const globals = globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean };
   const previous = globals.IS_REACT_ACT_ENVIRONMENT; globals.IS_REACT_ACT_ENVIRONMENT = true;
   const calls: unknown[] = [];
-  const plugin = { id: 'com.test.pill', activeVersion: '1.0.0', enabled: true, manifest: { name: 'Pill' }, runtime: {} } as NetcattyInstalledPlugin;
+  const plugin = { id: 'com.test.pill', activeVersion: '1.0.0', enabled: true, manifest: { name: 'Pill' }, runtime: {} } as SensorInstalledPlugin;
   const manager = { available: true, plugins: [plugin], busy: false, setEnabled: async (...args: unknown[]) => { calls.push(args); } } as unknown as ReturnType<typeof usePluginManager>;
   let renderer: ReactTestRenderer;
   const render = (enabled: boolean, busy = false) => <I18nProvider locale="en"><PluginPackageManager manager={{ ...manager, busy, plugins: [{ ...plugin, enabled }] }} /></I18nProvider>;

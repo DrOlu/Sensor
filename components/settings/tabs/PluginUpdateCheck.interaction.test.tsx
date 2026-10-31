@@ -17,10 +17,10 @@ test('manual update action coalesces clicks, never runs on mount, and reports in
   const { PluginSettingsLanding } = await import('./PluginSettingsLanding');
   const { usePluginUpdateCheck } = await import('../../../application/state/usePluginUpdateCheck');
   const root = createRoot(document.getElementById('root')!);
-  const source: NetcattyPluginSource = { id: 'official', kind: 'official', name: 'Official source', origin: 'https://plugins.example.com', enabled: true };
+  const source: SensorPluginSource = { id: 'official', kind: 'official', name: 'Official source', origin: 'https://plugins.example.com', enabled: true };
   const plugin = { id: 'com.example.alpha', enabled: false, activeVersion: '1.0.0', archiveSha256: 'a'.repeat(64), source,
     manifest: { manifestVersion: 1, id: 'com.example.alpha', name: 'Alpha', version: '1.0.0', publisher: 'example', engines: { netcatty: '>=0.0.0', api: '>=0.1.0-internal <0.2.0' }, main: { browser: 'index.js' } },
-    runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null } } as NetcattyInstalledPlugin;
+    runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null } } as SensorInstalledPlugin;
   const plugins = [plugin];
   const manager = { plugins, available: true, statusKnown: true, busy: false, error: null, credentialStorageAvailable: true, async refresh() {}, async setEnabled() {}, async importPackage() {}, async uninstall() {} };
   let catalogReads = 0; let mutations = 0; let offline = false;

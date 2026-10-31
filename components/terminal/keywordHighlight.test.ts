@@ -182,7 +182,7 @@ test("changing or disabling rules recolors existing history from original cell c
   assert.equal(
     highlighter.serializeAddon.serialize(),
     "first ERROR\r\nsecond ERROR",
-    "saved history must never contain Netcatty's injected colors",
+    "saved history must never contain Sensor's injected colors",
   );
   assert.equal(cellRgb(term, 0, "ERROR"), RED);
 

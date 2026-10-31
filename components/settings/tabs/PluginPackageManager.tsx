@@ -12,7 +12,7 @@ import { Input } from '../../ui/input';
 import { PluginInfo } from './PluginInfo';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../../ui/dialog';
 
-export function PluginPackageDetails({ plugin }: { plugin: NetcattyInstalledPlugin }) {
+export function PluginPackageDetails({ plugin }: { plugin: SensorInstalledPlugin }) {
   const { t, resolvedLocale } = useI18n();
   const manifest = plugin.manifest;
   if (!manifest) return null;
@@ -27,7 +27,7 @@ export function PluginPackageDetails({ plugin }: { plugin: NetcattyInstalledPlug
   return <div className="space-y-4 border-t border-border/60 pt-4 text-sm">
     <dl className="grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-xs">
       <dt className="text-muted-foreground">ID</dt><dd className="break-all font-mono">{plugin.id}</dd>
-      <dt className="text-muted-foreground">Netcatty</dt><dd>{manifest.engines.netcatty}</dd>
+      <dt className="text-muted-foreground">Sensor</dt><dd>{manifest.engines.netcatty}</dd>
       <dt className="text-muted-foreground">API</dt><dd>{manifest.engines.api}</dd>
       <dt className="text-muted-foreground">SHA-256</dt><dd className="break-all font-mono">{plugin.archiveSha256 ?? '-'}</dd>
     </dl>
@@ -61,8 +61,8 @@ export function PluginPackageManager({ manager, onSelectionChange, initialSelect
   const scrollTop = useRef(0);
   const lastSelection = useRef<string | null>(null);
   const selectedPlugin = manager.plugins.find((plugin) => plugin.id === selected);
-  const nameOf = (plugin: NetcattyInstalledPlugin) => typeof plugin.manifest?.displayName === 'string' ? plugin.manifest.displayName : plugin.manifest?.displayName?.[resolvedLocale] ?? plugin.manifest?.displayName?.en ?? plugin.manifest?.name ?? plugin.id;
-  const descriptionOf = (plugin: NetcattyInstalledPlugin) => {
+  const nameOf = (plugin: SensorInstalledPlugin) => typeof plugin.manifest?.displayName === 'string' ? plugin.manifest.displayName : plugin.manifest?.displayName?.[resolvedLocale] ?? plugin.manifest?.displayName?.en ?? plugin.manifest?.name ?? plugin.id;
+  const descriptionOf = (plugin: SensorInstalledPlugin) => {
     const value = plugin.manifest?.description;
     return typeof value === 'string' ? value : value?.[resolvedLocale] ?? value?.en ?? '';
   };

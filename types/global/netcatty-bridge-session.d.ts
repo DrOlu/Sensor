@@ -1,6 +1,6 @@
 
 declare global {
-  interface NetcattyKittyKeyboardModeState {
+  interface SensorKittyKeyboardModeState {
     mainFlags: number;
     alternateFlags: number;
     mainStack: number[];
@@ -8,7 +8,7 @@ declare global {
     alternateScreenActive: boolean;
   }
 
-  interface NetcattyTerminalInterruptTrace {
+  interface SensorTerminalInterruptTrace {
     debug?: boolean;
     traceId?: string;
     source?: string;
@@ -28,7 +28,7 @@ declare global {
     };
   }
 
-  interface NetcattyTerminalOutputPerfMeta {
+  interface SensorTerminalOutputPerfMeta {
     id: string;
     emittedAt: number;
     sessionId?: string;
@@ -36,10 +36,10 @@ declare global {
     lineFeeds: number;
   }
 
-  interface NetcattyBridge {
-    getWindowsPtyInfo?(): NetcattyWindowsPtyInfo | null;
-    startSSHSession(options: NetcattySSHOptions): Promise<string>;
-    testConnection?(options: NetcattySSHOptions): Promise<string>;
+  interface SensorBridge {
+    getWindowsPtyInfo?(): SensorWindowsPtyInfo | null;
+    startSSHSession(options: SensorSSHOptions): Promise<string>;
+    testConnection?(options: SensorSSHOptions): Promise<string>;
     cancelTestConnection?(sessionId: string): Promise<{ success: boolean; error?: string }>;
     startTelnetSession?(options: {
       sessionId?: string;
@@ -120,7 +120,7 @@ declare global {
       algorithmOverrides?: import("../../domain/models").HostAlgorithmOverrides;
       knownHosts?: import("../../domain/models").KnownHost[];
       verifyHostKeys?: boolean;
-      jumpHosts?: NetcattyJumpHost[];
+      jumpHosts?: SensorJumpHost[];
       agentForwarding?: boolean;
       sudoAutofillPassword?: string;
       cols?: number;
@@ -218,7 +218,7 @@ declare global {
       authMethod?: import("../../domain/models").HostAuthMethod;
       requiresMfa?: boolean;
       password?: string;
-      totp?: NetcattyTotpConfig;
+      totp?: SensorTotpConfig;
       privateKey?: string;
       certificate?: string;
       publicKey?: string;
@@ -382,7 +382,7 @@ declare global {
     }) => void): () => void;
     interruptSession?(
       sessionId: string,
-      trace?: NetcattyTerminalInterruptTrace,
+      trace?: SensorTerminalInterruptTrace,
       options?: { cancelPendingWritesOnly?: boolean },
     ): void;
     resizeSession(sessionId: string, cols: number, rows: number): void;
@@ -434,7 +434,7 @@ declare global {
       snapshot?: string;
       /** Captured input policy for the existing backend connection. */
       perCharacterInput?: boolean;
-      kittyKeyboardModeState?: NetcattyKittyKeyboardModeState;
+      kittyKeyboardModeState?: SensorKittyKeyboardModeState;
       kittyKeyboardProtocolEnabled?: boolean;
       passwordPromptActive?: boolean;
       cwd?: string | null;
@@ -449,7 +449,7 @@ declare global {
     respondTerminalSessionSnapshot?(
       requestId: string,
       snapshot: string,
-      kittyKeyboardModeState?: NetcattyKittyKeyboardModeState,
+      kittyKeyboardModeState?: SensorKittyKeyboardModeState,
       kittyKeyboardProtocolEnabled?: boolean,
       passwordPromptActive?: boolean,
       cwd?: string | null,
@@ -466,7 +466,7 @@ declare global {
         contextScrollbackSnapshot: string;
         alternateScreen: boolean;
         perCharacterInput?: boolean;
-        kittyKeyboardModeState?: NetcattyKittyKeyboardModeState;
+        kittyKeyboardModeState?: SensorKittyKeyboardModeState;
         kittyKeyboardProtocolEnabled?: boolean;
         passwordPromptActive?: boolean;
         cwd?: string | null;
@@ -489,7 +489,7 @@ declare global {
         contextScrollbackSnapshot: string;
         alternateScreen: boolean;
         perCharacterInput?: boolean;
-        kittyKeyboardModeState?: NetcattyKittyKeyboardModeState;
+        kittyKeyboardModeState?: SensorKittyKeyboardModeState;
         kittyKeyboardProtocolEnabled?: boolean;
         passwordPromptActive?: boolean;
         cwd?: string | null;
@@ -542,9 +542,9 @@ declare global {
           droppedOutputAlternateScreenAction?: "enter" | "leave";
           /** True while Mosh is still on the ephemeral SSH handshake PTY. */
           moshHandshake?: boolean;
-          /** The Mosh SSH bootstrap is blocked on input that Netcatty cannot answer automatically. */
+          /** The Mosh SSH bootstrap is blocked on input that Sensor cannot answer automatically. */
           moshHandshakeRequiresUserInput?: boolean;
-          terminalPerf?: NetcattyTerminalOutputPerfMeta;
+          terminalPerf?: SensorTerminalOutputPerfMeta;
           /** Original host output units acknowledged even when an interceptor changes display length. */
           pluginPipelineIngressBytes?: number;
           /** Host-owned provenance marker for output already processed by an interceptor. */

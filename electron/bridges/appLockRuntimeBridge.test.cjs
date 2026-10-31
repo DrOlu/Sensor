@@ -871,17 +871,17 @@ test("startup lock immediately protects existing and newly opened windows", asyn
     getMainWindows: () => [existingWindow],
   });
 
-  assert.equal(existingWindow.getTitle(), "Netcatty");
+  assert.equal(existingWindow.getTitle(), "Sensor");
   assert.equal(existingWindow.getDevToolsCloseCount(), 1);
 
   const newWindow = createWindowCollector("new-session");
   controller.protectWindow(newWindow);
-  assert.equal(newWindow.getTitle(), "Netcatty");
+  assert.equal(newWindow.getTitle(), "Sensor");
   newWindow.openDevToolsForTest();
   assert.equal(newWindow.getDevToolsCloseCount(), 1);
 
   controller.setWindowTitle(newWindow, "new@host");
-  assert.equal(newWindow.getTitle(), "Netcatty");
+  assert.equal(newWindow.getTitle(), "Sensor");
   runtimeBridge.unlock();
   assert.equal(newWindow.getTitle(), "new@host");
 });
@@ -893,7 +893,7 @@ test("lock redacts window titles and unlock restores them", async () => {
   const originalTitles = windows.map((win) => win.getTitle());
 
   controller.setLocked("manual");
-  assert.deepEqual(windows.map((win) => win.getTitle()), windows.map(() => "Netcatty"));
+  assert.deepEqual(windows.map((win) => win.getTitle()), windows.map(() => "Sensor"));
 
   await controller.requestUnlock("alpha");
   assert.deepEqual(windows.map((win) => win.getTitle()), originalTitles);

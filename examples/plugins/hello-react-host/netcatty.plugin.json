@@ -6,7 +6,7 @@
     "en": "Hello React",
     "zh-CN": "你好，React"
   },
-  "description": "Freely styled pages with standard, persistent Netcatty settings. No host data access.",
+  "description": "Freely styled pages with standard, persistent Sensor settings. No host data access.",
   "version": "0.2.0",
   "publisher": "netcatty",
   "license": "MIT",

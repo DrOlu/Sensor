@@ -14,10 +14,10 @@ export interface PluginUpdateCheckResult {
   failedSources: number;
 }
 
-type UpdateBridge = Pick<NetcattyBridge, 'listPlugins' | 'listPluginSources' | 'listPluginCatalog'>;
-const sameSource = (left?: NetcattyPluginSource, right?: NetcattyPluginSource) => Boolean(left && right
+type UpdateBridge = Pick<SensorBridge, 'listPlugins' | 'listPluginSources' | 'listPluginCatalog'>;
+const sameSource = (left?: SensorPluginSource, right?: SensorPluginSource) => Boolean(left && right
   && left.id === right.id && left.kind === right.kind && left.origin === right.origin);
-const sameInstallation = (left: NetcattyInstalledPlugin, right?: NetcattyInstalledPlugin) => Boolean(right
+const sameInstallation = (left: SensorInstalledPlugin, right?: SensorInstalledPlugin) => Boolean(right
   && left.activeVersion === right.activeVersion && left.archiveSha256 === right.archiveSha256
   && sameSource(left.source, right.source));
 
@@ -26,7 +26,7 @@ export async function checkPluginUpdates(bridge: UpdateBridge): Promise<PluginUp
   if (!bridge.listPlugins || !bridge.listPluginSources || !bridge.listPluginCatalog) throw new Error('Plugin update checks are unavailable');
   const installed = await bridge.listPlugins();
   const sources = await bridge.listPluginSources();
-  const groups = new Map<string, NetcattyInstalledPlugin[]>();
+  const groups = new Map<string, SensorInstalledPlugin[]>();
   for (const plugin of installed) {
     const source = sources.find((item) => sameSource(plugin.source, item));
     // Local/unknown/removed/disabled bindings never fall back to another market.

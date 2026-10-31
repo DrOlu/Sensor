@@ -20,7 +20,7 @@ Browser screenshots are not native Electron acceptance.
 ## Native screenshot fixture
 
 Inject `installAiToolAccessFixture` from `bridge.cjs` into the main world before
-loading `/#/settings` in a disposable Electron window. Do not launch Netcatty's
+loading `/#/settings` in a disposable Electron window. Do not launch Sensor's
 real main-process bridges. Options are `locale`, `theme`, and `enabled`.
 The supported test locales include `zh-CN` and `en`. Themes are `dark` and `light`.
 

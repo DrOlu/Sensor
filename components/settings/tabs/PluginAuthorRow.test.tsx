@@ -6,10 +6,10 @@ import { JSDOM } from 'jsdom';
 import { PluginAuthorRow } from '../../plugins/PluginAuthorRow';
 import { I18nProvider } from '../../../application/i18n/I18nProvider';
 
-const entry = { id: 'com.netcatty.starter', name: 'Starter', author: 'Netcatty', version: '0.1.2',
-  repository: 'binaricat/Netcatty', commit: 'a'.repeat(40), selectionToken: 'b'.repeat(64),
-  manifest: { publisher: 'netcatty' } } as NetcattyPluginCatalogEntry;
-const identity = { author: 'Netcatty', avatar: 'data:image/png;base64,eA==', officialMaintained: true,
+const entry = { id: 'com.netcatty.starter', name: 'Starter', author: 'Sensor', version: '0.1.2',
+  repository: 'DrOlu/Sensor', commit: 'a'.repeat(40), selectionToken: 'b'.repeat(64),
+  manifest: { publisher: 'netcatty' } } as SensorPluginCatalogEntry;
+const identity = { author: 'Sensor', avatar: 'data:image/png;base64,eA==', officialMaintained: true,
   sourceId: 'official', version: entry.version, archiveSha256: null };
 
 test('untrusted entry strings and absent imagery show only the author without decoration or an official badge', () => {
@@ -23,7 +23,7 @@ test('untrusted entry strings and absent imagery show only the author without de
 test('installed authors share a compact row with localized sources and full accessible provenance', () => {
   const plugin = { id: entry.id, manifest: { publisher: 'An extremely long publisher name' },
     source: { id: 'third-party:example', kind: 'third-party', name: 'Community packages', origin: 'https://packages.example.org/catalog' },
-  } as NetcattyInstalledPlugin;
+  } as SensorInstalledPlugin;
   for (const [locale, label] of [['en', 'Third-party'], ['zh-CN', '第三方']]) {
     const dom = new JSDOM(renderToStaticMarkup(<I18nProvider locale={locale}><PluginAuthorRow plugin={plugin} showSource /></I18nProvider>));
     const row = dom.window.document.querySelector('[data-plugin-author-row]')!;
@@ -51,7 +51,7 @@ test('installed authors share a compact row with localized sources and full acce
 
 test('missing authors and unknown sources do not leave an empty author group or expose translation keys', () => {
   for (const source of [undefined, { kind: 'unexpected' }]) {
-    const plugin = { id: entry.id, manifest: {}, source } as NetcattyInstalledPlugin;
+    const plugin = { id: entry.id, manifest: {}, source } as SensorInstalledPlugin;
     const dom = new JSDOM(renderToStaticMarkup(<I18nProvider locale="en"><PluginAuthorRow plugin={plugin} showSource /></I18nProvider>));
     const row = dom.window.document.querySelector('[data-plugin-author-row]')!;
     assert.equal(row.querySelector('[data-plugin-author]'), null);
@@ -83,9 +83,9 @@ test('mounted author rows load only when visible, retain fallbacks, cancel stale
   const { act } = await import('react');
   const { createRoot } = await import('react-dom/client');
   const root = createRoot(document.getElementById('root')!);
-  const calls: NetcattyPluginAuthorRequest[] = [];
-  const pending: Array<(value: NetcattyPluginAuthorPresentation | null) => void> = [];
-  Object.assign(window, { netcatty: { getPluginAuthorPresentation: (request: NetcattyPluginAuthorRequest) => {
+  const calls: SensorPluginAuthorRequest[] = [];
+  const pending: Array<(value: SensorPluginAuthorPresentation | null) => void> = [];
+  Object.assign(window, { netcatty: { getPluginAuthorPresentation: (request: SensorPluginAuthorRequest) => {
     calls.push(request); return new Promise((resolve) => pending.push(resolve));
   } } });
   const render = async (value = entry, sourceId = 'official') => {
@@ -100,7 +100,7 @@ test('mounted author rows load only when visible, retain fallbacks, cancel stale
     await render(); assert.equal(calls.length, 0); assert.equal(document.querySelector('[data-plugin-author-placeholder]'), null);
     await visible(); assert.deepEqual(calls[0], { kind: 'catalog', pluginId: entry.id, selectionToken: entry.selectionToken, sourceId: 'official' });
     assert.equal(document.querySelector('img'), null, 'loading does not reserve an empty avatar');
-    assert.equal(document.querySelector('[data-plugin-author]')?.textContent, 'Netcatty');
+    assert.equal(document.querySelector('[data-plugin-author]')?.textContent, 'Sensor');
     await act(async () => pending.shift()!(identity));
     const image = document.querySelector('img')!;
     assert.equal(image.getAttribute('src'), identity.avatar); assert.equal(image.width, 16); assert.equal(image.height, 16);
@@ -132,7 +132,7 @@ test('mounted author rows load only when visible, retain fallbacks, cancel stale
     assert.equal(document.querySelector('[data-plugin-author-placeholder]'), null);
     const installed = { id: entry.id, activeVersion: entry.version, archiveSha256: 'a'.repeat(64),
       source: { id: 'official', kind: 'official', origin: 'https://plugins.netcatty.app', name: 'Official' },
-      manifest: entry.manifest, runtime: {} } as NetcattyInstalledPlugin;
+      manifest: entry.manifest, runtime: {} } as SensorInstalledPlugin;
     await act(async () => root.render(<I18nProvider locale="en"><PluginAuthorRow plugin={installed} /></I18nProvider>));
     await visible(); assert.deepEqual(calls.at(-1), { kind: 'installed', pluginId: installed.id });
     await act(async () => pending.shift()!({ ...identity, version: '9.0.0', archiveSha256: installed.archiveSha256! }));

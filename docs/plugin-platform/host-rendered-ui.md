@@ -32,7 +32,7 @@ Bundle the `host-react` subpath, React, and React DOM into the browser entry.
 The root SDK may be bundled or resolved by the runtime's SDK mapping. For plain
 JavaScript, `registerHostDomView(views, id, (root, stateScope) => cleanup, css)`
 accepts ordinary DOM authoring. The root exists in the isolated runtime;
-Netcatty receives validated data and creates the visible elements itself.
+Sensor receives validated data and creates the visible elements itself.
 Never hand a function, live DOM node, or Electron object to the host.
 
 There is no required component catalogue. Use Grid/Flex, container queries,
@@ -58,7 +58,7 @@ rejected. Use installed system fonts; packaged font files and canvas are not
 part of the current supported surface.
 
 For a menu that extends beyond a pane, use `PluginPopover` with an anchor element
-ID, `open`, and `onClose`. Its children are freely authored UI. Netcatty positions
+ID, `open`, and `onClose`. Its children are freely authored UI. Sensor positions
 and clips it, handles outside click and Escape, restores anchor focus, and keeps
 it below trusted host dialogs. Only the originating view's anchor can be used.
 Nested popovers are not supported. Ordinary menus contained inside the surface

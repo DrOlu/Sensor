@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 export function usePluginPermissionPrompt() {
-  const [prompts, setPrompts] = useState<NetcattyPluginPermissionPrompt[]>([]);
+  const [prompts, setPrompts] = useState<SensorPluginPermissionPrompt[]>([]);
   const [busy, setBusy] = useState(false);
-  const active = useRef<NetcattyPluginPermissionPrompt | null>(null);
+  const active = useRef<SensorPluginPermissionPrompt | null>(null);
   const prompt = prompts[0];
   active.current = prompt ?? null;
   useEffect(() => {

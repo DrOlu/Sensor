@@ -4,8 +4,8 @@
     "version": "0.1.2",
     "name": "Plugin Starter",
     "description": "First-party greeting panel, local settings and commands, without terminal or secret access.",
-    "author": "Netcatty",
-    "repository": "binaricat/Netcatty",
+    "author": "Sensor",
+    "repository": "DrOlu/Sensor",
     "commit": "f4a6b205adca486d4e9cda0270e13a9ff0afd7be",
     "license": "GPL-3.0-or-later",
     "readme": "examples/plugins/starter-netcatty/README.md",
@@ -97,10 +97,10 @@
   {
     "id": "com.netcatty.hello",
     "version": "0.1.0",
-    "name": "Hello Netcatty",
+    "name": "Hello Sensor",
     "description": "First-party example: greeting settings, commands and terminal providers. Build locally and import.",
-    "author": "Netcatty",
-    "repository": "binaricat/Netcatty",
+    "author": "Sensor",
+    "repository": "DrOlu/Sensor",
     "commit": "4336f8fd53a05a48d6bbc9ad3ce0ca88b121862f",
     "license": "GPL-3.0-or-later",
     "readme": "examples/plugins/hello-netcatty/README.md",
@@ -110,8 +110,8 @@
       "id": "com.netcatty.hello",
       "name": "hello-netcatty",
       "displayName": {
-        "en": "Hello Netcatty",
-        "zh-CN": "你好，Netcatty"
+        "en": "Hello Sensor",
+        "zh-CN": "你好，Sensor"
       },
       "description": "Minimal plugin contract and SDK example.",
       "version": "0.1.0",
@@ -150,7 +150,7 @@
             "description": "Text used by the example command.",
             "control": "text",
             "scope": "application",
-            "default": "Hello from Netcatty"
+            "default": "Hello from Sensor"
           }
         ],
         "commands": [

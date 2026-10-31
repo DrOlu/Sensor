@@ -726,7 +726,7 @@ test("patched Sentry: detection, fast consume, trailing bytes to terminal", () =
   });
 
   // the remote's `sz` starts with a ZRQINIT; the sentry detects it and
-  // echoes the init bytes to the terminal, like Netcatty does today
+  // echoes the init bytes to the terminal, like Sensor does today
   const zrqinitWire = Buffer.from(Zmodem.Header.build("ZRQINIT").to_hex());
   sentry.consume(zrqinitWire);
   assert.ok(detection, "detection fired");

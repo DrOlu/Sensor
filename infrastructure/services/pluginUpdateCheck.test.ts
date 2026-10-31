@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { checkPluginUpdates } from './pluginUpdateCheck';
 
-const official: NetcattyPluginSource = { id: 'official', kind: 'official', name: 'Official source', origin: 'https://plugins.example.com', enabled: true };
-const third: NetcattyPluginSource = { id: 'third-party:synthetic', kind: 'third-party', name: 'Synthetic source', origin: 'https://synthetic.example.com', enabled: true };
-const local: NetcattyPluginSource = { id: 'local', kind: 'local', name: 'Local import', origin: null };
-const plugin = (id: string, version: string, source?: NetcattyPluginSource): NetcattyInstalledPlugin => ({ id, activeVersion: version, source, archiveSha256: 'a'.repeat(64), enabled: false, manifest: null, runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null } });
-const entry = (id: string, version: string) => ({ id, version, artifact: { url: 'https://plugins.example.com/synthetic.ncpkg', sha256: 'b'.repeat(64) } }) as NetcattyPluginCatalogEntry;
-const catalog = (entries: NetcattyPluginCatalogEntry[]): NetcattyPluginCatalogSnapshot => ({ source: 'registry', error: null, entries });
+const official: SensorPluginSource = { id: 'official', kind: 'official', name: 'Official source', origin: 'https://plugins.example.com', enabled: true };
+const third: SensorPluginSource = { id: 'third-party:synthetic', kind: 'third-party', name: 'Synthetic source', origin: 'https://synthetic.example.com', enabled: true };
+const local: SensorPluginSource = { id: 'local', kind: 'local', name: 'Local import', origin: null };
+const plugin = (id: string, version: string, source?: SensorPluginSource): SensorInstalledPlugin => ({ id, activeVersion: version, source, archiveSha256: 'a'.repeat(64), enabled: false, manifest: null, runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null } });
+const entry = (id: string, version: string) => ({ id, version, artifact: { url: 'https://plugins.example.com/synthetic.ncpkg', sha256: 'b'.repeat(64) } }) as SensorPluginCatalogEntry;
+const catalog = (entries: SensorPluginCatalogEntry[]): SensorPluginCatalogSnapshot => ({ source: 'registry', error: null, entries });
 
 test('update checks compare semantic versions within each host-bound source and never mutate or fetch directly', async () => {
   const installed = [plugin('com.example.alpha', '1.9.0', official), plugin('com.example.beta', '2.0.0-beta.1', third), plugin('com.example.local', '1.0.0', local), plugin('com.example.unknown', '1.0.0')];

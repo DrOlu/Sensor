@@ -4,7 +4,7 @@ Status: implemented
 
 ## Problem
 
-[Issue #3748](https://github.com/binaricat/Netcatty/issues/3748) reports that the
+[Issue #3748](https://github.com/DrOlu/Sensor/issues/3748) reports that the
 port-forwarding page displays `Port forwarding could not load.` when rendering
 a selected host whose legacy `os` value is absent, null, or an empty string.
 
@@ -73,7 +73,7 @@ Additional checks against upstream commit `786a317`:
 
 ### Upstream CI follow-up
 
-The original PR CI run [39215269619, attempt 2](https://github.com/binaricat/Netcatty/actions/runs/39215269619/attempts/2)
+The original PR CI run [39215269619, attempt 2](https://github.com/DrOlu/Sensor/actions/runs/39215269619/attempts/2)
 passes all 96 new regression cases and fails only the existing README paste
 assertion. Upstream commit `b366967` fixes that assertion by removing its
 coupling to changing screenshot dimensions. The branch incorporates this fix

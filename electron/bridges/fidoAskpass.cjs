@@ -4,7 +4,7 @@
  * SSH_ASKPASS bridge for FIDO2 (ssh-keygen / ssh-add / ssh-sk-helper).
  *
  * OpenSSH invokes SSH_ASKPASS as a subprocess with the prompt text as argv.
- * The helper connects to a Netcatty-owned IPC socket; main process shows a
+ * The helper connects to a Sensor-owned IPC socket; main process shows a
  * native PIN/touch modal and returns the response on stdout of the helper.
  */
 
@@ -162,7 +162,7 @@ function runWithFidoSigningLease(leaseId, operation) {
 function getTempBase() {
   const tempDirBridge = require("./tempDirBridge.cjs");
   if (typeof tempDirBridge.getTempDir !== "function") {
-    throw new Error("FIDO askpass requires Netcatty temp directory (tempDirBridge unavailable).");
+    throw new Error("FIDO askpass requires Sensor temp directory (tempDirBridge unavailable).");
   }
   return tempDirBridge.getTempDir();
 }
@@ -440,7 +440,7 @@ function selectFidoAskpassWrapper(wrapperPath, binaryPath, platform = process.pl
 }
 
 /**
- * Environment for ssh-agent / ssh-add / ssh-keygen so PIN/touch use Netcatty UI.
+ * Environment for ssh-agent / ssh-add / ssh-keygen so PIN/touch use Sensor UI.
  * @param {{ resolveWebContents?: () => import("electron").WebContents|null, sshBinaryPath?: string, env?: NodeJS.ProcessEnv }} [options]
  */
 function buildFidoAskpassEnv(options = {}) {

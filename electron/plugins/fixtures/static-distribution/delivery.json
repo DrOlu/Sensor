@@ -23,7 +23,7 @@
         "sha256": "d685ec68558c81705f03195ca35a0a62ea6ec75d8837d5ddb5b5a970890aae6e",
         "size": 2050
       },
-      "repository": "binaricat/Netcatty",
+      "repository": "DrOlu/Sensor",
       "version": "0.1.2"
     },
     {
@@ -38,7 +38,7 @@
         "sha256": "1692573445e3688b4fe3612282becc086b191a034c0609deeaaebf615627c209",
         "size": 2951
       },
-      "repository": "binaricat/Netcatty",
+      "repository": "DrOlu/Sensor",
       "version": "0.1.0"
     }
   ],

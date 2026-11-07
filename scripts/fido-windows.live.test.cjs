@@ -126,7 +126,7 @@ test("Windows security-key integration with real user-mode OpenSSH", {
     client.connect({ host: "127.0.0.1", port: server.address().port, username: "netcatty",
       agent: nativeAgent ? createAgent(agent._netcattyAgentSocket) : agent,
       password, authHandler: password ? ["agent", "password"] : ["agent"], readyTimeout: 15000 });
-    return { client, outcome, close() { client.end(); agent._releaseNetcattyFidoAgent?.(); } };
+    return { client, outcome, close() { client.end(); agent._releaseSensorFidoAgent?.(); } };
   }
 
   try {
@@ -218,7 +218,7 @@ test("Windows security-key integration with real user-mode OpenSSH", {
             { env: { ...process.env, SSH_AUTH_SOCK: identityAgent }, timeout: 15000, windowsHide: true });
             assert.equal(result.stdout, "windows-fido-ok");
             assert.ok(seen.slice(before).some(request => request.kind === "pin"));
-          } finally { agent._releaseNetcattyFidoAgent?.(); }
+          } finally { agent._releaseSensorFidoAgent?.(); }
         });
       }
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Netcatty static delivery v2 (reviewed avatars and packages)",
+  "title": "Sensor static delivery v2 (reviewed avatars and packages)",
   "type": "object",
   "additionalProperties": false,
   "required": [

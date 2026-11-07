@@ -1,17 +1,17 @@
 <p align="center">
-  <img src="public/icon.png" alt="Netcatty" width="128" height="128">
+  <img src="public/icon.png" alt="Sensor" width="128" height="128">
 </p>
 
-<h1 align="center">Netcatty</h1>
+<h1 align="center">Sensor</h1>
 
 <p align="center">
   <strong>🔥 AI-Powered SSH Client, SFTP Browser & Terminal Manager 🚀</strong><br/>
-  <a href="https://netcatty.app"><strong>netcatty.app</strong></a>
+  <a href="https://github.com/DrOlu/Sensor"><strong>Sensor</strong></a>
 </p>
 
 <p align="center">
   <a href="https://trendshift.io/repositories/18391?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-18391" target="_blank" rel="noopener noreferrer">
-    <img src="https://trendshift.io/api/badge/trendshift/repositories/18391/daily?language=TypeScript" alt="binaricat/Netcatty | Trendshift" width="250" height="55"/>
+    <img src="https://trendshift.io/api/badge/trendshift/repositories/18391/daily?language=TypeScript" alt="DrOlu/Sensor | Trendshift" width="250" height="55"/>
   </a>
 </p>
 
@@ -21,7 +21,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=Release"></a>
+  <a href="https://github.com/DrOlu/Sensor/releases/latest"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=Release"></a>
   &nbsp;
   <a href="#"><img alt="Platform" src="https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-blue?style=for-the-badge&logo=electron"></a>
   &nbsp;
@@ -29,8 +29,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/binaricat/Netcatty/releases/latest">
-    <img src="https://img.shields.io/github/v/release/binaricat/Netcatty?style=for-the-badge&logo=github&label=Download%20Latest&color=success" alt="Download Latest Release">
+  <a href="https://github.com/DrOlu/Sensor/releases/latest">
+    <img src="https://img.shields.io/github/v/release/DrOlu/Sensor?style=for-the-badge&logo=github&label=Download%20Latest&color=success" alt="Download Latest Release">
   </a>
 </p>
 
@@ -51,11 +51,11 @@
 
 ---
 
-<a name="catty-agent"></a>
-# 🔥 Catty Agent — Your IT Ops AI Partner
+<a name="sensor-agent"></a>
+# 🔥 Sensor Agent — Your IT Ops AI Partner
 
-> 🚀 **Boost your IT ops daily work with AI power.** Catty Agent is the built-in AI assistant that understands your servers, executes commands, and handles complex multi-host operations — all through natural conversation.
-### 🔥 What can Catty Agent do?
+> 🚀 **Boost your IT ops daily work with AI power.** Sensor Agent is the built-in AI assistant that understands your servers, executes commands, and handles complex multi-host operations — all through natural conversation.
+### 🔥 What can Sensor Agent do?
 
 - 🚀 **Natural language server management** — just tell it what you need, no more memorizing commands
 - 🔥 **Real-time server diagnostics** — check status, inspect logs, monitor resources through conversation
@@ -67,25 +67,25 @@
 
 #### 🔥 Single Host — Intelligent Server Diagnostics
 
-Ask Catty Agent to check a server's health, and it runs the right commands, analyzes the output, and gives you a clear summary — all in seconds.
+Ask Sensor Agent to check a server's health, and it runs the right commands, analyzes the output, and gives you a clear summary — all in seconds.
 
-<img width="3302" height="1978" alt="image" src="docs/assets/readme/catty-single-host.webp" />
+<img width="3302" height="1978" alt="image" src="docs/assets/readme/sensor-single-host.webp" />
 
 
 #### 🚀 Multi-Host — Docker Swarm Cluster Setup
 
-Watch Catty Agent orchestrate a Docker Swarm cluster across two servers in one conversation. It handles the init, token exchange, and node joining — you just tell it what you want.
+Watch Sensor Agent orchestrate a Docker Swarm cluster across two servers in one conversation. It handles the init, token exchange, and node joining — you just tell it what you want.
 
-<img width="3294" height="1974" alt="image" src="docs/assets/readme/catty-multi-host.webp" />
+<img width="3294" height="1974" alt="image" src="docs/assets/readme/sensor-multi-host.webp" />
 
 
 ---
 
 # Contents <!-- omit in toc -->
 
-- [🔥 Catty Agent — AI Partner](#catty-agent)
-- [What is Netcatty](#what-is-netcatty)
-- [Why Netcatty](#why-netcatty)
+- [🔥 Sensor Agent — AI Partner](#sensor-agent)
+- [What is Sensor](#what-is-sensor)
+- [Why Sensor](#why-sensor)
 - [Features](#features)
 - [Screenshots](#screenshots)
   - [Main Window](#main-window)
@@ -103,23 +103,23 @@ Watch Catty Agent orchestrate a Docker Swarm cluster across two servers in one c
 
 ---
 
-<a name="what-is-netcatty"></a>
-# What is Netcatty
+<a name="what-is-sensor"></a>
+# What is Sensor
 
-**Netcatty** is a modern SSH client and terminal manager for macOS, Windows, and Linux, designed for developers, sysadmins, and DevOps engineers who need to manage multiple remote servers efficiently.
+**Sensor** is a modern SSH client and terminal manager for macOS, Windows, and Linux, designed for developers, sysadmins, and DevOps engineers who need to manage multiple remote servers efficiently.
 
-- **Netcatty is** an alternative to PuTTY, Termius, SecureCRT, and macOS Terminal.app for SSH connections
-- **Netcatty is** a powerful SFTP client with dual-pane file browser
-- **Netcatty is** a terminal workspace with split panes, tabs, and session management
-- **Netcatty supports** SSH, local terminal, Telnet, Mosh, and Serial connections (when available)
-- **Netcatty is not** a shell replacement — it connects to shells via SSH/Telnet/Mosh or local/serial sessions
+- **Sensor is** an alternative to PuTTY, Termius, SecureCRT, and macOS Terminal.app for SSH connections
+- **Sensor is** a powerful SFTP client with dual-pane file browser
+- **Sensor is** a terminal workspace with split panes, tabs, and session management
+- **Sensor supports** SSH, local terminal, Telnet, Mosh, and Serial connections (when available)
+- **Sensor is not** a shell replacement — it connects to shells via SSH/Telnet/Mosh or local/serial sessions
 
 ---
 
-<a name="why-netcatty"></a>
-# Why Netcatty
+<a name="why-sensor"></a>
+# Why Sensor
 
-If you regularly work with a fleet of servers, Netcatty is built for speed and flow:
+If you regularly work with a fleet of servers, Sensor is built for speed and flow:
 
 - **Workspace-first** — split panes + tabs + session restore for “always-on” workflows
 - **Vault organization** — grid/list/tree views with fast search and drag-friendly workflows
@@ -204,7 +204,7 @@ Split panes help you monitor multiple servers/services at the same time (deploy 
 <a name="supported-distros"></a>
 # Supported Distros
 
-Netcatty automatically detects and displays OS icons for connected hosts:
+Sensor automatically detects and displays OS icons for connected hosts:
 
 <p align="center">
   <img src="public/distro/ubuntu.svg" width="48" alt="Ubuntu" title="Ubuntu">
@@ -227,7 +227,7 @@ Netcatty automatically detects and displays OS icons for connected hosts:
 
 ### Download
 
-Download the latest release for your platform from [GitHub Releases](https://github.com/binaricat/Netcatty/releases/latest).
+Download the latest release for your platform from [GitHub Releases](https://github.com/DrOlu/Sensor/releases/latest).
 
 | OS | Support |
 | :--- | :--- |
@@ -235,73 +235,73 @@ Download the latest release for your platform from [GitHub Releases](https://git
 | **Windows** | x64 / arm64 |
 | **Linux** | x64 / arm64 |
 
-Or browse all releases at [GitHub Releases](https://github.com/binaricat/Netcatty/releases).
+Or browse all releases at [GitHub Releases](https://github.com/DrOlu/Sensor/releases).
 
 ### Code signing and privacy
 
-Netcatty is applying to the SignPath Foundation open-source program. Once
+Sensor is applying to the SignPath Foundation open-source program. Once
 approved, covered Windows release artifacts will use **Free code signing provided by SignPath.io, certificate by SignPath Foundation**.
 See the [code signing policy](CODE_SIGNING_POLICY.md) and
 [privacy policy](PRIVACY.md). Windows releases may remain unsigned until the
 application and integration are complete.
 
-> **Windows portable data:** Exit Netcatty, then create a folder named `data` beside `Netcatty.exe` (zip build) or beside the portable launcher. Netcatty will store its profile there on the next launch. Saved passwords and private keys remain protected by the Windows user account that created them, so they must be re-entered after moving the folder to another computer or Windows account.
+> **Windows portable data:** Exit Sensor, then create a folder named `data` beside `Sensor.exe` (zip build) or beside the portable launcher. Sensor will store its profile there on the next launch. Saved passwords and private keys remain protected by the Windows user account that created them, so they must be re-entered after moving the folder to another computer or Windows account.
 
-> **Open folders in Netcatty on Windows:** The installed version adds **Open in Netcatty** to Explorer's folder context menu and folder-background context menu. It opens a local terminal in that folder. On Windows 11, choose **Show more options** first. Turn the menu off or on in **Settings → System → Windows Explorer**. ZIP and portable versions do not add this menu by default.
+> **Open folders in Sensor on Windows:** The installed version adds **Open in Sensor** to Explorer's folder context menu and folder-background context menu. It opens a local terminal in that folder. On Windows 11, choose **Show more options** first. Turn the menu off or on in **Settings → System → Windows Explorer**. ZIP and portable versions do not add this menu by default.
 
 > **macOS Users:** Current releases are expected to be code-signed and notarized. If Gatekeeper still warns, make sure you downloaded the latest official build from GitHub Releases.
 
 <a name="open-a-local-terminal-from-the-command-line"></a>
 ### Open a local terminal from the command line
 
-`--open-terminal-path <dir>` opens a local terminal in that folder. `--open-terminal-shell <id-or-path>` selects the shell: a discovered id such as `pwsh`, `cmd`, or `wsl-ubuntu`, or a path to a shell executable. Either flag is enough. A shell alone opens a local tab in the default directory. A path alone uses the configured local shell. If Netcatty is already running, the tab opens in that window.
+`--open-terminal-path <dir>` opens a local terminal in that folder. `--open-terminal-shell <id-or-path>` selects the shell: a discovered id such as `pwsh`, `cmd`, or `wsl-ubuntu`, or a path to a shell executable. Either flag is enough. A shell alone opens a local tab in the default directory. A path alone uses the configured local shell. If Sensor is already running, the tab opens in that window.
 
 Windows needs an extra `--` so Electron forwards the flags:
 
 ```bat
-Netcatty.exe -- --open-terminal-shell=pwsh --open-terminal-path="D:\\proj"
+Sensor.exe -- --open-terminal-shell=pwsh --open-terminal-path="D:\\proj"
 ```
 
 On macOS, start a new instance with `open`, or run the binary directly:
 
 ```bash
-open -n -a Netcatty --args --open-terminal-shell=zsh --open-terminal-path="$HOME/proj"
-/Applications/Netcatty.app/Contents/MacOS/Netcatty --open-terminal-shell=zsh --open-terminal-path="$HOME/proj"
+open -n -a Sensor --args --open-terminal-shell=zsh --open-terminal-path="$HOME/proj"
+/Applications/Sensor.app/Contents/MacOS/Sensor --open-terminal-shell=zsh --open-terminal-path="$HOME/proj"
 ```
 
 ### Scoop (Windows x64, community-maintained)
 
-With [Scoop](https://scoop.sh/) installed, you can install Netcatty from the community-maintained [lemon bucket](https://github.com/hoilc/scoop-lemon/blob/master/bucket/netcatty.json), which downloads the installer from Netcatty's official GitHub Releases:
+With [Scoop](https://scoop.sh/) installed, you can install Sensor from the community-maintained [lemon bucket](https://github.com/hoilc/scoop-lemon/blob/master/bucket/sensor.json), which downloads the installer from Sensor's official GitHub Releases:
 
 ```powershell
 scoop bucket add lemon https://github.com/hoilc/scoop-lemon
-scoop install lemon/netcatty
+scoop install lemon/sensor
 ```
 
-Exit Netcatty before updating or uninstalling:
+Exit Sensor before updating or uninstalling:
 
 ```powershell
 scoop update
-scoop update netcatty
+scoop update sensor
 ```
 
 To uninstall:
 
 ```powershell
-scoop uninstall netcatty
+scoop uninstall sensor
 ```
 
-This is a third-party package, not an official Netcatty bucket, and updates may lag behind GitHub Releases. It currently supports x64 only. Settings remain in `%APPDATA%\netcatty` across updates and normal uninstalls; `scoop uninstall netcatty --purge` also deletes those settings. Use Scoop to manage updates for this installation.
+This is a third-party package, not an official Sensor bucket, and updates may lag behind GitHub Releases. It currently supports x64 only. Settings remain in `%APPDATA%\sensor` across updates and normal uninstalls; `scoop uninstall sensor --purge` also deletes those settings. Use Scoop to manage updates for this installation.
 
 ### Nix / NixOS
 
-Netcatty provides a flake that wraps the official Linux AppImage release for Nix and NixOS users:
+Sensor provides a flake that wraps the official Linux AppImage release for Nix and NixOS users:
 
 ```bash
-nix run github:binaricat/Netcatty
+nix run github:DrOlu/Sensor
 ```
 
-For declarative installs, add the Netcatty flake as an input and use `inputs.netcatty.packages.${pkgs.system}.default` in your NixOS or Home Manager package list.
+For declarative installs, add the Sensor flake as an input and use `inputs.sensor.packages.${pkgs.system}.default` in your NixOS or Home Manager package list.
 
 ### Prerequisites
 - Node.js 18+ and npm
@@ -311,8 +311,8 @@ For declarative installs, add the Netcatty flake as an input and use `inputs.net
 
 ```bash
 # Clone the repository
-git clone https://github.com/binaricat/Netcatty.git
-cd Netcatty
+git clone https://github.com/DrOlu/Sensor.git
+cd Sensor
 
 # Install dependencies
 npm install
@@ -377,8 +377,8 @@ See [AGENTS.md](AGENTS.md) for architecture overview and coding conventions.
 
 Thanks to all the people who contribute!
 
-<a href="https://github.com/binaricat/Netcatty/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=binaricat/Netcatty" />
+<a href="https://github.com/DrOlu/Sensor/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=DrOlu/Sensor" />
 </a>
 
 ---
@@ -393,7 +393,7 @@ This project is licensed under the **GPL-3.0 License** - see the [LICENSE](LICEN
 <a name="star-history"></a>
 # Star History
 
-<a href="https://www.star-history.com/#binaricat/Netcatty&Date">
+<a href="https://www.star-history.com/#DrOlu/Sensor&Date">
  <picture>
    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/star-history/star-history-dark.svg" />
    <source media="(prefers-color-scheme: light)" srcset="docs/assets/star-history/star-history-light.svg" />

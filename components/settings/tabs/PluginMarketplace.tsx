@@ -13,7 +13,7 @@ import { Button } from '../../ui/button';
 import { PluginPackageDetails } from './PluginPackageManager';
 import { PluginReadme } from './PluginReadme';
 
-export function PluginMarketplace({ installed = [], toolbarContainer, noVault, source }: { source?: NetcattyPluginSource; noVault?: boolean; installed?: NetcattyInstalledPlugin[]; toolbarContainer?: HTMLElement | null }) {
+export function PluginMarketplace({ installed = [], toolbarContainer, noVault, source }: { source?: SensorPluginSource; noVault?: boolean; installed?: SensorInstalledPlugin[]; toolbarContainer?: HTMLElement | null }) {
   const [selected, setSelected] = useState<string | null>(null);
   const catalog = usePluginCatalog(selected, source?.id);
   return <PluginMarketplaceContent catalog={catalog} marketSource={source} installed={installed} selected={selected} onSelect={setSelected} toolbarContainer={toolbarContainer} noVault={noVault} />;
@@ -21,11 +21,11 @@ export function PluginMarketplace({ installed = [], toolbarContainer, noVault, s
 
 // The browser owns only presentation state; installation and README policy stay in the existing hook.
 export function PluginMarketplaceContent({ catalog, installed, selected, onSelect, toolbarContainer, noVault, marketSource }: {
-  marketSource?: NetcattyPluginSource;
+  marketSource?: SensorPluginSource;
   noVault?: boolean;
   toolbarContainer?: HTMLElement | null;
   catalog: ReturnType<typeof usePluginCatalog>;
-  installed: NetcattyInstalledPlugin[];
+  installed: SensorInstalledPlugin[];
   selected: string | null;
   onSelect: (id: string | null) => void;
 }) {
@@ -41,7 +41,7 @@ export function PluginMarketplaceContent({ catalog, installed, selected, onSelec
   const entry = catalog.entries.find((item) => item.id === selected);
   const filtered = filterPluginCatalog(catalog.entries, search);
   const sourceId = marketSource?.id ?? 'official';
-  const sameSource = (plugin: NetcattyInstalledPlugin) => (plugin.source?.id ?? 'local') === sourceId;
+  const sameSource = (plugin: SensorInstalledPlugin) => (plugin.source?.id ?? 'local') === sourceId;
   const installedEntry = installed.find((item) => item.id === entry?.id && sameSource(item));
   const conflictingInstall = installed.find((item) => item.id === entry?.id && !sameSource(item));
   const choose = (id: string) => {
@@ -117,7 +117,7 @@ export function PluginMarketplaceContent({ catalog, installed, selected, onSelec
   </section>;
 }
 
-export function filterPluginCatalog(entries: NetcattyPluginCatalogEntry[], query: string) {
+export function filterPluginCatalog(entries: SensorPluginCatalogEntry[], query: string) {
   const needle = query.trim().toLocaleLowerCase();
   return entries.filter((entry) => `${entry.name} ${entry.author} ${entry.description}`.toLocaleLowerCase().includes(needle));
 }

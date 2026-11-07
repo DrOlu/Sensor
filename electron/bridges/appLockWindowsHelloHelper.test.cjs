@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 const helperSource = fs.readFileSync(
-  path.join(__dirname, "windowsHelloHelper", "NetcattyWindowsHello.cpp"),
+  path.join(__dirname, "windowsHelloHelper", "SensorWindowsHello.cpp"),
   "utf8",
 );
 

@@ -113,7 +113,7 @@ test("plugin bridge refuses embedded frames even at an app URL", () => {
 test("author presentation is a trusted-app-only route and forwards no invented authority", async () => {
   const ipcMain = createIpcMain(); const calls = [];
   registerPluginBridge(ipcMain, { manager: { initialize: async () => {} }, isTrustedSender: createTrustedPluginBridgeSender({ devServerUrl: "http://localhost:5173" }),
-    catalogService: { author: async (request) => { calls.push(request); return { author: "Netcatty", avatar: null, officialMaintained: false }; } } });
+    catalogService: { author: async (request) => { calls.push(request); return { author: "Sensor", avatar: null, officialMaintained: false }; } } });
   const payload = { kind: "catalog", pluginId: "com.netcatty.starter", selectionToken: "a".repeat(64), sourceId: "official" };
   for (const url of ["netcatty-plugin://plugin-runtime/index.html", "https://attacker.invalid/"]) {
     await assert.rejects(ipcMain.handlers.get(CHANNELS.author)({ senderFrame: { url } }, payload), /Untrusted/);

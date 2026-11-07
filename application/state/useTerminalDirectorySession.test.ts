@@ -11,7 +11,7 @@ type SessionProps = Parameters<typeof useTerminalDirectorySession>[0];
 
 Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
 
-function installBridge(t: TestContext, getAppInfo?: NetcattyBridge['getAppInfo']) {
+function installBridge(t: TestContext, getAppInfo?: SensorBridge['getAppInfo']) {
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
   let probes = 0; let lists = 0;
   Object.defineProperty(globalThis, 'window', { configurable: true, value: { netcatty: {
@@ -34,7 +34,7 @@ const options = (id: string, protocol = 'local', shellType = 'posix'): SessionPr
 
 for (const wrapper of ['wsl-Ubuntu', 'git-bash', 'cygwin']) {
   test(`Windows ${wrapper} reports directory navigation unavailable and performs no reads`, async t => {
-    const bridge = installBridge(t, async () => ({ name: 'Netcatty', version: 'test', platform: 'win32' }));
+    const bridge = installBridge(t, async () => ({ name: 'Sensor', version: 'test', platform: 'win32' }));
     const id = 'windows-' + wrapper;
     let model!: ReturnType<typeof useComposeDirectoryPicker>;
     function Harness() {
@@ -57,7 +57,7 @@ for (const wrapper of ['wsl-Ubuntu', 'git-bash', 'cygwin']) {
 
 for (const platform of ['linux', 'darwin']) {
   test(`local POSIX directory controller registers on ${platform}`, async t => {
-    installBridge(t, async () => ({ name: 'Netcatty', version: 'test', platform }));
+    installBridge(t, async () => ({ name: 'Sensor', version: 'test', platform }));
     const id = 'local-' + platform;
     function Harness() { useTerminalDirectorySession(options(id)); return null; }
     let root!: ReactTestRenderer;
@@ -69,7 +69,7 @@ for (const platform of ['linux', 'darwin']) {
 
 test('Windows SSH sessions do not inherit the local cwd platform limitation', async t => {
   let platformQueries = 0;
-  installBridge(t, async () => { platformQueries++; return { name: 'Netcatty', version: 'test', platform: 'win32' }; });
+  installBridge(t, async () => { platformQueries++; return { name: 'Sensor', version: 'test', platform: 'win32' }; });
   const id = 'windows-ssh';
   function Harness() { useTerminalDirectorySession(options(id, 'ssh')); return null; }
   let root!: ReactTestRenderer;
@@ -89,7 +89,7 @@ test('a late platform query cannot register a disconnected terminal', async t =>
   let root!: ReactTestRenderer;
   await act(async () => { root = create(React.createElement(Harness, { status: 'connected' })); });
   await act(async () => { root.update(React.createElement(Harness, { status: 'disconnected' })); });
-  await act(async () => { finish({ name: 'Netcatty', version: 'test', platform: 'linux' }); });
+  await act(async () => { finish({ name: 'Sensor', version: 'test', platform: 'linux' }); });
   assert.equal(getTerminalDirectory(id), null);
   await act(async () => { root.unmount(); });
 });

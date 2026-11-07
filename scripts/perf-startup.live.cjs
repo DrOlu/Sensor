@@ -8,7 +8,7 @@
  *   npm run perf:startup -- --runs 10 --hosts 2000
  *
  * Every run launches Electron against an isolated, throwaway profile
- * (--user-data-dir) so the user's own data, sessions and running Netcatty are
+ * (--user-data-dir) so the user's own data, sessions and running Sensor are
  * never touched. ssh:// deep-link registration is disabled in that profile
  * before the first launch, so the dev Electron binary never becomes the OS
  * protocol handler. The app records its own timeline through
@@ -267,7 +267,7 @@ function formatValue(value) {
 }
 
 function printTable(aggregated, options) {
-  console.log(`\nNetcatty startup (${options.runs} runs, ${options.hosts} seeded hosts; ms unless noted)`);
+  console.log(`\nSensor startup (${options.runs} runs, ${options.hosts} seeded hosts; ms unless noted)`);
   console.log(`${"metric".padEnd(30)}${"cold".padStart(8)}${"warm p50".padStart(10)}${"warm p90".padStart(10)}`);
   for (const [metric, value] of Object.entries(aggregated)) {
     console.log(`${metric.padEnd(30)}${formatValue(value.cold)}  ${formatValue(value.warmP50)}  ${formatValue(value.warmP90)}`);

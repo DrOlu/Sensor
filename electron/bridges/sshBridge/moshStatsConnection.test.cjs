@@ -53,7 +53,7 @@ function makeApi(overrides = {}) {
       // Default: treat any non-empty string as a parseable key.
       parseKey: (key) => (key && key.length > 0 ? { ok: true } : new Error("bad key")),
     },
-    NetcattyAgent: overrides.NetcattyAgent || class {},
+    SensorAgent: overrides.SensorAgent || class {},
     buildAlgorithms: overrides.buildAlgorithms || (() => ({ algos: true })),
     getSshAgentSocket: overrides.getSshAgentSocket || (() => null),
     prepareSystemSshAgentForAuth: overrides.prepareSystemSshAgentForAuth,
@@ -67,7 +67,7 @@ function makeApi(overrides = {}) {
       classifyHostKey: () => ({ status: "trusted" }),
     },
     // Default: the system known_hosts vouches for nothing, so trust comes
-    // solely from the Netcatty classifier above. Individual tests override this
+    // solely from the Sensor classifier above. Individual tests override this
     // to exercise the system-known_hosts fallback.
     isHostKeyTrustedBySystem:
       "isHostKeyTrustedBySystem" in overrides
@@ -323,7 +323,7 @@ test("automatic stats auth keeps local-key fallback with an explicit agent", asy
 test("sk-* key handle + certificate routes to the prepared hardware-backed agent, not a software cert agent", async () => {
   let agentConstructions = 0;
   const { api, sessions } = makeApi({
-    NetcattyAgent: class {
+    SensorAgent: class {
       constructor() {
         agentConstructions += 1;
       }
@@ -357,7 +357,7 @@ test("sk-* key handle + certificate routes to the prepared hardware-backed agent
 test("path-backed sk-* key handles are filtered out of the companion's identity files too", async () => {
   let agentConstructions = 0;
   const { api, sessions } = makeApi({
-    NetcattyAgent: class {
+    SensorAgent: class {
       constructor() {
         agentConstructions += 1;
       }
@@ -773,7 +773,7 @@ test("releases FIDO agent resources when the stats companion closes", async () =
   let releaseCount = 0;
   const { api, sessions } = makeApi({
     prepareSystemSshAgentForAuth: async () => ({
-      _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+      _releaseSensorFidoAgent: () => { releaseCount += 1; },
     }),
   });
   const session = {
@@ -790,7 +790,7 @@ test("releases FIDO agent resources when the stats companion closes", async () =
   await tick();
   const client = FakeSSHClient.instances[0];
   assert.ok(client.connectOpts.agent);
-  assert.equal(typeof client.connectOpts._releaseNetcattyFidoAgent, "undefined");
+  assert.equal(typeof client.connectOpts._releaseSensorFidoAgent, "undefined");
   client.emitReady();
   assert.equal(await pending, client);
   assert.equal(releaseCount, 0);
@@ -810,7 +810,7 @@ test("releases FIDO agent resources when stats connect is abandoned via sessionG
     prepareSystemSshAgentForAuth: async () => {
       await prepareGate;
       return {
-        _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+        _releaseSensorFidoAgent: () => { releaseCount += 1; },
       };
     },
   });
@@ -940,8 +940,8 @@ test("accepts a trusted host key and adopts the connection", async () => {
   assert.equal(await pending, client);
 });
 
-test("trusts a host vouched for ONLY by the system known_hosts (Netcatty snapshot empty)", async () => {
-  // Netcatty's in-app vault has no record (classify -> unknown), but the user's
+test("trusts a host vouched for ONLY by the system known_hosts (Sensor snapshot empty)", async () => {
+  // Sensor's in-app vault has no record (classify -> unknown), but the user's
   // system OpenSSH known_hosts already trusts the exact live key — which is
   // what the Mosh handshake's system ssh actually used. The companion must
   // accept it so Mosh stats appear.
@@ -982,7 +982,7 @@ test("trusts a host vouched for ONLY by the system known_hosts (Netcatty snapsho
   assert.equal(await pending, client);
 });
 
-test("rejects (permanently) when NEITHER Netcatty nor the system known_hosts trust the key", async () => {
+test("rejects (permanently) when NEITHER Sensor nor the system known_hosts trust the key", async () => {
   const { api, sessions } = makeApi({
     hostKeyVerifier: {
       describeHostKey: () => ({ keyType: "ssh-ed25519", fingerprint: "live-fp" }),
@@ -1015,8 +1015,8 @@ test("rejects (permanently) when NEITHER Netcatty nor the system known_hosts tru
   assert.equal(session.moshStatsConnFailed, true);
 });
 
-test("the system fallback is NOT consulted when Netcatty already trusts the key", async () => {
-  // Netcatty says trusted -> accept without even touching the system files.
+test("the system fallback is NOT consulted when Sensor already trusts the key", async () => {
+  // Sensor says trusted -> accept without even touching the system files.
   let consulted = false;
   const { api, sessions } = makeApi({
     hostKeyVerifier: {
@@ -1039,8 +1039,8 @@ test("the system fallback is NOT consulted when Netcatty already trusts the key"
   assert.equal(consulted, false);
 });
 
-test("a Netcatty 'changed' key is NOT rescued by a non-matching system check (key rotation stays rejected)", async () => {
-  // Netcatty flags a key rotation (changed). The system check is consulted with
+test("a Sensor 'changed' key is NOT rescued by a non-matching system check (key rotation stays rejected)", async () => {
+  // Sensor flags a key rotation (changed). The system check is consulted with
   // the LIVE fingerprint; since the system does not record this exact new key,
   // it returns false and the connection is refused — the mismatch is never
   // silently accepted.
@@ -1063,7 +1063,7 @@ test("a Netcatty 'changed' key is NOT rescued by a non-matching system check (ke
 
 test("works when isHostKeyTrustedBySystem is not wired in (optional dependency)", async () => {
   // Backward-compat: an api built without the system-known_hosts dependency
-  // must not throw; it simply falls back to the Netcatty-only decision.
+  // must not throw; it simply falls back to the Sensor-only decision.
   const { api, sessions } = makeApi({
     hostKeyVerifier: {
       describeHostKey: () => ({ keyType: "ssh-ed25519", fingerprint: "fp" }),

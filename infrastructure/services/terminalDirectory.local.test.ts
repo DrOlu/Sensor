@@ -42,7 +42,7 @@ test('directory picker changes a real POSIX PTY cwd with quoted names and direct
     getSessionPwd: async () => readLocalSessionCwd({ pty: shell }),
     realpathLocal: async value => fs.promises.realpath(value),
     writeToSession: (id, data) => { assert.equal(id, 'real-shell'); ready = false; shell.write(data); },
-  } as unknown as NetcattyBridge, 'real-shell', { local: true, hostname: '', username: '' });
+  } as unknown as SensorBridge, 'real-shell', { local: true, hostname: '', username: '' });
   const controller = createTerminalDirectoryController({
     sessionId: 'real-shell', io, isReady: () => ready, isCurrent: () => true,
     publish: cwd => { published = cwd; },

@@ -16,7 +16,7 @@ test("release notes include Arch pacman downloads for x64 and arm64", (t) => {
       ...process.env,
       VERSION: "1.2.3",
       GITHUB_REF_NAME: "v1.2.3",
-      GITHUB_REPOSITORY: "binaricat/Netcatty",
+      GITHUB_REPOSITORY: "DrOlu/Sensor",
       GITHUB_SHA: "0123456789abcdef",
     },
     stdio: "pipe",
@@ -27,11 +27,11 @@ test("release notes include Arch pacman downloads for x64 and arm64", (t) => {
   assert.match(notes, /ArchPackage arm64/);
   assert.match(
     notes,
-    /https:\/\/github\.com\/binaricat\/Netcatty\/releases\/download\/v1\.2\.3\/Netcatty-1\.2\.3-linux-x64\.pacman/,
+    /https:\/\/github\.com\/DrOlu\/Sensor\/releases\/download\/v1\.2\.3\/Sensor-1\.2\.3-linux-x64\.pacman/,
   );
   assert.match(
     notes,
-    /https:\/\/github\.com\/binaricat\/Netcatty\/releases\/download\/v1\.2\.3\/Netcatty-1\.2\.3-linux-aarch64\.pacman/,
+    /https:\/\/github\.com\/DrOlu\/Sensor\/releases\/download\/v1\.2\.3\/Sensor-1\.2\.3-linux-aarch64\.pacman/,
   );
   assert.match(notes, /Code signing policy/);
   assert.doesNotMatch(notes, /Release Highlights/);
@@ -41,7 +41,7 @@ test("release notes include Arch pacman downloads for x64 and arm64", (t) => {
   );
   assert.match(
     notes,
-    /https:\/\/github\.com\/binaricat\/Netcatty\/blob\/v1\.2\.3\/CODE_SIGNING_POLICY\.md/,
+    /https:\/\/github\.com\/DrOlu\/Sensor\/blob\/v1\.2\.3\/CODE_SIGNING_POLICY\.md/,
   );
 });
 
@@ -52,12 +52,12 @@ test("release-specific highlights precede downloads without replacing generated 
   const highlights = fs.readFileSync(path.join(__dirname, "..", ".github", "release-notes", "v1.1.84.md"), "utf8").trim();
   execFileSync(process.execPath, [script], {
     cwd: tmp,
-    env: { ...process.env, VERSION: "1.1.84", GITHUB_REF_NAME: "v1.1.84", GITHUB_REPOSITORY: "binaricat/Netcatty" },
+    env: { ...process.env, VERSION: "1.1.84", GITHUB_REF_NAME: "v1.1.84", GITHUB_REPOSITORY: "DrOlu/Sensor" },
     stdio: "pipe",
   });
   const notes = fs.readFileSync(path.join(tmp, "release_notes.md"), "utf8");
   assert.ok(notes.startsWith(`${highlights}\n\n## Download based on your OS:`));
-  assert.match(notes, /releases\/download\/v1\.1\.84\/Netcatty-1\.1\.84-win-x64\.exe/);
+  assert.match(notes, /releases\/download\/v1\.1\.84\/Sensor-1\.1\.84-win-x64\.exe/);
   assert.match(notes, /blob\/v1\.1\.84\/CODE_SIGNING_POLICY\.md/);
   assert.equal(notes.match(/## ✨ Release Highlights/g).length, 1);
 });

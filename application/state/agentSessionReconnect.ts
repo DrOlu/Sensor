@@ -15,7 +15,7 @@ export function requestAgentSessionReconnect(
     return { ok: true, started: false, sessionId, status: 'reconnecting' };
   }
   if (status !== 'disconnected' || !registry.requestIfAvailable(sessionId)) {
-    return { ok: false, started: false, sessionId, code: 'RECONNECT_UNAVAILABLE', error: 'Reconnect is unavailable: terminal may be unmounted, waiting for authentication, or recovering. Inspect session state and the Netcatty UI.' };
+    return { ok: false, started: false, sessionId, code: 'RECONNECT_UNAVAILABLE', error: 'Reconnect is unavailable: terminal may be unmounted, waiting for authentication, or recovering. Inspect session state and the Sensor UI.' };
   }
   return { ok: true, started: true, sessionId, status: 'reconnecting', shellReady: false };
 }

@@ -26,7 +26,7 @@ const entries = ['Alpha', 'Beta'].map((name) => ({
   id: `com.example.${name.toLowerCase()}`, name, author: 'Example', version: '1.0.0', license: 'MIT',
   description: `${name} local utility`, repository: 'example/plugins', commit: 'a'.repeat(40),
   manifest: { manifestVersion: 1, id: `com.example.${name.toLowerCase()}`, name, version: '1.0.0', publisher: 'Example', engines: { netcatty: '>=1.0.0', api: '0.1.0-internal' }, main: { browser: 'index.js' }, permissions: { required: ['settings.read'] } },
-})) as NetcattyPluginCatalogEntry[];
+})) as SensorPluginCatalogEntry[];
 const catalog = {
   entries, source: 'registry', sourceBinding: null, listStatus: 'ready', listError: null, readmeImages: {}, readme: '# Author documentation', readmeStatus: 'ready', readmeError: null,
   error: null, busy: false, retryList() {}, retryReadme() {}, async install() {},
@@ -42,7 +42,7 @@ test('catalog keeps search during selection/back, switches detail, and displays 
   function Harness() {
     const [selected, setSelected] = useState<string | null>(null);
     return <I18nProvider locale="en"><PluginMarketplaceContent catalog={catalog} selected={selected} onSelect={setSelected}
-      installed={[{ id: entries[0].id, activeVersion: '0.9.0', enabled: false, source: { id: 'official', kind: 'official', name: 'Official', origin: 'https://plugins.netcatty.app' }, runtime: { lastError: 'Incompatible with this host' } } as NetcattyInstalledPlugin]} /></I18nProvider>;
+      installed={[{ id: entries[0].id, activeVersion: '0.9.0', enabled: false, source: { id: 'official', kind: 'official', name: 'Official', origin: 'https://plugins.netcatty.app' }, runtime: { lastError: 'Incompatible with this host' } } as SensorInstalledPlugin]} /></I18nProvider>;
   }
   try {
     await act(async () => { renderer = create(<Harness />); });
@@ -162,14 +162,14 @@ test('replacing an installed plugin discloses that its running version will stop
   const downloadable = { ...entries[0], artifact: { url: 'https://github.com/example/plugin/releases/download/v1/plugin.ncpkg', sha256: 'a'.repeat(64) } };
   const html = renderToStaticMarkup(<I18nProvider locale="en"><PluginMarketplaceContent
     catalog={{ ...catalog, entries: [downloadable] }} selected={downloadable.id} onSelect={() => {}}
-    installed={[{ id: downloadable.id, activeVersion: '0.9.0', enabled: true, source: { id: 'official', kind: 'official', name: 'Official', origin: 'https://plugins.netcatty.app' } } as NetcattyInstalledPlugin]} /></I18nProvider>);
+    installed={[{ id: downloadable.id, activeVersion: '0.9.0', enabled: true, source: { id: 'official', kind: 'official', name: 'Official', origin: 'https://plugins.netcatty.app' } } as SensorInstalledPlugin]} /></I18nProvider>);
   assert.match(html, /<p[^>]*>This replaces and stops the installed version\./);
   assert.ok(html.indexOf('This replaces and stops') < html.indexOf('Install this version (disabled)'));
 });
 
 test('a mirror cannot claim another source installation or offer cross-source replacement', () => {
-  const mirror = { id: 'third-party:mirror', kind: 'third-party' as const, name: 'Netcatty', origin: 'https://mirror.example.com' };
-  const existing = { id: entries[0].id, activeVersion: '1.0.0', enabled: true, source: { id: 'official', kind: 'official', name: 'Official', origin: 'https://plugins.netcatty.app' } } as NetcattyInstalledPlugin;
+  const mirror = { id: 'third-party:mirror', kind: 'third-party' as const, name: 'Sensor', origin: 'https://mirror.example.com' };
+  const existing = { id: entries[0].id, activeVersion: '1.0.0', enabled: true, source: { id: 'official', kind: 'official', name: 'Official', origin: 'https://plugins.netcatty.app' } } as SensorInstalledPlugin;
   const list = renderToStaticMarkup(<I18nProvider locale="en"><PluginMarketplaceContent catalog={catalog}
     marketSource={mirror} selected={null} onSelect={() => {}} installed={[existing]} /></I18nProvider>);
   assert.doesNotMatch(list, />Installed</);

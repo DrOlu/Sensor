@@ -11,13 +11,13 @@ import { resolveCatalogBrandIcon } from '../../plugins/catalogBrandIcons';
 import previews from '../../plugins/catalog-brand-icons.json';
 
 const preview = previews[0];
-const entry = { ...preview, manifest: { icon: preview.icon } } as unknown as NetcattyPluginCatalogEntry;
+const entry = { ...preview, manifest: { icon: preview.icon } } as unknown as SensorPluginCatalogEntry;
 test('reviewed catalog brand previews bind version, source and declaration, never arbitrary URLs', () => {
   assert.ok(resolveCatalogBrandIcon(entry));
-  const catalog = JSON.parse(readFileSync(new URL('../../../electron/plugins/catalog.json', import.meta.url), 'utf8')) as NetcattyPluginCatalogEntry[];
+  const catalog = JSON.parse(readFileSync(new URL('../../../electron/plugins/catalog.json', import.meta.url), 'utf8')) as SensorPluginCatalogEntry[];
   assert.ok(resolveCatalogBrandIcon(catalog.find((item) => item.id === preview.id)!));
   for (const replacement of [{ version: '9.0.0' }, { commit: '0'.repeat(40) }, { repository: 'untrusted/plugin' }, { manifest: { icon: { kind: 'package', light: 'https://attacker.invalid/a.png' } } }]) {
-    assert.equal(resolveCatalogBrandIcon({ ...entry, ...replacement } as NetcattyPluginCatalogEntry), null);
+    assert.equal(resolveCatalogBrandIcon({ ...entry, ...replacement } as SensorPluginCatalogEntry), null);
   }
   for (const theme of ['light', 'dark'] as const) {
     const bytes = Buffer.from(preview[theme].split(',')[1], 'base64');
@@ -38,7 +38,7 @@ test('installed brand uses metadata only, rejects stale responses, and falls bac
   (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
   const requests: Array<(v: { light: string }) => void> = [];
   Object.defineProperty(globalThis, 'window', { configurable: true, value: { netcatty: { getPluginBrandIcon: () => new Promise((resolve) => requests.push(resolve)) } } });
-  const plugin = { id: 'com.netcatty.starter', enabled: false, activeVersion: '1.0.0', archiveSha256: 'a', runtime: {}, manifest: { icon: preview.icon } } as NetcattyInstalledPlugin;
+  const plugin = { id: 'com.netcatty.starter', enabled: false, activeVersion: '1.0.0', archiveSha256: 'a', runtime: {}, manifest: { icon: preview.icon } } as SensorInstalledPlugin;
   let renderer: ReactTestRenderer | undefined;
   try {
     await act(async () => { renderer = create(<PluginBrandIcon plugin={plugin} />); });
@@ -62,7 +62,7 @@ test('installed brand uses metadata only, rejects stale responses, and falls bac
 
 test('disabled brand theme names cannot resolve Object prototype members', () => {
   for (const name of ['constructor', '__proto__', 'toString', 'valueOf', 'hasOwnProperty']) {
-    const plugin = { id: 'com.test.theme', enabled: false, activeVersion: '1.0.0', runtime: {}, manifest: { icon: { kind: 'theme', name } } } as NetcattyInstalledPlugin;
+    const plugin = { id: 'com.test.theme', enabled: false, activeVersion: '1.0.0', runtime: {}, manifest: { icon: { kind: 'theme', name } } } as SensorInstalledPlugin;
     const html = renderToStaticMarkup(<PluginBrandIcon plugin={plugin} />);
     assert.match(html, /lucide-puzzle/);
     assert.doesNotMatch(html, /<img/);

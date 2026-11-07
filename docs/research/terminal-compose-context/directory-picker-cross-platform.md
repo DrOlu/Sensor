@@ -1,6 +1,6 @@
 # Directory Picker：跨平台能力与 shell 集成研究
 
-调研日期：2026-10-30。Netcatty 源码基线：`7f8f8d34687a1dbb94b16f314952bf25aac0d88d`。本文研究后续能力，**不表示当前 PR 已支持 Windows 本地目录导航**；实施顺序见 [后续计划](directory-picker-follow-up.md)。
+调研日期：2026-10-30。Sensor 源码基线：`7f8f8d34687a1dbb94b16f314952bf25aac0d88d`。本文研究后续能力，**不表示当前 PR 已支持 Windows 本地目录导航**；实施顺序见 [后续计划](directory-picker-follow-up.md)。
 
 ## 1. 结论
 
@@ -8,7 +8,7 @@
 
 建议优先补齐 Windows PowerShell 5.1／PowerShell 7，再推进 CMD。macOS 的 zsh／bash 和主流 Linux 的 bash／ash／zsh 保留已有进程 cwd 回退，并逐步增加可协商的 shell 上报。fish 独立处理引用与事件。WSL、Git Bash、Cygwin 按自己的路径空间接入，不因被分类为 `posix` 就复用 Windows 本地文件系统。
 
-这里的“默认终端支持”指 **Netcatty 创建的交互 shell**。Windows Terminal、Terminal.app、GNOME Terminal 等窗口应用本身不是命令解释器；不能只按 OS 或发行版名称选择语法。
+这里的“默认终端支持”指 **Sensor 创建的交互 shell**。Windows Terminal、Terminal.app、GNOME Terminal 等窗口应用本身不是命令解释器；不能只按 OS 或发行版名称选择语法。
 
 ## 2. 当前实现与缺口
 
@@ -71,13 +71,13 @@ VS Code 将工作目录与命令边界由 shell 脚本报告，启动时通过�
 - PowerShell 在原 prompt 前后报告位置和边界，只为 FileSystem provider 报告文件路径；受限语言模式会退出集成。
 - Windows Terminal 另给出 PowerShell／CMD 的 prompt 集成例子，使用 OSC 133 与 OSC 9;9；这与现有 OSC 7 接收逻辑不是同一协议。[S3、N1]
 
-这些代码证明路径可行，不等于 Netcatty 已支持，也不应整套复制。尤其官方页面和最新主分支的 shell 支持范围可能不同，以自己测试过的版本为准。
+这些代码证明路径可行，不等于 Sensor 已支持，也不应整套复制。尤其官方页面和最新主分支的 shell 支持范围可能不同，以自己测试过的版本为准。
 
 ### 5.2 推荐启动方式
 
 本地在 `startLocalSession` 的可执行文件、参数和环境解析完成后，按已识别 shell 生成**会话级启动方案**。支持的普通交互参数才注入；用户 `-Command`、`-File`、`--norc`、自定义 `--rcfile`、受限模式或包装脚本不能悄悄改写。集成失败时照常打开终端，声明能力不足，保留当前支持的回退。
 
-临时脚本通过 `tempDirBridge.getTempFilePath()` 放在 Netcatty 管理目录，检查权限、包内资源路径与清理生命周期；不能依赖源码目录在打包后存在。外部 shell 不能把 Electron 的 asar 虚拟路径当普通脚本文件使用，需显式部署为真实资源或复制到受管目录后加载。[S15] 首期不改用户 rc、注册表 AutoRun 或全局环境，也不默认重载整个配置文件。
+临时脚本通过 `tempDirBridge.getTempFilePath()` 放在 Sensor 管理目录，检查权限、包内资源路径与清理生命周期；不能依赖源码目录在打包后存在。外部 shell 不能把 Electron 的 asar 虚拟路径当普通脚本文件使用，需显式部署为真实资源或复制到受管目录后加载。[S15] 首期不改用户 rc、注册表 AutoRun 或全局环境，也不默认重载整个配置文件。
 
 shell hook 要保留原 prompt、主题插件、退出状态及 PATH；防止重复安装和递归。bash 区分标量／数组 `PROMPT_COMMAND` 及旧版本；zsh 保留 precmd／chpwd 链；fish 保留已有函数和事件。PowerShell 包装原 prompt 并恢复其结果，不能使用 PowerShell 6 才加入的反引号 e 作为 5.1 唯一 ESC 写法，应采用如 `[char]27` 的兼容构造。[S5–S8]
 
@@ -143,7 +143,7 @@ PowerShell 的 drive／provider、Windows 大小写、Linux 的大小写敏感�
 - S14：[WezTerm shell integration](https://wezterm.org/shell-integration.html)，OSC 7 Windows／POSIX 构造对照。
 - S15：[Electron ASAR archives](https://www.electronjs.org/docs/latest/tutorial/asar-archives)，虚拟路径、外部程序与 unpack 限制。
 
-N1：VS Code 官方仓库固定快照 `ce233327f26ef7791b7fff0143c24e81a8126bd2`，用于验证实现机制，不表示其支持承诺等同于 Netcatty：
+N1：VS Code 官方仓库固定快照 `ce233327f26ef7791b7fff0143c24e81a8126bd2`，用于验证实现机制，不表示其支持承诺等同于 Sensor：
 
 - [terminalEnvironment.ts](https://github.com/microsoft/vscode/blob/ce233327f26ef7791b7fff0143c24e81a8126bd2/src/vs/platform/terminal/node/terminalEnvironment.ts)：按 shell 注入参数、ZDOTDIR 与 unsupported-args 分支。
 - [shellIntegration.ps1](https://github.com/microsoft/vscode/blob/ce233327f26ef7791b7fff0143c24e81a8126bd2/src/vs/workbench/contrib/terminal/common/scripts/shellIntegration.ps1)：provider、原 prompt、状态、语言模式与协议字段。

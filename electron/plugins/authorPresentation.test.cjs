@@ -52,7 +52,7 @@ test("v2 avatars use verified same-origin bytes and the shared image cache witho
   const entry = snapshot.entries[0];
   const values = await Promise.all([r.service.author(entry.id, entry.selectionToken), r.service.author(entry.id, entry.selectionToken)]);
   assert.deepEqual(values[0], values[1]); assert.match(values[0].avatar, /^data:image\/png;base64,/);
-  assert.equal(values[0].officialMaintained, true); assert.equal(values[0].author, "Netcatty");
+  assert.equal(values[0].officialMaintained, true); assert.equal(values[0].author, "Sensor");
   assert.equal(r.requests.filter((url) => new URL(url).pathname === avatar.path).length, 1);
   assert.ok(r.requests.every((url) => new URL(url).origin === OFFICIAL_SOURCE.origin));
   await r.service.author(entry.id, entry.selectionToken);
@@ -60,11 +60,11 @@ test("v2 avatars use verified same-origin bytes and the shared image cache witho
 });
 
 test("third-party copies, community entries and local imports cannot acquire maintenance authority", async () => {
-  const copied = registry({ source: thirdPartySource("Netcatty official", "https://community.example.com") });
+  const copied = registry({ source: thirdPartySource("Sensor official", "https://community.example.com") });
   const entry = (await copied.service.list()).entries[0];
   assert.equal((await copied.service.author(entry.id, entry.selectionToken)).officialMaintained, false);
   const community = structuredClone(catalog[0]); community.id = "com.community.official";
-  community.manifest.id = community.id; community.author = "Netcatty official"; community.manifest.publisher = "netcatty";
+  community.manifest.id = community.id; community.author = "Sensor official"; community.manifest.publisher = "netcatty";
   const r = registry({ files: filesFor([community]) }); const listed = (await r.service.list()).entries[0];
   assert.equal((await r.service.author(listed.id, listed.selectionToken)).officialMaintained, false);
   const local = new MarketSourcesService({ database: { getActivePlugin: () => ({ id: catalog[0].id, activeVersion: catalog[0].version,

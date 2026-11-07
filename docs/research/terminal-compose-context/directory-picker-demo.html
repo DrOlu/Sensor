@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link rel="icon" href="data:,">
-  <title>Netcatty Context Chips · Directory Chip 交互示意</title>
+  <title>Sensor Context Chips · Directory Chip 交互示意</title>
   <style>
     :root{color-scheme:dark;--bg:#111315;--surface:#1c1f22;--line:#34383c;--fg:#e0e3e6;--muted:#a0a6ac;--accent:#52b7d6}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -30,9 +30,9 @@
     <div class="layout">
       <section aria-label="终端交互示意" class="terminal">
         <div class="tabbar"><span>本地终端</span>zsh · 模拟会话 A</div>
-        <div class="output" id="output"><span class="prompt">~/git/Netcatty</span>
+        <div class="output" id="output"><span class="prompt">~/git/Sensor</span>
 $ pwd
-/home/demo/git/Netcatty
+/home/demo/git/Sensor
 
 <span class="note">从目录菜单选择一个文件夹。
 每次选择都会关闭菜单；再次打开可继续导航。</span>
@@ -41,7 +41,7 @@ $ pwd
           <div class="handle" aria-hidden="true"></div>
           <div class="snippets" aria-label="现有快捷片段区域"><span class="snippet">git status</span><span class="snippet">npm run dev</span></div>
           <div class="context" role="group" aria-label="Context Chips">
-            <button id="trigger" class="chip" aria-haspopup="dialog" aria-expanded="true" aria-controls="picker"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6V4h6l2 2h8v10H2zM2 8h16"/></svg><span id="path">~/git/Netcatty</span></button>
+            <button id="trigger" class="chip" aria-haspopup="dialog" aria-expanded="true" aria-controls="picker"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6V4h6l2 2h8v10H2zM2 8h16"/></svg><span id="path">~/git/Sensor</span></button>
             <span class="progress" id="progress"></span>
             <div id="picker" class="popover" role="dialog" aria-label="更改工作目录">
               <div class="search"><input id="query" type="search" placeholder="搜索当前目录下的文件夹…" aria-label="搜索子目录" aria-controls="directories" autocomplete="off" spellcheck="false"></div>
@@ -71,13 +71,13 @@ $ pwd
     const home='/home/demo';
     const tree={
       '/':['home','srv','tmp','var'], '/home':['demo'], '/home/demo':['.config','Downloads','git'],
-      '/home/demo/git':['Netcatty','sample-app','tools'],
-      '/home/demo/git/Netcatty':['.github','.vscode','application','build','components','dist','docs','domain','electron','examples','infrastructure','lib','node_modules','packages','public','scripts'],
-      '/home/demo/git/Netcatty/application':['i18n','state'], '/home/demo/git/Netcatty/components':['ai','sftp','terminal','terminalLayer','ui'],
-      '/home/demo/git/Netcatty/docs':['assets','features','plans','research'], '/home/demo/git/Netcatty/domain':[],
+      '/home/demo/git':['Sensor','sample-app','tools'],
+      '/home/demo/git/Sensor':['.github','.vscode','application','build','components','dist','docs','domain','electron','examples','infrastructure','lib','node_modules','packages','public','scripts'],
+      '/home/demo/git/Sensor/application':['i18n','state'], '/home/demo/git/Sensor/components':['ai','sftp','terminal','terminalLayer','ui'],
+      '/home/demo/git/Sensor/docs':['assets','features','plans','research'], '/home/demo/git/Sensor/domain':[],
       '/home/demo/git/sample-app':['src','tests'], '/home/demo/.config':['demo'], '/tmp':[], '/srv':['app'], '/var':['log']
     };
-    let cwd=home+'/git/Netcatty', open=true, pending=false, active=0, rows=[], epoch=0, composing=false;
+    let cwd=home+'/git/Sensor', open=true, pending=false, active=0, rows=[], epoch=0, composing=false;
     const folder='<svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6V4h6l2 2h8v10H2zM2 8h16"/></svg>';
     const up='<svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 16V4M5 9l5-5 5 5"/></svg>';
     function display(p){return p===home?'~':p.startsWith(home+'/')?'~'+p.slice(home.length):p}
@@ -107,7 +107,7 @@ $ pwd
     $('query').addEventListener('compositionstart',()=>composing=true);$('query').addEventListener('compositionend',()=>composing=false);
     $('picker').addEventListener('keydown',e=>{if(e.key==='Escape'){e.preventDefault();e.stopPropagation();setOpen(false)}else if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();e.stopPropagation();if(!rows.length)return;active=active<0?(e.key==='ArrowUp'?rows.length-1:0):Math.max(0,Math.min(rows.length-1,active+(e.key==='ArrowDown'?1:-1)));paint();rows[active].node.scrollIntoView({block:'nearest'})}else if(e.key==='Enter'&&e.target===$('query')){e.preventDefault();e.stopPropagation();if(!e.isComposing&&!composing)select(active)}});
     document.addEventListener('pointerdown',e=>{if(open&&!$('picker').contains(e.target)&&!$('trigger').contains(e.target))setOpen(false,false)});
-    $('reset').addEventListener('click',()=>{epoch++;pending=false;cwd=home+'/git/Netcatty';$('busy').checked=false;$('fail').checked=false;$('hidden').checked=false;$('draft').value='npm run test -- --watch';updateChip();setOpen(true);status('演示已重置。虚构目录数据，不执行命令。')});
+    $('reset').addEventListener('click',()=>{epoch++;pending=false;cwd=home+'/git/Sensor';$('busy').checked=false;$('fail').checked=false;$('hidden').checked=false;$('draft').value='npm run test -- --watch';updateChip();setOpen(true);status('演示已重置。虚构目录数据，不执行命令。')});
     updateChip();render();$('query').focus();
   </script>
 </body>

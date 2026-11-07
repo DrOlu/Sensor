@@ -17,7 +17,7 @@
  *   - It never prompts the user for a password or key passphrase. The Mosh
  *     handshake (driven by the system `ssh` in the user's PTY) is where the
  *     real, interactive auth happens; this companion only reuses credentials
- *     Netcatty already holds (stored password, parseable private key,
+ *     Sensor already holds (stored password, parseable private key,
  *     unencrypted / stored-passphrase identity files, ssh-agent).
  *   - If it cannot authenticate or connect, it fails silently and records
  *     the failure so it does not hammer the host on every stats poll. Mosh
@@ -25,7 +25,7 @@
  *
  * Security — host-key handling:
  *   - The companion connects ONLY to a host whose live key is already
- *     "trusted" in Netcatty's known-hosts store. A host verifier classifies
+ *     "trusted" in Sensor's known-hosts store. A host verifier classifies
  *     the key during the transport handshake and REJECTS the connection for an
  *     unknown / changed key — for every auth method, not just password. This is
  *     done silently and never prompts: the user vets and trusts a host key
@@ -97,7 +97,7 @@ function createMoshStatsConnectionApi(ctx) {
     }
 
     // An ssh2 hostVerifier that ACCEPTS the transport only when the live host
-    // key is already trusted — by Netcatty's in-app known-hosts store OR by the
+    // key is already trusted — by Sensor's in-app known-hosts store OR by the
     // user's *system* OpenSSH known_hosts — and REJECTS it for an unknown /
     // changed key. It never prompts — an untrusted host fails the background
     // companion silently (stats stay empty) instead of popping a modal the user
@@ -105,7 +105,7 @@ function createMoshStatsConnectionApi(ctx) {
     //
     // Why also consult the system known_hosts: a Mosh session is bootstrapped
     // by the system `ssh`, which records (and vets, via its own prompt) the
-    // host key in `~/.ssh/known_hosts`. Netcatty's vault snapshot is NOT updated
+    // host key in `~/.ssh/known_hosts`. Sensor's vault snapshot is NOT updated
     // by that handshake, so a host the user trusted purely through system ssh
     // would otherwise be misread as "unknown" and the companion permanently
     // disabled — leaving the stats bar empty even though the system already
@@ -140,7 +140,7 @@ function createMoshStatsConnectionApi(ctx) {
           });
           trust.trusted = decision.status === "trusted";
           // Fall back to the system OpenSSH known_hosts (Mosh's real trust
-          // source) only when Netcatty's snapshot does not already vouch for
+          // source) only when Sensor's snapshot does not already vouch for
           // the key. Matching is by the live key's fingerprint, so this can
           // only confirm — never override a mismatch into acceptance.
           if (!trust.trusted && isHostKeyTrustedBySystem) {
@@ -221,7 +221,7 @@ function createMoshStatsConnectionApi(ctx) {
         ? null
         : resolveNonInteractiveKey(auth.privateKey, auth.passphrase);
       // SK key handles parse non-interactively but cannot sign locally. A
-      // software NetcattyAgent built around one always fails signing — and its
+      // software SensorAgent built around one always fails signing — and its
       // non-null presence would skip prepareSystemSshAgentForAuth() below, so
       // the companion would never use the hardware-backed agent that the
       // Mosh/ET session itself authenticated with. Route SK material to the
@@ -240,7 +240,7 @@ function createMoshStatsConnectionApi(ctx) {
       let agent = null;
       if (hasCertificate && key) {
         try {
-          agent = new NetcattyAgent({
+          agent = new SensorAgent({
             mode: "certificate",
             webContents: auth.webContents,
             meta: {
@@ -270,12 +270,12 @@ function createMoshStatsConnectionApi(ctx) {
             ? auth.webContents : null,
         }, `[${label} Stats]`);
         connectOpts.agent = prepared;
-        if (typeof prepared?._releaseNetcattyFidoAgent === "function") {
+        if (typeof prepared?._releaseSensorFidoAgent === "function") {
           // Surface the release hook on connectOpts so establishStatsConnection
           // can drop the owned FIDO agent / askpass lease on close, error, or
           // sessionGone — this consumer never attaches the agent to a long-lived
           // SSHClient lifecycle helper.
-          connectOpts._releaseNetcattyFidoAgent = prepared._releaseNetcattyFidoAgent;
+          connectOpts._releaseSensorFidoAgent = prepared._releaseSensorFidoAgent;
         }
       }
 
@@ -311,7 +311,7 @@ function createMoshStatsConnectionApi(ctx) {
 
       // Always install a host verifier that refuses an untrusted host, for
       // EVERY auth method — a background, user-invisible companion must never
-      // authenticate to or run commands against a host Netcatty has not vetted
+      // authenticate to or run commands against a host Sensor has not vetted
       // (it could feed bogus host-info or enumerate agent keys), even though
       // key/agent auth discloses no reusable secret.
       const trust = { trusted: false, rejected: false };
@@ -427,7 +427,7 @@ function createMoshStatsConnectionApi(ctx) {
         webContents,
       }, opts.label);
       const releaseStatsFidoAgent = (() => {
-        const releaseFn = connectOpts?._releaseNetcattyFidoAgent;
+        const releaseFn = connectOpts?._releaseSensorFidoAgent;
         if (typeof releaseFn !== "function") return () => {};
         let released = false;
         return () => {
@@ -437,7 +437,7 @@ function createMoshStatsConnectionApi(ctx) {
         };
       })();
       // Do not forward the internal release hook into ssh2 connect options.
-      delete connectOpts._releaseNetcattyFidoAgent;
+      delete connectOpts._releaseSensorFidoAgent;
 
       if (!hasAnyAuth) {
         // Nothing we can authenticate with non-interactively (e.g. the user

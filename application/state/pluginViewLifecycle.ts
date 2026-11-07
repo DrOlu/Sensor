@@ -9,7 +9,7 @@ export interface PluginViewTabCatalogEntry {
   pluginName: string;
   viewId: string;
   title: string;
-  icon?: NetcattyPluginIconReference;
+  icon?: SensorPluginIconReference;
 }
 
 export interface PluginViewTabCatalogStore {
@@ -45,7 +45,7 @@ export function shouldReconcilePluginViewTabCatalog({
 }
 
 export function collectPluginViewTabCatalog(
-  plugins: NetcattyPluginContributionSnapshot['plugins'],
+  plugins: SensorPluginContributionSnapshot['plugins'],
 ): PluginViewTabCatalogEntry[] {
   return plugins.flatMap((plugin) => plugin.views
     .filter((view) => view.location === 'tab')
@@ -64,7 +64,7 @@ export function reconcilePluginViewTabCatalog({
   store,
 }: {
   loading: boolean;
-  plugins: NetcattyPluginContributionSnapshot['plugins'];
+  plugins: SensorPluginContributionSnapshot['plugins'];
   store: PluginViewTabCatalogStore;
 }): boolean {
   if (!shouldReconcilePluginViewTabCatalog({ loading })) return false;

@@ -19,7 +19,7 @@ function setup(t: test.TestContext) {
     startLocalFileDrag: async (payload) => { calls.push(payload); return { started: true }; },
     cancelLocalFileDrag: (id) => cancels.push(id),
     getPathForFile: (file) => (file as unknown as { path: string }).path,
-  } as unknown as NetcattyBridge;
+  } as unknown as SensorBridge;
   Object.defineProperty(window, "netcatty", { value: bridge, configurable: true });
   t.after(() => {
     clearLocalFileDrag();

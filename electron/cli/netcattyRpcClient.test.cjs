@@ -143,7 +143,7 @@ function countDiscoveryReads(t, discoveryPath, onRead) {
 function isOriginalConnectError(err) {
   return err?.code === "CONNECT_FAILED"
     && typeof err?.message === "string"
-    && err.message.startsWith("Failed to connect to Netcatty TCP bridge: ");
+    && err.message.startsWith("Failed to connect to Sensor TCP bridge: ");
 }
 
 test("connectClient retries with a refreshed discovery file after a stale-port failure", async (t) => {
@@ -397,7 +397,7 @@ test("connectClient surfaces the original auth error when a stale token's discov
   await assert.rejects(
     connectClient(),
     (err) => err?.code === "AUTH_FAILED"
-      && err.message === "Failed to authenticate to Netcatty TCP bridge.",
+      && err.message === "Failed to authenticate to Sensor TCP bridge.",
   );
 
   assert.equal(getAttempts(), 1);
@@ -529,7 +529,7 @@ test("connectClient surfaces the original APP_NOT_RUNNING error when discovery n
   await assert.rejects(
     connectClient(),
     (err) => err?.code === "APP_NOT_RUNNING"
-      && err.message.startsWith(`Netcatty discovery file is missing at ${discoveryPath}.`),
+      && err.message.startsWith(`Sensor discovery file is missing at ${discoveryPath}.`),
   );
   const elapsed = Date.now() - startedAt;
 
@@ -588,8 +588,8 @@ test("connectClient surfaces the original transport error when auth is reset and
     (err) => (err?.code === "CONNECTION_CLOSED" || err?.code === "CONNECTION_ERROR")
       && typeof err?.message === "string"
       && (
-        err.message === "Connection to Netcatty TCP bridge closed."
-        || err.message.startsWith("Connection to Netcatty TCP bridge failed: ")
+        err.message === "Connection to Sensor TCP bridge closed."
+        || err.message.startsWith("Connection to Sensor TCP bridge failed: ")
       ),
   );
 

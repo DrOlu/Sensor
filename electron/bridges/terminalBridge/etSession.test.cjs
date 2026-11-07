@@ -725,7 +725,7 @@ test("prepareEtSshAgentOptions releases earlier FIDO leases when a later hop fai
         throw error;
       }
       return {
-        _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+        _releaseSensorFidoAgent: () => { releaseCount += 1; },
       };
     },
     getAvailableAgentSocket: async (identityAgent) => identityAgent,
@@ -755,12 +755,12 @@ test("prepareEtSshAgentOptions releases the current hop FIDO agent when forwardi
   let releaseCount = 0;
   const { api } = makeApi(t, {
     prepareSystemSshAgentForAuth: async () => ({
-      _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+      _releaseSensorFidoAgent: () => { releaseCount += 1; },
     }),
     getAvailableAgentSocket: async () => "/tmp/login-agent.sock",
     getAvailableForwardingAgentSocket: async () => {
       const error = new Error(
-        "This SSH agent is available only to Netcatty's built-in SSH client.",
+        "This SSH agent is available only to Sensor's built-in SSH client.",
       );
       error.code = "ERR_SSH_AGENT_NATIVE_UNSUPPORTED";
       throw error;
@@ -792,7 +792,7 @@ test("startEtSession exposes a one-shot FIDO release that survives map deletion"
   const { api, sessions } = makeApi(t, {
     bundledEtClient: () => "/fake/et",
     prepareSystemSshAgentForAuth: async () => ({
-      _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+      _releaseSensorFidoAgent: () => { releaseCount += 1; },
     }),
     getAvailableAgentSocket: async () => "/tmp/login-agent.sock",
     createPtyOutputBuffer: () => ({
@@ -817,7 +817,7 @@ test("startEtSession exposes a one-shot FIDO release that survives map deletion"
   });
 
   const session = sessions.get("sess-fido-close");
-  assert.equal(typeof session.releaseNetcattyFidoAgents, "function");
+  assert.equal(typeof session.releaseSensorFidoAgents, "function");
 
   // Explicit close deletes the session before PTY onExit runs.
   sessions.delete("sess-fido-close");
@@ -827,7 +827,7 @@ test("startEtSession exposes a one-shot FIDO release that survives map deletion"
   assert.equal(releaseCount, 1);
 
   // closeSession / quit may also invoke the session-stored one-shot release.
-  session.releaseNetcattyFidoAgents();
+  session.releaseSensorFidoAgents();
   assert.equal(releaseCount, 1);
 });
 
@@ -1490,7 +1490,7 @@ test("execOnEtSession keeps the default execFile maxBuffer when no override is p
   assert.equal(Object.hasOwn(capturedOptions, "maxBuffer"), false);
 });
 
-test("cleanupStaleEtTempDirs only removes Netcatty ET temp directories by prefix", (t) => {
+test("cleanupStaleEtTempDirs only removes Sensor ET temp directories by prefix", (t) => {
   const { api, base } = makeApi(t);
   const staleEtDir = path.join(base, "et-ssh-home-old-session");
   const unrelatedDir = path.join(base, "cache-et-ssh-home-keep");

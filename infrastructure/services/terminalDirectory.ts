@@ -10,7 +10,7 @@ export interface TerminalDirectoryIO {
 }
 
 /** Uses the exact authenticated terminal transport; never dials another host. */
-export function createTerminalDirectoryIO(bridge: NetcattyBridge, sessionId: string,
+export function createTerminalDirectoryIO(bridge: SensorBridge, sessionId: string,
   endpoint: { local: boolean; hostname: string; username: string; port?: number; encoding?: import('../../types').SftpFilenameEncoding },
   isCurrent: () => boolean = () => true,
 ): TerminalDirectoryIO {

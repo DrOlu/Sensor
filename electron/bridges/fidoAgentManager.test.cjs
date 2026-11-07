@@ -27,11 +27,11 @@ test("parseAgentStdout preserves spaces in Unix and Windows socket paths", () =>
   }
 });
 
-test("getTempBase uses Netcatty managed temp dir (no os.tmpdir fallback)", () => {
+test("getTempBase uses Sensor managed temp dir (no os.tmpdir fallback)", () => {
   const tempDirBridge = require("./tempDirBridge.cjs");
   const managed = tempDirBridge.getTempDir();
   assert.equal(getTempBase(), managed);
-  assert.match(managed, /Netcatty/i);
+  assert.match(managed, /Sensor/i);
 });
 
 test("release without acquire is safe", () => {

@@ -100,7 +100,7 @@ test('manual SSH cd refreshes through the real session cwd probe with no OSC or 
   const io = createTerminalDirectoryIO({
     getSessionRemoteInfo: sessionId => api.getSessionRemoteInfo(null, { sessionId }),
     getSessionPwd: (sessionId, options) => api.getSessionPwd(null, { sessionId, ...options }),
-  } as unknown as NetcattyBridge, id, { local: false, hostname: '127.0.0.1', username: 'fixture', port: address.port });
+  } as unknown as SensorBridge, id, { local: false, hostname: '127.0.0.1', username: 'fixture', port: address.port });
   const controller = createTerminalDirectoryController({ sessionId: id, io,
     isCurrent: () => true, isReady: () => false, publish: cwd => { published = cwd; } });
   unregister = registerTerminalDirectory(id, controller);

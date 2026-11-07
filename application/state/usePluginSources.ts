@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 export function usePluginSources() {
-  const [sources, setSources] = useState<NetcattyPluginSource[]>([]);
+  const [sources, setSources] = useState<SensorPluginSource[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const reload = useCallback(async () => {
@@ -19,7 +19,7 @@ export function usePluginSources() {
   };
   return { sources, error, busy,
     add: (name: string, address: string) => mutate(async () => netcattyBridge.require().addPluginSource?.({ name, address })),
-    update: (source: NetcattyPluginSource, name: string, enabled: boolean) => mutate(async () => netcattyBridge.require().updatePluginSource?.({ id: source.id, name, enabled })),
+    update: (source: SensorPluginSource, name: string, enabled: boolean) => mutate(async () => netcattyBridge.require().updatePluginSource?.({ id: source.id, name, enabled })),
     remove: (id: string, disablePlugins: boolean) => mutate(async () => netcattyBridge.require().removePluginSource?.(id, disablePlugins)),
   };
 }

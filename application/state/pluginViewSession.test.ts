@@ -4,7 +4,7 @@ import type { HostDrawnViewMessage, HostDrawnViewOpenRequest } from '@netcatty/p
 type Update = Extract<HostDrawnViewMessage, { kind: 'host-ui.update' }> & { viewId: string };
 import { PluginViewSessions } from './pluginViewSession';
 function fixture() {
-  let updates: (data: Update) => void = () => {}; let closed: (data: NetcattyPluginViewClosedEvent) => void = () => {};
+  let updates: (data: Update) => void = () => {}; let closed: (data: SensorPluginViewClosedEvent) => void = () => {};
   const opened: HostDrawnViewOpenRequest[] = []; const closes: string[] = []; const events: unknown[] = [];
   const bridge = { openHostDrawnPluginView: async (request: HostDrawnViewOpenRequest) => { opened.push(request); return { instanceId: request.instanceId }; },
     closeHostDrawnPluginView: async (id: string) => { closes.push(id); },

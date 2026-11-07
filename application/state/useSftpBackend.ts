@@ -3,7 +3,7 @@ import { netcattyBridge } from "../../infrastructure/services/netcattyBridge";
 import type { RemoteFile, SftpFilenameEncoding } from "../../types";
 
 export const useSftpBackend = () => {
-  const openSftp = useCallback(async (options: NetcattySSHOptions) => {
+  const openSftp = useCallback(async (options: SensorSSHOptions) => {
     const bridge = netcattyBridge.get();
     if (!bridge?.openSftp) throw new Error("SFTP bridge unavailable");
     return bridge.openSftp(options);

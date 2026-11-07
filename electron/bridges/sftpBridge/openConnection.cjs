@@ -331,7 +331,7 @@ function createOpenConnectionApi(ctx) {
             require("../attachFidoAgentRelease.cjs").attachFidoAgentRelease(conn, systemAuthAgent);
           }
           if (hasCertificate && !isFido) {
-            authAgent = new NetcattyAgent({
+            authAgent = new SensorAgent({
               mode: "certificate",
               webContents: event.sender,
               meta: {
@@ -1335,7 +1335,7 @@ function createOpenConnectionApi(ctx) {
         connectOpts.agent = systemAuthAgent;
       }
       if (hasCertificate && !isFido) {
-        authAgent = new NetcattyAgent({
+        authAgent = new SensorAgent({
           mode: "certificate",
           webContents: event.sender,
           meta: {

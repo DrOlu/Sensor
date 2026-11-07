@@ -7,11 +7,11 @@ export interface PluginVaultPage {
   version: string;
   viewId: string;
   title: string;
-  icon?: NetcattyPluginIconReference;
+  icon?: SensorPluginIconReference;
   order: number;
 }
 
-export function collectPluginVaultPages(plugins: NetcattyPluginContributionSnapshot['plugins']): PluginVaultPage[] {
+export function collectPluginVaultPages(plugins: SensorPluginContributionSnapshot['plugins']): PluginVaultPage[] {
   return plugins.flatMap((plugin) => plugin.views
     .filter((view) => view.location === 'vault-page' && view.visible)
     .map((view): PluginVaultPage => ({

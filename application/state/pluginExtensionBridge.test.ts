@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { pluginExtensionBridge } from "./pluginExtensionBridge";
 
-const setBridge = (bridge: Partial<NetcattyBridge> | undefined) => {
+const setBridge = (bridge: Partial<SensorBridge> | undefined) => {
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: { netcatty: bridge },

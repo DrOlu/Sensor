@@ -2,8 +2,8 @@
 
 ## Scope and issue history
 
-- Original report: [#3545](https://github.com/binaricat/Netcatty/issues/3545), duplicate [#3546](https://github.com/binaricat/Netcatty/issues/3546).
-- [#3547](https://github.com/binaricat/Netcatty/pull/3547) moved static guidelines before scope/session details. That repair remains valid, but its closing comment did not claim a measured DeepSeek result.
+- Original report: [#3545](https://github.com/DrOlu/Sensor/issues/3545), duplicate [#3546](https://github.com/DrOlu/Sensor/issues/3546).
+- [#3547](https://github.com/DrOlu/Sensor/pull/3547) moved static guidelines before scope/session details. That repair remains valid, but its closing comment did not claim a measured DeepSeek result.
 - This change starts from main `b5fee9632ea012e5c15fbdae454dec2aa7d32572` and repairs additional cache invalidation and usage-reporting paths.
 
 ## Confirmed defects and changes
@@ -58,6 +58,6 @@ Full-repository verification also found setup and unrelated timing limits:
 
 - The first run passed 13,968 tests and skipped 36, with one failed file caused by the fresh worktree missing the nested `plugin-cli/node_modules/yauzl` dependency. Linking the existing dependency directory repaired the setup; all 29 CLI tests then passed.
 - A repeat full run hit the unchanged `large directory progress coalesces synchronous persistence work` timing assertion (2,638,624 characters persisted against a 588,644-character snapshot). That assertion passed in the prior full run. All 102 tests in its file passed on isolated rerun; the same assertion also passed on untouched main. This is an observed full-run timing fluctuation, not a claimed baseline reproduction or an SFTP repair.
-- The Homebrew Node 22 binary is broken locally (missing shared library); verification uses an isolated official npm Node 22 runtime. `TMPDIR=/tmp` selects Netcatty's shorter private per-user temporary directory for Unix-socket tests. The default macOS path exceeded the FIDO test socket limit; no product source was changed to accommodate this environment.
+- The Homebrew Node 22 binary is broken locally (missing shared library); verification uses an isolated official npm Node 22 runtime. `TMPDIR=/tmp` selects Sensor's shorter private per-user temporary directory for Unix-socket tests. The default macOS path exceeded the FIDO test socket limit; no product source was changed to accommodate this environment.
 
 The full suite is therefore not reported as unconditionally green. No Catty/cache test failed in the final implementation.

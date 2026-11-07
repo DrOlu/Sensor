@@ -1,4 +1,4 @@
-# Hello Netcatty
+# Hello Sensor
 
 This package is the runnable internal example for the plugin API. Package and install it to exercise native settings,
 command-palette contributions, lazy command and Provider activation,
@@ -17,7 +17,7 @@ After installation, change **Greeting** under **Settings → Plugins**, then run
 **Examples: Say Hello** from the command palette. The setting is read through
 the host settings broker and the command handler is registered inside the
 sandboxed plugin runtime. Type `netc` at a shell prompt to exercise the bounded
-completion Provider, and print `Hello from Netcatty` to exercise the declarative
+completion Provider, and print `Hello from Sensor` to exercise the declarative
 decoration Provider. Neither Provider receives raw xterm objects or sensitive
 terminal input/output streams.
 

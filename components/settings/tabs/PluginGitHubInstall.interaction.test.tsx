@@ -27,12 +27,12 @@ for (const locale of ['en', 'es', 'ru', 'zh-CN', 'zh-TW']) test(`real dialog (${
   const installed: string[] = [];
   const discarded: string[] = [];
   let refreshed = 0;
-  let resolveDownload: ((value: NetcattyGitHubPluginPreview) => void) | undefined;
+  let resolveDownload: ((value: SensorGitHubPluginPreview) => void) | undefined;
   Object.defineProperty(window, 'netcatty', { configurable: true, value: {
-    prepareGitHubPlugin: async (input: string) => { requests.push(input); if (requests.length === 1) throw new Error('GitHub API rate limit reached. Try again later'); return new Promise<NetcattyGitHubPluginPreview>(resolve => { resolveDownload = resolve; }); },
-    installGitHubPlugin: async (token: string) => { installed.push(token); if (installed.length <= 2) throw new Error('GitHub package preview expired. Download and review it again'); return {} as NetcattyInstalledPlugin; },
+    prepareGitHubPlugin: async (input: string) => { requests.push(input); if (requests.length === 1) throw new Error('GitHub API rate limit reached. Try again later'); return new Promise<SensorGitHubPluginPreview>(resolve => { resolveDownload = resolve; }); },
+    installGitHubPlugin: async (token: string) => { installed.push(token); if (installed.length <= 2) throw new Error('GitHub package preview expired. Download and review it again'); return {} as SensorInstalledPlugin; },
     discardGitHubPlugin: async (token: string) => { discarded.push(token); },
-  } as NetcattyBridge });
+  } as SensorBridge });
   const settle = () => new Promise(resolve => setTimeout(resolve, 20));
   const button = (text: string) => [...document.querySelectorAll<HTMLButtonElement>('button')].find(el => el.textContent === text)!;
   const click = async (el: HTMLElement) => { assert.ok(el); await act(async () => { el.click(); await settle(); }); };
@@ -45,7 +45,7 @@ for (const locale of ['en', 'es', 'ru', 'zh-CN', 'zh-TW']) test(`real dialog (${
     });
   };
   const preview = { token: 'reviewed-token', source: { id: 'github:fixture', kind: 'github', name: 'owner/repo', origin: 'https://github.com/owner/repo', tag: 'v1.0.0', commit: 'a'.repeat(40) }, assetName: 'plugin.ncpkg', size: 400,
-    archiveSha256: 'b'.repeat(64), manifest: { manifestVersion: 1, id: 'com.example.fixture', name: 'fixture', publisher: 'example', version: '1.0.0', engines: { netcatty: '*', api: '*' }, main: { browser: 'index.js' }, permissions: { required: [{ permission: 'network', resources: ['https://example.com'], reason: 'Read only fixture' }] } } } as NetcattyGitHubPluginPreview;
+    archiveSha256: 'b'.repeat(64), manifest: { manifestVersion: 1, id: 'com.example.fixture', name: 'fixture', publisher: 'example', version: '1.0.0', engines: { netcatty: '*', api: '*' }, main: { browser: 'index.js' }, permissions: { required: [{ permission: 'network', resources: ['https://example.com'], reason: 'Read only fixture' }] } } } as SensorGitHubPluginPreview;
   try {
     await act(async () => root.render(<I18nProvider locale={locale}><PluginGitHubInstall disabled={false} onInstalled={async () => { refreshed++; }} /></I18nProvider>));
     const trigger = button(t('settings.plugins.github.install'));

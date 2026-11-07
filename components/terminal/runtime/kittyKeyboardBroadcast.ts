@@ -256,7 +256,7 @@ type ResolveKittyKeyboardBroadcastOptions = {
   >;
   /**
    * Target xterm negotiated native kitty flags that encode Shift+Enter as
-   * CSI 13;2u, while Netcatty's custom kitty setting is off.
+   * CSI 13;2u, while Sensor's custom kitty setting is off.
    */
   nativeKittyPreservesShiftEnter?: boolean;
   /**
@@ -277,7 +277,7 @@ export const resolveWin32InputLogicalData = (
     (event.shiftKey || event.altKey || event.ctrlKey || event.metaKey)
   ) {
     // The native record carries semantics that a legacy CR cannot express.
-    // Treating a modified Enter as CR would make Netcatty record a command
+    // Treating a modified Enter as CR would make Sensor record a command
     // submission even when the TUI only inserted a line break.
     return null;
   }

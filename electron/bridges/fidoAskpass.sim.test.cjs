@@ -3,7 +3,7 @@
 /**
  * Simulated FIDO askpass verification (no hardware).
  *
- * Exercises the OpenSSH SSH_ASKPASS helper → Netcatty IPC socket → prompt
+ * Exercises the OpenSSH SSH_ASKPASS helper → Sensor IPC socket → prompt
  * handler → PIN response path that real ssh-sk-helper would trigger.
  */
 

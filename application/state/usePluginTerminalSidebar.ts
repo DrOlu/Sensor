@@ -22,10 +22,10 @@ export interface PluginTerminalSidebarPage {
   pluginName: string;
   version: string;
   title: string;
-  icon?: NetcattyPluginIconReference;
+  icon?: SensorPluginIconReference;
   order: number;
 }
-export function collectPluginTerminalSidebarPages(plugins: NetcattyPluginContributionSnapshot['plugins']): PluginTerminalSidebarPage[] {
+export function collectPluginTerminalSidebarPages(plugins: SensorPluginContributionSnapshot['plugins']): PluginTerminalSidebarPage[] {
   return plugins.flatMap((plugin) => plugin.views.filter((view) => view.location === 'terminal-sidebar' && view.visible)
     .map((view): PluginTerminalSidebarPage => ({ tool: `plugin-view:${view.id}`, viewId: view.id, pluginId: plugin.id,
       pluginName: plugin.displayName, version: plugin.version, title: view.title, icon: view.icon, order: view.order ?? 0 })))

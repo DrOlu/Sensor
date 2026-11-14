@@ -8,7 +8,7 @@ test('failed manager refresh marks previous enabled state unknown until a succes
   const previous = Object.getOwnPropertyDescriptor(globalThis, 'window');
   const actPrevious = Object.getOwnPropertyDescriptor(globalThis, 'IS_REACT_ACT_ENVIRONMENT');
   let fail = false;
-  const plugin = { id: 'com.example.synthetic', enabled: true } as NetcattyInstalledPlugin;
+  const plugin = { id: 'com.example.synthetic', enabled: true } as SensorInstalledPlugin;
   Object.defineProperty(globalThis, 'IS_REACT_ACT_ENVIRONMENT', { configurable: true, value: true });
   Object.defineProperty(globalThis, 'window', { configurable: true, value: {
     addEventListener() {}, removeEventListener() {}, netcatty: {

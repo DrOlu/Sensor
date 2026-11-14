@@ -5,7 +5,7 @@ import { useI18n } from '../../application/i18n/I18nProvider';
 import { Badge } from '../ui/badge';
 
 export function PluginAuthorRow({ entry, plugin, sourceId, showSource = false }: {
-  entry?: NetcattyPluginCatalogEntry; plugin?: NetcattyInstalledPlugin; sourceId?: string; showSource?: boolean;
+  entry?: SensorPluginCatalogEntry; plugin?: SensorInstalledPlugin; sourceId?: string; showSource?: boolean;
 }) {
   const { t } = useI18n();
   const { ref, identity } = usePluginAuthorIdentity({ entry, plugin, sourceId });

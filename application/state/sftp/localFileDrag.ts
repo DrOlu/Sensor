@@ -117,7 +117,7 @@ export function startSftpFileDrag({ event, paneId, connection, sources, side, on
   event.preventDefault();
   const bridge = netcattyBridge.get();
   if (!bridge?.startLocalFileDrag) {
-    onError("Native file drag is unavailable. Restart Netcatty after updating.");
+    onError("Native file drag is unavailable. Restart Sensor after updating.");
     return;
   }
   const files = sources.filter((source) => source.name !== "..");

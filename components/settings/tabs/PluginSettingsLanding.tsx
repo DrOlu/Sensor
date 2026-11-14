@@ -23,12 +23,12 @@ export function PluginSettingsLanding({ manager, settingsAvailable, settingsErro
   const { t, resolvedLocale } = useI18n();
   const [search, setSearch] = useState('');
   const localized = useCallback((value: string | Record<string, string> | undefined) => typeof value === 'string' ? value : value?.[resolvedLocale] ?? value?.en ?? '', [resolvedLocale]);
-  const nameOf = (plugin: NetcattyInstalledPlugin) => localized(plugin.manifest?.displayName) || plugin.manifest?.name || plugin.id;
+  const nameOf = (plugin: SensorInstalledPlugin) => localized(plugin.manifest?.displayName) || plugin.manifest?.name || plugin.id;
   const visible = useMemo(() => {
     const term = search.trim().toLocaleLowerCase();
     return manager.plugins.filter((plugin) => [localized(plugin.manifest?.displayName), plugin.manifest?.name, plugin.id, plugin.manifest?.publisher, localized(plugin.manifest?.description), plugin.source?.name].some((value) => String(value ?? '').toLocaleLowerCase().includes(term)));
   }, [manager.plugins, search, localized]);
-  const statusOf = (plugin: NetcattyInstalledPlugin) => {
+  const statusOf = (plugin: SensorInstalledPlugin) => {
     if (!manager.statusKnown) return t('settings.plugins.permissions.statusUnknown');
     const state = plugin.runtime.status;
     if (['starting', 'stopping', 'error', 'quarantined'].includes(state)) return t(`settings.plugins.landing.status.${state}`);

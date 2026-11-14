@@ -1,5 +1,5 @@
 // This offline BrowserWindow plugin has no filesystem, network or credential
-// permissions. Netcatty owns every picker, field diff and connection prompt.
+// permissions. Sensor owns every picker, field diff and connection prompt.
 export default {
   activate(context) {
     const select = () => context.vault.selectHosts({ title: 'Share saved host names, addresses, usernames, groups and tags' });

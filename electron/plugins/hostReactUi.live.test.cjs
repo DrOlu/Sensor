@@ -35,7 +35,7 @@ if (!process.versions.electron) {
         const wait = async (fn) => { for (let i = 0; i < 150; i++) { if (fn()) return; await new Promise(r => setTimeout(r, 20)); } throw new Error('Control update timeout: ' + root.querySelector('img')?.outerHTML + ' popup=' + document.querySelector('[data-plugin-view-popover]') + ' ' + root.textContent); };
         const reset = [...root.querySelectorAll('button')].find(b => b.textContent === '填入示例'); reset.click();
         const text = root.querySelector('input[type=text]'); const checkbox = root.querySelector('input[type=checkbox]'); const select = root.querySelector('select'); const note = root.querySelector('textarea');
-        await wait(() => text.value === '朋友' && checkbox.checked && select.value === 'green' && note.value === '你好，Netcatty');
+        await wait(() => text.value === '朋友' && checkbox.checked && select.value === 'green' && note.value === '你好，Sensor');
         checkbox.click(); select.value = 'blue'; select.dispatchEvent(new Event('change', { bubbles: true }));
         note.dispatchEvent(new CompositionEvent('compositionstart', { bubbles: true, data: '' }));
         Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set.call(note, '中文输入');

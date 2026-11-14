@@ -51,7 +51,7 @@ The feature is complete only after a packaged desktop build demonstrates:
 
 ### Terminal links
 
-HTTP(S) links in SSH/Mosh and local terminals open in the Netcatty sidebar by
+HTTP(S) links in SSH/Mosh and local terminals open in the Sensor sidebar by
 default. Settings > Terminal > Behavior > Open terminal links in can select the
 system default browser instead; the choice applies immediately to existing
 terminals. SSH contexts keep the host route; local terminal contexts use an
@@ -99,7 +99,7 @@ Other terminal protocols keep their existing system-browser behavior.
 ## Network and security model
 
 - The browser chrome is trusted local UI. Each untrusted website is rendered in
-  a sandboxed `WebContentsView` with no Node integration, no Netcatty preload,
+  a sandboxed `WebContentsView` with no Node integration, no Sensor preload,
   and no access to terminal, vault, or plugin bridges. Use an Electron session
   partition separate from the application and separate for each host profile.
   Tabs for one host may share website cookies; different hosts must not.
@@ -108,7 +108,7 @@ Other terminal protocols keep their existing system-browser behavior.
   close host browser. The UI sends intent and receives state. The manager owns
   panel views, tabs, session partitions, route state, and cleanup.
 - Use a dedicated, temporary SSH connection for the browser, honoring
-  Netcatty's existing host authentication, known-host policy, jump hosts, and
+  Sensor's existing host authentication, known-host policy, jump hosts, and
   connection settings. A dynamic SOCKS5 listener binds only to `127.0.0.1` on
   an OS-assigned port. It is not a saved port-forward rule. Expose the actual
   assigned port only inside the main process; close it with the owning browser panel.
@@ -167,7 +167,7 @@ Other terminal protocols keep their existing system-browser behavior.
 4. Bookmark storage and encrypted sync migration/merge; cross-device QA.
 5. Packaged smoke tests on all supported desktop platforms and resource cleanup.
 
-Primary references: [Netcatty issue #2972](https://github.com/binaricat/Netcatty/issues/2972),
+Primary references: [Sensor issue #2972](https://github.com/DrOlu/Sensor/issues/2972),
 [Electron web embeds](https://www.electronjs.org/docs/latest/tutorial/web-embeds),
 [Electron session proxy](https://www.electronjs.org/docs/latest/api/session),
 [Chromium proxy behavior](https://chromium.googlesource.com/chromium/src/+/main/net/docs/proxy.md),

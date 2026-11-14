@@ -25,7 +25,7 @@ Existing local preparers remain author-side tools. For example,
 `examples/plugins/database-rfam-readonly/prepare.mjs` bundles `host.js` into
 `browser.js`, copies `netcatty.plugin.json`, and calls `buildPluginPackage`.
 The author must run this locally, validate the resulting `.ncpkg`, and attach
-it to a GitHub release. Netcatty never executes a downloaded preparer, npm
+it to a GitHub release. Sensor never executes a downloaded preparer, npm
 lifecycle script, shell command, build tool or repository source.
 
 There was no existing GitHub release discovery/naming contract on main. This
@@ -77,7 +77,7 @@ hosts; repository inputs never accept queries or credentials.
 Metadata is capped at 2 MiB; packages at the CLI's 100 MiB archive limit plus all
 existing expansion/file limits. The network sequence has a 90 second timeout;
 standalone bounded transfers default to 30 seconds. Streamed bodies are bounded
-regardless of Content-Length. Temporary archives use Netcatty's managed temp
+regardless of Content-Length. Temporary archives use Sensor's managed temp
 root and mode-0700 private directories, mode-0600 files. Previews are bound to the
 requesting renderer, expire after ten minutes, and are consumed on install or
 removed on cancel/window destruction. At most eight active/pending operations

@@ -17,7 +17,7 @@ test("normal release constructs the browser plugin host without a developer flag
   assert.equal(created, 1);
 });
 
-test("synchronous plugin host construction failure leaves Netcatty available", () => {
+test("synchronous plugin host construction failure leaves Sensor available", () => {
   const errors = [];
   let registered = 0;
   const service = startPluginHost({

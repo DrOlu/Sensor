@@ -72,36 +72,36 @@ manual production conflict edit and leaves the shared AI test intact.
 The initial settings group records 34 passes and two failures on the stale copy
 assertions. That run is retained separately from the corrected 36/36 result.
 
-Policy input [test CI 40443396430](https://github.com/binaricat/Netcatty/actions/runs/40443396430)
+Policy input [test CI 40443396430](https://github.com/DrOlu/Sensor/actions/runs/40443396430)
 first received an explicit runner shutdown. The parent requested one retry;
 this integration task did not duplicate it. Retry Linux job `121992430185`
 passed registered runtime (694/one skip) and examples (five/one skip), then
 failed those same two `not a grant` assertions: settings group 33 passed/two
 failed. It did not reach the full suite. The candidate includes the isolated
 test correction above; do not relabel the input CI as passing. Both input Windows
-jobs and [policy package CI](https://github.com/binaricat/Netcatty/actions/runs/40443396402)
+jobs and [policy package CI](https://github.com/DrOlu/Sensor/actions/runs/40443396402)
 passed. Parent reports the independent policy correction reviews scoped clean,
 including both P2s and the three UI findings, with 71 focused/synthetic checks.
 
 The policy owner subsequently corrected these tests in predecessor
 `da4e80946d2f3fb48f205aae2a732252b2f51fca`. Its
-[test CI](https://github.com/binaricat/Netcatty/actions/runs/40444934631) passed
+[test CI](https://github.com/DrOlu/Sensor/actions/runs/40444934631) passed
 15,342 cases with 50 skipped and no failures/cancellations, and its
-[four-platform package CI](https://github.com/binaricat/Netcatty/actions/runs/40444934738)
+[four-platform package CI](https://github.com/DrOlu/Sensor/actions/runs/40444934738)
 passed. The final 79a9bd6 wording head's
-[test CI](https://github.com/binaricat/Netcatty/actions/runs/40446529092) passed;
-its [package workflow](https://github.com/binaricat/Netcatty/actions/runs/40446529100)
+[test CI](https://github.com/DrOlu/Sensor/actions/runs/40446529092) passed;
+its [package workflow](https://github.com/DrOlu/Sensor/actions/runs/40446529100)
 is tracked separately in the Draft PR. No input retry was duplicated here.
 
 Integration predecessor `7856c664c3c2255a21badef2758bb29311b27a01` passed its
-[test CI](https://github.com/binaricat/Netcatty/actions/runs/40445809589): 15,344
+[test CI](https://github.com/DrOlu/Sensor/actions/runs/40445809589): 15,344
 passed, 50 skipped, zero failed/cancelled, plus both Windows jobs and native
-automated checks. Its [four-platform packages](https://github.com/binaricat/Netcatty/actions/runs/40445809590)
+automated checks. Its [four-platform packages](https://github.com/DrOlu/Sensor/actions/runs/40445809590)
 also passed. These are retained predecessor results; the new exact head needs
 its own aggregate CI.
 
-AI input [test CI](https://github.com/binaricat/Netcatty/actions/runs/40439111241)
-and [package CI](https://github.com/binaricat/Netcatty/actions/runs/40439111215)
+AI input [test CI](https://github.com/DrOlu/Sensor/actions/runs/40439111241)
+and [package CI](https://github.com/DrOlu/Sensor/actions/runs/40439111215)
 passed. Parent reports its three isolated changes scoped clean. Its prior 9ca
 Node 22 warning-observer failure remains documented in `ai-provider-startup.md`;
 the warning drain does not ignore errors or remove the empty-error assertion.

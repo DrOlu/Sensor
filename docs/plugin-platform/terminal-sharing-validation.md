@@ -49,9 +49,9 @@ also runs after runtime assignment, teardown, and hibernate wake completion.
 The regression and the associated popup input-mode checks pass. This uses the
 existing mount and wake paths and adds no polling or terminal reader fallback.
 
-That earlier head passed [test CI](https://github.com/binaricat/Netcatty/actions/runs/40380234637)
+That earlier head passed [test CI](https://github.com/DrOlu/Sensor/actions/runs/40380234637)
 with 15,316 tests, 15,266 passed, 50 skipped, and zero failures. All four
-[platform package jobs](https://github.com/binaricat/Netcatty/actions/runs/40380234655)
+[platform package jobs](https://github.com/DrOlu/Sensor/actions/runs/40380234655)
 also passed. The Draft PR records fresh exact-head results for the lifecycle fix.
 
 The subsequent pane-ownership regression failed on `3e5d450a1`: the actual solo

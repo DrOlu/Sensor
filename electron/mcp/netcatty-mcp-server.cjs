@@ -1,9 +1,9 @@
 /**
- * Netcatty MCP Server (stdio transport)
+ * Sensor MCP Server (stdio transport)
  *
  * Spawned by managed SDK agents as a child process.
- * Communicates with the Netcatty main process via TCP (JSON-RPC over newline-delimited JSON).
- * Exposes Netcatty terminal tools so external agents can operate on scoped sessions.
+ * Communicates with the Sensor main process via TCP (JSON-RPC over newline-delimited JSON).
+ * Exposes Sensor terminal tools so external agents can operate on scoped sessions.
  */
 "use strict";
 
@@ -36,9 +36,9 @@ function debugLog(...args) {
   }).join(" ")}\n`);
 }
 
-// ── TCP Bridge to Netcatty main process ──
+// ── TCP Bridge to Sensor main process ──
 
-// External stdio clients outlive Netcatty. Their port and token stay mutable so
+// External stdio clients outlive Sensor. Their port and token stay mutable so
 // a later call can refresh discovery. Managed children receive a fixed env and
 // keep the original fail-fast exit.
 const externalDiscoveryPath = process.env.NETCATTY_EXTERNAL_MCP_DISCOVERY_FILE;
@@ -144,7 +144,7 @@ function isLiveSocket(sock) {
 function rejectPendingOnSocket(sock, externalMessage) {
   const managed = !externalDiscoveryPath;
   if (managed && tcpSocket === sock) tcpSocket = null;
-  const message = managed ? "Not connected to Netcatty" : externalMessage;
+  const message = managed ? "Not connected to Sensor" : externalMessage;
   for (const [id, pending] of pendingRequests) {
     if (pending.sock !== sock) continue;
     pendingRequests.delete(id);
@@ -214,7 +214,7 @@ function connectTcp() {
 function sendRpc(method, params) {
   return new Promise((resolve, reject) => {
     if (!isLiveSocket(tcpSocket)) {
-      reject(new Error("Not connected to Netcatty"));
+      reject(new Error("Not connected to Sensor"));
       return;
     }
     const sock = tcpSocket;
@@ -228,10 +228,10 @@ function sendRpc(method, params) {
 
 function temporaryUnavailable(error) {
   const message = error?.message || String(error || "connection failed");
-  if (message.startsWith("Netcatty is temporarily unavailable")) {
+  if (message.startsWith("Sensor is temporarily unavailable")) {
     return error instanceof Error ? error : new Error(message);
   }
-  return new Error(`Netcatty is temporarily unavailable: ${message}`);
+  return new Error(`Sensor is temporarily unavailable: ${message}`);
 }
 
 function refreshExternalEndpoint() {
@@ -239,12 +239,12 @@ function refreshExternalEndpoint() {
   try {
     parsed = JSON.parse(fs.readFileSync(externalDiscoveryPath, "utf8"));
   } catch {
-    throw new Error("Netcatty is temporarily unavailable: discovery file is missing or unreadable");
+    throw new Error("Sensor is temporarily unavailable: discovery file is missing or unreadable");
   }
   const port = parseInt(parsed?.port, 10);
   const token = typeof parsed?.token === "string" ? parsed.token.trim() : "";
   if (!port || !token) {
-    throw new Error("Netcatty is temporarily unavailable: discovery endpoint is incomplete");
+    throw new Error("Sensor is temporarily unavailable: discovery endpoint is incomplete");
   }
   NETCATTY_MCP_PORT = port;
   NETCATTY_MCP_TOKEN = token;
@@ -274,7 +274,7 @@ async function connectAndAuth() {
     await connectTcp();
     const authResult = await sendRpc("auth/verify", { token: NETCATTY_MCP_TOKEN });
     if (!authResult?.ok) {
-      throw new Error("Netcatty is temporarily unavailable: TCP bridge authentication failed");
+      throw new Error("Sensor is temporarily unavailable: TCP bridge authentication failed");
     }
   } catch (error) {
     dropActiveSocket();
@@ -329,7 +329,7 @@ const scopeParams = CHAT_SESSION_ID
 server.resource(
   "environment",
   "netcatty://context",
-  { description: "Current Netcatty workspace context: connected hosts, session IDs, and environment description." },
+  { description: "Current Sensor workspace context: connected hosts, session IDs, and environment description." },
   async () => {
     const ctx = await exposedRpcCall("netcatty/getContext", scopeParams);
     return {

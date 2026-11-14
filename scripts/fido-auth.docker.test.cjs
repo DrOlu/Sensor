@@ -1,7 +1,7 @@
 "use strict";
 
 // An independent Docker sshd verifies signatures made through the production
-// Netcatty -> ssh-agent -> ssh-sk-helper -> software authenticator path.
+// Sensor -> ssh-agent -> ssh-sk-helper -> software authenticator path.
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
@@ -99,7 +99,7 @@ test("Docker OpenSSH accepts only completed FIDO PIN/presence authentication", {
     started = true;
     const port = Number(JSON.parse(docker("inspect", name))[0].NetworkSettings.Ports["2222/tcp"][0].HostPort);
     await until(() => docker("logs", name).includes("Server listening"), "Docker sshd listening");
-    const password = "Netcatty-disposable-test-password";
+    const password = "Sensor-disposable-test-password";
     execFileSync("docker", ["exec", "-i", name, "chpasswd"], { input: `netcatty:${password}\n` });
     execFileSync("cc", ["-shared", "-fPIC", "-DHAVE_STDINT_H",
       path.join(__dirname, "fixtures/fido/provider.c"), "-lcrypto", "-o", provider]);
@@ -197,7 +197,7 @@ test("Docker OpenSSH accepts only completed FIDO PIN/presence authentication", {
             await t.test(`${label}: server rejects signature without verification flag`, () => attempt("no-uv"));
           }
           await t.test(`${label}: a fresh login still succeeds after failures`, () => attempt("touch", { shouldPass: true }));
-        } finally { agent._releaseNetcattyFidoAgent?.(); }
+        } finally { agent._releaseSensorFidoAgent?.(); }
       }
     }
     for (const fallback of [false, true]) {
@@ -226,7 +226,7 @@ test("Docker OpenSSH accepts only completed FIDO PIN/presence authentication", {
           assert.equal(recovery.reason, "device-unavailable");
           assert.equal(recovery.allowPasswordFallback, true);
           if (fallback) assert.equal(await exec(client, "printf explicit-password-ok"), "explicit-password-ok");
-        } finally { client.end(); agent._releaseNetcattyFidoAgent?.(); usePassword = false; }
+        } finally { client.end(); agent._releaseSensorFidoAgent?.(); usePassword = false; }
       });
     }
     const logs = docker("logs", name);

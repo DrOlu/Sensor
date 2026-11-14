@@ -1,7 +1,7 @@
 "use strict";
 
 // Interactive test: native drags must be driven by the OS, not synthetic DOM
-// DragEvents. All filesystem fixtures and userData live in Netcatty's temp dir.
+// DragEvents. All filesystem fixtures and userData live in Sensor's temp dir.
 if (!process.versions.electron) {
   require("node:test")("native local file drag (interactive Electron)", {
     skip: "run npm run test:local-file-drag:electron and follow the window instructions",
@@ -21,7 +21,7 @@ if (!process.versions.electron) {
   fs.mkdirSync(source);
   fs.mkdirSync(destination);
   fs.mkdirSync(path.join(source, "folder"));
-  fs.writeFileSync(path.join(source, "certificate test.txt"), "Netcatty native drag fixture\n");
+  fs.writeFileSync(path.join(source, "certificate test.txt"), "Sensor native drag fixture\n");
   fs.writeFileSync(path.join(source, "folder", "nested.txt"), "Nested fixture\n");
   const preload = path.join(fixture, "preload.cjs");
   fs.writeFileSync(preload, `
@@ -85,7 +85,7 @@ if (!process.versions.electron) {
     }
     function App() {
       const [dragged,setDragged] = useState(null);
-      return <><h1>Netcatty native drag test</h1>
+      return <><h1>Sensor native drag test</h1>
         <p>Drag a file to the blue target, another pane, or Finder/Explorer. Cmd/Ctrl-click for multi-selection. Escape cancels.</p>
         <main><Pane side='left' dragged={dragged} setDragged={setDragged}/><Pane side='right' dragged={dragged} setDragged={setDragged}/></main>
         <div id='native' onDragOver={e => {e.preventDefault();e.dataTransfer.dropEffect='copy';}}
@@ -119,7 +119,7 @@ if (!process.versions.electron) {
       section{padding:20px;background:#f1f4f9;flex:1;border:1px solid #ccc}.file{padding:20px;margin-top:15px;border:1px solid #ddd;cursor:grab;background:white}
       .selected{background:#bddbff}#native{padding:35px;background:#bddbff;margin-top:24px}pre{white-space:pre-wrap;font-size:12px}
       </style><div id="root"></div><script src="renderer.js"></script>`);
-    win = new BrowserWindow({ width: 1000, height: 760, title: "Netcatty native drag test", webPreferences: {
+    win = new BrowserWindow({ width: 1000, height: 760, title: "Sensor native drag test", webPreferences: {
       preload, contextIsolation: true, nodeIntegration: false, sandbox: false,
     }});
     registerHandlers(ipcMain, { getWindows: () => win && !win.isDestroyed() ? [win] : [], nativeImage });

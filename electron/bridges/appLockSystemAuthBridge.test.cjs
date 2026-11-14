@@ -38,7 +38,7 @@ test("macOS status and unlock use Touch ID systemPreferences", async () => {
     reason: null,
   });
   assert.deepEqual(await bridge.requestUnlock(), { ok: true });
-  assert.equal(promptReason, "Unlock Netcatty");
+  assert.equal(promptReason, "Unlock Sensor");
 });
 
 test("macOS cancellation maps to cancelled", async () => {
@@ -59,7 +59,7 @@ test("Windows status and unlock call helper with HWND", async () => {
   const calls = [];
   const bridge = createAppLockSystemAuthBridge({
     platform: "win32",
-    helperPath: "C:\\NetcattyWindowsHello.exe",
+    helperPath: "C:\\SensorWindowsHello.exe",
     getNativeWindowHandle: () => Buffer.from("8877665544332211", "hex"),
     execFile: (file, args, options, callback) => {
       calls.push({ file, args, options });
@@ -79,11 +79,11 @@ test("Windows status and unlock call helper with HWND", async () => {
     reason: null,
   });
   assert.deepEqual(await bridge.requestUnlock(), { ok: true });
-  assert.equal(calls[0].file, "C:\\NetcattyWindowsHello.exe");
+  assert.equal(calls[0].file, "C:\\SensorWindowsHello.exe");
   assert.deepEqual(calls[0].args, ["status"]);
   assert.equal(calls[0].options.windowsHide, true);
   assert.equal(calls[0].options.timeout, 15000);
-  assert.deepEqual(calls[1].args, ["verify", "--hwnd", "1234605616436508552", "--message", "Unlock Netcatty"]);
+  assert.deepEqual(calls[1].args, ["verify", "--hwnd", "1234605616436508552", "--message", "Unlock Sensor"]);
   assert.equal(calls[1].options.timeout, 120000);
 });
 
@@ -98,7 +98,7 @@ test("Windows dev helper path follows the architecture-specific build output", (
       isPackaged: false,
       resourcesPath: "C:\\fake-electron-resources",
     });
-    assert.match(helperPath, /windowsHelloHelper[\\/]build[\\/]x64[\\/]NetcattyWindowsHello\.exe$/);
+    assert.match(helperPath, /windowsHelloHelper[\\/]build[\\/]x64[\\/]SensorWindowsHello\.exe$/);
   } finally {
     Object.defineProperty(process, "platform", originalPlatform);
     Object.defineProperty(process, "arch", originalArch);
@@ -110,10 +110,10 @@ test("Windows packaged helper path uses the app resources directory", () => {
     resolveDefaultHelperPath({
       platform: "win32",
       isPackaged: true,
-      resourcesPath: "C:\\Netcatty\\resources",
+      resourcesPath: "C:\\Sensor\\resources",
       arch: "x64",
     }),
-    "C:\\Netcatty\\resources\\windowsHello\\NetcattyWindowsHello.exe",
+    "C:\\Sensor\\resources\\windowsHello\\SensorWindowsHello.exe",
   );
 });
 

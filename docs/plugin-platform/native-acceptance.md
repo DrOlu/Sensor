@@ -1,6 +1,6 @@
 # Native Electron handoff
 
-Repository: binaricat/Netcatty. Frozen baseline: 0256e7471d66bbbca077c361ef379d7b11ce8465.
+Repository: DrOlu/Sensor. Frozen baseline: 0256e7471d66bbbca077c361ef379d7b11ce8465.
 Stack: feat/plugin-compatibility-review -> feat/plugin-settings-manager -> feat/plugin-curated-catalog.
 Use the final catalog branch for all three slices. Do not merge or release.
 
@@ -16,7 +16,7 @@ Use the final catalog branch for all three slices. Do not merge or release.
    Open README: actual pinned first-party GitHub retrieval; HTML inert, no remote images.
    It intentionally says source-only: no downloadable artifact/release was invented.
 5. Import /tmp/starter-netcatty.ncpkg. It must remain disabled. Expand the installed
-   item: manifest permissions/resources, sensitive markers, Netcatty/API ranges,
+   item: manifest permissions/resources, sensitive markers, Sensor/API ranges,
    SHA-256. Enable allows lazy activation; it does not grant permissions.
    First command/view use prompts before runtime creation. Denying must not run code.
 6. With approved non-advanced permissions for the first-party example, edit Greeting

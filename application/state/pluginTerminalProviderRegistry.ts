@@ -1,15 +1,15 @@
 export interface PluginTerminalProviderBridge {
-  listPluginTerminalProviders(options: NetcattyTerminalProviderQuery): Promise<ReadonlyArray<NetcattyTerminalProviderContribution>>;
-  providePluginTerminal(request: NetcattyTerminalProviderRequest): Promise<ReadonlyArray<NetcattyTerminalProviderResult>>;
+  listPluginTerminalProviders(options: SensorTerminalProviderQuery): Promise<ReadonlyArray<SensorTerminalProviderContribution>>;
+  providePluginTerminal(request: SensorTerminalProviderRequest): Promise<ReadonlyArray<SensorTerminalProviderResult>>;
   cancelPluginTerminalRequest(requestId: string): Promise<boolean>;
-  publishPluginTerminalSessionEvent(event: NetcattyTerminalSessionEvent): Promise<ReadonlyArray<{ pluginId: string; delivered: boolean }>>;
+  publishPluginTerminalSessionEvent(event: SensorTerminalSessionEvent): Promise<ReadonlyArray<{ pluginId: string; delivered: boolean }>>;
   onPluginContributionsChanged?(callback: () => void): () => void;
 }
 
 export interface PluginTerminalProviderResponse {
   readonly requestId: string;
   readonly stale: boolean;
-  readonly results: ReadonlyArray<NetcattyTerminalProviderResult>;
+  readonly results: ReadonlyArray<SensorTerminalProviderResult>;
 }
 
 export interface PluginTerminalProviderRequestOptions {
@@ -27,7 +27,7 @@ function freezeValue<T>(value: T): Readonly<T> {
   return clone as Readonly<T>;
 }
 
-function requestKey(sessionId: string, kind: NetcattyTerminalProviderKind, supersessionKey: string): string {
+function requestKey(sessionId: string, kind: SensorTerminalProviderKind, supersessionKey: string): string {
   return `${sessionId}\0${kind}\0${supersessionKey}`;
 }
 
@@ -36,10 +36,10 @@ function createRequestId(): string {
 }
 
 function mergeLifecycleSessionSnapshot(
-  previous: NetcattyTerminalSessionSnapshot | undefined,
-  event: NetcattyTerminalSessionEvent,
-): Readonly<NetcattyTerminalSessionSnapshot> {
-  const session: NetcattyTerminalSessionSnapshot = { ...(previous ?? {}), ...event.session };
+  previous: SensorTerminalSessionSnapshot | undefined,
+  event: SensorTerminalSessionEvent,
+): Readonly<SensorTerminalSessionSnapshot> {
+  const session: SensorTerminalSessionSnapshot = { ...(previous ?? {}), ...event.session };
   if (event.type === 'disconnected' || event.type === 'reconnected') {
     if (!Object.hasOwn(event.session, 'cwd')) delete session.cwd;
     if (!Object.hasOwn(event.session, 'title')) delete session.title;
@@ -53,10 +53,10 @@ function mergeLifecycleSessionSnapshot(
 export class PluginTerminalProviderRegistry {
   readonly #bridge: PluginTerminalProviderBridge;
   readonly #activeRequests = new Map<string, string>();
-  readonly #sessionSnapshots = new Map<string, NetcattyTerminalSessionSnapshot>();
+  readonly #sessionSnapshots = new Map<string, SensorTerminalSessionSnapshot>();
   readonly #providerListeners = new Set<() => void>();
-  readonly #providerListCache = new Map<string, ReadonlyArray<NetcattyTerminalProviderContribution>>();
-  readonly #pendingProviderLists = new Map<string, Promise<ReadonlyArray<NetcattyTerminalProviderContribution>>>();
+  readonly #providerListCache = new Map<string, ReadonlyArray<SensorTerminalProviderContribution>>();
+  readonly #pendingProviderLists = new Map<string, Promise<ReadonlyArray<SensorTerminalProviderContribution>>>();
   readonly #disposeContributionListener: (() => void) | undefined;
   #providerListGeneration = 0;
   #bridgeAvailability: 'unknown' | 'available' | 'unavailable' = 'unknown';
@@ -85,7 +85,7 @@ export class PluginTerminalProviderRegistry {
     return () => this.#providerListeners.delete(listener);
   }
 
-  async listProviders(query: NetcattyTerminalProviderQuery): Promise<ReadonlyArray<NetcattyTerminalProviderContribution>> {
+  async listProviders(query: SensorTerminalProviderQuery): Promise<ReadonlyArray<SensorTerminalProviderContribution>> {
     if (this.#disposed) return Object.freeze([]);
     if (this.#bridgeAvailability === 'unavailable') return Object.freeze([]);
     const key = JSON.stringify(query);
@@ -117,7 +117,7 @@ export class PluginTerminalProviderRegistry {
   }
 
   async request(
-    request: Omit<NetcattyTerminalProviderRequest, 'requestId'> & { supersessionKey?: string },
+    request: Omit<SensorTerminalProviderRequest, 'requestId'> & { supersessionKey?: string },
     options: PluginTerminalProviderRequestOptions = {},
   ): Promise<PluginTerminalProviderResponse> {
     if (this.#disposed || options.signal?.aborted) {
@@ -161,7 +161,7 @@ export class PluginTerminalProviderRegistry {
         return Object.freeze({ requestId, stale: true, results: Object.freeze([]) });
       }
       bridgeRequestStarted = true;
-      let bridgeResponse: Promise<ReadonlyArray<NetcattyTerminalProviderResult>>;
+      let bridgeResponse: Promise<ReadonlyArray<SensorTerminalProviderResult>>;
       try {
         bridgeResponse = this.#bridge.providePluginTerminal({
           ...providerRequest,
@@ -204,7 +204,7 @@ export class PluginTerminalProviderRegistry {
     }
   }
 
-  async publishSessionEvent(event: NetcattyTerminalSessionEvent): Promise<void> {
+  async publishSessionEvent(event: SensorTerminalSessionEvent): Promise<void> {
     if (this.#disposed) return;
     const previous = this.#sessionSnapshots.get(event.session.sessionId);
     const session = mergeLifecycleSessionSnapshot(previous, event);
@@ -247,8 +247,8 @@ export class PluginTerminalProviderRegistry {
 
 export async function collectPluginTerminalProviderKinds(
   registry: PluginTerminalProviderRegistry | null,
-  kinds: readonly NetcattyTerminalProviderKind[],
-): Promise<ReadonlySet<NetcattyTerminalProviderKind>> {
+  kinds: readonly SensorTerminalProviderKind[],
+): Promise<ReadonlySet<SensorTerminalProviderKind>> {
   if (!registry) return new Set();
   try {
     const enumerations = await Promise.all(kinds.map(async (kind) => ({
@@ -264,19 +264,19 @@ export async function collectPluginTerminalProviderKinds(
 }
 
 export function isPluginTerminalProviderKindAvailable(
-  kinds: ReadonlySet<NetcattyTerminalProviderKind> | null,
-  kind: NetcattyTerminalProviderKind,
+  kinds: ReadonlySet<SensorTerminalProviderKind> | null,
+  kind: SensorTerminalProviderKind,
 ): boolean {
   return kinds?.has(kind) ?? false;
 }
 
 export class PluginTerminalProviderAvailability {
   #generation = 0;
-  #kinds: ReadonlySet<NetcattyTerminalProviderKind> | null = null;
+  #kinds: ReadonlySet<SensorTerminalProviderKind> | null = null;
 
   async refresh(
     registry: PluginTerminalProviderRegistry | null,
-    kinds: readonly NetcattyTerminalProviderKind[],
+    kinds: readonly SensorTerminalProviderKind[],
   ): Promise<boolean> {
     const generation = ++this.#generation;
     const next = await collectPluginTerminalProviderKinds(registry, kinds);
@@ -285,13 +285,13 @@ export class PluginTerminalProviderAvailability {
     return true;
   }
 
-  has(kind: NetcattyTerminalProviderKind): boolean {
+  has(kind: SensorTerminalProviderKind): boolean {
     return isPluginTerminalProviderKindAvailable(this.#kinds, kind);
   }
 }
 
 export function createWindowPluginTerminalProviderRegistry(
-  bridge: NetcattyBridge | undefined = typeof window === 'undefined' ? undefined : netcattyBridge.get(),
+  bridge: SensorBridge | undefined = typeof window === 'undefined' ? undefined : netcattyBridge.get(),
 ): PluginTerminalProviderRegistry | null {
   if (!bridge?.listPluginTerminalProviders
     || !bridge.providePluginTerminal

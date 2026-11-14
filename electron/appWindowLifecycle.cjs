@@ -3,7 +3,7 @@
 /**
  * Electron's window-all-closed event includes hidden plugin host windows. Use
  * the WindowManager's explicit app-content registry to decide when the user
- * has closed the last Netcatty window instead.
+ * has closed the last Sensor window instead.
  */
 function createAppContentWindowClosedHandler(options) {
   const { app, windowManager, platform = process.platform } = options;

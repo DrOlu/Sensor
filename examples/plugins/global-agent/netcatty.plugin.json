@@ -3,7 +3,7 @@
   "id": "com.netcatty.globalagent",
   "name": "global-agent-example",
   "displayName": "Global Agent Chat Example",
-  "description": "Custom sandbox Chat UI reusing Netcatty's configured Agent backends and explicitly selected terminal targets.",
+  "description": "Custom sandbox Chat UI reusing Sensor's configured Agent backends and explicitly selected terminal targets.",
   "version": "0.1.0",
   "publisher": "netcatty",
   "license": "GPL-3.0-or-later",

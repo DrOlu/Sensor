@@ -75,11 +75,11 @@ dependencies and standard patches; the official pinned Electron binary uses its
 documented cache/proxy support. No header workaround, native shim, HOME change
 or sandbox change is introduced.
 
-Input89 [test CI 40453446775](https://github.com/binaricat/Netcatty/actions/runs/40453446775)
+Input89 [test CI 40453446775](https://github.com/DrOlu/Sensor/actions/runs/40453446775)
 succeeded on the parent's single infrastructure-only rerun: 15,342 passed, 50
 skipped, zero failed/cancelled. The original runner interruption remains evidence;
 this worker did not duplicate its retry. Input89
-[four-platform packages](https://github.com/binaricat/Netcatty/actions/runs/40453446781)
+[four-platform packages](https://github.com/DrOlu/Sensor/actions/runs/40453446781)
 passed with release jobs skipped. Frozen 020's successful full/platform CI and
 all earlier diagnosed/unexplained failures remain separate predecessor evidence.
 

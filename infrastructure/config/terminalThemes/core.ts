@@ -3,7 +3,7 @@ import type { TerminalTheme } from '../../../domain/models';
 export const coreTerminalThemes: TerminalTheme[] = [
   {
     id: 'netcatty-dark',
-    name: 'Netcatty Dark',
+    name: 'Sensor Dark',
     type: 'dark',
     colors: {
       background: '#0d1117',
@@ -30,7 +30,7 @@ export const coreTerminalThemes: TerminalTheme[] = [
   },
   {
     id: 'netcatty-light',
-    name: 'Netcatty Light',
+    name: 'Sensor Light',
     type: 'light',
     colors: {
       background: '#f6f8fa',

@@ -13,7 +13,7 @@ const UPLOAD_TRANSFER_CONCURRENCY = 64;
 
 // Downloads need a larger request window on high-latency proxy paths. 64 is
 // ssh2's fastGet default and, with the safe 32KB request size, restores the 2MB
-// in-flight window Netcatty used before the shared chunk-size fix in #2030.
+// in-flight window Sensor used before the shared chunk-size fix in #2030.
 const DOWNLOAD_TRANSFER_CONCURRENCY = 64;
 
 // TERM-SSHD gateways can acknowledge concurrent WRITEs with misplaced data

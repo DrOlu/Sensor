@@ -24,7 +24,7 @@ test('installed grid filters, opens one detail and restores search, scroll and c
   const plugins = ['Alpha', 'Beta'].map((name) => ({ id: `com.test.${name.toLowerCase()}`, enabled: false, activeVersion: '1.0.0',
     manifest: { name, publisher: 'Example', description: `${name} safely formats synthetic greetings without accessing hosts or secrets.`, license: 'MIT', main: { browser: 'index.js' }, engines: { api: '0.1.0-internal', netcatty: '*' } },
     runtime: { lastError: name === 'Beta' ? 'Incompatible version' : null },
-  })) as NetcattyInstalledPlugin[];
+  })) as SensorInstalledPlugin[];
   const manager = { available: true, plugins, busy: false, setEnabled: async (...args: unknown[]) => { toggles.push(args); } } as unknown as ReturnType<typeof usePluginManager>;
   let renderer!: ReactTestRenderer;
   try {

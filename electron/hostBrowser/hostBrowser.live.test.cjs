@@ -32,7 +32,7 @@ function reply(socket, request) {
     return;
   }
   if (request.toString().startsWith("GET /download.bin ")) {
-    const body = Buffer.from("Netcatty host browser download through SOCKS5\n");
+    const body = Buffer.from("Sensor host browser download through SOCKS5\n");
     socket.write(Buffer.from(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Disposition: attachment; filename="host-browser-test.bin"\r\nContent-Length: ${body.length}\r\nConnection: close\r\n\r\n`));
     socket.end(body);
     return;
@@ -166,7 +166,7 @@ async function main() {
   const downloaded = (await page.executeJavaScript("window.hostBrowser.listDownloads()"))[0];
   assert.equal(downloaded.status, "completed");
   assert.equal(downloaded.filename, "host-browser-test.bin");
-  assert.equal(fs.readFileSync(downloadPath, "utf8"), "Netcatty host browser download through SOCKS5\n");
+  assert.equal(fs.readFileSync(downloadPath, "utf8"), "Sensor host browser download through SOCKS5\n");
   assert.equal(await downloadsView.webContents.executeJavaScript("document.querySelectorAll('.download-row').length"), 1);
   await downloadsView.webContents.executeJavaScript("document.querySelector('.row-actions button[title=\"Show in folder\"]').click()");
   for (let i = 0; i < 20 && shellActions.length < 1; i += 1) await wait(50);

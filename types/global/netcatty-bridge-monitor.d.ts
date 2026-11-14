@@ -1,6 +1,6 @@
 export {};
 declare global {
-  interface NetcattyBridge {
+  interface SensorBridge {
     monitorUpdate?(
       panels: import("../../domain/monitorRuntime").MonitorPanelDemand[],
     ): Promise<import("../../domain/monitorRuntime").MonitorSnapshot>;

@@ -2,8 +2,8 @@
 
 const { runBoundedCliCommand } = require("./boundedCliCommand.cjs");
 const {
-  getNetcattySkillStatus,
-  installNetcattySkill,
+  getSensorSkillStatus,
+  installSensorSkill,
   resolveUserHomeDir,
 } = require("./netcattySkillInstaller.cjs");
 
@@ -184,8 +184,8 @@ function createExternalMcpCodexSetup(options = {}) {
     spawn: options.spawn || require("node:child_process").spawn,
     stripAnsi: options.stripAnsi || loadShellUtils().stripAnsi,
     runCodexCommand: options.runCodexCommand || null,
-    getSkillStatus: options.getSkillStatus || getNetcattySkillStatus,
-    installSkill: options.installSkill || installNetcattySkill,
+    getSkillStatus: options.getSkillStatus || getSensorSkillStatus,
+    installSkill: options.installSkill || installSensorSkill,
   };
 
   function getManualCommand(cliPath) {
@@ -357,7 +357,7 @@ function createExternalMcpCodexSetup(options = {}) {
         mcpConfigured,
         skillInstalled: false,
         error: installingSkill
-          ? `Failed to install the Netcatty Codex skill: ${error?.message || String(error)}`
+          ? `Failed to install the Sensor Codex skill: ${error?.message || String(error)}`
           : (error?.message || String(error)),
       };
     }

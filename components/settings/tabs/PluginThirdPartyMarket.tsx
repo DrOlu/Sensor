@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../../ui/
 import { PluginMarketplace } from './PluginMarketplace';
 
 export function PluginThirdPartyMarket({ installed, toolbarContainer, noVault }: {
-  installed: NetcattyInstalledPlugin[]; toolbarContainer?: HTMLElement | null; noVault?: boolean;
+  installed: SensorInstalledPlugin[]; toolbarContainer?: HTMLElement | null; noVault?: boolean;
 }) {
   const { t } = useI18n();
   const model = usePluginSources();

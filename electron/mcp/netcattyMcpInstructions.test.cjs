@@ -9,7 +9,7 @@ const {
   NETCATTY_MCP_SERVER_INSTRUCTIONS,
 } = require("./netcattyMcpInstructions.cjs");
 
-test("MCP server instructions route Netcatty terminal work through environment discovery", () => {
+test("MCP server instructions route Sensor terminal work through environment discovery", () => {
   assert.ok(NETCATTY_MCP_SERVER_INSTRUCTIONS.length <= 512);
   assert.match(NETCATTY_MCP_SERVER_INSTRUCTIONS, /call get_environment first/i);
   assert.match(NETCATTY_MCP_SERVER_INSTRUCTIONS, /label or hostname/i);

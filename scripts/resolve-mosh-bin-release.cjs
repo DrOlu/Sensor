@@ -18,7 +18,7 @@ const https = require("node:https");
 // the resulting screen, preventing stale cursor/character display on latency.
 // 0.1.7 reconstructed numbered remote states before display; 0.1.6 added
 // prediction hardening; 0.1.5 introduced the Diff path.
-// 0.1.4 ConPTY shortcut; 0.1.2+ Linux glibc floors match Netcatty.
+// 0.1.4 ConPTY shortcut; 0.1.2+ Linux glibc floors match Sensor.
 // Allow semver prerelease (-rc1) and build metadata (+meta); no path separators.
 const TAG_RE = /^moshcatty-[A-Za-z0-9._+-]+$/;
 const MIN_VERSION = { major: 0, minor: 1, patch: 8 };

@@ -23,7 +23,7 @@ Use the existing `IconReference` shape at the top level of `netcatty.plugin.json
 This is a manifest fragment. Preserve the required ID, name, version, publisher,
 main and other fields. The host-version value above is for this repository's
 unreleased development build (version 0.0.0); use the actual first supporting
-Netcatty release as your lower bound when it is assigned. Do not invent a release
+Sensor release as your lower bound when it is assigned. Do not invent a release
 number. The API range and required feature enforce support in the meantime.
 
 Alternatively use a host-owned theme glyph, for example

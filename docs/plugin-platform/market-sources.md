@@ -2,7 +2,7 @@
 
 The plugin manager has Installed, Official marketplace and Third-party marketplace
 pages. Listing a plugin in the official market does not certify it or establish
-that Netcatty maintains it. Remote manifests, publisher names, source names and
+that Sensor maintains it. Remote manifests, publisher names, source names and
 README content cannot create a host-issued official badge. The separate gold
 maintainer badge requires the built-in official source and an exact host-curated
 first-party ID/repository pair. It describes maintenance, not safety certification.

@@ -16,8 +16,8 @@ test('update-nix-release writes version and AppImage hashes', () => {
 
   const x64 = Buffer.from('x64 appimage');
   const arm64 = Buffer.from('arm64 appimage');
-  fs.writeFileSync(path.join(artifacts, 'Netcatty-1.2.3-linux-x86_64.AppImage'), x64);
-  fs.writeFileSync(path.join(artifacts, 'Netcatty-1.2.3-linux-arm64.AppImage'), arm64);
+  fs.writeFileSync(path.join(artifacts, 'Sensor-1.2.3-linux-x86_64.AppImage'), x64);
+  fs.writeFileSync(path.join(artifacts, 'Sensor-1.2.3-linux-arm64.AppImage'), arm64);
 
   execFileSync(process.execPath, [script, '--artifacts', artifacts, '--version', 'v1.2.3'], {
     cwd: tmp,

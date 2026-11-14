@@ -3,7 +3,7 @@ import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 import { parsePluginGitHubRepository } from '@/domain/pluginGitHubRepository.cjs';
 
 export function usePluginGitHubInstall(onInstalled: () => Promise<unknown>) {
-  const [preview, setPreview] = useState<NetcattyGitHubPluginPreview | null>(null);
+  const [preview, setPreview] = useState<SensorGitHubPluginPreview | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const token = useRef<string | null>(null);

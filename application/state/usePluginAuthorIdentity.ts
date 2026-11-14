@@ -18,14 +18,14 @@ function subscribe(listener: () => void) {
 }
 
 export function usePluginAuthorIdentity({ entry, plugin, sourceId = 'official' }: {
-  entry?: NetcattyPluginCatalogEntry; plugin?: NetcattyInstalledPlugin; sourceId?: string;
+  entry?: SensorPluginCatalogEntry; plugin?: SensorInstalledPlugin; sourceId?: string;
 }) {
   const [element, setElement] = useState<HTMLElement | null>(null);
-  const [loaded, setLoaded] = useState<{ key: string; value: NetcattyPluginAuthorPresentation } | null>(null);
+  const [loaded, setLoaded] = useState<{ key: string; value: SensorPluginAuthorPresentation } | null>(null);
   const pluginId = plugin?.id;
   const entryId = entry?.id;
   const selectionToken = entry?.selectionToken;
-  const request = useMemo<NetcattyPluginAuthorRequest | null>(() => pluginId
+  const request = useMemo<SensorPluginAuthorRequest | null>(() => pluginId
     ? { kind: 'installed', pluginId }
     : entryId && selectionToken ? { kind: 'catalog', pluginId: entryId, selectionToken, sourceId } : null,
   [pluginId, entryId, selectionToken, sourceId]);

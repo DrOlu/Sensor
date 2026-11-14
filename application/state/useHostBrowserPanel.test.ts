@@ -7,8 +7,8 @@ import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 import type { TerminalSettings } from '../../domain/models';
 import { useHostBrowserPanel } from './useHostBrowserPanel';
 
-type Layout = Parameters<NonNullable<NetcattyBridge['setHostBrowserPanelLayout']>>[0];
-type Result = Awaited<ReturnType<NonNullable<NetcattyBridge['setHostBrowserPanelLayout']>>>;
+type Layout = Parameters<NonNullable<SensorBridge['setHostBrowserPanelLayout']>>[0];
+type Result = Awaited<ReturnType<NonNullable<SensorBridge['setHostBrowserPanelLayout']>>>;
 const layers = [{ image: 'data:image/png;base64,fixture', bounds: { x: 0, y: 0, width: 500, height: 600 } }];
 
 async function fixture(t: test.TestContext) {

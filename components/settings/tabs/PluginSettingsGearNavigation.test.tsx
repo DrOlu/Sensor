@@ -38,7 +38,7 @@ async function fixture() {
     async listPlugins() { return [installed]; },
     onPluginContributionsChanged(callback: () => void) { listeners.add(callback); return () => listeners.delete(callback); },
     async getPluginLogStatus() { return { saveToDisk: false, verbose: false, droppedRecords: 0, writeErrors: 0, pendingBytes: 0, maxBytes: 3145728, retentionDays: 7 }; },
-    async getPluginContributions(query: NetcattyPluginContributionQuery) {
+    async getPluginContributions(query: SensorPluginContributionQuery) {
       if (delayed && query.scopeIds) await new Promise<void>((resolve) => pending.push(resolve));
       if (!installed.enabled) return { locale: 'en', plugins: [] };
       return { locale: 'en', plugins: [{ id: plugin.id, version: '1.0.0', displayName: 'Alpha', commands: [], keybindings: [], menus: [], views: [{ id: 'com.example.alpha.page', title: 'Ordinary page', location: 'tab', visible: true }], settings: [{ id: 'com.example.alpha.setting', label: 'Alpha setting', control: 'text', scope: 'application', scopeId: 'application', value: savedValue, group: 'General', visible: true, configured: true }] }] };

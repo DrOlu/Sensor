@@ -60,7 +60,7 @@ async function generateFidoSshKeyPair(options = {}) {
     if (typeof tempDirBridge.getTempDir !== "function") {
       return {
         success: false,
-        error: "FIDO2 key generation requires Netcatty temp directory (tempDirBridge unavailable).",
+        error: "FIDO2 key generation requires Sensor temp directory (tempDirBridge unavailable).",
       };
     }
     baseDir = tempDirBridge.getTempDir();
@@ -68,7 +68,7 @@ async function generateFidoSshKeyPair(options = {}) {
     const message = error instanceof Error ? error.message : String(error);
     return {
       success: false,
-      error: `FIDO2 key generation requires Netcatty temp directory: ${message}`,
+      error: `FIDO2 key generation requires Sensor temp directory: ${message}`,
     };
   }
   const tempDir = await fs.promises.mkdtemp(path.join(baseDir, "netcatty-fido-keygen-"));
@@ -105,7 +105,7 @@ async function generateFidoSshKeyPair(options = {}) {
         env: {
           ...env,
           ...askpassEnv,
-          // Force askpass so PIN/touch go through Netcatty modals (no TTY).
+          // Force askpass so PIN/touch go through Sensor modals (no TTY).
           SSH_ASKPASS_REQUIRE: askpassEnv.SSH_ASKPASS
             ? "force"
             : (env.SSH_ASKPASS_REQUIRE || undefined),

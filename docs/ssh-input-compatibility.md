@@ -2,7 +2,7 @@
 
 The host advanced settings include **输入兼容模式：逐字发送** (input compatibility: send character by character). The help text is **中文输入或短粘贴出现丢字时尝试开启。** Saved changes take effect after reconnecting.
 
-New SSH hosts use standard mode. Compatibility mode retains the interactive text workaround introduced by [PR #3168](https://github.com/binaricat/Netcatty/pull/3168):
+New SSH hosts use standard mode. Compatibility mode retains the interactive text workaround introduced by [PR #3168](https://github.com/DrOlu/Sensor/pull/3168):
 
 - Literal IME commits with multiple Unicode code points use separate writes.
 - Plain, unbracketed pastes of at most 32 Unicode code points use separate writes.
@@ -23,7 +23,7 @@ Attaching an observe popup transfers this captured choice through the existing t
 
 ## Historical evidence
 
-[Issue #3077](https://github.com/binaricat/Netcatty/issues/3077#issuecomment-5433744875) reports that individual hanzi worked in a Qianxin search prompt where multi-character input failed. The report also says Windows with Xshell worked. Those observations do not establish the remote parser's SSH-write semantics or Xshell's default implementation.
+[Issue #3077](https://github.com/DrOlu/Sensor/issues/3077#issuecomment-5433744875) reports that individual hanzi worked in a Qianxin search prompt where multi-character input failed. The report also says Windows with Xshell worked. Those observations do not establish the remote parser's SSH-write semantics or Xshell's default implementation.
 
 The [Xshell 7 manual](https://cdn.netsarang.net/docs/Xshell7_manual.pdf), section 5.2.21, printed page 27, describes session paste character delay, line delay, and prompt waiting. [SecureCRT's echo flow control tip](https://www.vandyke.com/support/tips/echoflowctrl.html) describes a session line delay and an optional script that waits for each line's echo. These references support configurable send compatibility. They do not establish default per-character IME sends or equivalence to a Qianxin-specific fix. This feature adds no delays or echo waiting.
 
@@ -80,4 +80,4 @@ Independent review confirmed the three reported P2 findings resolved, with no ne
 
 ## CI result
 
-The `test` workflow completed successfully for documentation commit `38c5f4744cb5fc3ecdd4e624b323587a471e4333`: [run 40319492139](https://github.com/binaricat/Netcatty/actions/runs/40319492139). That workflow includes `npm run lint`, `npm test`, generated-spec checks, and `npm run build`. The production code is unchanged from the native-tested `bd5f27ff` commit. Subsequent acceptance-text edits change documentation only. The original feature was merged in [PR #3977](https://github.com/binaricat/Netcatty/pull/3977); those results predate the popup snapshot follow-up.
+The `test` workflow completed successfully for documentation commit `38c5f4744cb5fc3ecdd4e624b323587a471e4333`: [run 40319492139](https://github.com/DrOlu/Sensor/actions/runs/40319492139). That workflow includes `npm run lint`, `npm test`, generated-spec checks, and `npm run build`. The production code is unchanged from the native-tested `bd5f27ff` commit. Subsequent acceptance-text edits change documentation only. The original feature was merged in [PR #3977](https://github.com/DrOlu/Sensor/pull/3977); those results predate the popup snapshot follow-up.

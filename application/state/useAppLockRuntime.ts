@@ -61,7 +61,7 @@ function isSameRuntimeAppLockState(left: RuntimeAppLockState, right: RuntimeAppL
 
 export function useAppLockRuntime(
   bridge: Pick<
-    NonNullable<NetcattyBridge>,
+    NonNullable<SensorBridge>,
     'getAppLockRuntimeState' | 'onAppLockRuntimeStateChanged'
   > | null | undefined,
 ) {

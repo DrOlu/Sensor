@@ -6,30 +6,30 @@ Read this for diagnostics, cancellation, or bounded recovery after a session can
 
 - Existing connected/connecting sessions are reused by default and keep their original placement and owner. Use `--new-tab` only when a separate connection is needed; workspace placement applies to the newly opened session.
 - Open a fresh saved-host session and bind it to the authenticated chat scope:
-  - `<netcatty-cli-prefix> vault host open --host-id <id> --new-tab --json`
+  - `<sensor-cli-prefix> vault host open --host-id <id> --new-tab --json`
 - Open a fresh pane inside the main window's active workspace:
-  - `<netcatty-cli-prefix> vault host open --host-id <id> --new-tab --workspace-id current --json`
+  - `<sensor-cli-prefix> vault host open --host-id <id> --new-tab --workspace-id current --json`
   - A concrete workspace ID is also accepted. A missing workspace is an error; the tool does not silently open elsewhere. `current` means the active workspace at execution time, not an arbitrary workspace inferred from a terminal label.
   - Confirm `scopeBound: true`, then call `session --session <returned-id> --json` before using execution or SFTP. `status: connecting` is not proof of a ready connection.
   - Opening a new session does not stop processes in an old terminal. Reconnect/close/reopen recovery remains a separate operation.
 
 - Runtime diagnostics:
-  - `<netcatty-cli-prefix> status --json`
+  - `<sensor-cli-prefix> status --json`
 - Reconnect a disconnected session in its existing tab/workspace, when exposed by the running build:
-  - `<netcatty-cli-prefix> session-reconnect --session <id> --json`
+  - `<sensor-cli-prefix> session-reconnect --session <id> --json`
   - This is a write operation under the existing scope and approval policy. It creates no session, transfers no ownership, and sends no task command. `started: true` acknowledges one reconnect request; it does not mean connected or shell-ready. Inspect `session --session <id> --json` before continuing.
   - A connecting/reconnecting session is left alone. Authentication, host-key prompts and unavailable terminal handlers return without queuing a future reconnect. Do not send credentials or probes into those prompts.
   - The backend limits agent-dispatched attempts per session incident to three, with 2/5 second backoff and a 120-second window for starting attempts. `RECONNECT_BACKOFF` includes `retryAfterMs`; `RECONNECT_LIMIT` stops this recovery branch. Observed connection success resets the incident; another chat/turn does not. Existing UI auto-reconnect has its own lifecycle; this tool does not add another automatic retry loop.
 - Inspect and recover the same session with bounded automatic reconnect and readiness observation:
-  - `<netcatty-cli-prefix> session-recover --session <id> --json`
+  - `<sensor-cli-prefix> session-recover --session <id> --json`
   - Prefer this operation for a transient disconnect when available. It checks actual terminal state, uses the same three-attempt budget as `session-reconnect`, and waits up to 20 seconds per call. A `pending` result may be continued after `retryAfterMs`; continuation does not reset the 120-second recovery incident. The operation never opens/closes a tab or sends a task command.
   - `ready` means an idle prompt was observed on a tracked shell. `connected` with `shellReady: null` means readiness is unknown (for example a raw device CLI); inspect the appropriate protocol. Exec still applies its normal readiness/permission checks.
   - `needs_input`, `busy`, `unavailable`, `RECOVERY_CANCELLED`, `RECONNECT_LIMIT`, and `RECOVERY_LIMIT` stop automatic recovery for that dependency. Inspect authentication/host keys, the original job or terminal, or report the limit; continue independent authorized work. An explicit terminal Disconnect/Cancel is not undone by automatic recovery; a user UI Reconnect can clear that terminal stop.
   - Prompt recognition remains a heuristic. After an ambiguous command outcome, inspect its original job or durable result before continuing; `ready` does not authorize replay of that command.
-- Cancel outstanding Netcatty work for this chat scope:
-  - `<netcatty-cli-prefix> cancel --json`
+- Cancel outstanding Sensor work for this chat scope:
+  - `<sensor-cli-prefix> cancel --json`
 - Re-enable execution for that same chat scope:
-  - `<netcatty-cli-prefix> resume --json`
+  - `<sensor-cli-prefix> resume --json`
 
 ## Rules
 
@@ -37,7 +37,7 @@ Read this for diagnostics, cancellation, or bounded recovery after a session can
 - A connected transport is not proof that the shell is ready. Prompt tracking is a heuristic; it cannot prove that every manually launched interactive application is idle. Raw network-device/serial CLIs and independent SSH exec channels use their separate protocol behavior.
 
 - `cancel` affects the current chat scope; it requests cancellation for in-flight `exec`, session-backed SFTP transfers, and running `job-start` work in that scope. Later `exec` calls in that scope stay blocked until `resume`.
-- Do not issue control commands concurrently with other Netcatty CLI commands for the same chat session.
+- Do not issue control commands concurrently with other Sensor CLI commands for the same chat session.
 
 ## Bounded Recovery
 

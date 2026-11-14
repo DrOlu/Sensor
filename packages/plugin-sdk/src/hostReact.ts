@@ -3,7 +3,7 @@ import { createElement, useEffect, useRef, type ReactNode } from 'react';
 import type { Disposable, PluginViews } from './index.js';
 import { registerHostDomView } from './hostDom.js';
 
-/** Author ordinary React while Netcatty owns the visible DOM. */
+/** Author ordinary React while Sensor owns the visible DOM. */
 export function registerHostReactView(views: PluginViews, viewId: string, render: () => ReactNode, css = ''): Disposable {
   return registerHostDomView(views, viewId, (container) => {
     const root = createRoot(container); root.render(render()); return () => root.unmount();

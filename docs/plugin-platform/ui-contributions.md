@@ -2,8 +2,8 @@
 
 Status: unpublished plugin platform; host-rendered browser views enabled in normal Settings
 
-Phase 4 of [#2269](https://github.com/binaricat/Netcatty/issues/2269)
-connects the manifest contribution contract to Netcatty's native UI and to a
+Phase 4 of [#2269](https://github.com/DrOlu/Sensor/issues/2269)
+connects the manifest contribution contract to Sensor's native UI and to a
 separate sandbox for fully custom views. It does not expose Electron IPC, React
 components, the main document, or a browser network stack to plugin code.
 
@@ -35,7 +35,7 @@ Settings are always host-rendered forms. Plugins cannot contribute custom HTML,
 CSS or executable renderers here. Optional localized `group` labels organize
 fields in declaration order. See [plugin-settings.md](plugin-settings.md).
 
-Netcatty renders setting declarations with host-owned controls. The supported
+Sensor renders setting declarations with host-owned controls. The supported
 controls are switches, radio/select/multiselect, text and password fields,
 textarea, number and slider, color, font, file and directory paths, keybindings,
 lists, and tables. The main process validates every write against the declared
@@ -86,7 +86,7 @@ must be declared by the currently active manifest, pass package-integrity and
 realpath containment checks, and pass byte, format, and dimension preflight
 before any image decoder sees plugin bytes. Decoding and resizing run through a
 bounded queue of disposable sandboxed renderer workers; only the resulting
-small PNG data URL reaches a Netcatty renderer or native application menu.
+small PNG data URL reaches a Sensor renderer or native application menu.
 ViewBox-only SVGs receive their inspected viewport inside that isolated worker,
 so common declarative SVG icons remain usable without trusting intrinsic
 decoder dimensions.
@@ -97,7 +97,7 @@ JavaScript evaluation. Invalid, oversized, or over-complex expressions evaluate
 to false. Plugin runtimes may update only one-segment keys in their own exact
 namespace.
 
-Platform keybindings are resolved by Netcatty and ignored while the user is
+Platform keybindings are resolved by Sensor and ignored while the user is
 typing in an input, textarea, select, any contenteditable or textbox role, or a
 Monaco editor surface. Command enablement is rechecked in the main process, and
 renderer snapshots fail closed immediately when their host context changes, so
@@ -117,7 +117,7 @@ allowing renderer-supplied plugin keys to override runtime-owned Context Keys.
 ## Host-rendered custom views
 
 All custom views use the [host-rendered UI contract](./host-rendered-ui.md).
-Plugins author ordinary React or DOM and CSS in the isolated runtime. Netcatty
+Plugins author ordinary React or DOM and CSS in the isolated runtime. Sensor
 validates and draws their content in the same DOM as its own UI. There is no
 visible browser surface, HTML entry document, or legacy renderer selection.
 
@@ -138,7 +138,7 @@ locale, light/dark/system theme identity,
 host-owned CSS color tokens, reduced-motion preference, forced/high-contrast
 preference, and subsequent environment changes. Theme-token mutations and
 accessibility media-query changes are observed while the host is open, rather
-than only at initial view creation. Netcatty retains the accessible
+than only at initial view creation. Sensor retains the accessible
 name and close control around every custom view; modal placements use dialog
 semantics, while aside, panel, and tab placements use named regions.
 

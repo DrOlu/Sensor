@@ -879,7 +879,7 @@ async function getNativeOpenSshAgentSocket(identityAgent, injected = {}) {
   const platform = injected.platform || process.platform;
   if (platform === "win32" && socketPath && !isWindowsNamedPipe(socketPath)) {
     const error = new Error(
-      "This SSH agent is available only to Netcatty's built-in SSH client. Mosh and EternalTerminal require a Windows named-pipe agent.",
+      "This SSH agent is available only to Sensor's built-in SSH client. Mosh and EternalTerminal require a Windows named-pipe agent.",
     );
     error.code = "ERR_SSH_AGENT_NATIVE_UNSUPPORTED";
     throw error;
@@ -892,7 +892,7 @@ async function getNativeOpenSshForwardingAgentSocket(identityAgent, injected = {
   const platform = injected.platform || process.platform;
   if (platform === "win32" && socketPath && !isWindowsNamedPipe(socketPath)) {
     const error = new Error(
-      "This SSH agent is available only to Netcatty's built-in SSH client. Mosh and EternalTerminal require a Windows named-pipe agent.",
+      "This SSH agent is available only to Sensor's built-in SSH client. Mosh and EternalTerminal require a Windows named-pipe agent.",
     );
     error.code = "ERR_SSH_AGENT_NATIVE_UNSUPPORTED";
     throw error;
@@ -1027,7 +1027,7 @@ async function enhanceAuthOptionsForFido(options = {}, sender) {
 }
 
 /**
- * True when certificate auth must stay on the software NetcattyAgent path.
+ * True when certificate auth must stay on the software SensorAgent path.
  * FIDO SK + certificate must keep the system/owned agent (hardware signs).
  */
 function shouldUseSoftwareCertificateAgent(options = {}, isFidoSk = false) {
@@ -1080,7 +1080,7 @@ async function materializeSkPrivateKeyFile(privateKey, injected = {}) {
   // Fail closed: never stage SK credential handles under the OS temp directory.
   if (typeof tempDirBridge.getTempDir !== "function") {
     const err = new Error(
-      "FIDO2 key staging requires Netcatty temp directory (tempDirBridge unavailable).",
+      "FIDO2 key staging requires Sensor temp directory (tempDirBridge unavailable).",
     );
     err.code = "ERR_FIDO_TEMP_DIR_UNAVAILABLE";
     throw err;
@@ -1164,7 +1164,7 @@ async function prepareSystemSshAgentForAuth(options, logPrefix = "[SSHAuth]") {
       ownedFidoAgentGeneration = fidoAgent.generation;
       fidoSshAddPath = typeof fidoAgent.sshAddPath === "string" ? fidoAgent.sshAddPath : null;
       acquiredFidoAgent = true;
-      console.log(`${logPrefix} Using Netcatty FIDO ssh-agent`, {
+      console.log(`${logPrefix} Using Sensor FIDO ssh-agent`, {
         socketPath,
         owned: ownedFidoAgent,
       });
@@ -1220,7 +1220,7 @@ async function prepareSystemSshAgentForAuth(options, logPrefix = "[SSHAuth]") {
     if (fidoResourcesReleased) return;
     fidoResourcesReleased = true;
     nativeFidoAgent?.close();
-    // Netcatty-owned agents outlive a single session (releaseFidoAgent keeps
+    // Sensor-owned agents outlive a single session (releaseFidoAgent keeps
     // the process alive while other sessions hold refs), just like the shared
     // Windows system agent. In both cases: drop our hold and only ssh-add -d
     // when this was the last session still using that public identity —
@@ -1422,7 +1422,7 @@ async function prepareSystemSshAgentForAuth(options, logPrefix = "[SSHAuth]") {
         if (ownedFidoAgent || askpassLeaseId || sharedAgentIdentities.length > 0 || acquiredFidoAgent) {
           agent._netcattyOwnedFidoAgent = ownedFidoAgent === true;
           // Shared lease; quit/exit hooks hard-kill the owned agent as a backstop.
-          agent._releaseNetcattyFidoAgent = releaseAcquiredFidoResources;
+          agent._releaseSensorFidoAgent = releaseAcquiredFidoResources;
         }
       } else {
         // Acquisition succeeded but preparation produced no agent — drop leases.
@@ -1478,7 +1478,7 @@ function isPasswordProvided(password) {
  * @param {string} [options.privateKey] - Explicitly configured private key
  * @param {string} [options.password] - Password for authentication
 * @param {string} [options.passphrase] - Passphrase for encrypted private key
- * @param {Object} [options.agent] - SSH agent (NetcattyAgent or socket path)
+ * @param {Object} [options.agent] - SSH agent (SensorAgent or socket path)
  * @param {string} options.username - SSH username
  * @param {string} [options.logPrefix] - Log prefix for debugging
  * @returns {{ authHandler: Function|Array, privateKey: string|null, agent: string|Object|null, usedDefaultKeys: boolean }}

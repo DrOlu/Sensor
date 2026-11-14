@@ -3,7 +3,7 @@ import { checkPluginUpdates, type PluginUpdateCheckResult } from '../../infrastr
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 /** Manual catalog checks only; no scheduler, install or permission mutation. */
-export function usePluginUpdateCheck(plugins: readonly NetcattyInstalledPlugin[]) {
+export function usePluginUpdateCheck(plugins: readonly SensorInstalledPlugin[]) {
   const [result, setResult] = useState<PluginUpdateCheckResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);

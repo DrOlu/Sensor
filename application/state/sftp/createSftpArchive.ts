@@ -10,7 +10,7 @@ interface CreateSftpArchiveParams {
   getPane: () => Pick<SftpPane, "id" | "connection" | "filenameEncoding">;
   target: SftpArchiveCreationTarget;
   options: SftpArchiveCreationOptions;
-  bridge: Pick<NetcattyBridge, "createSftpArchive"> | undefined;
+  bridge: Pick<SensorBridge, "createSftpArchive"> | undefined;
   getSftpIdForConnection?: (connectionId: string) => string | undefined;
   refresh: (paneId: string) => Promise<void>;
   t: (key: string) => string;

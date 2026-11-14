@@ -3,8 +3,8 @@
 This opt-in trace helps investigate issue #3443. It does not establish or repair
 that issue's underlying cause, and does not change retries, recovery or job routing.
 
-Set `NETCATTY_JOB_DIAG=1` before launching Netcatty (the existing
-`NETCATTY_TERMINAL_DEBUG=1` also enables it). `[Netcatty JobDiag]` records from the
+Set `NETCATTY_JOB_DIAG=1` before launching Sensor (the existing
+`NETCATTY_TERMINAL_DEBUG=1` also enables it). `[Sensor JobDiag]` records from the
 terminal worker are forwarded over its existing IPC channel to the main process
 console, alongside the main-process routing records. The worker does not also
 write these records to its own console. Collect the main process log from the

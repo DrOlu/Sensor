@@ -5,7 +5,7 @@ Declare `location: "vault-page"`, require `views.vault-pages`, and request the
 with localized labels and host-resolved icons. Listing does not activate them.
 
 Selecting an entry uses the built-in Vault rounded surface without an extra
-plugin title bar. Netcatty draws the content itself; host menus and dialogs use
+plugin title bar. Sensor draws the content itself; host menus and dialogs use
 normal stacking. The plugin receives only the `netcatty.surface: vault-page`
 context and its own interactions. Selection shares no Vault or session records.
 

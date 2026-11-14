@@ -1,6 +1,6 @@
 import type { MonitorPanel } from "./monitorPanels";
 export type MonitorStats = NonNullable<
-  Awaited<ReturnType<NonNullable<NetcattyBridge["getServerStats"]>>>["stats"]
+  Awaited<ReturnType<NonNullable<SensorBridge["getServerStats"]>>>["stats"]
 > & { networkReady?: boolean };
 export type MonitorPoint = {
   at: number;
@@ -111,7 +111,7 @@ export type MonitorPanelDemand = {
   interval: MonitorPanel["interval"];
   hosts: {
     id: string;
-    options?: NetcattySSHOptions;
+    options?: SensorSSHOptions;
     status?: "login" | "error";
   }[];
 };

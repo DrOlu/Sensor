@@ -65,7 +65,7 @@ class PluginAIContextService {
   #authorization(permission, params) {
     const resource = permission === "context.selected.read" ? `selected:${params.handle}:${params.version}` : "*";
     return { permission, resources: [resource],
-      reason: permission === "ai.invoke" ? "Use the model selected in Netcatty without tools"
+      reason: permission === "ai.invoke" ? "Use the model selected in Sensor without tools"
         : permission === "context.selected.list" ? "List summaries of the current selected context"
           : "Review and share this selected context version",
       ...(permission === "context.selected.read" ? { allowedScopes: ["once"] } : {}),

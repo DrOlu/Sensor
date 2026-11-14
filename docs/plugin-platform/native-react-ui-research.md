@@ -2,7 +2,7 @@
 
 ## Goal
 
-Render plugin UI inside Netcatty's own interface, with React authoring and
+Render plugin UI inside Sensor's own interface, with React authoring and
 flexible layout and styling. Plugin code must not execute in the host renderer
 or obtain host state or user data merely by rendering a view. Only data entered
 in the plugin's own UI, explicitly granted capabilities, and host-provided
@@ -38,8 +38,8 @@ The evidence above is historical. The current implementation and verification co
 
 - Obsidian lets plugins construct HTML in application-owned view containers.
   This gives natural stacking and broad flexibility, but plugins can access the
-  file system; embedding their code directly in Netcatty's renderer would not
-  retain Netcatty's existing isolation.
+  file system; embedding their code directly in Sensor's renderer would not
+  retain Sensor's existing isolation.
   https://docs.obsidian.md/Plugins/Getting%20started/Use%20React%20in%20your%20plugin
   https://docs.obsidian.md/Plugins/Vault
 - Shopify's MIT-licensed Remote DOM mirrors an isolated UI tree into a host DOM.
@@ -59,7 +59,7 @@ The evidence above is historical. The current implementation and verification co
 
 ## Recommended architecture
 
-1. Keep plugin React execution inside Netcatty's existing isolated, offline
+1. Keep plugin React execution inside Sensor's existing isolated, offline
    browser runtime (not an attached or visible webview). A plugin uses familiar
    React/JSX and produces a remote interface tree. The host owns the real DOM and
    controls lifecycle, sizing, focus, navigation and overlays.
@@ -94,7 +94,7 @@ measurements or browser globals may need adapters. The initial support matrix mu
 be tested and published rather than promising full browser compatibility.
 
 The local research package `@remote-dom/react` 1.2.2 declares React 17/18 peer
-support, while Netcatty uses React 19. The prototype has since verified a core-only DOM bridge with React 19 for its
+support, while Sensor uses React 19. The prototype has since verified a core-only DOM bridge with React 19 for its
 basic text input and button flow. Keep that evidence; do not restart the adapter
 selection merely because the separate React adapter declares different peers.
 Broader third-party component support remains a separate verification task.
@@ -113,7 +113,7 @@ These are requirements, not claims that the implementation is complete.
 
 ### Authoring freedom
 
-Expose ordinary layout, text, form and styling primitives. Optional Netcatty
+Expose ordinary layout, text, form and styling primitives. Optional Sensor
 components and theme values are conveniences, never the only way to build a UI.
 Do not constrain authors to a fixed collection of cards, forms or buttons.
 
@@ -151,7 +151,7 @@ rendered content and revokes in-flight operations.
 
 In-surface dropdowns can use ordinary plugin styles. For a popup that must extend
 beyond its pane, offer a host-owned overlay slot bound to that instance. The plugin
-still describes its own content and styling. Netcatty owns anchoring, clipping,
+still describes its own content and styling. Sensor owns anchoring, clipping,
 focus return, Escape handling, lifetime and maximum stacking order. No plugin
 can overlay trusted permission prompts or supply its own permission approval UI.
 

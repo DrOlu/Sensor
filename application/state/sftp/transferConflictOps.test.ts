@@ -30,7 +30,7 @@ test("bind-mounted parents cannot cause replacement to delete the source link", 
       ino: value === "/a" || value === "/mnt/alias" ? 7 : 8,
     }),
     deleteLocalFile: async () => { deletes++; },
-  } as unknown as NetcattyBridge);
+  } as unknown as SensorBridge);
   function Probe() { ops = useSftpTransferConflictOps(); return null; }
   await act(async () => { renderer = create(React.createElement(Probe)); });
   const pane = { connection: { id: "local-pane", isLocal: true } } as SftpPane;
@@ -77,7 +77,7 @@ test("same-pane link replacement preserves the source, including aliased parent 
       return { type: stat.isSymbolicLink() ? "symlink" : "file", size: stat.size, lastModified: stat.mtimeMs };
     },
     deleteLocalFile: async (value: string) => { deletes++; await fs.unlink(value); },
-  } as unknown as NetcattyBridge);
+  } as unknown as SensorBridge);
   function Probe() { ops = useSftpTransferConflictOps(); return null; }
   await act(async () => { renderer = create(React.createElement(Probe)); });
   const pane = { connection: { id: "local-pane", isLocal: true } } as SftpPane;

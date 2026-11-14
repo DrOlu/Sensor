@@ -26,7 +26,7 @@ test('uninstall requires a visible confirmation, reports failures, and removes t
     id: 'com.example.disposable', enabled: false, activeVersion: '1.0.0',
     manifest: { manifestVersion: 1, id: 'com.example.disposable', name: 'Disposable', version: '1.0.0', publisher: 'Example', engines: { netcatty: '*', api: '*' }, main: { browser: 'index.js' } },
     runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null },
-  } as NetcattyInstalledPlugin;
+  } as SensorInstalledPlugin;
   let installed = [plugin];
   const removed: string[] = [];
   let finish!: () => void;

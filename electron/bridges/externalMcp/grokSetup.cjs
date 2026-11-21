@@ -2,8 +2,8 @@
 
 const { runBoundedCliCommand } = require("./boundedCliCommand.cjs");
 const {
-  getNetcattySkillStatus,
-  installNetcattySkill,
+  getSensorSkillStatus,
+  installSensorSkill,
   resolveGrokHomeDir,
   resolveUserHomeDir,
 } = require("./netcattySkillInstaller.cjs");
@@ -264,8 +264,8 @@ function createExternalMcpGrokSetup(options = {}) {
     spawn: options.spawn || require("node:child_process").spawn,
     stripAnsi: options.stripAnsi || loadShellUtils().stripAnsi,
     runGrokCommand: options.runGrokCommand || null,
-    getSkillStatus: options.getSkillStatus || getNetcattySkillStatus,
-    installSkill: options.installSkill || installNetcattySkill,
+    getSkillStatus: options.getSkillStatus || getSensorSkillStatus,
+    installSkill: options.installSkill || installSensorSkill,
   };
 
   function getManualCommand() {
@@ -448,7 +448,7 @@ function createExternalMcpGrokSetup(options = {}) {
         mcpConfigured,
         skillInstalled: false,
         error: installingSkill
-          ? `Failed to install the Netcatty Grok skill: ${error?.message || String(error)}`
+          ? `Failed to install the Sensor Grok skill: ${error?.message || String(error)}`
           : (error?.message || String(error)),
       };
     }

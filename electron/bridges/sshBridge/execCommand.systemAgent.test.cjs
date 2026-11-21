@@ -31,7 +31,7 @@ function createHarness({ identitiesOnly }) {
 
   const api = createExecCommandApi({
     SSHClient: MockSSHClient,
-    NetcattyAgent: class {},
+    SensorAgent: class {},
     randomUUID: () => "exec-test",
     console,
     setTimeout,

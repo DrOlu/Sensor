@@ -158,8 +158,8 @@ test("Windows packaging includes the Windows Hello helper executable", () => {
   assert.ok(
     config.win.extraResources.some((entry) => (
       entry &&
-      entry.from === "electron/bridges/windowsHelloHelper/build/${arch}/NetcattyWindowsHello.exe" &&
-      entry.to === "windowsHello/NetcattyWindowsHello.exe"
+      entry.from === "electron/bridges/windowsHelloHelper/build/${arch}/SensorWindowsHello.exe" &&
+      entry.to === "windowsHello/SensorWindowsHello.exe"
     )),
     "Windows package must include the Windows Hello helper executable for the target arch",
   );
@@ -345,7 +345,7 @@ test("windows packaging includes a zip archive target", () => {
   );
 });
 
-test("windows installer kills leftover Netcatty.exe before file replacement", () => {
+test("windows installer kills leftover Sensor.exe before file replacement", () => {
   const fs = require("node:fs");
   const path = require("node:path");
   const installerScript = fs.readFileSync(
@@ -358,10 +358,10 @@ test("windows installer kills leftover Netcatty.exe before file replacement", ()
   assert.match(installerScript, /ELECTRON_RUN_AS_NODE/);
   assert.match(
     installerScript,
-    /nsExec::ExecToLog "taskkill \/F \/IM Netcatty\.exe"/,
+    /nsExec::ExecToLog "taskkill \/F \/IM Sensor\.exe"/,
   );
   assert.match(installerScript, /Pop \$0/);
-  // /T would kill this installer while it is still a child of the UI Netcatty.exe.
+  // /T would kill this installer while it is still a child of the UI Sensor.exe.
   assert.doesNotMatch(installerScript, /taskkill [^\r\n]*\/T/);
 });
 
@@ -379,8 +379,8 @@ test("windows installer registers and removes Explorer folder context menu entri
     path.join(__dirname, "..", config.nsis.include),
     "utf8",
   );
-  const folderKey = String.raw`Software\Classes\Directory\shell\Netcatty`;
-  const backgroundKey = String.raw`Software\Classes\Directory\Background\shell\Netcatty`;
+  const folderKey = String.raw`Software\Classes\Directory\shell\Sensor`;
+  const backgroundKey = String.raw`Software\Classes\Directory\Background\shell\Sensor`;
 
   assert.match(installerScript, /!macro customInstall\b/);
   assert.match(installerScript, new RegExp(`WriteRegStr SHCTX "${folderKey.replaceAll("\\", "\\\\")}"`));

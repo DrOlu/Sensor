@@ -12,7 +12,7 @@ adopts 177 unique English keys and deliberately defers one shared `node` key.
 | Source | Version / location | Used for |
 | --- | --- | --- |
 | `@withfig/autocomplete` | `2.692.3`, npm `gitHead` `aef52acff84c45edde61ae610cc2c964802b9a38`; `src/{python,python3,node,vim,sort,sed}.ts` and compiled `build/*.js` | English keys and option structure |
-| local `electron/specs/awk.js` | Netcatty local spec | AWK options and arguments |
+| local `electron/specs/awk.js` | Sensor local spec | AWK options and arguments |
 | `jaywcjlove/linux-command` | repository HEAD `8041aeda04762e136078decb2de201ec4348527c` (2026-10-31); `command/{sort,awk,sed}.md` | Simplified-Chinese terminology where available |
 | Python | local `Python 3.15.0`, `python3 -h`; `https://docs.python.org/3/using/cmdline.html` and Python 3.11 docs | Python option behavior and version differences |
 | Node.js | local `Node.js 26.12.0`, `node --help`; `https://nodejs.org/api/cli.html` | Node option behavior |

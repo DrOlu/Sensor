@@ -1,13 +1,13 @@
 # Shared AI privacy and reversible masking
 
 AI privacy masking is **off by default**. Enable it in Settings > AI > Tool Access >
-AI privacy. This shared policy applies to Netcatty-managed context and tools used by
+AI privacy. This shared policy applies to Sensor-managed context and tools used by
 Catty, integrated agents and external MCP clients. It is independent of the External
 MCP switch. External stdio and Streamable HTTP clients use the same policy, including
 for the environment resource.
 
 This is not a system-wide AI traffic filter. Third-party agents' native tools,
-direct file access and other MCP servers are outside the Netcatty-managed boundary.
+direct file access and other MCP servers are outside the Sensor-managed boundary.
 Local terminal display, saved terminal output and actual host data are not changed.
 
 ## Working loop
@@ -40,7 +40,7 @@ operation.
   **Redact private IP addresses** to hide them too, or select additional CIDRs.
   Documentation/test addresses are also masked.
 - Structured host names and user-supplied regular-expression matches.
-- Netcatty-managed text context, tool results, nested structured results and errors.
+- Sensor-managed text context, tool results, nested structured results and errors.
 
 Custom expressions match whole values and use the existing RE2 engine. Unsupported
 expressions, malformed CIDRs, or empty matches are rejected. Rules and mapping

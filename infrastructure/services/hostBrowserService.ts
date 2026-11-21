@@ -6,7 +6,7 @@ import { netcattyBridge } from './netcattyBridge';
 export function hostBrowserClient(browserId: string) {
   const bridge = netcattyBridge.require();
   if (!bridge.getHostBrowserPanelState || !bridge.commandHostBrowserPanel) {
-    throw new Error('Restart Netcatty to load the updated browser controls');
+    throw new Error('Restart Sensor to load the updated browser controls');
   }
   return {
     state: () => bridge.getHostBrowserPanelState!(browserId),
@@ -15,7 +15,7 @@ export function hostBrowserClient(browserId: string) {
     saveBookmark: (bookmark: Partial<BrowserBookmark>) => bridge.saveHostBrowserPanelBookmark!(browserId, bookmark),
     removeBookmark: (id: string) => bridge.removeHostBrowserPanelBookmark!(browserId, id),
     downloads: () => bridge.listHostBrowserPanelDownloads!(browserId),
-    downloadCommand: (command: Parameters<NonNullable<NetcattyBridge['commandHostBrowserPanelDownload']>>[1]) =>
+    downloadCommand: (command: Parameters<NonNullable<SensorBridge['commandHostBrowserPanelDownload']>>[1]) =>
       bridge.commandHostBrowserPanelDownload!(browserId, command),
     subscribe: (callback: (event: HostBrowserPanelEvent) => void) => bridge.onHostBrowserPanelEvent?.((event) => {
       if (event.browserId === browserId) callback(event);

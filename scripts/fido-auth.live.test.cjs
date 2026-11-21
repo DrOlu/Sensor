@@ -1,7 +1,7 @@
 "use strict";
 
 // Opt in with NETCATTY_FIDO_SIM=1. Uses a disposable SOFTWARE authenticator,
-// real OpenSSH keygen/agent/sk-helper/sshd and Netcatty's production auth helpers.
+// real OpenSSH keygen/agent/sk-helper/sshd and Sensor's production auth helpers.
 // Requires Linux, a C compiler, OpenSSL headers and OpenSSH client/server.
 const test = require("node:test");
 const assert = require("node:assert/strict");
@@ -185,7 +185,7 @@ test("software FIDO authenticator authenticates against real OpenSSH", {
               ], { timeout: 15000 })));
               for (const result of results) assert.equal(result.stdout, "native-fido-ok");
               assert.deepEqual(new Set(routedPrompts.slice(beforeNative)), new Set([sender.id, otherSender.id]));
-            } finally { nativeAgents.forEach(nativeAgent => nativeAgent._releaseNetcattyFidoAgent?.()); }
+            } finally { nativeAgents.forEach(nativeAgent => nativeAgent._releaseSensorFidoAgent?.()); }
             // A second certificate for an owned bare key needs its own hold.
             // Closing it must remove that certificate and retain the first.
             const extraPubPath = path.join(dir, `${type}-extra.pub`);
@@ -197,7 +197,7 @@ test("software FIDO authenticator authenticates against real OpenSSH", {
               ...options, privateKey: generated.privateKey, identityFilePaths: [], certificate: extraCertificate,
             }, "[ExtraFidoCertificate]");
             const sharedSocket = require("../electron/bridges/fidoAgentManager.cjs").getActiveFidoAgentSocket();
-            extraAgent._releaseNetcattyFidoAgent();
+            extraAgent._releaseSensorFidoAgent();
             await require("../electron/bridges/systemSshAgent.cjs").withAgentIdentityLock(sharedSocket, async () => {});
             const remaining = (await execFileAsync("ssh-add", ["-L"], {
               env: { ...process.env, SSH_AUTH_SOCK: sharedSocket },
@@ -207,11 +207,11 @@ test("software FIDO authenticator authenticates against real OpenSSH", {
             assert.ok(!remaining.includes(extraCertificate.split(" ")[1]), "released certificate is removed");
           } finally {
             pair.forEach((connection) => connection.end());
-            otherAgent._releaseNetcattyFidoAgent?.();
+            otherAgent._releaseSensorFidoAgent?.();
           }
         } finally {
           client.end();
-          agent._releaseNetcattyFidoAgent?.();
+          agent._releaseSensorFidoAgent?.();
         }
         fs.writeFileSync(authorizedKeys,
           `cert-authority,verify-required,principals="${username}" ${fs.readFileSync(path.join(dir, "host.pub"), "utf8")}`);
@@ -233,7 +233,7 @@ test("software FIDO authenticator authenticates against real OpenSSH", {
           assert.equal(nativeCertificate.stdout, "native-cert-ok");
         } finally {
           certClient.end();
-          certAgent._releaseNetcattyFidoAgent?.();
+          certAgent._releaseSensorFidoAgent?.();
           fs.writeFileSync(authorizedKeys, "");
         }
       });

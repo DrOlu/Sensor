@@ -5,16 +5,16 @@
  * connection-like EventEmitter (ssh2 Client, etc.).
  *
  * @param {import("events").EventEmitter|null|undefined} conn
- * @param {{ _releaseNetcattyFidoAgent?: () => void }|null|undefined} agent
+ * @param {{ _releaseSensorFidoAgent?: () => void }|null|undefined} agent
  */
 function attachFidoAgentRelease(conn, agent) {
   if (!conn || typeof conn.once !== "function") return;
-  if (!agent || typeof agent._releaseNetcattyFidoAgent !== "function") return;
+  if (!agent || typeof agent._releaseSensorFidoAgent !== "function") return;
   let released = false;
   const releaseOwned = () => {
     if (released) return;
     released = true;
-    try { agent._releaseNetcattyFidoAgent(); } catch { /* ignore */ }
+    try { agent._releaseSensorFidoAgent(); } catch { /* ignore */ }
   };
   conn.once("close", releaseOwned);
   conn.once("end", releaseOwned);

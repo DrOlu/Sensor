@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { getNetcattyBridge } from '../../infrastructure/ai/aiChatStreamingSupport';
+import { getSensorBridge } from '../../infrastructure/ai/aiChatStreamingSupport';
 import { getManualAgentCommand, matchesManagedAgentConfig } from '../../infrastructure/ai/managedAgents';
 import type { ExternalAgentConfig } from '../../infrastructure/ai/types';
 
@@ -10,7 +10,7 @@ export function useCodexConfigModel(agent: ExternalAgentConfig | undefined, isVi
     return () => {
       pending ??= Promise.resolve().then(async () => {
         if (!isVisible || !agent || !matchesManagedAgentConfig(agent, 'codex')) return null;
-        const info = await getNetcattyBridge()?.aiCodexGetIntegration?.({
+        const info = await getSensorBridge()?.aiCodexGetIntegration?.({
           codexPath: getManualAgentCommand(agent),
           agentEnv: agent.env,
         });
@@ -18,7 +18,7 @@ export function useCodexConfigModel(agent: ExternalAgentConfig | undefined, isVi
       }).catch(() => null);
       return pending;
     };
-  // Reopening the panel refreshes config changed outside Netcatty.
+  // Reopening the panel refreshes config changed outside Sensor.
   }, [agent, isVisible]);
   const [result, setResult] = useState<{ loadModel: typeof loadModel; model: string | null }>();
   useEffect(() => {

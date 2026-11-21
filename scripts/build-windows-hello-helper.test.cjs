@@ -40,11 +40,11 @@ test("buildWindowsHelloHelper writes target architecture helper into an arch-spe
   assert.equal(result.skipped, false);
   assert.equal(
     result.outputPath,
-    path.win32.join("\\repo", "electron", "bridges", "windowsHelloHelper", "build", "arm64", "NetcattyWindowsHello.exe"),
+    path.win32.join("\\repo", "electron", "bridges", "windowsHelloHelper", "build", "arm64", "SensorWindowsHello.exe"),
   );
   assert.match(
     calls[0][1].join(" "),
-    /\/Fe:.*windowsHelloHelper.*build.*arm64.*NetcattyWindowsHello\.exe/,
+    /\/Fe:.*windowsHelloHelper.*build.*arm64.*SensorWindowsHello\.exe/,
   );
   assert.ok(
     calls[0][1].includes("/D_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS"),
@@ -59,7 +59,7 @@ test("buildWindowsHelloHelper initializes the Visual Studio developer environmen
   const removals = [];
   const vsDevCmd = "C:\\Program Files\\Microsoft Visual Studio\\2026\\Enterprise\\Common7\\Tools\\VsDevCmd.bat";
   const result = buildWindowsHelloHelper({
-    projectDir: "D:\\a\\Netcatty\\Netcatty",
+    projectDir: "D:\\a\\Sensor\\Sensor",
     platform: "win32",
     arch: "x64",
     env: {
@@ -91,7 +91,7 @@ test("buildWindowsHelloHelper uses the current MSVC environment when it is alrea
   const calls = [];
   const vsDevCmd = "C:\\Program Files\\Microsoft Visual Studio\\18\\Enterprise\\Common7\\Tools\\VsDevCmd.bat";
   const result = buildWindowsHelloHelper({
-    projectDir: "D:\\a\\Netcatty\\Netcatty",
+    projectDir: "D:\\a\\Sensor\\Sensor",
     platform: "win32",
     arch: "x64",
     env: {

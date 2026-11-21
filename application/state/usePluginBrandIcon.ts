@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { netcattyBridge } from '../../infrastructure/services/netcattyBridge';
 
 type Raster = { light: string; dark?: string };
-export function usePluginBrandIcon(plugin?: NetcattyInstalledPlugin): Raster | null {
+export function usePluginBrandIcon(plugin?: SensorInstalledPlugin): Raster | null {
   const pluginId = plugin?.id;
   const kind = plugin?.manifest?.icon?.kind;
   const key = JSON.stringify([pluginId, plugin?.activeVersion, plugin?.archiveSha256, plugin?.runtime?.quarantinedAt, plugin?.manifest?.icon]);

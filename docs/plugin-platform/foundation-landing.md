@@ -71,9 +71,9 @@ cause remains unclassified and both failed runs are retained. No production log
 change or baseline attribution is made. Every one of the six layout paths exactly matches b14; fourteen functional
 paths (identity/provenance, permissions, directory availability and sync included)
 remain byte-identical to1f. The five sample records remain unchanged. Pre-restoration1f exact CI completed:
-[test40505644082](https://github.com/binaricat/Netcatty/actions/runs/40505644082)
+[test40505644082](https://github.com/DrOlu/Sensor/actions/runs/40505644082)
 records15,372pass/50skip/zero failures or cancellations on its successful retry;
-[packages40505644200](https://github.com/binaricat/Netcatty/actions/runs/40505644200)
+[packages40505644200](https://github.com/DrOlu/Sensor/actions/runs/40505644200)
 passed all four platforms with release skipped. Its original runner shutdown is
 retained. These results do not certify the restored head.
 

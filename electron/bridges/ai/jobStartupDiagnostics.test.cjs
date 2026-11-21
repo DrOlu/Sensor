@@ -17,7 +17,7 @@ const {
 } = require("../terminalFlowAck.cjs");
 
 const nextTick = () => new Promise((resolve) => setImmediate(resolve));
-const JOB_DIAG_PREFIX = "[Netcatty JobDiag] ";
+const JOB_DIAG_PREFIX = "[Sensor JobDiag] ";
 
 function captureJobDiagEvents() {
   const events = [];

@@ -1,7 +1,7 @@
 {
-  "name": "netcatty",
-  "description": "Netcatty is a modern SSH manager and terminal app with host grouping, SFTP, keychain, port forwarding, and a rich UI.",
-  "homepage": "https://github.com/binaricat/Netcatty",
+  "name": "sensor",
+  "description": "Sensor is a modern SSH manager and terminal app with host grouping, SFTP, keychain, port forwarding, and a rich UI.",
+  "homepage": "https://github.com/DrOlu/Sensor",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "packages/*",
     "examples/plugins/*"
   ],
-  "author": "binaricat <support@netcatty.com>",
+  "author": "Hyperspace Technologies <sensor@hyperspace.ng>",
   "license": "GPL-3.0-or-later",
   "engines": {
     "node": ">=22"

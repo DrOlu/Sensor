@@ -28,7 +28,7 @@ async function refresh() {
     const supported = backends.items.find((item) => item.status === 'supported'); element('backend').value = supported?.backendRef ?? '';
     element('conversation').replaceChildren(option('', 'New conversation'), ...chats.items.map((item) => option(item.conversationRef, `${item.title} · ${item.backend}`)));
     status('Choose terminals, then open a conversation.');
-  } catch { if (!closed && run === generation) status('Configured Agent unavailable. Check Netcatty settings, then Refresh backends.'); }
+  } catch { if (!closed && run === generation) status('Configured Agent unavailable. Check Sensor settings, then Refresh backends.'); }
   finally { if (!closed && run === generation) controls(false); }
 }
 element('refresh').addEventListener('click', refresh);

@@ -26,7 +26,7 @@ Disable, restart and re-enable to verify the preference persists. Re-importing
 the same package leaves it disabled for review. Uninstall removes code and local
 KV; user-owned settings remain. The greeting is local only, not cloud-synced.
 
-The separate Hello Netcatty example demonstrates terminal providers and requests
+The separate Hello Sensor example demonstrates terminal providers and requests
 terminal permissions. Use this Starter for the default no-sensitive-access demo.
 
 
@@ -42,5 +42,5 @@ See [brand icon author instructions](../../../docs/plugin-platform/plugin-icons.
 The page now uses the host-rendered contract. Run `node build.mjs` in this
 example directory, then package `.package/` with the plugin CLI. `host.js`
 registers ordinary DOM views; `view.html` and `view.css` are bundled source
-templates. Theme values are inherited from Netcatty. There is no separate page
+templates. Theme values are inherited from Sensor. There is no separate page
 preload or `window.netcattyView` API. See `docs/plugin-platform/host-rendered-ui.md`.

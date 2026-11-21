@@ -30,7 +30,7 @@ test("SDK drivers expose listModels; codex returns [] (no catalog)", async () =>
   assert.deepEqual(await getDriver("codex").listModels({}), []);
 });
 
-test("MiMo driver receives Netcatty permission mode and approval bridge", async () => {
+test("MiMo driver receives Sensor permission mode and approval bridge", async () => {
   const original = mimoDriver.runMimoTurn;
   let received;
   const approve = async () => true;

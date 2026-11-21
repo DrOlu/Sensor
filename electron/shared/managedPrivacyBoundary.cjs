@@ -22,7 +22,7 @@ function createManagedPrivacyBoundary(dispatch, privacyService) {
     } catch (error) {
       privacyService.checkSession(chatSessionId);
       if (!enabled) throw error;
-      throw new Error(privacyService.redact(chatSessionId, String(error?.message || "Netcatty tool failed.")));
+      throw new Error(privacyService.redact(chatSessionId, String(error?.message || "Sensor tool failed.")));
     }
     privacyService.checkSession(chatSessionId);
     if (enabled && method === "netcatty/readAttachment" && typeof result?.text === "string") {

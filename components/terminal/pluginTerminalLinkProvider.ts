@@ -40,10 +40,10 @@ export const ORDINARY_TERMINAL_PROVIDER_KINDS = Object.freeze([
   'terminal.prompt',
   'terminal.background',
   'terminal.theme',
-] as const satisfies readonly NetcattyTerminalProviderKind[]);
+] as const satisfies readonly SensorTerminalProviderKind[]);
 
 export type RequestPluginTerminalProviders = (
-  kind: NetcattyTerminalProviderKind,
+  kind: SensorTerminalProviderKind,
   operation: string,
   payload: Readonly<Record<string, unknown>>,
   deadlineMs: number,
@@ -131,7 +131,7 @@ export function registerPluginTerminalLinkProvider(options: {
   canActivate(event: MouseEvent): boolean;
   openExternal(uri: string): Promise<void>;
   responseTimeoutMs?: number;
-  isProviderAvailable?(kind: NetcattyTerminalProviderKind): boolean;
+  isProviderAvailable?(kind: SensorTerminalProviderKind): boolean;
   active?: boolean;
   visible?: boolean;
 }): PluginTerminalLinkProviderHost {
@@ -148,7 +148,7 @@ export function registerPluginTerminalLinkProvider(options: {
     controllers.clear();
   };
   const requestWithTimeout = async (
-    kind: NetcattyTerminalProviderKind,
+    kind: SensorTerminalProviderKind,
     operation: string,
     payload: Readonly<Record<string, unknown>>,
     supersessionKey: string,

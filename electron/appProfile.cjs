@@ -6,7 +6,7 @@ function configureAppProfile(app, devServerUrl) {
   const isDev = unpackaged && Boolean(devServerUrl);
   if (unpackaged) {
     // Keep the existing development profile path for both Vite and dist.
-    app.setName("Netcatty Dev");
+    app.setName("Sensor Dev");
     const devProfile = path.join(app.getPath("userData"), "dev");
     fs.mkdirSync(devProfile, { recursive: true });
     app.setPath("userData", devProfile);

@@ -331,7 +331,7 @@ test("normalizeTerminalSettings preserves intentional custom autocompleteMaxSugg
   );
 });
 
-test("terminal links default to Netcatty and preserve the system browser choice", () => {
+test("terminal links default to Sensor and preserve the system browser choice", () => {
   assert.equal(normalizeTerminalSettings().linkBrowser, 'netcatty');
   assert.equal(normalizeTerminalSettings({ linkBrowser: 'system' }).linkBrowser, 'system');
 });

@@ -48,14 +48,14 @@ function Hello({ settings }: { settings: PluginContext['settings'] }) {
     return () => { disposed = true; subscription.dispose(); };
   }, [settings]);
   if (!settingsReady) return <main className="page"><p role="status">正在读取插件设置…</p></main>;
-  return <main className="page" data-color={color}><img src="asset:mark.svg" alt="Example mark" width="32" height="32" /><span className="badge">NETCATTY · HELLO</span><h1>你好，世界！</h1><p>一个融入 Netcatty 的小工作台。试试问候、便签和菜单。</p>
+  return <main className="page" data-color={color}><img src="asset:mark.svg" alt="Example mark" width="32" height="32" /><span className="badge">NETCATTY · HELLO</span><h1>你好，世界！</h1><p>一个融入 Sensor 的小工作台。试试问候、便签和菜单。</p>
     {settingsError && <p role="alert">{settingsError}</p>}
     <div className="card"><label>你的称呼<input type="text" value={name} onChange={(event) => setName(event.currentTarget.value)} placeholder="输入称呼" /></label>
       <button type="button" disabled={!enabled} onClick={() => setGreeting(`你好，${name || '朋友'}！`)}>打个招呼</button><p className="result">{greeting}</p></div>
     <div className="card"><label className="check"><input aria-label="Enable greeting" type="checkbox" checked={enabled} onChange={(event) => setEnabled(event.currentTarget.checked)} />启用问候</label>
       <label>颜色<select aria-label="Color" value={color} onChange={(event) => setColor(event.currentTarget.value)}><option value="blue">蓝色</option><option value="green">绿色</option></select></label>
       <label>便签<textarea aria-label="Note" value={note} onChange={(event) => setNote(event.currentTarget.value)} placeholder="试试中文输入" /></label>
-      <button type="button" onClick={() => { setName('朋友'); setEnabled(true); setColor('green'); setNote('你好，Netcatty'); }}>填入示例</button>
+      <button type="button" onClick={() => { setName('朋友'); setEnabled(true); setColor('green'); setNote('你好，Sensor'); }}>填入示例</button>
       <p className="result" data-testid="controls">{enabled ? '已启用' : '已停用'} · {color} · {note}</p>
       <button id="menu-trigger" type="button" onClick={() => setMenu((value) => !value)}>自定义菜单</button><PluginPopover anchor="menu-trigger" open={menu} onClose={() => setMenu(false)}><section style={{ padding: 16 }}><h2>插件自定义内容</h2><p>选择一个操作，或按 Esc 返回。</p><button type="button" onClick={() => { setGreeting('你好，来自菜单的问候！'); setMenu(false); }}>从菜单打招呼</button></section></PluginPopover>
     </div></main>;

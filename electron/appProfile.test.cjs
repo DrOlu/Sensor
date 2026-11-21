@@ -12,7 +12,7 @@ function fakeApp(t, isPackaged) {
   const paths = { userData: production, sessionData: production };
   const app = {
     isPackaged,
-    name: "Netcatty",
+    name: "Sensor",
     setName(name) { this.name = name; },
     getPath(name) { return paths[name]; },
     setPath(name, value) {
@@ -30,7 +30,7 @@ test("unpackaged dist launches isolate both application and Chromium state", (t)
   });
   const dev = path.join(production, "dev");
   assert.deepEqual(paths, { userData: dev, sessionData: dev });
-  assert.equal(app.name, "Netcatty Dev");
+  assert.equal(app.name, "Sensor Dev");
 });
 
 test("Vite launches keep the development profile and URL", (t) => {
@@ -47,5 +47,5 @@ test("packaged launches keep their data paths and ignore a Vite URL", (t) => {
     isDev: false, effectiveDevServerUrl: undefined,
   });
   assert.deepEqual(paths, { userData: production, sessionData: production });
-  assert.equal(app.name, "Netcatty");
+  assert.equal(app.name, "Sensor");
 });

@@ -3,8 +3,8 @@
 The integration owner is #3993, branch
 `integration/plugin-byte-stream-handoff`. Its independently rechecked head
 `6a4fb178cde73b57f78b1711a4e1f9a0f394b4fb` passed both
-[test CI](https://github.com/binaricat/Netcatty/actions/runs/40365457418) and
-[four-platform package CI](https://github.com/binaricat/Netcatty/actions/runs/40365457024).
+[test CI](https://github.com/DrOlu/Sensor/actions/runs/40365457418) and
+[four-platform package CI](https://github.com/DrOlu/Sensor/actions/runs/40365457024).
 
 The original transport owner later published #3988 at
 `f1410f8bb172ef2c2069cc7d55a463f7cb127c0b`. Its common baseline with #3993 is

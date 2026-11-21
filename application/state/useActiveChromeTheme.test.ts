@@ -170,7 +170,7 @@ test("terminal chrome never replaces the application native theme policy", { tim
   testWindow.netcatty = {
     setTheme: async (source: string) => { themeSources.push(source); return true; },
     setBackgroundColor: async (background: string) => { backgrounds.push(background); return true; },
-  } as unknown as NetcattyBridge;
+  } as unknown as SensorBridge;
   globalThis.window = testWindow;
   globalThis.document = testWindow.document;
   try {
@@ -205,7 +205,7 @@ test("system preference refresh reapplies an unchanged independent terminal chro
       return Promise.resolve(true);
     },
     setBackgroundColor: async (background: string) => { backgrounds.push(background); return true; },
-  } as unknown as NetcattyBridge;
+  } as unknown as SensorBridge;
   globalThis.window = testWindow;
   globalThis.document = testWindow.document;
   try {
@@ -256,7 +256,7 @@ test("chrome hook reacts to OS preference changes with stable terminal props", {
   globalThis.document = dom.window.document;
   testWindow.netcatty = {
     setBackgroundColor: async (color: string) => { backgrounds.push(color); return true; },
-  } as unknown as NetcattyBridge;
+  } as unknown as SensorBridge;
   const theme = TERMINAL_THEMES.find((candidate) => candidate.type === 'dark');
   assert.ok(theme);
   const applyAppTheme = () => {};

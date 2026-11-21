@@ -2,8 +2,8 @@
 
 const { runBoundedCliCommand } = require("./boundedCliCommand.cjs");
 const {
-  getNetcattySkillStatus,
-  installNetcattySkill,
+  getSensorSkillStatus,
+  installSensorSkill,
   resolveUserHomeDir,
 } = require("./netcattySkillInstaller.cjs");
 
@@ -286,8 +286,8 @@ function createExternalMcpClaudeSetup(options = {}) {
     spawn: options.spawn || require("node:child_process").spawn,
     stripAnsi: options.stripAnsi || loadShellUtils().stripAnsi,
     runClaudeCommand: options.runClaudeCommand || null,
-    getSkillStatus: options.getSkillStatus || getNetcattySkillStatus,
-    installSkill: options.installSkill || installNetcattySkill,
+    getSkillStatus: options.getSkillStatus || getSensorSkillStatus,
+    installSkill: options.installSkill || installSensorSkill,
   };
 
   function getManualCommand(cliPath) {
@@ -465,7 +465,7 @@ function createExternalMcpClaudeSetup(options = {}) {
         mcpConfigured,
         skillInstalled: false,
         error: installingSkill
-          ? `Failed to install the Netcatty Claude Code skill: ${error?.message || String(error)}`
+          ? `Failed to install the Sensor Claude Code skill: ${error?.message || String(error)}`
           : (error?.message || String(error)),
       };
     }

@@ -48,7 +48,7 @@ function createMainHandler(t, { mode = "worker" } = {}) {
     app: {
       getPath: () => __dirname,
       getVersion: () => "0.0.0",
-      getName: () => "Netcatty",
+      getName: () => "Sensor",
     },
     BrowserWindow: { getAllWindows: () => [] },
     shell: { openExternal() {}, openPath() {} },

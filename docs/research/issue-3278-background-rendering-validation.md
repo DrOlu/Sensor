@@ -26,7 +26,7 @@ exercise the complete SSH/output transport path.
 
 ## Local application validation
 
-A separate Netcatty development instance with an isolated profile was tested on
+A separate Sensor development instance with an isolated profile was tested on
 macOS (M2 Max, 32GB), using five real local shell sessions. Four sessions emitted
 continuous logs. The UI was exercised through tab switching, split creation,
 focus mode, detaching back to a tab, closing the extra split, and window resizing.

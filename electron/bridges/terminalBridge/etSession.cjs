@@ -22,7 +22,7 @@ const { fanoutSessionExit } = require("../terminalAttachRestore.cjs");
 // via `ctx`; `with (ctx)` exposes them as free identifiers.
 //
 // Unlike Mosh, the `et` client performs its own SSH bootstrap and ET protocol
-// handshake — Netcatty just spawns the bundled `et` binary as a PTY. Saved
+// handshake — Sensor just spawns the bundled `et` binary as a PTY. Saved
 // credentials (password / passphrase / jump host) are injected into et's
 // internal ssh via a private ~/.ssh home + SSH_ASKPASS helper, since et drives
 // ssh itself rather than exposing the prompts for us to type into.
@@ -104,7 +104,7 @@ main();
 `;
 
     /**
-     * Resolve Netcatty's bundled `et` client. System `et` installs are
+     * Resolve Sensor's bundled `et` client. System `et` installs are
      * intentionally ignored so dev, CI, and release builds exercise the same
      * binary (mirrors resolveBareMoshClient).
      */
@@ -177,8 +177,8 @@ main();
         try {
           if (connectionOptions.useSshAgent === true || forceFido) {
             const agent = await prepareSystemSshAgentForAuth({ ...prepOptions, nativeFidoAgent: true, nativeSshPath: process.platform === "win32" ? findExecutable("ssh") : undefined }, logPrefix);
-            if (typeof agent?._releaseNetcattyFidoAgent === "function") {
-              releasePreparedAgent = agent._releaseNetcattyFidoAgent;
+            if (typeof agent?._releaseSensorFidoAgent === "function") {
+              releasePreparedAgent = agent._releaseSensorFidoAgent;
             }
             const socketPath = resolvePreparedAgentSocket(agent, prepOptions)
               || await getAvailableAgentSocket(connectionOptions.identityAgent, connectionOptions);
@@ -194,7 +194,7 @@ main();
               useSshAgent: true,
               _resolvedSshAgentSocket: socketPath,
               ...(releasePreparedAgent
-                ? { _releaseNetcattyFidoAgent: releasePreparedAgent }
+                ? { _releaseSensorFidoAgent: releasePreparedAgent }
                 : {}),
             };
           }
@@ -225,7 +225,7 @@ main();
       const releasePreparedEntries = () => {
         const seen = new Set();
         for (const entry of preparedEntries) {
-          const releaseFn = entry?._releaseNetcattyFidoAgent;
+          const releaseFn = entry?._releaseSensorFidoAgent;
           if (typeof releaseFn !== "function" || seen.has(releaseFn)) continue;
           seen.add(releaseFn);
           try { releaseFn(); } catch { /* ignore */ }
@@ -256,12 +256,12 @@ main();
 
     function collectEtFidoAgentReleases(options) {
       const releases = [];
-      if (typeof options?._releaseNetcattyFidoAgent === "function") {
-        releases.push(options._releaseNetcattyFidoAgent);
+      if (typeof options?._releaseSensorFidoAgent === "function") {
+        releases.push(options._releaseSensorFidoAgent);
       }
       for (const jump of options?.jumpHosts || []) {
-        if (typeof jump?._releaseNetcattyFidoAgent === "function") {
-          releases.push(jump._releaseNetcattyFidoAgent);
+        if (typeof jump?._releaseSensorFidoAgent === "function") {
+          releases.push(jump._releaseSensorFidoAgent);
         }
       }
       return releases;
@@ -334,7 +334,7 @@ main();
     }
 
     // ET's internal ssh is driven through SSH_ASKPASS, so secondary-factor
-    // prompts cannot be routed to Netcatty's renderer modal from this path.
+    // prompts cannot be routed to Sensor's renderer modal from this path.
     function buildPreferredAuthentications({ authMethod, hasPassword = false, hasPublicKey = false }) {
       if (authMethod === "password") {
         return "password,keyboard-interactive";
@@ -421,7 +421,7 @@ main();
     function prepareEtSshEnvironment(sessionId, options) {
       const jumpHosts = Array.isArray(options.jumpHosts) ? options.jumpHosts : [];
       if (jumpHosts.length > 1) {
-        throw new Error("EternalTerminal currently supports at most one jump host in Netcatty.");
+        throw new Error("EternalTerminal currently supports at most one jump host in Sensor.");
       }
 
       const tempDir = tempDirBridge.getTempFilePath(`et-ssh-home-${sessionId}`);
@@ -1147,7 +1147,7 @@ main();
      * @param {boolean} [execOpts.requireTrustedHost] When true, refuse unknown
      *   host keys (StrictHostKeyChecking=yes) using system + vault known_hosts
      *   instead of accept-new. Used for background stats/distro probes.
-     * @param {Array} [execOpts.knownHosts] Netcatty vault known hosts to merge
+     * @param {Array} [execOpts.knownHosts] Sensor vault known hosts to merge
      *   into the strict known_hosts file (defaults to session.etStatsAuth).
      */
     function execOnEtSession(session, command, timeoutMs = 5000, execOpts = {}) {
@@ -1229,7 +1229,7 @@ main();
     }
 
     /**
-     * Start an EternalTerminal session using Netcatty's bundled `et` client.
+     * Start an EternalTerminal session using Sensor's bundled `et` client.
      */
     async function startEtSession(event, options) {
       const sessionId =
@@ -1374,7 +1374,7 @@ main();
           _promptTrackTail: "",
           // Explicit close deletes the session before onExit; keep the one-shot
           // release on the session so closeSession / quit cleanup can still run it.
-          releaseNetcattyFidoAgents: releaseFidoAgents,
+          releaseSensorFidoAgents: releaseFidoAgents,
         };
         {
           const { claimSessionSlot } = require("../sessionBootEpoch.cjs");

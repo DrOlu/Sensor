@@ -4,7 +4,7 @@ Browser-only example of an actual Vault extension page. It needs only `views`
 and the required `views.vault-pages` feature. No host/session/Vault data,
 clipboard, network, filesystem, credentials or shell permission is requested.
 Text explicitly typed here is stored in this plugin's own bounded view state;
-it is not a Netcatty Note and is not automatically cloud-synced.
+it is not a Sensor Note and is not automatically cloud-synced.
 
 ```sh
 node packages/plugin-cli/dist/cli.js pack examples/plugins/vault-scratchpad/.package --out /tmp/vault-scratchpad.ncpkg
@@ -32,5 +32,5 @@ records the precise tested commit and package hash separately.
 The page now uses the host-rendered contract. Run `node build.mjs` in this
 example directory, then package `.package/` with the plugin CLI. `host.js`
 registers ordinary DOM views; `view.html` and `view.css` are bundled source
-templates. Theme values are inherited from Netcatty. There is no separate page
+templates. Theme values are inherited from Sensor. There is no separate page
 preload or `window.netcattyView` API. See `docs/plugin-platform/host-rendered-ui.md`.

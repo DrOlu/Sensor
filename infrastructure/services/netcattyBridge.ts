@@ -1,16 +1,16 @@
 export class BridgeUnavailableError extends Error {
-  constructor(message = "Netcatty bridge unavailable") {
+  constructor(message = "Sensor bridge unavailable") {
     super(message);
     this.name = "BridgeUnavailableError";
   }
 }
 
 export const netcattyBridge = {
-  get(): NetcattyBridge | undefined {
+  get(): SensorBridge | undefined {
     return typeof window !== 'undefined' ? window.netcatty : undefined;
   },
 
-  require(): NetcattyBridge {
+  require(): SensorBridge {
     const bridge = window.netcatty;
     if (!bridge) throw new BridgeUnavailableError();
     return bridge;

@@ -14,7 +14,7 @@ The host groups rows by label in first-appearance order and keeps field order
 within each group. Labels/descriptions are plain text. Hidden settings are
 filtered before grouping; empty groups are not rendered. Ungrouped fields do not
 receive a redundant heading. Layout, controls, focus, error display, reset and
-persistence belong to Netcatty. Internal setting IDs are not displayed as help
+persistence belong to Sensor. Internal setting IDs are not displayed as help
 text. Permissions and uninstall remain separate host-owned controls.
 
 Each of the six ordinary page placements offers the same circular settings

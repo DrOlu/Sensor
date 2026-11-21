@@ -31,19 +31,19 @@ function loadBridgeWithFakePty() {
 const bridge = loadBridgeWithFakePty();
 
 // A captured PATH whose herdr entry points at the release directory an upgrade
-// replaced, which is exactly how "works in cmd, not in Netcatty" shows up.
+// replaced, which is exactly how "works in cmd, not in Sensor" shows up.
 const STALE_PATH =
   "C:\\Users\\me\\.herdr\\packages\\standalone\\releases\\0.8.2-x86_64-pc-windows-msvc;C:\\Windows\\System32";
 const LIVE_PATH =
   "C:\\Users\\me\\.herdr\\packages\\standalone\\releases\\0.9.1-x86_64-pc-windows-msvc;C:\\Windows\\System32";
 
 test("buildLocalSessionEnv strips AppImage ARGV0 without changing the base env", async () => {
-  const baseEnv = { PATH: "/usr/bin:/bin", ARGV0: "/opt/Netcatty.AppImage" };
+  const baseEnv = { PATH: "/usr/bin:/bin", ARGV0: "/opt/Sensor.AppImage" };
   const env = await bridge.buildLocalSessionEnv({}, { baseEnv, platform: "linux" });
 
   assert.equal(Object.hasOwn(env, "ARGV0"), false);
   assert.equal(env.PATH, baseEnv.PATH);
-  assert.equal(baseEnv.ARGV0, "/opt/Netcatty.AppImage");
+  assert.equal(baseEnv.ARGV0, "/opt/Sensor.AppImage");
 });
 
 test("buildLocalSessionEnv keeps the captured PATH untouched off Windows", async () => {

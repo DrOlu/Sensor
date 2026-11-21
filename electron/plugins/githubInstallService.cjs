@@ -28,7 +28,7 @@ async function fetchGitHubBytes(url, { limit, api = false, fetchImpl = fetch, si
     let response;
     try {
       response = await fetchImpl(url, { redirect: "manual", credentials: "omit", referrerPolicy: "no-referrer", signal,
-        headers: { Accept: api ? "application/vnd.github+json" : "application/octet-stream", "User-Agent": "Netcatty-Plugin-Installer" } });
+        headers: { Accept: api ? "application/vnd.github+json" : "application/octet-stream", "User-Agent": "Sensor-Plugin-Installer" } });
     } catch (cause) { throw new Error(signal.aborted ? "GitHub download timed out" : "Cannot reach GitHub. Check your network connection and try again", { cause }); }
     if ([301, 302, 303, 307, 308].includes(response.status)) {
       await response.body?.cancel();
@@ -120,7 +120,7 @@ class GitHubInstallService {
       if (release.draft || release.prerelease || typeof release.tag_name !== "string" || !release.tag_name || release.tag_name.length > 256
         || /[\u0000-\u001f\u007f]/u.test(release.tag_name)) throw new Error("Publish a stable GitHub release with a tag and a .ncpkg asset first");
       const assets = Array.isArray(release.assets) ? release.assets.filter((asset) => typeof asset.name === "string" && /\.ncpkg$/iu.test(asset.name)) : [];
-      if (assets.length !== 1) throw new Error(assets.length ? "Release contains multiple .ncpkg assets. Import the intended package locally" : "Release has no .ncpkg asset. Ask the author to build and attach one; source repositories cannot be built by Netcatty");
+      if (assets.length !== 1) throw new Error(assets.length ? "Release contains multiple .ncpkg assets. Import the intended package locally" : "Release has no .ncpkg asset. Ask the author to build and attach one; source repositories cannot be built by Sensor");
       const asset = assets[0];
       if (!/^[a-z0-9][a-z0-9._-]*\.ncpkg$/iu.test(asset.name) || asset.name.length > 200
         || !Number.isSafeInteger(asset.id) || asset.id < 1 || asset.state !== "uploaded") throw new Error("Invalid GitHub plugin artifact name or identity");

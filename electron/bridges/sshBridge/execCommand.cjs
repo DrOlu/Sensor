@@ -151,7 +151,7 @@ function createExecCommandApi(ctx) {
           connectOpts.agent = systemAuthAgent;
           require("../attachFidoAgentRelease.cjs").attachFidoAgentRelease(conn, systemAuthAgent);
         } else if (hasCertificate && !isFido) {
-          authAgent = new NetcattyAgent({
+          authAgent = new SensorAgent({
             mode: "certificate",
             webContents: event.sender,
             meta: {

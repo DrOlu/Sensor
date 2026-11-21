@@ -14,7 +14,7 @@ test("renames preserve source identity; public plugin IDs do not define private 
 });
 
 test("remote metadata cannot promote a source to official or local", () => {
-  const source = thirdPartySource("Netcatty", "https://example.com");
+  const source = thirdPartySource("Sensor", "https://example.com");
   for (const kind of ["official", "local"]) assert.throws(() => assertSource({ ...source, kind }));
   assert.throws(() => assertSource({ ...source, id: "official" }));
   assert.throws(() => thirdPartySource("Mirror", "https://plugins.netcatty.app"));

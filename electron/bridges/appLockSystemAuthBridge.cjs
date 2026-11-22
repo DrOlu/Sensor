@@ -100,9 +100,9 @@ function resolveDefaultHelperPath({
 } = {}) {
   if (platform !== "win32") return null;
   if (isPackaged) {
-    return path.win32.join(resourcesPath, "windowsHello", "NetcattyWindowsHello.exe");
+    return path.win32.join(resourcesPath, "windowsHello", "SensorWindowsHello.exe");
   }
-  return path.join(__dirname, "windowsHelloHelper", "build", arch, "NetcattyWindowsHello.exe");
+  return path.join(__dirname, "windowsHelloHelper", "build", arch, "SensorWindowsHello.exe");
 }
 
 function createAppLockSystemAuthBridge({
@@ -128,7 +128,7 @@ function createAppLockSystemAuthBridge({
       return { ok: false, error: "unavailable" };
     }
     try {
-      await systemPreferences.promptTouchID("Unlock Netcatty");
+      await systemPreferences.promptTouchID("Unlock Sensor");
       return { ok: true };
     } catch (err) {
       // Electron exposes only a localized rejection message here. Since the
@@ -154,7 +154,7 @@ function createAppLockSystemAuthBridge({
     const result = await runHelper(
       execFile,
       helperPath,
-      ["verify", "--hwnd", hwnd, "--message", "Unlock Netcatty"],
+      ["verify", "--hwnd", hwnd, "--message", "Unlock Sensor"],
       SYSTEM_AUTH_VERIFY_TIMEOUT_MS,
     );
     return normalizeSystemAuthUnlockResult(result);

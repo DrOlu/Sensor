@@ -1,6 +1,6 @@
 # Hello React: host-rendered plugin UI
 
-This example uses ordinary React and custom CSS. Netcatty draws its visible UI;
+This example uses ordinary React and custom CSS. Sensor draws its visible UI;
 the script runs in the isolated runtime and requests `views` and `settings.read` (its own settings only).
 
 Build: `npm run build --workspace @netcatty/example-hello-react-host`.
@@ -8,7 +8,7 @@ Package this folder with the plugin CLI and install the `.ncpkg` from Settings.
 No development environment flag is needed for this browser example.
 
 It declares Vault, terminal sidebar, tab, aside, panel and modal views.
-Its Settings entry is a standard Netcatty form with greeting, appearance and
+Its Settings entry is a standard Sensor form with greeting, appearance and
 content groups. Name, greeting enabled, accent color and default note are saved
 by the host and applied to new pages and already-open pages. Demo edits inside
 a page remain local; use Settings to change persistent defaults.

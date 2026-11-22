@@ -68,7 +68,7 @@ function createBridgeRegistrarForTest({
     app: {
       getPath: () => tempDir,
       getVersion: () => "0.0.0",
-      getName: () => "Netcatty",
+      getName: () => "Sensor",
     },
     BrowserWindow: { getAllWindows: () => windows },
     shell: { openExternal() {}, openPath() {} },

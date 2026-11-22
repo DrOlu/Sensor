@@ -1,11 +1,11 @@
 import { RemoteHistoryEntry, RemoteHistorySource } from './models';
 import { NETCATTY_POPUP_HISTORY_MARKER } from './systemManager/containerRuntime.ts';
 
-/** Marker prefix Netcatty AI uses when executing commands via the PTY bridge. */
+/** Marker prefix Sensor AI uses when executing commands via the PTY bridge. */
 export const NETCATTY_AI_HISTORY_MARKER = '__NCMCP_';
 
-/** True when a shell history line came from Netcatty AI PTY exec, not the user. */
-export function isNetcattyAiHistoryCommand(command: string): boolean {
+/** True when a shell history line came from Sensor AI PTY exec, not the user. */
+export function isSensorAiHistoryCommand(command: string): boolean {
   return command.includes(NETCATTY_AI_HISTORY_MARKER);
 }
 
@@ -15,8 +15,8 @@ const NETCATTY_MANAGED_STARTUP_COMMAND =
 const NETCATTY_WINDOWS_CONTAINER_POPUP_COMMAND =
   /^(?:\$__nc_popup='__NC_POPUP__'; |set "__NC_POPUP__=1"& )?(?:docker|podman|nerdctl) inspect [a-zA-Z0-9]+ (?:>\$null; if \(\$LASTEXITCODE -eq 0\) \{|>nul && )/;
 
-/** True when a shell history line came from a Netcatty-managed terminal launch. */
-export function isNetcattyManagedStartupHistoryCommand(command: string): boolean {
+/** True when a shell history line came from a Sensor-managed terminal launch. */
+export function isSensorManagedStartupHistoryCommand(command: string): boolean {
   const text = command.trim();
   return text.includes(NETCATTY_POPUP_HISTORY_MARKER)
     || NETCATTY_MANAGED_STARTUP_COMMAND.test(text)
@@ -229,8 +229,8 @@ export function mergeRemoteHistory(
   const seen = new Set<string>();
   const merged: RemoteHistoryEntry[] = [];
   for (const { entry } of indexed) {
-    if (isNetcattyAiHistoryCommand(entry.command)) continue;
-    if (isNetcattyManagedStartupHistoryCommand(entry.command)) continue;
+    if (isSensorAiHistoryCommand(entry.command)) continue;
+    if (isSensorManagedStartupHistoryCommand(entry.command)) continue;
     if (seen.has(entry.command)) continue;
     seen.add(entry.command);
     merged.push(entry);

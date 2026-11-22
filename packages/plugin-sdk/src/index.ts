@@ -807,7 +807,7 @@ export interface PluginContext {
   readonly logger: PluginLogger;
 }
 
-export interface NetcattyPlugin {
+export interface SensorPlugin {
   activate(context: PluginContext): void | Disposable | Promise<void | Disposable>;
   deactivate?(): void | Promise<void>;
 }
@@ -974,7 +974,7 @@ export class CancellationTokenSource implements Disposable {
   }
 }
 
-export function definePlugin<T extends NetcattyPlugin>(plugin: T): T {
+export function definePlugin<T extends SensorPlugin>(plugin: T): T {
   return plugin;
 }
 

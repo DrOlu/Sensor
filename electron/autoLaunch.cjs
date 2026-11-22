@@ -1,5 +1,5 @@
 /**
- * Auto Launch - Registers Netcatty to start at system login, hidden to the
+ * Auto Launch - Registers Sensor to start at system login, hidden to the
  * tray. Thin wrapper around Electron's app.setLoginItemSettings/
  * getLoginItemSettings so main.cjs and the settings IPC handlers share one
  * source of truth.
@@ -157,7 +157,7 @@ function setAutoLaunchEnabled(enabled, {
  * macOS's own hidden-launch flags (openAsHidden/wasOpenedAsHidden) are
  * deprecated and stop working on macOS 13+ per Electron's docs, so they
  * cannot be trusted to detect an actual hidden launch there. wasOpenedAtLogin
- * still works on 13+ and is not deprecated; since Netcatty only ever
+ * still works on 13+ and is not deprecated; since Sensor only ever
  * registers a macOS login item to satisfy this "launch hidden" feature (there
  * is no scenario where it registers one for a normal, visible startup), any
  * automatic login launch should apply our own hidden-window behavior.

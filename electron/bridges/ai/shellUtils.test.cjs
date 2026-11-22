@@ -367,7 +367,7 @@ test("isDefaultPosixPromptLine matches Powerlevel10k ❯ idle prompts", () => {
     "~ ❯",
     "~ ❯ ",
     "~/proj ❯",
-    "~/git/Netcatty ❯ ",
+    "~/git/Sensor ❯ ",
     "/tmp ❯",
     "proj ❯",
     "alice@host ~ ❯",

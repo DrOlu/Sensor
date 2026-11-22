@@ -1,7 +1,7 @@
 import type { Monaco } from '@monaco-editor/react';
 import type { languages } from 'monaco-editor';
 
-// Original Monarch grammar for Netcatty (same license as the project).
+// Original Monarch grammar for Sensor (same license as the project).
 // Syntax reference: https://nginx.org/en/docs/beginners_guide.html#conf_structure
 // Recognize directive positions rather than maintaining a list of module names.
 export const nginxLanguage: languages.IMonarchLanguage = {

@@ -170,7 +170,7 @@ test("macOS packages a native ICNS and sizes runtime Dock icons separately", () 
   assert.deepEqual(
     readRgbaPngAlphaBounds(path.join(projectRoot, "public/icon.png")),
     { minX: 61, minY: 61, maxX: 962, maxY: 962 },
-    "The packaged icon already looks correct when Netcatty is not running",
+    "The packaged icon already looks correct when Sensor is not running",
   );
 
   for (const variant of APP_ICON_VARIANTS) {

@@ -118,7 +118,7 @@ export type BuildHostConnectionTestOptionsInput = {
 export type HostConnectionTestPlan =
   | {
       ok: true;
-      options: NetcattySSHOptions;
+      options: SensorSSHOptions;
       /**
        * True when the primary credential is an undecryptable placeholder, so
        * the caller should prompt for re-entry (password/key) before dialing.
@@ -132,7 +132,7 @@ const buildTestJumpHost = (
   keys: SSHKey[],
   identities: Identity[],
   settings: HostConnectionTestSettings,
-): NetcattyJumpHost => {
+): SensorJumpHost => {
   const jumpAuth = resolveHostAuth({ host: chainHost, keys, identities });
   const jumpKey = jumpAuth.key;
   const jumpAllowsLocalIdentityFallback = !jumpAuth.keyId;
@@ -300,7 +300,7 @@ export const buildHostConnectionTestPlan = (
     ? resolveProxyConfigAuth(effectiveHost.proxyConfig, identities)
     : undefined;
 
-  const options: NetcattySSHOptions = {
+  const options: SensorSSHOptions = {
     sessionId,
     hostLabel: effectiveHost.label,
     hostname: effectiveHost.hostname,

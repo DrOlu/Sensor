@@ -43,22 +43,22 @@ test('normalizeArtifactToolName unwraps Copilot server prefixes', () => {
   );
 });
 
-test('inferArtifactToolNameFromCliArgs maps Netcatty CLI artifact commands', () => {
+test('inferArtifactToolNameFromCliArgs maps Sensor CLI artifact commands', () => {
   assert.equal(
     inferArtifactToolNameFromCliArgs({
-      command: `/bin/zsh -lc '"/Applications/Netcatty.app/netcatty-tool-cli" vault host get --host-id host_1 --json'`,
+      command: `/bin/zsh -lc '"/Applications/Sensor.app/netcatty-tool-cli" vault host get --host-id host_1 --json'`,
     }),
     'host_get',
   );
   assert.equal(
     inferArtifactToolNameFromCliArgs({
-      command: `/bin/zsh -lc '"/Applications/Netcatty.app/netcatty-tool-cli" notes import --file-name runbook.md --content-stdin --json'`,
+      command: `/bin/zsh -lc '"/Applications/Sensor.app/netcatty-tool-cli" notes import --file-name runbook.md --content-stdin --json'`,
     }),
     'vault_notes_import',
   );
   assert.equal(
     inferArtifactToolNameFromCliArgs({
-      command: `/bin/zsh -lc '"/Applications/Netcatty.app/netcatty-tool-cli" --json notes list'`,
+      command: `/bin/zsh -lc '"/Applications/Sensor.app/netcatty-tool-cli" --json notes list'`,
     }),
     'vault_notes_list',
   );
@@ -76,7 +76,7 @@ test('inferArtifactToolNameFromCliArgs maps Netcatty CLI artifact commands', () 
   );
   assert.equal(
     inferArtifactToolNameFromCliArgs({
-      command: '& "C:\\Program Files\\Netcatty\\netcatty-tool-cli.cmd" notes import --attachment-index 0 --json',
+      command: '& "C:\\Program Files\\Sensor\\netcatty-tool-cli.cmd" notes import --attachment-index 0 --json',
     }),
     'vault_notes_import',
   );

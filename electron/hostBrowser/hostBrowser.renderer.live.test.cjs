@@ -76,7 +76,7 @@ async function main() {
     }
     if (request.url === '/report.txt') {
       response.writeHead(200, { 'content-type': 'application/octet-stream', 'content-disposition': 'attachment; filename="report.txt"' });
-      response.end('Netcatty automatic download\n'); return;
+      response.end('Sensor automatic download\n'); return;
     }
     if (request.url === '/slow.bin') {
       response.writeHead(200, { 'content-type': 'application/octet-stream', 'content-length': 1048576 });
@@ -297,13 +297,13 @@ async function main() {
   await activePage.executeJavaScript("document.getElementById('download').click()");
   await until(() => run('document.body.textContent.includes("report (1).txt") && document.body.textContent.includes("已完成")'), true, 'a website download saves immediately and opens its progress list');
   await until(() => !owner.contentView.children.includes(root), true, 'the automatic download list is above the native webpage before interacting');
-  assert.equal(fs.readFileSync(path.join(downloadsPath, 'report (1).txt'), 'utf8'), 'Netcatty automatic download\n');
+  assert.equal(fs.readFileSync(path.join(downloadsPath, 'report (1).txt'), 'utf8'), 'Sensor automatic download\n');
   assert.equal(fs.readFileSync(path.join(downloadsPath, 'report.txt'), 'utf8'), 'Keep the existing file');
   await click('[aria-label="更多操作"]');
   await until(() => run('Array.from(document.querySelectorAll("button")).some(button => button.textContent === "另存为…")'), true, 'download actions menu opens');
   await run('Array.from(document.querySelectorAll("button")).find(button => button.textContent === "另存为…").click()');
   await until(() => fs.existsSync(savedCopy), true, 'Save as writes a separate copy');
-  assert.equal(fs.readFileSync(savedCopy, 'utf8'), 'Netcatty automatic download\n');
+  assert.equal(fs.readFileSync(savedCopy, 'utf8'), 'Sensor automatic download\n');
   assert.equal(fs.existsSync(path.join(downloadsPath, 'report (1).txt')), true, 'Save as retains the original downloaded file');
   await pressEscape();
   await click('[title="在文件夹中显示"]');
@@ -391,6 +391,6 @@ app.whenReady().then(main).catch(async (error) => { console.error(error); if (ow
   manager?.closeAll(); if (owner && !owner.isDestroyed()) owner.destroy();
   if (site) { site.closeAllConnections(); site.close(); }
   await vite?.close();
-  // Keep the isolated screenshot and profile under Netcatty's managed temp directory for inspection.
+  // Keep the isolated screenshot and profile under Sensor's managed temp directory for inspection.
   app.exit(process.exitCode || 0);
 });

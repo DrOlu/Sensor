@@ -62,9 +62,9 @@ test('mounted installed authors follow actual catalog/update/source entrypoints 
     invoke: (channel: string, payload: unknown) => ipcMain.handlers.get(channel)({}, payload) } });
   let authorCalls = 0;
   const original = api.getPluginAuthorPresentation;
-  api.getPluginAuthorPresentation = (request: NetcattyPluginAuthorRequest) => { authorCalls++; return original(request); };
+  api.getPluginAuthorPresentation = (request: SensorPluginAuthorRequest) => { authorCalls++; return original(request); };
   Object.assign(window, { netcatty: api });
-  let plugin = database.getActivePlugin(entry.id) as NetcattyInstalledPlugin;
+  let plugin = database.getActivePlugin(entry.id) as SensorInstalledPlugin;
   function Row() {
     const { ref, identity } = usePluginAuthorIdentity({ plugin });
     return <div ref={ref} data-author={identity?.author} data-avatar={identity?.avatar} data-official={identity?.officialMaintained ?? false} />;

@@ -124,7 +124,7 @@ describe("external MCP client setup classifiers", () => {
   });
 
   it("quotes launcher paths with apostrophes in the copyable setup command", () => {
-    const launcherPath = "/Applications/Bob's/Netcatty.app/Contents/MacOS/netcatty-external-mcp";
+    const launcherPath = "/Applications/Bob's/Sensor.app/Contents/MacOS/netcatty-external-mcp";
     const status = classifyCodexExternalMcpStatus({
       entries: [],
       launcherPath,

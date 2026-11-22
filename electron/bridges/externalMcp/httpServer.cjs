@@ -170,7 +170,7 @@ function createExternalMcpHttpServer(deps = {}) {
 
   async function rpcCall(method, params) {
     if (!isEnabled()) {
-      throw new Error("External MCP is disabled. Re-enable it in Netcatty Settings → AI.");
+      throw new Error("External MCP is disabled. Re-enable it in Sensor Settings → AI.");
     }
     if (typeof dispatchRpc !== "function") {
       throw new Error("External MCP HTTP dispatch is unavailable.");
@@ -206,7 +206,7 @@ function createExternalMcpHttpServer(deps = {}) {
     server.resource(
       "environment",
       "netcatty://context",
-      { description: "Current Netcatty workspace context: connected hosts, session IDs, and environment description." },
+      { description: "Current Sensor workspace context: connected hosts, session IDs, and environment description." },
       async () => {
         const ctx = await protectedRpcCall("netcatty/getContext", { chatSessionId });
         return {

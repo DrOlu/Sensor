@@ -306,12 +306,12 @@ test("Mosh releases prepared FIDO agent when forwarding-agent resolution fails",
     process,
     randomUUID: () => "fixed",
     prepareSystemSshAgentForAuth: async () => ({
-      _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+      _releaseSensorFidoAgent: () => { releaseCount += 1; },
     }),
     getAvailableAgentSocket: async () => "/tmp/login-agent.sock",
     getAvailableForwardingAgentSocket: async () => {
       const error = new Error(
-        "This SSH agent is available only to Netcatty's built-in SSH client.",
+        "This SSH agent is available only to Sensor's built-in SSH client.",
       );
       error.code = "ERR_SSH_AGENT_NATIVE_UNSUPPORTED";
       throw error;
@@ -460,7 +460,7 @@ test("startMoshSessionViaHandshake releases FIDO lease when auth setup fails", a
         hostname: "host.example",
         username: "alice",
         privateKey: "-----BEGIN OPENSSH PRIVATE KEY-----\ntest\n-----END OPENSSH PRIVATE KEY-----",
-        _releaseNetcattyFidoAgent: () => { releaseCount += 1; },
+        _releaseSensorFidoAgent: () => { releaseCount += 1; },
       },
       { bareClient: "/tmp/mosh-client", sshExe: "/usr/bin/ssh" },
     ),

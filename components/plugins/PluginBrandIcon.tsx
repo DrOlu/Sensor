@@ -5,8 +5,8 @@ import { PluginContributionIcon } from './PluginContributionIcon';
 import { resolveCatalogBrandIcon } from './catalogBrandIcons';
 
 export function PluginBrandIcon({ plugin, entry, size = 32, className = '' }: {
-  plugin?: NetcattyInstalledPlugin;
-  entry?: NetcattyPluginCatalogEntry;
+  plugin?: SensorInstalledPlugin;
+  entry?: SensorPluginCatalogEntry;
   size?: number;
   className?: string;
 }) {

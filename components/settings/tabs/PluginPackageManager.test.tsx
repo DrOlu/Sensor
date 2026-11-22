@@ -12,7 +12,7 @@ test('installed cards and selected details keep author before compact source met
     source: { id: 'local', kind: 'local', name: 'Imported package', origin: null },
     manifest: { manifestVersion: 1, id: 'com.example.synthetic', name: 'Synthetic', publisher: 'Publisher', version: '1.0.0', engines: { netcatty: '*', api: '*' }, main: { browser: 'index.js' } },
     runtime: { status: 'stopped', kind: null, lastError: 'Diagnostic remains visible', quarantinedAt: null },
-  } as NetcattyInstalledPlugin;
+  } as SensorInstalledPlugin;
   const manager = { plugins: [plugin], available: true, statusKnown: true, busy: false } as ReturnType<typeof usePluginManager>;
   for (const initialSelectedId of [null, plugin.id]) {
     const dom = new JSDOM(renderToStaticMarkup(<I18nProvider locale="en"><PluginPackageManager manager={manager} initialSelectedId={initialSelectedId} /></I18nProvider>));
@@ -38,7 +38,7 @@ test('package detail renders manifest resources as text and explains advanced au
       permissions: { required: [{ permission: 'network', resources: ['https://example.com'], reason: '<script>attack()</script>' }] },
     },
     runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null },
-  } as NetcattyInstalledPlugin;
+  } as SensorInstalledPlugin;
   const html = renderToStaticMarkup(<I18nProvider locale="en"><PluginPackageDetails plugin={plugin} /></I18nProvider>);
   assert.match(html, /full Node filesystem and network authority/);
   assert.match(html, /Broker permissions cannot restrict this access/);

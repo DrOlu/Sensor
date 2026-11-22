@@ -794,7 +794,7 @@ test("companion cleanup containment failure is persisted and blocks restart", as
   fixture.database.clearQuarantine(fixture.manifest.id);
   await assert.rejects(
     fixture.supervisor.start(fixture.manifest.id),
-    /restart Netcatty before starting it again/,
+    /restart Sensor before starting it again/,
   );
 });
 
@@ -830,7 +830,7 @@ test("containment failure disables the plugin and blocks replacement activation 
   fixture.database.clearQuarantine(fixture.manifest.id);
   await assert.rejects(
     fixture.supervisor.start(fixture.manifest.id),
-    /restart Netcatty before starting it again/,
+    /restart Sensor before starting it again/,
   );
   assert.equal(factoryCalls, 1);
   const stillQuarantined = fixture.database.getActivePlugin(fixture.manifest.id);
@@ -867,7 +867,7 @@ test("startup cleanup containment failure blocks replacement activation", async 
   fixture.database.clearQuarantine(fixture.manifest.id);
   await assert.rejects(
     fixture.supervisor.start(fixture.manifest.id),
-    /restart Netcatty before starting it again/,
+    /restart Sensor before starting it again/,
   );
   assert.equal(factoryCalls, 1);
   plugin = fixture.database.getActivePlugin(fixture.manifest.id);

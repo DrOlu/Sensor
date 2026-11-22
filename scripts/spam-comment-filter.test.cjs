@@ -66,13 +66,13 @@ test("maintainer posting a release dmg link is not hidden", () => {
     userType: "User",
     commentAuthor: "maintainer",
     issueAuthor: "reporter",
-    body: "Signed build: https://github.com/binaricat/Netcatty/releases/download/v1.2.3/Netcatty.dmg",
+    body: "Signed build: https://github.com/DrOlu/Sensor/releases/download/v1.2.3/Sensor.dmg",
   });
 
   assert.equal(result.spam, false);
   assert.equal(result.trustedAuthor, true);
   assert.deepEqual(result.matchedUrls, [
-    "https://github.com/binaricat/Netcatty/releases/download/v1.2.3/Netcatty.dmg",
+    "https://github.com/DrOlu/Sensor/releases/download/v1.2.3/Sensor.dmg",
   ]);
 });
 

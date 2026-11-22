@@ -1,11 +1,11 @@
 "use strict";
 
 /**
- * Netcatty-owned ssh-agent for FIDO2 sk-* keys.
+ * Sensor-owned ssh-agent for FIDO2 sk-* keys.
  *
  * System agents started at login often lack SSH_ASKPASS, so PIN/touch prompts
  * never reach our GUI. Spawning a short-lived agent as our child with askpass
- * env makes sk-helper prompts work inside Netcatty.
+ * env makes sk-helper prompts work inside Sensor.
  */
 
 const fs = require("node:fs");
@@ -40,7 +40,7 @@ let startingPromise = null;
 function getTempBase() {
   const tempDirBridge = require("./tempDirBridge.cjs");
   if (typeof tempDirBridge.getTempDir !== "function") {
-    throw new Error("FIDO agent requires Netcatty temp directory (tempDirBridge unavailable).");
+    throw new Error("FIDO agent requires Sensor temp directory (tempDirBridge unavailable).");
   }
   return tempDirBridge.getTempDir();
 }
@@ -50,7 +50,7 @@ const WIN_SYSTEM_AGENT_PIPE = "\\\\.\\pipe\\openssh-ssh-agent";
 /**
  * User-mode ssh-agent binaries on Windows (not the Win32-OpenSSH service host).
  * These can run as our child with SSH_ASKPASS so verify-required sk-helper
- * prompts reach the Netcatty modal.
+ * prompts reach the Sensor modal.
  * @param {NodeJS.ProcessEnv} [env]
  * @returns {string[]}
  */
@@ -219,7 +219,7 @@ function askpassEnvForAgentProcess(askpassEnv) {
 }
 
 /**
- * Acquire a Netcatty FIDO agent socket. Multiple callers share one agent.
+ * Acquire a Sensor FIDO agent socket. Multiple callers share one agent.
  * Concurrent acquires are serialized via startingPromise.
  */
 async function acquireFidoAgent(options = {}) {
@@ -276,7 +276,7 @@ async function acquireFidoAgent(options = {}) {
       const sshAddPath = companionSshAddPath(sshAgent);
 
       // MSYS/Cygwin sockaddr_un still has the Unix 108-byte path limit. The
-      // managed base already identifies Netcatty; keep the socket suffix short.
+      // managed base already identifies Sensor; keep the socket suffix short.
       agentDir = path.join(getTempBase(), `fa-${randomUUID().slice(0, 8)}`);
       fs.mkdirSync(agentDir, { recursive: true, mode: 0o700 });
 
@@ -287,7 +287,7 @@ async function acquireFidoAgent(options = {}) {
         ...require("./fidoSkHelper.cjs").buildSkHelperEnv(sshAgent, askpassEnv, env, platform),
       };
 
-      // Windows: try a Netcatty-owned named pipe first (ssh2 speaks it natively),
+      // Windows: try a Sensor-owned named pipe first (ssh2 speaks it natively),
       // then a filesystem socket for MSYS/Git user-mode agents.
       const sockCandidates = platform === "win32"
         ? [
@@ -348,7 +348,7 @@ async function acquireFidoAgent(options = {}) {
         }
 
         // In-box Win32-OpenSSH `ssh-agent -s` often just advertises the system
-        // service pipe — that is not a Netcatty child and must not be killed.
+        // service pipe — that is not a Sensor child and must not be killed.
         const isSystemServicePipe = typeof agentSocket === "string"
           && /openssh-ssh-agent$/i.test(agentSocket.replace(/\//g, "\\"));
         if (isSystemServicePipe) {

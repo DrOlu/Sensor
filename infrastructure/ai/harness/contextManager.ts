@@ -113,7 +113,7 @@ function applyTypedMessageCompression(
 
 function buildReinjectionMessages(reinjection?: PostCompactReinjection): ModelMessage[] {
   if (!reinjection) return [];
-  const lines: string[] = ['[Netcatty session context — preserved after compaction]'];
+  const lines: string[] = ['[Sensor session context — preserved after compaction]'];
   if (reinjection.permissionMode) {
     lines.push(`Permission mode: ${reinjection.permissionMode}`);
   }
@@ -332,7 +332,7 @@ export function extractLatestUserGoal(messages: ModelMessage[] | ChatMessage[]):
     const content = typeof message.content === 'string'
       ? message.content.trim()
       : '';
-    if (content && !content.startsWith('[Netcatty session context')) return sliceHead(content, 500);
+    if (content && !content.startsWith('[Sensor session context')) return sliceHead(content, 500);
   }
   return undefined;
 }

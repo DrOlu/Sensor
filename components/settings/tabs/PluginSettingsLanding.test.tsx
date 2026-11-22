@@ -27,7 +27,7 @@ test('landing rows expose real sources/status/settings and quick toggles preserv
     source: { id: 'third-party:synthetic', kind: 'third-party', name: 'Synthetic source', origin: 'https://synthetic.example.com' },
     manifest: { manifestVersion: 1, id: 'com.example.beta', name: 'Beta', version: '2.0.0', publisher: 'example', engines: { netcatty: '>=0.0.0', api: '>=0.1.0-internal <0.2.0' }, main: { browser: 'index.js' } },
     runtime: { status: 'stopped', kind: null, lastError: null, quarantinedAt: null },
-  }] as NetcattyInstalledPlugin[];
+  }] as SensorInstalledPlugin[];
   const changes: Array<[string, boolean]> = [];
   const opened: Array<string | null> = [];
   let refreshes = 0;

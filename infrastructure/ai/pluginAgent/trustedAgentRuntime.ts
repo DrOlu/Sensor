@@ -5,7 +5,7 @@ import type { AgentRuntime } from '../harness/agentRuntime';
 import { getAgentRuntime } from '../harness/globalAgentRuntime';
 import { stopAgentTurn } from '../harness/agentStop';
 import { redactSecretsForModel } from '../harness/modelSecretRedaction';
-import { getNetcattyBridge } from '../aiChatStreamingSupport';
+import { getSensorBridge } from '../aiChatStreamingSupport';
 import { ConfiguredPluginAgentBackends } from './configuredBackends';
 import globalTools from '../harness/generated/globalAgentToolSpecs.json';
 
@@ -123,7 +123,7 @@ export function createTrustedPluginAgentRuntime(options: {
         const assistantMsgId = crypto.randomUUID();
         session.messages.push({ id: crypto.randomUUID(), role: 'user', content: payload.text, timestamp: Date.now() },
           { id: assistantMsgId, role: 'assistant', content: '', timestamp: Date.now() });
-        const bridge = getNetcattyBridge();
+        const bridge = getSensorBridge();
         if (!bridge) throw Error('Trusted Agent bridge unavailable');
         const controller = new AbortController(); const handle = crypto.randomUUID();
         const turn: Turn = { handle, requestId: request.requestId, runtimeId, backendHandle: payload.backendHandle, session, controller, queue: [], done: false, live: true,

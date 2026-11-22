@@ -35,12 +35,12 @@ test('terminal extension pages use actual split panes, focus and session ownersh
   const b = { ...a, id: 'com.example.sidebar.second', title: 'Second page' };
   let snapshot = { locale: 'en', plugins: [{ id: 'com.example.sidebar', displayName: 'Synthetic plugin', version: '1.0.0', commands: [], keybindings: [], menus: [], settings: [], views: [a, b] }] };
   const changed = new Set<() => void>();
-  const opens: NetcattyPluginViewOpenRequest[] = [];
+  const opens: SensorPluginViewOpenRequest[] = [];
   Object.assign(dom.window, { netcatty: {
     async getPluginRuntimeStatus() { return { available: true }; }, async getPluginContributions() { return snapshot; },
     onPluginContributionsChanged(fn: () => void) { changed.add(fn); return () => { changed.delete(fn); }; },
     onPluginViewClosed() { return () => {}; }, onHostDrawnPluginViewUpdate() { return () => {}; },
-    async openHostDrawnPluginView(payload: NetcattyPluginViewOpenRequest) { opens.push(payload); return { instanceId: payload.instanceId! }; },
+    async openHostDrawnPluginView(payload: SensorPluginViewOpenRequest) { opens.push(payload); return { instanceId: payload.instanceId! }; },
     async closeHostDrawnPluginView() {},
   } });
   let split!: () => void;

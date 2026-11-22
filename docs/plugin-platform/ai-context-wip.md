@@ -85,7 +85,7 @@ trusted sharing UI must preview the selected text before sharing it.
 
 `createPluginModelAdapter` calls the existing `createModelFromConfig` and
 `streamText`, through the existing host provider transport. Credential injection
-stays in Netcatty. Direct-fetch fallback is disabled for this adapter. Incoming
+stays in Sensor. Direct-fetch fallback is disabled for this adapter. Incoming
 SSE payloads have an aggregate 128 KiB cap before SDK buffering. The main
 transport also enforces a plugin-specific 128 KiB response cap and a 60-second
 total deadline. Host-owned request tags allow sender/runtime cancellation

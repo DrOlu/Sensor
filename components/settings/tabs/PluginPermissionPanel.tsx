@@ -13,7 +13,7 @@ export function PluginPermissionPanel({ pluginId, onChanged, actions }: {
   actions?: React.ReactNode;
 }) {
   const { t, resolvedLocale } = useI18n();
-  const [snapshot, setSnapshot] = useState<NetcattyPluginPermissionSnapshot | null>(null);
+  const [snapshot, setSnapshot] = useState<SensorPluginPermissionSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const generation = useRef(0);

@@ -383,7 +383,7 @@ test("host upgrade disables incompatible lazy plugins before contributions and r
   await fixture.store.initialize();
   const disabled = fixture.database.getActivePlugin(installed.id);
   assert.equal(disabled.enabled, false);
-  assert.match(disabled.runtime.lastError, /incompatible.*Netcatty/);
+  assert.match(disabled.runtime.lastError, /incompatible.*Sensor/);
   assert.equal(disabled.activeVersion, installed.activeVersion);
   assert.deepEqual(fixture.database.getValue(installed.id, "synthetic"), { retained: true });
   assert.equal(fs.existsSync(fixture.store.resolvePackageRoot(disabled)), true);

@@ -8,7 +8,7 @@ import {
 } from "../../domain/knownHosts";
 import { toHostKeyInfo } from "../../domain/hostKey";
 type Request = Parameters<
-  Parameters<NonNullable<NetcattyBridge["onHostKeyVerification"]>>[0]
+  Parameters<NonNullable<SensorBridge["onHostKeyVerification"]>>[0]
 >[0];
 export function useMonitorHostKeyVerification() {
   const { knownHosts, updateKnownHosts } = useAppVaultRuntime();

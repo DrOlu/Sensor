@@ -7,7 +7,7 @@ type ResolvedIconState = { requestKey: string; icon: ResolvedIcon } | null;
 
 export function pluginContributionIconRequestKey(
   pluginId: string | undefined,
-  icon: NetcattyPluginIconReference | undefined,
+  icon: SensorPluginIconReference | undefined,
 ): string | null {
   return icon?.kind === 'package' && pluginId
     ? JSON.stringify([pluginId, icon.light, icon.dark ?? null])
@@ -23,7 +23,7 @@ export function selectPluginContributionIcon(
 
 export function usePluginContributionIcon(
   pluginId: string | undefined,
-  icon: NetcattyPluginIconReference | undefined,
+  icon: SensorPluginIconReference | undefined,
 ): ResolvedIcon | null {
   const requestKey = pluginContributionIconRequestKey(pluginId, icon);
   const [resolved, setResolved] = useState<ResolvedIconState>(null);

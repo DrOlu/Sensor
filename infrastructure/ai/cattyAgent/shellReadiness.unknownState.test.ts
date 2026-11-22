@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { createToolExecutor, type NetcattyBridge, type ExecutorContext } from './executor';
+import { createToolExecutor, type SensorBridge, type ExecutorContext } from './executor';
 
 // Mirrors SHELL_READINESS_UNKNOWN_MESSAGE from
 // electron/bridges/ai/shellReadinessState.cjs (kept inline to avoid a
@@ -13,8 +13,8 @@ const UNKNOWN_HINT = [
   'user to confirm the prompt before retrying.',
 ].join(' ');
 
-function makeBridge(result: Record<string, unknown>): NetcattyBridge {
-  return { aiExec: async () => result } as unknown as NetcattyBridge;
+function makeBridge(result: Record<string, unknown>): SensorBridge {
+  return { aiExec: async () => result } as unknown as SensorBridge;
 }
 
 const context: ExecutorContext = {

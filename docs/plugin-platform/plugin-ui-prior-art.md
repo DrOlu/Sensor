@@ -6,7 +6,7 @@ legacy view compatibility and migration are not requirements.
 
 ## Source comparison
 
-| Reference | Verified design | What Netcatty can use |
+| Reference | Verified design | What Sensor can use |
 | --- | --- | --- |
 | [Shopify Remote DOM](https://github.com/Shopify/remote-dom) | Synchronizes a UI tree from a separate JavaScript environment into host-owned DOM. Includes worker/polyfill and React examples. Its current receiver supports explicit element/member restrictions. | The existing prototype's host-drawn direction. Treat Remote DOM as transport/rendering machinery, not a complete plugin sandbox. |
 | [VS Code web extensions](https://code.visualstudio.com/api/extension-guides/web-extensions) | Web extensions run in the browser extension host, lack Node APIs, and use VS Code APIs. They still have broad VS Code API access. | Separation of extension execution from application UI and explicit host APIs. The absence of Node alone does not imply no access to user files. |
@@ -20,11 +20,11 @@ In the [Remote DOM security discussion](https://github.com/Shopify/remote-dom/di
 the implementation explanation describes an intermediate data tree, property
 allowlists and reprojection before trusted DOM changes. It explicitly warns
 against directly applying arbitrary remote patches. This is consistent with the
-existing Netcatty prototype's validation-before-rendering approach; it is not a
+existing Sensor prototype's validation-before-rendering approach; it is not a
 reason to discard or rebuild that prototype.
 
 The framework supports host-controlled UI elements, but its common examples use
-restricted custom components. Netcatty's broader HTML/CSS freedom is an additional
+restricted custom components. Sensor's broader HTML/CSS freedom is an additional
 product/security design responsibility, not a guarantee supplied by Shopify.
 
 ## Design consequence

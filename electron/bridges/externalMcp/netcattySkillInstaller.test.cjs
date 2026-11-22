@@ -8,11 +8,11 @@ const path = require("node:path");
 
 const {
   NETCATTY_SKILL_MANAGED_MARKER,
-  getBundledNetcattySkillPath,
-  getUserNetcattySkillPath,
+  getBundledSensorSkillPath,
+  getUserSensorSkillPath,
   resolveGrokHomeDir,
-  getNetcattySkillStatus,
-  installNetcattySkill,
+  getSensorSkillStatus,
+  installSensorSkill,
 } = require("./netcattySkillInstaller.cjs");
 
 async function withTempHome(run) {
@@ -25,19 +25,19 @@ async function withTempHome(run) {
 }
 
 for (const client of ["codex", "claude", "grok"]) {
-  test(`installs the bundled Netcatty skill for ${client}`, async () => {
+  test(`installs the bundled Sensor skill for ${client}`, async () => {
     await withTempHome(async (homeDir) => {
       const options = { client, homeDir };
-      const result = await installNetcattySkill(options);
-      const expected = await fs.readFile(getBundledNetcattySkillPath(), "utf8");
-      const installed = await fs.readFile(getUserNetcattySkillPath(client, options), "utf8");
+      const result = await installSensorSkill(options);
+      const expected = await fs.readFile(getBundledSensorSkillPath(), "utf8");
+      const installed = await fs.readFile(getUserSensorSkillPath(client, options), "utf8");
 
       assert.equal(result.installed, true);
       assert.equal(result.changed, true);
       assert.equal(installed, expected);
-      assert.equal((await getNetcattySkillStatus(options)).installed, true);
+      assert.equal((await getSensorSkillStatus(options)).installed, true);
 
-      const repeated = await installNetcattySkill(options);
+      const repeated = await installSensorSkill(options);
       assert.equal(repeated.changed, false);
     });
   });
@@ -51,14 +51,14 @@ test("respects GROK_HOME when resolving the Grok skill directory", () => {
   );
 });
 
-test("updates an older Netcatty-managed skill", async () => {
+test("updates an older Sensor-managed skill", async () => {
   await withTempHome(async (homeDir) => {
     const options = { client: "claude", homeDir };
-    const skillPath = getUserNetcattySkillPath("claude", options);
+    const skillPath = getUserSensorSkillPath("claude", options);
     await fs.mkdir(path.dirname(skillPath), { recursive: true });
     await fs.writeFile(skillPath, `---\nmetadata:\n  ${NETCATTY_SKILL_MANAGED_MARKER}\n---\nold\n`);
 
-    const result = await installNetcattySkill(options);
+    const result = await installSensorSkill(options);
     assert.equal(result.changed, true);
     assert.match(await fs.readFile(skillPath, "utf8"), /name: netcatty-mcp/);
   });
@@ -67,13 +67,13 @@ test("updates an older Netcatty-managed skill", async () => {
 test("refuses to overwrite an unmanaged skill with the same name", async () => {
   await withTempHome(async (homeDir) => {
     const options = { client: "grok", homeDir };
-    const skillPath = getUserNetcattySkillPath("grok", options);
+    const skillPath = getUserSensorSkillPath("grok", options);
     const customContent = "---\nname: netcatty-mcp\ndescription: custom\n---\ncustom\n";
     await fs.mkdir(path.dirname(skillPath), { recursive: true });
     await fs.writeFile(skillPath, customContent);
 
     await assert.rejects(
-      installNetcattySkill(options),
+      installSensorSkill(options),
       /unmanaged skill already exists/i,
     );
     assert.equal(await fs.readFile(skillPath, "utf8"), customContent);

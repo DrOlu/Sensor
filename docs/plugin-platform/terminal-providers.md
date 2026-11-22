@@ -94,7 +94,7 @@ context.subscriptions.add(context.providers.register(
 ));
 ```
 
-For each terminal session, Netcatty permits at most one arbitrary interceptor
+For each terminal session, Sensor permits at most one arbitrary interceptor
 per direction. A single candidate can be selected automatically; competing
 candidates require an explicit host-owned user choice and "No interceptor" is
 the default/cancel action. The choice is session-local and is discarded on
@@ -125,7 +125,7 @@ Input requests have a 4 ms worker-owned deadline. Output requests have a
 bounded 50 ms deadline and a 256 KiB queued-output window. A timeout, malformed
 response, invalid UTF-8 result, closed port, runtime exit, or credit-window
 overflow trips the circuit breaker immediately: the original chunk fails open,
-the interceptor is disabled for that session/direction, and Netcatty displays
+the interceptor is disabled for that session/direction, and Sensor displays
 a host-owned warning. An interceptor cannot suppress that warning or re-enable
 itself without a fresh host authorization path.
 
@@ -154,7 +154,7 @@ Sensitive input is also excluded from terminal broadcast. Terminal protocol repl
 transport encoding, Telnet IAC escaping, host logs, renderer flow accounting,
 and marker/safety parsing remain host-owned. Output interceptors may create or
 suppress visible byte sequences that affect output-derived lifecycle signals
-such as OSC 133. Netcatty owns the parser, marker objects, validation, and
+such as OSC 133. Sensor owns the parser, marker objects, validation, and
 cleanup, but deliberately derives those signals from the transformed visible
 stream; credential-prompt classification remains based on bounded original
 host output before interception. With no active interceptor, the
@@ -163,7 +163,7 @@ Promise, transfer, or payload allocation.
 
 ## Host adapters
 
-Netcatty's built-in autocomplete engine and keyword highlighter use the same
+Sensor's built-in autocomplete engine and keyword highlighter use the same
 application Provider adapters as plugins:
 
 - completion requests run built-in and plugin Providers concurrently;

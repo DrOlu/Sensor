@@ -9,7 +9,7 @@ npm run test:fido-sim
 Prerequisites: Node.js 22+, a C compiler, OpenSSL development headers, and
 OpenSSH `ssh-keygen`, `/usr/bin/ssh-agent`, `ssh-add`, `ssh-sk-helper`, and
 `/usr/sbin/sshd`. The test runs an unprivileged server bound to a random
-localhost port and uses Netcatty's managed temporary directory. It does not
+localhost port and uses Sensor's managed temporary directory. It does not
 modify system SSH configuration or the user's login agent.
 
 The opt-in test compiles `scripts/fixtures/fido/provider.c` as an OpenSSH SK
@@ -65,7 +65,7 @@ the generic verification-failed reason rather than guessing which device error
 occurred. The Unix helper's 30-second cancellation deadline also does not apply
 to this Windows path.
 
-For a physical-device check of this configuration, launch Netcatty with
+For a physical-device check of this configuration, launch Sensor with
 `NETCATTY_SSH_AGENT_PATH` and `NETCATTY_SSH_KEYGEN_PATH` pointing to the matching
 MSYS2 executables and put that installation's `usr/bin` on `PATH`. Use its real
 built-in FIDO provider; **never** set `SSH_SK_PROVIDER` to the CI fixture. Check
@@ -88,7 +88,7 @@ OpenSSH server, publishes a random port on `127.0.0.1`, and removes its containe
 and temporary files on completion. The server accepts only public-key login as
 the test user `netcatty`. Host keys are generated when the container starts.
 Only disposable public authorized keys are mounted into the server; the client
-and software provider run on the host through Netcatty's production helpers.
+and software provider run on the host through Sensor's production helpers.
 
 For each of ED25519-SK and ECDSA-SK, both touch-only and PIN-plus-touch modes
 are exercised. The fixture's optional `NETCATTY_FIDO_SIM_CONTROL` file gates the
@@ -108,7 +108,7 @@ This feature implements **FIDO2 OpenSSH security keys**, not the YubiKey PIV or
 OpenPGP applications. The public key must first be installed on the SSH server.
 During login, OpenSSH asks the device to sign; normal keys require touch, while
 `verify-required` additionally requests user verification (typically the device
-PIN). The private key remains on the real hardware; Netcatty stores its handle.
+PIN). The private key remains on the real hardware; Sensor stores its handle.
 Resident credentials support recovery of handles on another machine, and do not
 remove the presence/verification requirement.
 
@@ -131,7 +131,7 @@ touch indicates physical presence; it does not imply fingerprint recognition.
 
 ### Recovery and alternative authentication
 
-On supported Unix OpenSSH installations, Netcatty wraps `ssh-sk-helper` to
+On supported Unix OpenSSH installations, Sensor wraps `ssh-sk-helper` to
 observe its framed error reply before `ssh-agent` collapses it into generic
 agent failure. The wrapper forwards the request/reply bytes unchanged and never
 logs request contents, PINs or signatures. It pairs with the selected OpenSSH

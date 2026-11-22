@@ -74,8 +74,8 @@ log draining still completes when another shutdown stage rejects; and activation
 permission denial produces a fixed host record before runtime creation.
 
 Exact prior head `e3cc23bca81a4187ccc13b90d3882889d524ca3b` passed remote
-[test 40339839263](https://github.com/binaricat/Netcatty/actions/runs/40339839263)
-and [build-packages 40339839660](https://github.com/binaricat/Netcatty/actions/runs/40339839660).
+[test 40339839263](https://github.com/DrOlu/Sensor/actions/runs/40339839263)
+and [build-packages 40339839660](https://github.com/DrOlu/Sensor/actions/runs/40339839660).
 Those runs do not validate the follow-up head. Its exact-head CI is reported in
 the PR after pushing.
 

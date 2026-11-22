@@ -7,7 +7,7 @@ authenticated GitHub publisher.
 
 The registry binds an image to its reviewed displayed-author subject. Repository
 ownership alone does not establish that subject. The current first-party author
-is the Netcatty project, not an assumed personal GitHub identity. Until an image
+is the Sensor project, not an assumed personal GitHub identity. Until an image
 pin is reviewed, its avatar remains null.
 
 ## Avatar delivery
@@ -33,15 +33,15 @@ badge. No installed-data migration or persistent identity cache is added.
 
 ## Official maintenance
 
-The borderless gold pill means that the Netcatty project maintains the plugin.
+The borderless gold pill means that the Sensor project maintains the plugin.
 It does not certify the plugin's safety or grant permissions. It is separate
 from the official marketplace source label.
 
 The main process requires the built-in official source and one of these explicit
 first-party ID and repository pairs:
 
-- `com.netcatty.starter`, `binaricat/Netcatty`
-- `com.netcatty.hello`, `binaricat/Netcatty`
+- `com.netcatty.starter`, `DrOlu/Sensor`
+- `com.netcatty.hello`, `DrOlu/Sensor`
 
 A local import, a third-party copy, an ID prefix, author text, manifest publisher,
 README, or membership in the official marketplace cannot create this badge.

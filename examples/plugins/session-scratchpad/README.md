@@ -35,5 +35,5 @@ README; parent coordinates the exact test and records source SHA/package hash.
 The page now uses the host-rendered contract. Run `node build.mjs` in this
 example directory, then package `.package/` with the plugin CLI. `host.js`
 registers ordinary DOM views; `view.html` and `view.css` are bundled source
-templates. Theme values are inherited from Netcatty. There is no separate page
+templates. Theme values are inherited from Sensor. There is no separate page
 preload or `window.netcattyView` API. See `docs/plugin-platform/host-rendered-ui.md`.

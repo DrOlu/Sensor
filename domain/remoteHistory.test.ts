@@ -7,8 +7,8 @@ import {
   parseFishHistory,
   parseShellHistory,
   mergeRemoteHistory,
-  isNetcattyAiHistoryCommand,
-  isNetcattyManagedStartupHistoryCommand,
+  isSensorAiHistoryCommand,
+  isSensorManagedStartupHistoryCommand,
 } from './remoteHistory.ts';
 import { buildDockerExecShellCommand, buildDockerLogsCommand } from './systemManager/dockerShell.ts';
 import {
@@ -190,67 +190,67 @@ test('mergeRemoteHistory: timestamped entries rank above untimestamped ones', ()
   );
 });
 
-test('isNetcattyAiHistoryCommand: detects AI PTY marker lines', () => {
+test('isSensorAiHistoryCommand: detects AI PTY marker lines', () => {
   assert.equal(
-    isNetcattyAiHistoryCommand('__NCMCP_abc123=0; ls -la'),
+    isSensorAiHistoryCommand('__NCMCP_abc123=0; ls -la'),
     true,
   );
   assert.equal(
-    isNetcattyAiHistoryCommand('/opt/frp/frps.toml__NCMCP_mp56jbh6_3e30833'),
+    isSensorAiHistoryCommand('/opt/frp/frps.toml__NCMCP_mp56jbh6_3e30833'),
     true,
   );
-  assert.equal(isNetcattyAiHistoryCommand('ls -la'), false);
-  assert.equal(isNetcattyAiHistoryCommand('grep NCMCP log.txt'), false);
+  assert.equal(isSensorAiHistoryCommand('ls -la'), false);
+  assert.equal(isSensorAiHistoryCommand('grep NCMCP log.txt'), false);
 });
 
-test('isNetcattyManagedStartupHistoryCommand: detects Docker and tmux terminal launch commands', () => {
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildDockerExecShellCommand('587abcdef123')), true);
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildDockerLogsCommand('587abcdef123')), true);
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildContainerLogsCommand('podman', '587abcdef123')), true);
+test('isSensorManagedStartupHistoryCommand: detects Docker and tmux terminal launch commands', () => {
+  assert.equal(isSensorManagedStartupHistoryCommand(buildDockerExecShellCommand('587abcdef123')), true);
+  assert.equal(isSensorManagedStartupHistoryCommand(buildDockerLogsCommand('587abcdef123')), true);
+  assert.equal(isSensorManagedStartupHistoryCommand(buildContainerLogsCommand('podman', '587abcdef123')), true);
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand(buildKubectlLogsCommand('kind-dev', 'default', 'api-0')),
+    isSensorManagedStartupHistoryCommand(buildKubectlLogsCommand('kind-dev', 'default', 'api-0')),
     true,
   );
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand(
+    isSensorManagedStartupHistoryCommand(
       "printf '\\033[H\\033[2J\\033[3J'; _nc_docker_err=$(docker inspect 587abcdef123 2>&1 >/dev/null);",
     ),
     true,
   );
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildTmuxAttachCommand('my-session')), true);
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildTmuxAttachCommand('my-session', 2)), true);
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildContainerLogsCommand('podman', 'abc123', 'powershell')), true);
-  assert.equal(isNetcattyManagedStartupHistoryCommand(buildContainerExecShellCommand('nerdctl', 'abc123', 'cmd')), true);
+  assert.equal(isSensorManagedStartupHistoryCommand(buildTmuxAttachCommand('my-session')), true);
+  assert.equal(isSensorManagedStartupHistoryCommand(buildTmuxAttachCommand('my-session', 2)), true);
+  assert.equal(isSensorManagedStartupHistoryCommand(buildContainerLogsCommand('podman', 'abc123', 'powershell')), true);
+  assert.equal(isSensorManagedStartupHistoryCommand(buildContainerExecShellCommand('nerdctl', 'abc123', 'cmd')), true);
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand(buildKubectlLogsCommand('kind-kind', 'default', 'api', undefined, 'powershell')),
+    isSensorManagedStartupHistoryCommand(buildKubectlLogsCommand('kind-kind', 'default', 'api', undefined, 'powershell')),
     true,
   );
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand(buildKubectlDescribeCommand('kind-kind', 'default', 'api', 'cmd')),
+    isSensorManagedStartupHistoryCommand(buildKubectlDescribeCommand('kind-kind', 'default', 'api', 'cmd')),
     true,
   );
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand(buildKubectlExecShellCommand('kind-kind', 'default', 'api', 'app', 'powershell')),
+    isSensorManagedStartupHistoryCommand(buildKubectlExecShellCommand('kind-kind', 'default', 'api', 'app', 'powershell')),
     true,
   );
-  assert.equal(isNetcattyManagedStartupHistoryCommand('podman logs -f abc123'), false);
-  assert.equal(isNetcattyManagedStartupHistoryCommand('kubectl logs api'), false);
-  assert.equal(isNetcattyManagedStartupHistoryCommand('kubectl describe pod api'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('podman logs -f abc123'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('kubectl logs api'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('kubectl describe pod api'), false);
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand('kubectl --context prod -n default logs -f --tail 200 api'),
+    isSensorManagedStartupHistoryCommand('kubectl --context prod -n default logs -f --tail 200 api'),
     false,
   );
   assert.equal(
-    isNetcattyManagedStartupHistoryCommand('kubectl --context prod describe pod api'),
+    isSensorManagedStartupHistoryCommand('kubectl --context prod describe pod api'),
     false,
   );
-  assert.equal(isNetcattyManagedStartupHistoryCommand('docker ps -a'), false);
-  assert.equal(isNetcattyManagedStartupHistoryCommand('docker logs -f 587abcdef123'), false);
-  assert.equal(isNetcattyManagedStartupHistoryCommand('docker exec -it 587abcdef123 bash'), false);
-  assert.equal(isNetcattyManagedStartupHistoryCommand('tmux attach -t my-session'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('docker ps -a'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('docker logs -f 587abcdef123'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('docker exec -it 587abcdef123 bash'), false);
+  assert.equal(isSensorManagedStartupHistoryCommand('tmux attach -t my-session'), false);
 });
 
-test('mergeRemoteHistory: drops Netcatty AI PTY history lines', () => {
+test('mergeRemoteHistory: drops Sensor AI PTY history lines', () => {
   const lists = [
     parseBashHistory(
       ['ls -la', '__NCMCP_abc=0; pwd', 'git status'].join('\n'),
@@ -263,7 +263,7 @@ test('mergeRemoteHistory: drops Netcatty AI PTY history lines', () => {
   );
 });
 
-test('mergeRemoteHistory: drops Netcatty managed Docker and tmux startup lines', () => {
+test('mergeRemoteHistory: drops Sensor managed Docker and tmux startup lines', () => {
   const lists = [
     parseBashHistory(
       [
@@ -281,7 +281,7 @@ test('mergeRemoteHistory: drops Netcatty managed Docker and tmux startup lines',
   );
 });
 
-test('mergeRemoteHistory: drops Netcatty managed startup lines from zsh and fish history', () => {
+test('mergeRemoteHistory: drops Sensor managed startup lines from zsh and fish history', () => {
   const zsh = parseZshHistory(
     [
       ': 1700000000:0;git status',

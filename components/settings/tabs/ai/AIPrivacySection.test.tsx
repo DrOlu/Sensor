@@ -40,7 +40,7 @@ test('privacy overview is persisted state; configuration preserves the full scop
     const dialog = document.querySelector('[role="dialog"]')!;
     assert.match(dialog.textContent!, /cannot detect every secret/);
     assert.match(dialog.textContent!, /Catty, integrated agents and external MCP clients/);
-    assert.match(dialog.textContent!, /Only Netcatty-managed data and tools are covered/);
+    assert.match(dialog.textContent!, /Only Sensor-managed data and tools are covered/);
     assert.match(dialog.textContent!, /native tools, direct file access and other MCP servers/);
     assert.match(dialog.textContent!, /Binary tool responses are blocked/);
     assert.match(dialog.textContent!, /one managed conversation or external MCP connection/);
